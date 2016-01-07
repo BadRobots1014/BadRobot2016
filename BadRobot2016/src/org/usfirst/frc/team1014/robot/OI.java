@@ -1,9 +1,6 @@
 package org.usfirst.frc.team1014.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.buttons.Button;
-
-import org.usfirst.frc.team1014.robot.commands.ExampleCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator

@@ -1,12 +1,11 @@
 package org.usfirst.frc.team1014.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.vision.AxisCamera;
-
 // The imports for the final subsystems
 //import MikeDriveTrain;
 import org.usfirst.frc.team1014.robot.OI;
+
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public abstract class CommandBase extends Command {
     public static OI oi;
@@ -42,5 +41,4 @@ public abstract class CommandBase extends Command {
         
     
     public abstract String getConsoleIdentity();
-
 }
