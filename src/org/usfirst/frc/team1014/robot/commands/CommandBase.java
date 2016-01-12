@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 // The imports for the final subsystems
-//import MikeDriveTrain;
 import org.usfirst.frc.team1014.robot.OI;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
 
@@ -14,7 +13,8 @@ public abstract class CommandBase extends Command {
     
     // The subsystems on the final robot go here
     
-    public static void init(NetworkTable table) {
+    @SuppressWarnings("static-access")
+	public static void init(NetworkTable table) {
         //Final Subsystems
     	
     	driveTrain = DriveTrain.getInstance();
@@ -28,20 +28,21 @@ public abstract class CommandBase extends Command {
         oi = new OI();
         oi.init();
 
-        // Show what command your subsystem is running on the SmartDashboard
-        //SmartDashboard.putData(exampleSubsystem);
-    }
+		// Show what command your subsystem is running on the SmartDashboard
+		// SmartDashboard.putData(exampleSubsystem);
+	}
 
-    public CommandBase(String name) {
-        super(name);
-    }
+	public CommandBase(String name)
+	{
+		super(name);
+	}
 
-    public CommandBase() {
-        super();
-    }
-    
-    protected abstract void initialize();
-        
-    
-    public abstract String getConsoleIdentity();
+	public CommandBase()
+	{
+		super();
+	}
+
+	protected abstract void initialize();
+
+	public abstract String getConsoleIdentity();
 }
