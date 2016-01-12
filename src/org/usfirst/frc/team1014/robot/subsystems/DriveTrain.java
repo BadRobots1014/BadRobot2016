@@ -1,8 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
-import org.usfirst.frc.team1014.robot.Robot;
-import org.usfirst.frc.team1014.robot.Robot.Level;
 import org.usfirst.frc.team1014.robot.RobotMap;
+import org.usfirst.frc.team1014.utilities.Logger;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -18,17 +17,26 @@ import edu.wpi.first.wpilibj.Talon;
 public class DriveTrain extends BadSubsystem {
 
 	private RobotDrive train;
-	
+	private static DriveTrain instance;
 	private SpeedController backLeft, frontLeft, backRight, frontRight;
 
 	public DriveTrain() {
 
 	}
+	
+	public static DriveTrain getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new DriveTrain();
+		}
+		return instance;
+	}
 
 	@Override
 	protected void initialize() {
 
-		Robot.log(Level.Debug, "0001", "out message");
+		Logger.log(Logger.Level.Debug, "0001", "out message");
 		backLeft = new Talon(RobotMap.backLeftSpeedController);
 		frontLeft = new Talon(RobotMap.frontLeftSpeedController);
 		backRight = new Talon(RobotMap.backRightSpeedController);
