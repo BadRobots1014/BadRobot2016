@@ -25,7 +25,7 @@ public class TeleDrive extends CommandBase {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		driveTrain.tankDrive(oi.priXboxController.getLeftStickY(), oi.priXboxController.getRightStickY());
+		driveTrain.tankDrive(-oi.priXboxController.getLeftStickY(), -oi.priXboxController.getRightStickY());
 	}
 
 	@Override
