@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot;
 
-import org.usfirst.frc.team1014.robot.commands.ExampleCommand;
-import org.usfirst.frc.team1014.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -17,7 +16,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot
 {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	public static final DriveTrain driveTrain = new DriveTrain();
 	public static OI oi;
 
 	public Command autonomousCommand;
@@ -34,12 +33,11 @@ public class Robot extends IterativeRobot
 	public void robotInit()
 	{
 		oi = new OI();
-		// instantiate the command used for the autonomous period
-		autonomousCommand = new ExampleCommand();
-	}
-
-	public void disabledPeriodic()
-	{
+        // instantiate the command used for the autonomous period
+        //autonomousCommand = new ExampleCommand();
+    }
+	
+	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
