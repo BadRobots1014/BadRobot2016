@@ -16,12 +16,11 @@ public abstract class CommandBase extends Command {
     // The subsystems on the final robot go here
     
     @SuppressWarnings("static-access")
-	public static void init(NetworkTable table) {
+	public static void init() {
         //Final Subsystems
     	
     	driveTrain = DriveTrain.getInstance();
     	pixy = PixyCam.getInstance();
-    	
     	//camera  = new AxisCamera("axis-camera.local");
     	
         // This MUST be here. If the OI creates Commands (which it very likely
