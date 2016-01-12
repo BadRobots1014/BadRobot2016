@@ -1,0 +1,7 @@
+/OI.class
+/Robot.class
+/RobotMap.class
+.classpath
+.settings/org.eclipse.jdt.ui.prefs
+bin/
+.settings/
