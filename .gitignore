@@ -5,3 +5,4 @@
 .settings/org.eclipse.jdt.ui.prefs
 bin/
 .settings/
+/bin/
