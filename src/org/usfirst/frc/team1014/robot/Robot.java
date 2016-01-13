@@ -1,9 +1,8 @@
 package org.usfirst.frc.team1014.robot;
 
-import org.usfirst.frc.team1014.robot.commands.PixyCommand;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import org.usfirst.frc.team1014.robot.commands.PixyCommand;
 import org.usfirst.frc.team1014.robot.commands.TeleDrive;
-import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -23,7 +22,6 @@ public class Robot extends IterativeRobot
 
 	public Command autonomousCommand;
 
-
 	/**
 	 * This function is run when the robot is first started up and should be used for any
 	 * initialization code.
@@ -31,12 +29,13 @@ public class Robot extends IterativeRobot
 	public void robotInit()
 	{
 		CommandBase.init();
-		//oi = new OI();
-        // instantiate the command used for the autonomous period
-        //autonomousCommand = new ExampleCommand();
-    }
-	
-	public void disabledPeriodic() {
+		// oi = new OI();
+		// instantiate the command used for the autonomous period
+		// autonomousCommand = new ExampleCommand();
+	}
+
+	public void disabledPeriodic()
+	{
 		Scheduler.getInstance().run();
 	}
 
@@ -64,7 +63,7 @@ public class Robot extends IterativeRobot
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
 		Scheduler.getInstance().add(new TeleDrive());
-		Scheduler.getInstance().add(new PixyCommand());
+		//Scheduler.getInstance().add(new PixyCommand());
 	}
 
 	/**
@@ -92,5 +91,3 @@ public class Robot extends IterativeRobot
 		LiveWindow.run();
 	}
 }
-
-	
