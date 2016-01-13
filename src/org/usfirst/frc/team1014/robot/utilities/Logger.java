@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1014.utilities;
+package org.usfirst.frc.team1014.robot.utilities;
 
 
 public class Logger 
