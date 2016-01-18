@@ -1,19 +1,11 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
-
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class PixyCam extends BadSubsystem{
 
 	SerialPort pixyPort;
-	String bufOut;
 	private static PixyCam instance;
-	
-	public PixyCam()
-	{
-		pixyPort = new SerialPort(9600, SerialPort.Port.kOnboard);
-	}
 	
 	public static PixyCam getInstance()
 	{
@@ -48,8 +40,16 @@ public class PixyCam extends BadSubsystem{
 	
 	public void grabAndLog()
 	{
-		//bufOut = pixyPort.readString();
-		//Logger.logThis(bufOut);
+		
+		pixyPort.writeString("1");
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		byte[] buf = pixyPort.read(64);
+		Logger.logThis(buf.toString());
 	}
 	
 	public void die()

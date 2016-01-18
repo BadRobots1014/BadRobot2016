@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 public abstract class CommandBase extends Command {
     public static OI oi;
     public static DriveTrain driveTrain;
-   // public static PixyCam pixy;
+    public static PixyCam pixy;
     
     // The subsystems on the final robot go here
     

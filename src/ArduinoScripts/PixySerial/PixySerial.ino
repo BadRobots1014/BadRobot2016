@@ -9,38 +9,33 @@ SoftwareSerial mySerial(rx,tx);
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
-  while(!Serial)
-  {
-    
-  }
+  Serial.begin(5600);
+  pinMode(rx , INPUT);
+  pinMode(tx , OUTPUT);
   pixy.init();
-  mySerial.begin(9600);
+  mySerial.begin(4800);
+  mySerial.listen();
 }
 
+short i = 0;
 
+void loop() 
+{
+}
+
+short i = 0;
 
 void loop() 
 {
   // put your main code here, to run repeatedly:
-  short blockNum;
-  short i = 0;
-  if(i%50 == 0)
+  if(mySerial.isListening() && mySerial.available()>0 && i%50 == 0)
   {
-    blockNum = pixy.getBlocks();
-    if(blockNum)
-    {
-      for(int j=0; j<blockNum; j++)
+      if(mySerial.read() == "1")
       {
-        if(mySerial.available())
-        {
-          mySerial.write(pixy.blocks[j].signature);
-        }
-        pixy.blocks[j].print();
+        mySerial.write(pixy.getBlocks());
+        delay(50);
       }
-    }
   }
-  Serial.println(i);
-  i++;  
+  i++;
 }
 
