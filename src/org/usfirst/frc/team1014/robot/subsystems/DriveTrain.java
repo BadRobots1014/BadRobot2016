@@ -20,11 +20,12 @@ public class DriveTrain extends BadSubsystem {
 	private static DriveTrain instance;
 	private SpeedController backLeft, frontLeft, backRight, frontRight;
 
-	public DriveTrain() {
+	public DriveTrain() 
+	{
 
 	}
 	
-	public static DriveTrain getInstance()
+	public static DriveTrain getInstance() 
 	{
 		if(instance == null)
 		{
@@ -34,7 +35,8 @@ public class DriveTrain extends BadSubsystem {
 	}
 
 	@Override
-	protected void initialize() {
+	protected void initialize() 
+	{
 
 		Logger.log(Logger.Level.Debug, "0001", "out message");
 		backLeft = new Talon(RobotMap.backLeftSpeedController);
@@ -45,7 +47,8 @@ public class DriveTrain extends BadSubsystem {
 		train = new RobotDrive(backLeft, frontLeft, backRight, frontRight);
 	}
 
-	public void tankDrive(double leftStickY, double rightStickY) {
+	public void tankDrive(double leftStickY, double rightStickY) 
+	{
 		train.tankDrive(leftStickY, rightStickY);
 	}
 

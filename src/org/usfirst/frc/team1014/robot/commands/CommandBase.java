@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 public abstract class CommandBase extends Command {
     public static OI oi;
     public static DriveTrain driveTrain;
-    public static PixyCam pixy;
+   // public static PixyCam pixy;
     
     // The subsystems on the final robot go here
     
@@ -20,7 +20,7 @@ public abstract class CommandBase extends Command {
         //Final Subsystems
     	
     	driveTrain = DriveTrain.getInstance();
-    	pixy = PixyCam.getInstance();
+    	//pixy = PixyCam.getInstance();
     	//camera  = new AxisCamera("axis-camera.local");
     	
         // This MUST be here. If the OI creates Commands (which it very likely

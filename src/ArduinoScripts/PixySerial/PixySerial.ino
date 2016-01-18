@@ -15,7 +15,7 @@ void setup() {
     
   }
   pixy.init();
-  mySerial.begin(4800);
+  mySerial.begin(9600);
 }
 
 
@@ -40,6 +40,7 @@ void loop()
       }
     }
   }
-  i++;
-  
+  Serial.println(i);
+  i++;  
 }
+
