@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 public class PixyCam extends BadSubsystem{
 
 	SerialPort pixyPort;
-	byte[] buf = new byte[64]; 
 	private static PixyCam instance;
 	
 	public static PixyCam getInstance()
@@ -42,7 +41,15 @@ public class PixyCam extends BadSubsystem{
 	
 	public void grabAndLog()
 	{
-		buf = pixyPort.read(64);
+		
+		pixyPort.writeString("1");
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		byte[] buf = pixyPort.read(64);
 		Logger.logThis(buf.toString());
 	}
 	
