@@ -46,7 +46,7 @@ public class DriveTrain extends BadSubsystem
 		backRight = new Talon(RobotMap.backRightSpeedController);
 		frontRight = new Talon(RobotMap.frontRightSpeedController);
 		
-		lidar = new LIDAR(Port.kOnboard);
+		lidar = new LIDAR(Port.kMXP);
 
 		train = new RobotDrive(backLeft, frontLeft, backRight, frontRight);
 		System.out.println("here");
