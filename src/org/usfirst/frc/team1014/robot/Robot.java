@@ -3,7 +3,9 @@ package org.usfirst.frc.team1014.robot;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.PixyCommand;
 import org.usfirst.frc.team1014.robot.commands.TeleDrive;
+import org.usfirst.frc.team1014.utilities.Logger;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -29,6 +31,8 @@ public class Robot extends IterativeRobot
 	public void robotInit()
 	{
 		CommandBase.init();
+		//CameraServer.getInstance().startAutomaticCapture("cam5");
+		Logger.logThis("THIS IS A TEST");
 		// oi = new OI();
 		// instantiate the command used for the autonomous period
 		// autonomousCommand = new ExampleCommand();
