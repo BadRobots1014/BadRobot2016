@@ -4,7 +4,9 @@ package org.usfirst.frc.team1014.robot.commands;
 import org.usfirst.frc.team1014.robot.OI;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1014.robot.subsystems.PixyCam;
+import org.usfirst.frc.team1014.utilities.Logger;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public abstract class CommandBase extends Command
@@ -17,9 +19,8 @@ public abstract class CommandBase extends Command
 	public static void init()
 	{
 		// Final Subsystems
-
 		driveTrain = DriveTrain.getInstance();
-		pixy = PixyCam.getInstance();
+		//pixy = PixyCam.getInstance();
 		// camera = new AxisCamera("axis-camera.local");
 
 		OI.init();
