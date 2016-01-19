@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1014.utilities;
 
+
 public class Logger
 {
 	// is logging enabled

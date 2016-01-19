@@ -19,7 +19,7 @@ public abstract class CommandBase extends Command
 		// Final Subsystems
 
 		driveTrain = DriveTrain.getInstance();
-		pixy = PixyCam.getInstance();
+		//pixy = PixyCam.getInstance();
 		// camera = new AxisCamera("axis-camera.local");
 
 		OI.init();
