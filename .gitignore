@@ -5,3 +5,5 @@
 .settings/org.eclipse.jdt.ui.prefs
 bin/
 .settings/
+build/
+dist/
