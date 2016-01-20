@@ -17,8 +17,14 @@ public class RobotMap
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 
+	//PWM
 	public static int backLeftSpeedController = 1;
 	public static int frontLeftSpeedController = 4;
 	public static int backRightSpeedController = 2;
 	public static int frontRightSpeedController = 3;
+	
+	//DIO
+	public static int ultraPing = 1;
+	public static int ultraEcho = 2;
+	public static int retroSensor = 0;
 }
