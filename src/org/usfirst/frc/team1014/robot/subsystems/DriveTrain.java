@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * This class defines the drive train subsystem and the abilities to do things like drive.
@@ -23,6 +24,7 @@ public class DriveTrain extends BadSubsystem
 	private static DriveTrain instance;
 	private SpeedController backLeft, frontLeft, backRight, frontRight;
 	private LIDAR lidar;
+	private Ultrasonic ultrasonic;
 	
 	private IMU mxp;
 	private SerialPort serialPort;
@@ -52,7 +54,9 @@ public class DriveTrain extends BadSubsystem
 		backRight = new Talon(RobotMap.backRightSpeedController);
 		frontRight = new Talon(RobotMap.frontRightSpeedController);
 		
-		lidar = new LIDAR(Port.kMXP);
+		lidar = new LIDAR(Port.kOnboard);
+		ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
+		ultrasonic.setEnabled(true); ultrasonic.setAutomaticMode(true);
 		
 		//mxp stuff
     	serialPort = new SerialPort(57600,SerialPort.Port.kMXP);
@@ -75,6 +79,14 @@ public class DriveTrain extends BadSubsystem
 	{
 		lidar.updateDistance();
 		return lidar.getDistance();
+	}
+	
+	public double getUltraDistance(boolean inInches)
+	{
+		if(inInches)
+			return ultrasonic.getRangeInches();
+		else
+			return ultrasonic.getRangeMM();
 	}
 	
 	public double getAngle()// return -180 - 180
