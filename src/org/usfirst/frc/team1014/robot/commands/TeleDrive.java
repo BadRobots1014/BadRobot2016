@@ -43,10 +43,6 @@ public class TeleDrive extends CommandBase
 	protected void execute()
 	{
 		driveTrain.tankDrive(-OI.priXboxController.getLeftStickY(), -OI.priXboxController.getRightStickY());
-		Logger.logThis(driveTrain.getLIDARDistance() + "");
-		Logger.logThis(driveTrain.getAngle() + "");
-		Logger.logThis(driveTrain.getAngle360() + "");
-		Logger.logThis(driveTrain.getUltraDistance(true) + "");
 	}
 
 	/**
