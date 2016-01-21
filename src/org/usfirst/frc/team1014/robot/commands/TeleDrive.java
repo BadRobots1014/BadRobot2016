@@ -8,7 +8,6 @@ package org.usfirst.frc.team1014.robot.commands;
  */
 public class TeleDrive extends CommandBase
 {
-
 	/**
 	 * This method runs before the command is 
 	 * executed to make sure everything is ready
