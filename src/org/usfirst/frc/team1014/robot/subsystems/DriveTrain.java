@@ -19,6 +19,7 @@ public class DriveTrain extends BadSubsystem {
 	private RobotDrive train;
 	private static DriveTrain instance;
 	private SpeedController backLeft, frontLeft, backRight, frontRight;
+	private SpeedController ringLight;
 
 	public DriveTrain() 
 	{
@@ -43,6 +44,7 @@ public class DriveTrain extends BadSubsystem {
 		frontLeft = new Talon(RobotMap.frontLeftSpeedController);
 		backRight = new Talon(RobotMap.backRightSpeedController);
 		frontRight = new Talon(RobotMap.frontRightSpeedController);
+		ringLight = new Talon(RobotMap.ringLight);
 
 		train = new RobotDrive(backLeft, frontLeft, backRight, frontRight);
 	}
@@ -50,6 +52,16 @@ public class DriveTrain extends BadSubsystem {
 	public void tankDrive(double leftStickY, double rightStickY) 
 	{
 		train.tankDrive(leftStickY, rightStickY);
+	}
+	
+	public void turnOnRingLight()
+	{
+		ringLight.set(.1);
+	}
+	
+	public void turnOffRingLight()
+	{
+		ringLight.set(0.0);
 	}
 
 	@Override
