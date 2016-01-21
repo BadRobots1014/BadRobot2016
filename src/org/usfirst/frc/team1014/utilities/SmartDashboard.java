@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1014.utilities;
 
-import org.usfirst.frc.team1014.utilities.Logger.Level;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.CameraServer;
 
@@ -10,6 +10,6 @@ public class SmartDashboard
 	{
 		CameraServer server = CameraServer.getInstance();
 		server.startAutomaticCapture("cam0");
-		Logger.log(Level.Debug, "SmartDash", "Camera initialized");
+		Logger.log(Logger.Level.Debug, "SmartDash", "Camera initialized");
 	}
 }

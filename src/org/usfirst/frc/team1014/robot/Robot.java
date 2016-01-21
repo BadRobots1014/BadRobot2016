@@ -45,6 +45,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
+		Scheduler.getInstance().add(new TeleDrive());
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class Robot extends IterativeRobot
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
 		Scheduler.getInstance().add(new TeleDrive());
-		//Scheduler.getInstance().add(new PixyCommand());
+
 	}
 
 	/**

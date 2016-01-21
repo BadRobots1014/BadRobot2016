@@ -22,6 +22,8 @@ public class RobotMap
 	public static int frontLeftSpeedController = 4;
 	public static int backRightSpeedController = 2;
 	public static int frontRightSpeedController = 3;
+	public static int ringLight = 0;
+
 	
 	//DIO
 	public static int ultraPing = 1;
