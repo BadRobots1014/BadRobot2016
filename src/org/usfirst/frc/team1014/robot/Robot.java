@@ -2,7 +2,6 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleDrive;
-import org.usfirst.frc.team1014.utilities.Logger;
 import org.usfirst.frc.team1014.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -46,6 +45,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
+		Scheduler.getInstance().add(new TeleDrive());
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class Robot extends IterativeRobot
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
 		Scheduler.getInstance().add(new TeleDrive());
-		//Scheduler.getInstance().add(new PixyCommand());
+
 	}
 
 	/**

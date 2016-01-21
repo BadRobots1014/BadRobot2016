@@ -1,8 +1,5 @@
 package org.usfirst.frc.team1014.robot.commands;
 
-import org.usfirst.frc.team1014.robot.OI;
-import org.usfirst.frc.team1014.utilities.Logger;
-
 /**
  * This class defines how the robot drives through teleop.
  * 
@@ -11,7 +8,6 @@ import org.usfirst.frc.team1014.utilities.Logger;
  */
 public class TeleDrive extends CommandBase
 {
-
 	/**
 	 * This method runs before the command is 
 	 * executed to make sure everything is ready
@@ -40,15 +36,14 @@ public class TeleDrive extends CommandBase
 	 * again while the command is actually running.
 	 */
 	@Override
-	protected void execute()
-	{
-		driveTrain.tankDrive(-OI.priXboxController.getLeftStickY(), -OI.priXboxController.getRightStickY());
-		Logger.logThis(driveTrain.getLIDARDistance() + "");
-		Logger.logThis(driveTrain.getAngle() + "");
-		Logger.logThis(driveTrain.getAngle360() + "");
-		Logger.logThis(driveTrain.getUltraDistance(true) + "");
+	protected void execute() {
+		// TODO Auto-generated method stub
+		driveTrain.tankDrive(-oi.priXboxController.getLeftStickY(), -oi.priXboxController.getRightStickY());
+		if(oi.priXboxController.isAButtonPressed())
+			driveTrain.turnOnRingLight();
+		else
+			driveTrain.turnOffRingLight();
 	}
-
 	/**
 	 * Lets the system know when to stop this command
 	 * and do some other one.
@@ -75,6 +70,6 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void interrupted()
 	{
-		Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
+		org.usfirst.frc.team1014.robot.utilities.Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
 	}
 }
