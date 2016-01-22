@@ -1,23 +1,23 @@
 package org.usfirst.frc.team1014.robot.utilities;
 
 
-public class Logger 
+public class Logger
 {
 	// is logging enabled
 	private static boolean CONSOLE_OUTPUT_ENABLED = true;
 	// is logging debug mode enabled
 	private static boolean DEBUG_ENABLED = true;
-	
-	
+
 	/**
 	 * quick log method that can be used anywhere.
+	 * 
 	 * @param stringToLog
 	 */
 	public static void logThis(String stringToLog)
 	{
 		System.out.println(stringToLog);
 	}
-	
+
 	/**
 	 * logs the string to be outputted with the given status level. Enabled only if the master
 	 * boolean is enabled and the debug level only works when debug is enabled. Calls the
@@ -68,5 +68,3 @@ public class Logger
 		}
 	}
 }
-
-
