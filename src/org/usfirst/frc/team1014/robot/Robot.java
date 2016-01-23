@@ -33,7 +33,6 @@ public class Robot extends IterativeRobot
 	{
 		CommandBase.init();
 		smartDashboard = SmartDashboard.getInstance();
-		smartDashboard.initDashboard();
 		
 		// oi = new OI();
 		// instantiate the command used for the autonomous period
@@ -50,6 +49,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
+		smartDashboard.poll();
 	}
 
 	/**
@@ -58,6 +58,7 @@ public class Robot extends IterativeRobot
 	public void autonomousPeriodic()
 	{
 		Scheduler.getInstance().run();
+		smartDashboard.update();
 	}
 
 	public void teleopInit()
@@ -78,7 +79,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void disabledInit()
 	{
-
+		
 	}
 
 	/**
@@ -87,6 +88,7 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		Scheduler.getInstance().run();
+		smartDashboard.update();
 	}
 
 	/**
