@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ShootBall extends CommandBase {
@@ -27,12 +29,16 @@ public class ShootBall extends CommandBase {
 	protected void execute() {
 		// TODO Auto-generated method stub
 		shooter.shoot(oi.secXboxController.getLeftStickY());
+		if(oi.secXboxController.isAButtonPressed())
+			shooter.ringLightOn();
+		else
+			shooter.ringLightOff();
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-
+		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
 	}
 
 	@Override
