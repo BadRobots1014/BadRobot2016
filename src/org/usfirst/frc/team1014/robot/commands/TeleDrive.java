@@ -1,5 +1,10 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
+
+import edu.wpi.first.wpilibj.command.Subsystem;
+
 /**
  * This class defines how the robot drives through teleop.
  * 
@@ -16,7 +21,8 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void initialize()
 	{
-		requires(driveTrain);
+		Logger.log(Level.Debug, "TeleDrive", "Initializing the Teleop Drive");
+		requires((Subsystem)driveTrain);
 		driveTrain.tankDrive(0, 0);
 	}
 
