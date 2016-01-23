@@ -21,6 +21,9 @@ public class Robot extends IterativeRobot
 	public static OI oi;
 
 	public Command autonomousCommand;
+	public SmartDashboard smartDashboard;
+	
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -28,8 +31,10 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
-		SmartDashboard.initDashboard();
 		CommandBase.init();
+		smartDashboard = SmartDashboard.getInstance();
+		smartDashboard.initDashboard();
+		
 		// oi = new OI();
 		// instantiate the command used for the autonomous period
 		// autonomousCommand = new ExampleCommand();
