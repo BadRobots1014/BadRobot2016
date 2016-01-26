@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public abstract class CommandBase extends Command {
 	
-    public static OI oi;
     public static DriveTrain driveTrain;
     public static ShooterAndGrabber shooter;
     
@@ -27,8 +26,7 @@ public abstract class CommandBase extends Command {
         // which commands extend), subsystems are not guaranteed to be
         // yet. Thus, their requires() statements may grab null pointers. Bad
         // news. Don't move it.
-        oi = new OI();
-        oi.init();
+        OI.init();
     }
 
 	public CommandBase(String name)

@@ -10,10 +10,14 @@ public class UseShooter extends CommandBase {
 	boolean usingShooter;
 	double maxSpeed;
 	
+	public UseShooter()
+	{
+		requires((Subsystem) shooter);
+	}
+	
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		requires((Subsystem) shooter);
 		usingShooter = false;
 		maxSpeed = .5;
 		
@@ -30,26 +34,32 @@ public class UseShooter extends CommandBase {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		if(oi.secXboxController.isXButtonPressed())
+		if(OI.secXboxController.isXButtonPressed())
 			usingShooter = true;
-		else if(oi.secXboxController.isBButtonPressed())
+		else if(OI.secXboxController.isBButtonPressed())
 			usingShooter = false;
 		
-		if(oi.secXboxController.isAButtonPressed() || oi.secXboxController.isYButtonPressed())
+		if(OI.secXboxController.isAButtonPressed() || OI.secXboxController.isYButtonPressed())
 		{
-			if(oi.secXboxController.isAButtonPressed() && maxSpeed > .5)
+			if(OI.secXboxController.isAButtonPressed() && maxSpeed > .5)
 				maxSpeed -= .1;
-			else if(oi.secXboxController.isYButtonPressed() && maxSpeed < 1.0)
+			else if(OI.secXboxController.isYButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
 		
-		shooter.shoot(scaleSpeed(oi.secXboxController.getLeftStickY()));
-		shooter.grab(scaleSpeed(oi.secXboxController.getRightStickY()));
+		if(usingShooter)
+		{
+			shooter.shoot(scaleSpeed(OI.secXboxController.getLeftStickY()));
+		}
+		else
+		{
+			shooter.grab(scaleSpeed(OI.secXboxController.getLeftStickY()));
+		}
 		
-		if(oi.secXboxController.getLeftTrigger() > 0.0)
-			shooter.rotate(oi.secXboxController.getLeftTrigger());
-		else if(oi.secXboxController.getRightStickY() > 0.0)
-			shooter.rotate(oi.secXboxController.getRightTrigger());
+		if(OI.secXboxController.getLeftTrigger() > 0.0)
+			shooter.rotate(OI.secXboxController.getLeftTrigger());
+		else if(OI.secXboxController.getRightTrigger() > 0.0)
+			shooter.rotate(OI.secXboxController.getRightTrigger());
 		
 	}
 

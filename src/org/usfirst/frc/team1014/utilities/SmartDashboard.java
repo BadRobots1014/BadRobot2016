@@ -1,8 +1,5 @@
 package org.usfirst.frc.team1014.utilities;
 
-import org.usfirst.frc.team1014.robot.utilities.Logger;
-
-import edu.wpi.first.wpilibj.CameraServer;
 
 public class SmartDashboard
 {
