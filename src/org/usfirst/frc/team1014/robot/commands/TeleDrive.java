@@ -1,5 +1,9 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.OI;
+
+import edu.wpi.first.wpilibj.command.Subsystem;
+
 /**
  * This class defines how the robot drives through teleop.
  * 
@@ -8,6 +12,11 @@ package org.usfirst.frc.team1014.robot.commands;
  */
 public class TeleDrive extends CommandBase
 {
+	public TeleDrive()
+	{
+		requires((Subsystem) driveTrain);
+	}
+	
 	/**
 	 * This method runs before the command is 
 	 * executed to make sure everything is ready
@@ -16,7 +25,6 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void initialize()
 	{
-		requires(driveTrain);
 		driveTrain.tankDrive(0, 0);
 	}
 
@@ -37,8 +45,7 @@ public class TeleDrive extends CommandBase
 	 */
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-		driveTrain.tankDrive(-oi.priXboxController.getLeftStickY(), -oi.priXboxController.getRightStickY());
+		driveTrain.tankDrive(-OI.priXboxController.getLeftStickY(), -OI.priXboxController.getRightStickY());
 	}
 	/**
 	 * Lets the system know when to stop this command
