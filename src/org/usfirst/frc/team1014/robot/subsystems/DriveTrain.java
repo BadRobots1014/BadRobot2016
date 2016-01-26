@@ -70,7 +70,6 @@ public class DriveTrain extends BadSubsystem
         mxp.zeroYaw();
 
 		train = new RobotDrive(backLeft, frontLeft, backRight, frontRight);
-		System.out.println("here");
 	}
 	public void tankDrive(double leftStickY, double rightStickY) 
 	{

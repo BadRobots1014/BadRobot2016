@@ -28,7 +28,7 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         OI.init();
     }
-
+	
 	public CommandBase(String name)
 	{
 		super(name);

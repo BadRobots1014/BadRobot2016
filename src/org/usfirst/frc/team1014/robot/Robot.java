@@ -2,7 +2,8 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.utilities.SmartDashboard;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,7 +27,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
-		SmartDashboard.initDashboard();
+		//SmartDashboard.initDashboard();
 		CommandBase.init();
 		// instantiate the command used for the autonomous period
 		// autonomousCommand = new ExampleCommand();
