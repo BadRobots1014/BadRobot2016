@@ -449,30 +449,12 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
     }
 
 	@Override
-	public PIDSourceType getPIDSourceType()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setPIDSourceType(PIDSourceType arg0)
-	{
-		// TODO Auto-generated method stub
+	public void setPIDSourceType(PIDSourceType pidSource) {
 		
 	}
 
-//	@Override
-//	public PIDSourceType getPIDSourceType()
-//	{
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public void setPIDSourceType(PIDSourceType arg0)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return null;
+	}
 }

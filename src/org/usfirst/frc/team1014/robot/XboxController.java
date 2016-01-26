@@ -126,14 +126,15 @@ public class XboxController extends Joystick
 		return this.getRawButton(START);
 	}
 
-	/**
-	 * This method returns if the Xbutton was clicked(pressed and released within a half second)
-	 * 
-	 * @return
-	 */
-	public boolean isXButtonClicked()
+	public boolean isAButtonToggled(boolean lastState)
 	{
-		return false;
+		if(lastState == isAButtonPressed())
+			return lastState;
+		else
+		{
+			lastState = isAButtonPressed();
+			return lastState;
+		}
 	}
 
 	/**
