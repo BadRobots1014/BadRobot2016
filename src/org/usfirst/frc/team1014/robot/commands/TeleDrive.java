@@ -13,6 +13,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class TeleDrive extends CommandBase
 {
+	public TeleDrive()
+	{
+		Logger.log(Level.Debug, "TeleDrive", "Initializing the Teleop Drive");
+		requires((Subsystem)driveTrain);
+	}
 	/**
 	 * This method runs before the command is 
 	 * executed to make sure everything is ready
@@ -21,8 +26,6 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void initialize()
 	{
-		Logger.log(Level.Debug, "TeleDrive", "Initializing the Teleop Drive");
-		requires((Subsystem)driveTrain);
 		driveTrain.tankDrive(0, 0);
 	}
 
