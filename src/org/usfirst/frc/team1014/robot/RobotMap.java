@@ -17,7 +17,7 @@ public class RobotMap
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 
-	//PWM
+	// PWM
 	public static int backLeftSpeedController = 1;
 	public static int frontLeftSpeedController = 4;
 	public static int backRightSpeedController = 2;
@@ -25,12 +25,12 @@ public class RobotMap
 	public static int shooterLeft = 5;
 	public static int shooterRight = 6;
 	public static int shooterRotator = 7;
-	
-	//DIO
+
+	// DIO
 	public static int ultraPing = 1;
 	public static int ultraEcho = 2;
 	public static int retroSensor = 0;
-	
-	//Relay
+
+	// Relay
 	public static int ringLight = 0;
 }

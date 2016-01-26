@@ -1,9 +1,10 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.RobotMap;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -26,7 +27,7 @@ public class DriveTrain extends BadSubsystem
 	private SpeedController ringLight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
-	
+
 	private IMU mxp;
 	private SerialPort serialPort;
 
@@ -56,31 +57,33 @@ public class DriveTrain extends BadSubsystem
 		backRight = new Talon(RobotMap.backRightSpeedController);
 		frontRight = new Talon(RobotMap.frontRightSpeedController);
 		ringLight = new Talon(RobotMap.ringLight);
-		
+
 		lidar = new LIDAR(Port.kMXP);
 		ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
-		ultrasonic.setEnabled(true); ultrasonic.setAutomaticMode(true);
-		
-		//mxp stuff
-    	serialPort = new SerialPort(57600,SerialPort.Port.kMXP);
+		ultrasonic.setEnabled(true);
+		ultrasonic.setAutomaticMode(true);
+
+		// mxp stuff
+		serialPort = new SerialPort(57600, SerialPort.Port.kMXP);
 
 		byte update_rate_hz = 127;
-		mxp = new IMU(serialPort,update_rate_hz);
+		mxp = new IMU(serialPort, update_rate_hz);
 		Timer.delay(0.3);
-        mxp.zeroYaw();
+		mxp.zeroYaw();
 
 		train = new RobotDrive(backLeft, frontLeft, backRight, frontRight);
 	}
-	public void tankDrive(double leftStickY, double rightStickY) 
+
+	public void tankDrive(double leftStickY, double rightStickY)
 	{
 		train.tankDrive(leftStickY, rightStickY);
 	}
-	
+
 	public void turnOnRingLight()
 	{
 		ringLight.set(.1);
 	}
-	
+
 	public void turnOffRingLight()
 	{
 		ringLight.set(0.0);
@@ -91,38 +94,36 @@ public class DriveTrain extends BadSubsystem
 		lidar.updateDistance();
 		return lidar.getDistance();
 	}
-	
+
 	public double getUltraDistance(boolean inInches)
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else
-			return ultrasonic.getRangeMM();
+		else return ultrasonic.getRangeMM();
 	}
-	
+
 	public double getAngle()// return -180 - 180
- 	{
- 		return (double)mxp.getYaw();
- 	}
- 	
- 	public double getAngle360() // returns 0 -360
- 	{
- 		if(mxp.getYaw() < 0)
- 			return mxp.getYaw() + 360;
- 		else
- 			return mxp.getYaw();
- 	}
- 	
- 	public void resetMXPAngle()
- 	{
- 		mxp.zeroYaw();
- 	}
- 	
- 	public IMU getMXP()
- 	{
- 		return mxp;
- 	}
-	
+	{
+		return mxp.getYaw();
+	}
+
+	public double getAngle360() // returns 0 -360
+	{
+		if(mxp.getYaw() < 0)
+			return mxp.getYaw() + 360;
+		else return mxp.getYaw();
+	}
+
+	public void resetMXPAngle()
+	{
+		mxp.zeroYaw();
+	}
+
+	public IMU getMXP()
+	{
+		return mxp;
+	}
+
 	@Override
 	public String getConsoleIdentity()
 	{

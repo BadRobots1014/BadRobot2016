@@ -18,8 +18,8 @@ public class XboxController extends Joystick
 			RIGHT_JOY_CLICK = 10;
 	private static int LEFT_TRIGGER = 2, RIGHT_TRIGGER = 3;
 
-	//Unused
-	//private long lastTimeXHeld, timeXHeld;
+	// Unused
+	// private long lastTimeXHeld, timeXHeld;
 
 	public XboxController(int port)
 	{
