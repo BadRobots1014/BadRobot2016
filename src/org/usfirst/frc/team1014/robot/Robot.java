@@ -1,10 +1,7 @@
 package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.commands.TeleDrive;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.toggleSpeeds;
-import org.usfirst.frc.team1014.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,8 +17,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot
 {
 
-	public static OI oi;
-
 	public Command autonomousCommand;
 
 	/**
@@ -32,7 +27,6 @@ public class Robot extends IterativeRobot
 	{
 		//SmartDashboard.initDashboard();
 		CommandBase.init();
-		// oi = new OI();
 		// instantiate the command used for the autonomous period
 		// autonomousCommand = new ExampleCommand();
 	}
@@ -47,7 +41,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
-		
+		//Scheduler.getInstance().add(new TeleDrive());
 	}
 
 	/**
