@@ -66,7 +66,6 @@ public class Robot extends IterativeRobot
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
 		Scheduler.getInstance().add(new TeleopGroup());
-
 	}
 
 	/**
