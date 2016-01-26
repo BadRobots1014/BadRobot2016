@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1014.utilities;
 
-import java.util.Set;
-
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.utilities.Logger.Level;
 
@@ -13,7 +11,6 @@ public class SmartDashboard
 {
 	public static SmartDashboard smartDashboard;
 	public static NetworkTable table;
-	Set<String> keys;
 	
 	public SmartDashboard()
 	{
@@ -41,8 +38,7 @@ public class SmartDashboard
 	
 	public void setup()
 	{
-		keys = CommandBase.commands.keySet();
-		for(String key:keys)
+		for(String key:CommandBase.commands.keySet())
 		{
 			table.putBoolean(key, false);
 		}
@@ -50,7 +46,7 @@ public class SmartDashboard
 	
 	public void poll()
 	{
-		for(String key:keys)
+		for(String key:CommandBase.commands.keySet())
 		{
 			if(table.getBoolean(key, false))
 				Scheduler.getInstance().add(CommandBase.commands.get(key));
