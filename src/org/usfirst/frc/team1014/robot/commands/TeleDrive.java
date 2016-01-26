@@ -39,10 +39,6 @@ public class TeleDrive extends CommandBase
 	protected void execute() {
 		// TODO Auto-generated method stub
 		driveTrain.tankDrive(-oi.priXboxController.getLeftStickY(), -oi.priXboxController.getRightStickY());
-		if(oi.priXboxController.isAButtonPressed())
-			driveTrain.turnOnRingLight();
-		else
-			driveTrain.turnOffRingLight();
 	}
 	/**
 	 * Lets the system know when to stop this command
