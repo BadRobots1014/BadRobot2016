@@ -77,6 +77,7 @@ public class Extreme3DPro extends Joystick
 	 * 
 	 * @return
 	 */
+	@Override
 	public double getTwist()
 	{
 		return deadzone(this.getRawAxis(TWIST));
