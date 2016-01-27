@@ -34,32 +34,24 @@ public class UseShooter extends CommandBase {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		if(OI.secXboxController.isXButtonPressed())
-			usingShooter = true;
-		else if(OI.secXboxController.isBButtonPressed())
-			usingShooter = false;
-		
-		if(OI.secXboxController.isAButtonPressed() || OI.secXboxController.isYButtonPressed())
+		if(OI.secXboxController.isBButtonPressed() || OI.secXboxController.isXButtonPressed())
 		{
-			if(OI.secXboxController.isAButtonPressed() && maxSpeed > .5)
+			if(OI.secXboxController.isXButtonPressed() && maxSpeed > .5)
 				maxSpeed -= .1;
-			else if(OI.secXboxController.isYButtonPressed() && maxSpeed < 1.0)
+			else if(OI.secXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
+
+		if(OI.secXboxController.isLBButtonPressed())
+			shooter.shoot(.9);
 		
-		if(usingShooter)
-		{
-			shooter.shoot(scaleSpeed(OI.secXboxController.getLeftStickY()));
-		}
-		else
-		{
-			shooter.grab(scaleSpeed(OI.secXboxController.getLeftStickY()));
-		}
-		
-		if(OI.secXboxController.getLeftTrigger() > 0.0)
-			shooter.rotate(OI.secXboxController.getLeftTrigger());
-		else if(OI.secXboxController.getRightTrigger() > 0.0)
-			shooter.rotate(OI.secXboxController.getRightTrigger());
+		if(OI.secXboxController.isRBButtonPressed())
+			shooter.grab(.7);
+
+		if(OI.secXboxController.isYButtonPressed())
+			shooter.rotate(.5);
+		else if(OI.secXboxController.isAButtonPressed())
+			shooter.rotate(-.5);
 		
 	}
 
