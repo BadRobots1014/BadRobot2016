@@ -12,6 +12,10 @@ import org.usfirst.frc.team1014.utilities.Logger;
 public class TeleDrive extends CommandBase
 {
 
+	public TeleDrive()
+	{
+		requires(driveTrain);
+	}
 	/**
 	 * This method runs before the command is 
 	 * executed to make sure everything is ready
@@ -20,7 +24,7 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void initialize()
 	{
-		requires(driveTrain);
+
 		driveTrain.tankDrive(0, 0);
 	}
 

@@ -21,8 +21,7 @@ public class Robot extends IterativeRobot
 	public static OI oi;
 
 	public Command autonomousCommand;
-	public SmartDashboard smartDashboard;
-	
+	public static SmartDashboard smartDashboard;
 	
 
 	/**
@@ -32,9 +31,9 @@ public class Robot extends IterativeRobot
 	public void robotInit()
 	{
 		CommandBase.init();
+		System.out.println("TeleDrive class:" + TeleDrive.class.getName());
 		smartDashboard = SmartDashboard.getInstance();
-		
-		// oi = new OI();
+
 		// instantiate the command used for the autonomous period
 		// autonomousCommand = new ExampleCommand();
 	}
@@ -49,7 +48,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
-		smartDashboard.poll();
+			smartDashboard.poll();
 	}
 
 	/**
