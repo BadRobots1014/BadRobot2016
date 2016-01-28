@@ -4,13 +4,13 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 
 public class AutoTurn extends CommandBase{
 	
-	public double degree, difference, proportion;
+	public double degree, difference, proportion, sign;
 	public static int rotationCoefficient = 60;
 	
 	public AutoTurn(double degree){
 		this.degree = degree;
 		driveTrain.resetMXPAngle();
-		
+		sign = Math.abs(degree) / degree;
 	}
 
 	@Override
@@ -34,8 +34,12 @@ public class AutoTurn extends CommandBase{
 	@Override
 	protected void execute() {
 		difference = driveTrain.getAngle() - degree;
-		driveTrain.tankDrive(0, deadzone(rotation()));
-
+		if(sign < 0){
+			driveTrain.tankDrive(-(scale(rotation())), scale(rotation()));
+		}
+		if(sign > 0){
+			driveTrain.tankDrive(scale(rotation()), -(scale(rotation())));
+		}
 	}
 
 	@Override
@@ -45,7 +49,7 @@ public class AutoTurn extends CommandBase{
 	}
 	public double rotation()
 	{
-		return -(difference/60);
+		return (difference/rotationCoefficient);
 	}
 
 	@Override
@@ -57,21 +61,12 @@ public class AutoTurn extends CommandBase{
 		return false;
 		}
 	}
-    public static double deadzone(double d) {
-        //whenever the controller moves LESS than the magic number, the 
-        //joystick is in the loose position so return zero - as if the 
-        //joystick was not moved
-        if (Math.abs(d) < .1) {
-            return 0;
-        }
-        
-        if (d == 0)
-        {
-            return 0;
-        }
-        //When the joystick is used for a purpose (passes the if statements, 
-        //hence not just being loose), do math
-        return ((d / Math.abs(d)) //gets the sign of d, negative or positive
-            * ((Math.abs(d) - .1) / (1 - .1))) / 100; //scales it
+    public static double scale(double d) {
+    	
+    	return(Math.abs(d) / 3);
+    	
+    	
+    	
+    	
     }
 }
