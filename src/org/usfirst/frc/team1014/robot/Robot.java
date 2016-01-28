@@ -1,8 +1,7 @@
 package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.commands.TeleDrive;
-import org.usfirst.frc.team1014.utilities.SmartDashboard;
+import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,11 +17,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot
 {
 
-	public static OI oi;
-
 	public Command autonomousCommand;
-	public static SmartDashboard smartDashboard;
-	
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -30,10 +25,8 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
+		//SmartDashboard.initDashboard();
 		CommandBase.init();
-		System.out.println("TeleDrive class:" + TeleDrive.class.getName());
-		smartDashboard = SmartDashboard.getInstance();
-
 		// instantiate the command used for the autonomous period
 		// autonomousCommand = new ExampleCommand();
 	}
@@ -48,7 +41,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
-			smartDashboard.poll();
+		//Scheduler.getInstance().add(new TeleDrive());
 	}
 
 	/**
@@ -57,7 +50,6 @@ public class Robot extends IterativeRobot
 	public void autonomousPeriodic()
 	{
 		Scheduler.getInstance().run();
-		smartDashboard.update();
 	}
 
 	public void teleopInit()
@@ -68,8 +60,7 @@ public class Robot extends IterativeRobot
 		// this line or comment it out.
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
-		Scheduler.getInstance().add(new TeleDrive());
-		//Scheduler.getInstance().add(new PixyCommand());
+		Scheduler.getInstance().add(new TeleopGroup());
 	}
 
 	/**
@@ -78,7 +69,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void disabledInit()
 	{
-		
+
 	}
 
 	/**
@@ -87,7 +78,6 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		Scheduler.getInstance().run();
-		smartDashboard.update();
 	}
 
 	/**
@@ -98,3 +88,4 @@ public class Robot extends IterativeRobot
 		LiveWindow.run();
 	}
 }
+

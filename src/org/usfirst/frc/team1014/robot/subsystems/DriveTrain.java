@@ -1,9 +1,9 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.RobotMap;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
-
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -23,6 +23,7 @@ public class DriveTrain extends BadSubsystem
 	private RobotDrive train;
 	private static DriveTrain instance;
 	private SpeedController backLeft, frontLeft, backRight, frontRight;
+	private SpeedController ringLight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 	
@@ -49,10 +50,12 @@ public class DriveTrain extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
+		Logger.log(Logger.Level.Debug, "0001", "out message");
 		backLeft = new Talon(RobotMap.backLeftSpeedController);
 		frontLeft = new Talon(RobotMap.frontLeftSpeedController);
 		backRight = new Talon(RobotMap.backRightSpeedController);
 		frontRight = new Talon(RobotMap.frontRightSpeedController);
+		ringLight = new Talon(RobotMap.ringLight);
 		
 		lidar = new LIDAR(Port.kMXP);
 		ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
@@ -67,12 +70,20 @@ public class DriveTrain extends BadSubsystem
         mxp.zeroYaw();
 
 		train = new RobotDrive(backLeft, frontLeft, backRight, frontRight);
-		System.out.println("here");
 	}
-
-	public void tankDrive(double leftStickY, double rightStickY)
+	public void tankDrive(double leftStickY, double rightStickY) 
 	{
 		train.tankDrive(leftStickY, rightStickY);
+	}
+	
+	public void turnOnRingLight()
+	{
+		ringLight.set(.1);
+	}
+	
+	public void turnOffRingLight()
+	{
+		ringLight.set(0.0);
 	}
 
 	public double getLIDARDistance()
