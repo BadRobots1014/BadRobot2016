@@ -12,7 +12,7 @@ public class ShooterAndGrabber extends BadSubsystem
 	public static ShooterAndGrabber instance;
 
 	private SpeedController left, right, rotator;
-	private Relay ringLight;
+	private SpeedController ringLight;
 
 	public static ShooterAndGrabber getInstance()
 	{
@@ -29,7 +29,7 @@ public class ShooterAndGrabber extends BadSubsystem
 		left = new Talon(RobotMap.shooterLeft);
 		right = new Talon(RobotMap.shooterRight);
 		rotator = new Talon(RobotMap.shooterRotator);
-		ringLight = new Relay(RobotMap.ringLight);
+		ringLight = new Talon(RobotMap.ringLight);
 	}
 
 	public void rotate(double speed)
@@ -51,17 +51,12 @@ public class ShooterAndGrabber extends BadSubsystem
 
 	public void ringLightOn()
 	{
-		ringLight.set(Relay.Value.kOn);
+		ringLight.set(.5);
 	}
-
+	
 	public void ringLightOff()
 	{
-		ringLight.set(Relay.Value.kOff);
-	}
-
-	public void killRingLight()
-	{
-		ringLight.free();
+		ringLight.set(0);
 	}
 
 	@Override
