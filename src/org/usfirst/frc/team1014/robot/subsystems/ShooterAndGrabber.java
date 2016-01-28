@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.RobotMap;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -25,7 +26,7 @@ public class ShooterAndGrabber extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
-		// TODO Auto-generated method stub
+		Logger.logThis("Initializing shooter");
 		left = new Talon(RobotMap.shooterLeft);
 		right = new Talon(RobotMap.shooterRight);
 		rotator = new Talon(RobotMap.shooterRotator);
@@ -51,7 +52,7 @@ public class ShooterAndGrabber extends BadSubsystem
 
 	public void ringLightOn()
 	{
-		ringLight.set(.5);
+		ringLight.set(.1);
 	}
 	
 	public void ringLightOff()
