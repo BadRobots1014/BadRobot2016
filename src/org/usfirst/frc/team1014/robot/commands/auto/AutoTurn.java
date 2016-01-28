@@ -2,6 +2,8 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
+
 public class AutoTurn extends CommandBase{
 	
 	public double degree, difference, proportion, sign;
@@ -9,6 +11,7 @@ public class AutoTurn extends CommandBase{
 	
 	public AutoTurn(double degree){
 		this.degree = degree;
+		requires((Subsystem)driveTrain);
 		driveTrain.resetMXPAngle();
 		sign = Math.abs(degree) / degree;
 	}
@@ -35,10 +38,10 @@ public class AutoTurn extends CommandBase{
 	protected void execute() {
 		difference = driveTrain.getAngle() - degree;
 		if(sign < 0){
-			driveTrain.tankDrive(-(scale(rotation())), scale(rotation()));
+			driveTrain.tankDrive(-(rotation()), rotation());
 		}
 		if(sign > 0){
-			driveTrain.tankDrive(scale(rotation()), -(scale(rotation())));
+			driveTrain.tankDrive(rotation(), -(rotation()));
 		}
 	}
 
@@ -61,12 +64,5 @@ public class AutoTurn extends CommandBase{
 		return false;
 		}
 	}
-    public static double scale(double d) {
-    	
-    	return(Math.abs(d) / 3);
-    	
-    	
-    	
-    	
-    }
+
 }
