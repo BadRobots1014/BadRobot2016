@@ -42,17 +42,15 @@ public class UseShooter extends CommandBase {
 				maxSpeed += .1;
 		}
 
-		if(OI.secXboxController.isLBButtonPressed())
-			shooter.shoot(.9);
+		shooter.shoot(OI.secXboxController.getRightStickY());
 		
-		if(OI.secXboxController.isRBButtonPressed())
-			shooter.grab(.7);
+//		if(OI.secXboxController.isYButtonPressed())
+//			shooter.shoot(.7);
+//		
+//		if(OI.secXboxController.isAButtonPressed())
+//			shooter.grab(.9);
 
-		if(OI.secXboxController.isYButtonPressed())
-			shooter.rotate(.5);
-		else if(OI.secXboxController.isAButtonPressed())
-			shooter.rotate(-.5);
-		
+		shooter.rotate(OI.secXboxController.getLeftStickY());
 	}
 
 	public double scaleSpeed(double speed)
