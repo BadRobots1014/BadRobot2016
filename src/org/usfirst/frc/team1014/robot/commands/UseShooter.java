@@ -2,9 +2,9 @@ package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.OI;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class UseShooter extends CommandBase
-{
+public class UseShooter extends CommandBase {
 
 	boolean usingShooter;
 	double maxSpeed;
