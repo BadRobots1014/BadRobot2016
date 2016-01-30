@@ -22,7 +22,7 @@ public class DriveTrain extends BadSubsystem
 {
 	private RobotDrive train;
 	private static DriveTrain instance;
-	private SpeedController backLeft, frontLeft, backRight, frontRight;
+	private SpeedController backLeft, frontLeft, middleLeft, backRight, frontRight, middleRight;
 	private SpeedController ringLight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
@@ -55,6 +55,8 @@ public class DriveTrain extends BadSubsystem
 		frontLeft = new Talon(RobotMap.frontLeftSpeedController);
 		backRight = new Talon(RobotMap.backRightSpeedController);
 		frontRight = new Talon(RobotMap.frontRightSpeedController);
+		middleLeft = new Talon(RobotMap.middleLeftSpeedController);
+		middleRight = new Talon(RobotMap.middleRightSpeedController);
 		ringLight = new Talon(RobotMap.ringLight);
 		
 		lidar = new LIDAR(Port.kMXP);
@@ -74,6 +76,16 @@ public class DriveTrain extends BadSubsystem
 	public void tankDrive(double leftStickY, double rightStickY) 
 	{
 		train.tankDrive(leftStickY, rightStickY);
+	}
+	public void tankDrive6Wheel(double leftStickY, double rightStickY)
+	{
+		backLeft.set(leftStickY);
+		middleLeft.set(leftStickY);
+		frontLeft.set(leftStickY);
+		
+		backRight.set(rightStickY);
+		middleRight.set(rightStickY);
+		frontRight.set(rightStickY);
 	}
 	
 	public void turnOnRingLight()
