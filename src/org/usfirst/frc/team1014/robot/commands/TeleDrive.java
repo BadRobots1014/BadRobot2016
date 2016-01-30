@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.OI;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 /**
  * This class defines how the robot drives through teleop.
@@ -46,6 +47,8 @@ public class TeleDrive extends CommandBase
 		driveTrain.tankDrive(-OI.priXboxController.getLeftStickY(), -OI.priXboxController.getRightStickY());
 		if(OI.priXboxController.isRBButtonPressed())
 			driveTrain.tankDrive(-OI.priXboxController.getLeftStickY()*.5, -OI.priXboxController.getRightStickY()*.5);
+		
+		Logger.logThis("MXP Angle: " + driveTrain.getAngle360());
 	}
 
 	/**
