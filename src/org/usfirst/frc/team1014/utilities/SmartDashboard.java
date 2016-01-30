@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.utilities;
 
 
+import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -81,6 +82,7 @@ public class SmartDashboard
 	
 	public void update()
 	{
-		
+		ProcessedCam.getInstance().setX(table.getNumber("OBJECT_TRACKING_X", 0.0));
+		ProcessedCam.getInstance().setY(table.getNumber("OBJECT_TRACKING_Y", 0.0));
 	}
 }
