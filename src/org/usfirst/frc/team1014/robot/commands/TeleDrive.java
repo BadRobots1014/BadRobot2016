@@ -44,6 +44,8 @@ public class TeleDrive extends CommandBase
 	protected void execute()
 	{
 		driveTrain.tankDrive(-OI.priXboxController.getLeftStickY(), -OI.priXboxController.getRightStickY());
+		if(OI.priXboxController.isRBButtonPressed())
+			driveTrain.tankDrive(-OI.priXboxController.getLeftStickY()*.5, -OI.priXboxController.getRightStickY()*.5);
 	}
 
 	/**
