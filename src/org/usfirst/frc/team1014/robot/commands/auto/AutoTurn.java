@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -18,9 +19,8 @@ public class AutoTurn extends CommandBase{
 
 	@Override
 	protected void initialize() {
-		requires(driveTrain);
-		driveTrain.tankDrive(0, 0);
-		
+		driveTrain.resetMXPAngle();
+		driveTrain.tankDrive(0, 0);		
 	}
 
 	@Override
@@ -36,13 +36,14 @@ public class AutoTurn extends CommandBase{
 
 	@Override
 	protected void execute() {
-		difference = driveTrain.getAngle() - degree;
+		difference = driveTrain.getAngle360() - degree;
 		if(sign < 0){
-			driveTrain.tankDrive(-(rotation()), rotation());
+			driveTrain.tankDrive((rotation()), -rotation());
 		}
 		if(sign > 0){
-			driveTrain.tankDrive(rotation(), -(rotation()));
+			driveTrain.tankDrive(-rotation(), (rotation()));
 		}
+		Logger.logThis("MXP Angle: " + driveTrain.getAngle360());
 	}
 
 	@Override

@@ -10,7 +10,7 @@ public class ShootAndStay extends CommandGroup{
 		this.addSequential(new AutoTurn(90));
 		this.addSequential(new DriveForward(.5, 1));
 		this.addSequential(new AutoTurn(-90));
-		this.addSequential(new Shooter(1));
+		this.addSequential(new AutoShoot(1));
 		
 	}
 	
