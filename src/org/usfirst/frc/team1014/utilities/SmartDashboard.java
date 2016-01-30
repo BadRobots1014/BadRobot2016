@@ -12,14 +12,16 @@ public class SmartDashboard
 {
 	public static SmartDashboard smartDashboard;
 	public static NetworkTable table;
-	public String[] commands = {"driveTele"};
+	public String[] commands = {"TeleDrive","TeleopGroup","UseShooter"};
 	private static final String commandsPackageName = "org.usfirst.frc.team1014.robot.commands.";
+	private static String commandToRun;
+	private static final String commandRunKey = "Command running: ";
 	
 	public SmartDashboard()
 	{
 		table = NetworkTable.getTable("SmartDashboard");
 		setup();
-		initDashboard();
+		//initDashboard();
 	}
 	
 	public static SmartDashboard getInstance()
@@ -40,11 +42,12 @@ public class SmartDashboard
 	
 	private void setup()
 	{
+		table.putString(commandRunKey, "");
 		for(String str:commands)
 		{
 			try
 			{
-				Class.forName(str);
+				Class.forName(commandsPackageName+str);
 			}catch(Exception e)
 			{
 				e.printStackTrace();
@@ -63,12 +66,16 @@ public class SmartDashboard
 				try {
 					Scheduler.getInstance().add((Command)Class.forName(commandsPackageName + str).newInstance());
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 					continue;
 				}
+				break;
 			}
 		}
+		table.putString(commandRunKey, commandToRun);
 	}
+	
 	
 	
 	

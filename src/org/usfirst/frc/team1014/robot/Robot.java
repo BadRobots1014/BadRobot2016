@@ -2,6 +2,8 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,6 +20,7 @@ public class Robot extends IterativeRobot
 {
 
 	public Command autonomousCommand;
+	public static SmartDashboard dashboard;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -25,8 +28,8 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
-		//SmartDashboard.initDashboard();
 		CommandBase.init();
+		dashboard = SmartDashboard.getInstance();
 		// instantiate the command used for the autonomous period
 		// autonomousCommand = new ExampleCommand();
 	}
@@ -41,7 +44,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
-		//Scheduler.getInstance().add(new TeleDrive());
+		dashboard.poll();
 	}
 
 	/**
@@ -50,6 +53,7 @@ public class Robot extends IterativeRobot
 	public void autonomousPeriodic()
 	{
 		Scheduler.getInstance().run();
+		dashboard.update();
 	}
 
 	public void teleopInit()
@@ -78,6 +82,7 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		Scheduler.getInstance().run();
+		dashboard.update();
 	}
 
 	/**
