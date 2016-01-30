@@ -5,11 +5,10 @@ import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
@@ -23,8 +22,7 @@ public class DriveTrain extends BadSubsystem
 {
 	private RobotDrive train;
 	private static DriveTrain instance;
-	private SpeedController backLeft, frontLeft, backRight, frontRight;
-	private SpeedController ringLight;
+	private CANTalon backLeft, frontLeft, backRight, frontRight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 
@@ -52,11 +50,10 @@ public class DriveTrain extends BadSubsystem
 	protected void initialize()
 	{
 		Logger.log(Logger.Level.Debug, "0001", "out message");
-		backLeft = new Talon(RobotMap.backLeftSpeedController);
-		frontLeft = new Talon(RobotMap.frontLeftSpeedController);
-		backRight = new Talon(RobotMap.backRightSpeedController);
-		frontRight = new Talon(RobotMap.frontRightSpeedController);
-		ringLight = new Talon(RobotMap.ringLight);
+		backLeft = new CANTalon(RobotMap.backLeftSpeedController);
+		frontLeft = new CANTalon(RobotMap.frontLeftSpeedController);
+		backRight = new CANTalon(RobotMap.backRightSpeedController);
+		frontRight = new CANTalon(RobotMap.frontRightSpeedController);
 
 		lidar = new LIDAR(Port.kMXP);
 		ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
@@ -79,7 +76,7 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
-	public void turnOnRingLight()
+	/*public void turnOnRingLight()
 	{
 		ringLight.set(.1);
 	}
@@ -87,7 +84,7 @@ public class DriveTrain extends BadSubsystem
 	public void turnOffRingLight()
 	{
 		ringLight.set(0.0);
-	}
+	}*/
 
 	public double getLIDARDistance()
 	{
