@@ -22,6 +22,8 @@ public class RobotMap
 	public static int frontLeftSpeedController = 4;
 	public static int backRightSpeedController = 2;
 	public static int frontRightSpeedController = 3;
+	public static int middleLeftSpeedController = 8;
+	public static int middleRightSpeedController = 9;
 	public static int shooterLeft = 5;
 	public static int shooterRight = 6;
 	public static int shooterRotator = 7;
