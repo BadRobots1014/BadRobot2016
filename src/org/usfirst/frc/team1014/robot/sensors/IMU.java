@@ -14,6 +14,7 @@ import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+//import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
@@ -448,15 +449,13 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
     }
 
 	@Override
-	public PIDSourceType getPIDSourceType()
-	{
+	public PIDSourceType getPIDSourceType() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setPIDSourceType(PIDSourceType arg0)
-	{
+	public void setPIDSourceType(PIDSourceType arg0) {
 		// TODO Auto-generated method stub
 		
 	}
