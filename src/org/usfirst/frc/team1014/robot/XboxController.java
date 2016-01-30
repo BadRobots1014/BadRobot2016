@@ -18,8 +18,8 @@ public class XboxController extends Joystick
 			RIGHT_JOY_CLICK = 10;
 	private static int LEFT_TRIGGER = 2, RIGHT_TRIGGER = 3;
 
-	//Unused
-	//private long lastTimeXHeld, timeXHeld;
+	// Unused
+	// private long lastTimeXHeld, timeXHeld;
 
 	public XboxController(int port)
 	{
@@ -126,14 +126,15 @@ public class XboxController extends Joystick
 		return this.getRawButton(START);
 	}
 
-	/**
-	 * This method returns if the Xbutton was clicked(pressed and released within a half second)
-	 * 
-	 * @return
-	 */
-	public boolean isXButtonClicked()
+	public boolean isAButtonToggled(boolean lastState)
 	{
-		return false;
+		if(lastState == isAButtonPressed())
+			return lastState;
+		else
+		{
+			lastState = isAButtonPressed();
+			return lastState;
+		}
 	}
 
 	/**
