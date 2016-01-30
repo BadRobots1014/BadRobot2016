@@ -10,11 +10,12 @@ import org.usfirst.frc.team1014.robot.OI;
  */
 public class TeleDrive extends CommandBase
 {
+
 	public TeleDrive()
 	{
 		requires(driveTrain);
 	}
-
+	
 	/**
 	 * This method runs before the command is executed to make sure everything is ready for it to be
 	 * executed.

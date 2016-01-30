@@ -2,9 +2,9 @@ package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.OI;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class UseShooter extends CommandBase
-{
+public class UseShooter extends CommandBase {
 
 	boolean usingShooter;
 	double maxSpeed;
@@ -35,33 +35,29 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		// TODO Auto-generated method stub
-		if(OI.secXboxController.isXButtonPressed())
-			usingShooter = true;
-		else if(OI.secXboxController.isBButtonPressed())
-			usingShooter = false;
-
-		if(OI.secXboxController.isAButtonPressed() || OI.secXboxController.isYButtonPressed())
+		if(OI.secXboxController.isBButtonPressed() || OI.secXboxController.isXButtonPressed())
 		{
-			if(OI.secXboxController.isAButtonPressed() && maxSpeed > .5)
+			if(OI.secXboxController.isXButtonPressed() && maxSpeed > .5)
 				maxSpeed -= .1;
-			else if(OI.secXboxController.isYButtonPressed() && maxSpeed < 1.0)
+			else if(OI.secXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
 
-		if(usingShooter)
+		
+		
+		if(OI.secXboxController.isLBButtonPressed())
 		{
-			shooter.shoot(scaleSpeed(OI.secXboxController.getLeftStickY()));
+			shooter.shoot(.9);
+			shooter.ringLightOn();
 		}
-		else
-		{
-			shooter.grab(scaleSpeed(OI.secXboxController.getLeftStickY()));
-		}
+		
+		if(OI.secXboxController.isRBButtonPressed())
+			shooter.grab(.7);
 
-		if(OI.secXboxController.getLeftTrigger() > 0.0)
-			shooter.rotate(OI.secXboxController.getLeftTrigger());
-		else if(OI.secXboxController.getRightTrigger() > 0.0)
-			shooter.rotate(OI.secXboxController.getRightTrigger());
+		if(OI.secXboxController.isYButtonPressed())
+			shooter.rotate(.5);
+		else if(OI.secXboxController.isAButtonPressed())
+			shooter.rotate(-.5);
 
 	}
 
