@@ -19,7 +19,7 @@ public class RobotMap
 
 	//PWM
 	public static int backLeftSpeedController = 1;
-	public static int frontLeftSpeedController = 4;
+	public static int frontLeftSpeedController = 5;
 	public static int backRightSpeedController = 2;
 	public static int frontRightSpeedController = 3;
 	public static int middleLeftSpeedController = 8;
