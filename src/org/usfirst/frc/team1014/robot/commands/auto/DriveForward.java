@@ -3,6 +3,7 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 
 import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveForward extends CommandBase {
 	
@@ -14,6 +15,7 @@ public class DriveForward extends CommandBase {
 	public DriveForward (double driveTime, double speed) {
 		this.driveTime = driveTime;
 		this.speed = speed;
+		requires((Subsystem)driveTrain);
 		startTime = Utility.getFPGATime();
 		passedTime = 0;
 	}
