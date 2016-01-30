@@ -5,46 +5,42 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Shooter extends CommandBase {
+
+public class AutoGrab extends CommandBase{
 
 	double speed; 
 	double time;
 	
-	public Shooter (double speed) {
+	public AutoGrab (double speed) {
 		this.speed = speed ;
 		requires((Subsystem) shooter);
 	}
 	
-	
 	@Override
 	protected void initialize() {
-		shooter.shoot(0);
-		
+		shooter.grab(0);		
 	}
 
 	@Override
 	public String getConsoleIdentity() {
-		
-		return "Shooter";
+		return "Grab";
 	}
 
 	@Override
 	protected void end() {
-		shooter.shoot(0);
+		shooter.grab(0);
 		
 	}
 
 	@Override
 	protected void execute() {
-		shooter.shoot(speed);
+		shooter.grab(speed);
 		time = Utility.getFPGATime();
-	
 	}
 
 	@Override
 	protected void interrupted() {
-		System.out.print("Shooter was interrupted");
-	
+		System.out.print("Grabber was interrupted");
 	}
 
 	@Override
@@ -56,12 +52,5 @@ public class Shooter extends CommandBase {
 			return false;
 		}
 		
-	
 	}
-		
-		
-
-	
-	
-	
 }

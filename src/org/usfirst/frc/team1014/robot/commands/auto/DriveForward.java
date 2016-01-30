@@ -38,7 +38,7 @@ public class DriveForward extends CommandBase {
 	@Override
 	protected void execute() {
 		passedTime = Utility.getFPGATime() - startTime;
-		driveTrain.tankDrive(speed, speed);
+		driveTrain.tankDrive(-speed, -speed);
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
+import org.usfirst.frc.team1014.robot.commands.auto.DriveForward;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,8 +29,6 @@ public class Robot extends IterativeRobot
 	{
 		//SmartDashboard.initDashboard();
 		CommandBase.init();
-		// instantiate the command used for the autonomous period
-		// autonomousCommand = new ExampleCommand();
 	}
 
 	public void disabledPeriodic()
@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
-		//Scheduler.getInstance().add(new TeleDrive());
+		Scheduler.getInstance().add(new DriveForward(6.0, .5));
 	}
 
 	/**
