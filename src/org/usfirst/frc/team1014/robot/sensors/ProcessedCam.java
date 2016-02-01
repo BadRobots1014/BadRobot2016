@@ -13,19 +13,19 @@ public class ProcessedCam
 		return processedCam;
 	}
 	
-	private double X;
-	private double Y;
+	private double X = 0;
+	private double Y = 0;
 	
 	public double getX() {
 		return X;
 	}
 	public void setX(double x) {
-		X = x;
+		X = x - 320;
 	}
 	public double getY() {
 		return Y;
 	}
 	public void setY(double y) {
-		Y = y;
+		Y = y - 240;
 	}
 }
