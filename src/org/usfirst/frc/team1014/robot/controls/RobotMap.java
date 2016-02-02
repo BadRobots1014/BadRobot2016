@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1014.robot;
+package org.usfirst.frc.team1014.robot.controls;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into to a variable name.
@@ -18,19 +18,5 @@ public class RobotMap
 	// public static int rangefinderModule = 1;
 
 	// PWM
-	public static int backLeftSpeedController = 1;
-	public static int frontLeftSpeedController = 4;
-	public static int backRightSpeedController = 2;
-	public static int frontRightSpeedController = 3;
-	public static int shooterLeft = 5;
-	public static int shooterRight = 6;
-	public static int shooterRotator = 7;
 
-	// DIO
-	public static int ultraPing = 1;
-	public static int ultraEcho = 2;
-	public static int retroSensor = 0;
-
-	// Relay
-	public static int ringLight = 0;
 }
