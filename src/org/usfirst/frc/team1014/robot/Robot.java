@@ -2,6 +2,7 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
+import org.usfirst.frc.team1014.robot.commands.TestSRX;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -65,7 +66,7 @@ public class Robot extends IterativeRobot
 		// this line or comment it out.
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
-		Scheduler.getInstance().add(new TeleopGroup());
+		Scheduler.getInstance().add(new TestSRX());
 	}
 
 	/**
