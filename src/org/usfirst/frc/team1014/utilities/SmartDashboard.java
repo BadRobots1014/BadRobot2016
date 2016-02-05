@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1014.utilities;
 
-
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
