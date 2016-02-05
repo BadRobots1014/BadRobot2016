@@ -2,6 +2,11 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * 
+ * @author Tze Hei T.
+ *
+ */
 public class ShootAndComeBack extends CommandGroup
 {
 	public ShootAndComeBack()

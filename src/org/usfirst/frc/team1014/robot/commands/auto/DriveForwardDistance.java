@@ -4,6 +4,11 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * 
+ * @author Tze Hei T.
+ *
+ */
 public class DriveForwardDistance extends CommandBase{
 	
 	public double speed, distance, ultraDistance;

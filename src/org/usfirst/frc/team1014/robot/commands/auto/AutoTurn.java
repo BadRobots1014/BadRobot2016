@@ -5,6 +5,11 @@ import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * 
+ * @author Tze Hei T.
+ *
+ */
 public class AutoTurn extends CommandBase{
 	
 	public double degree, difference, proportion, sign;
