@@ -8,7 +8,9 @@ public class AutoFindTarget extends CommandBase {
 
 	public int x, y;
 
-	public AutoFindTarget() {
+	public AutoFindTarget(int x, int y) {
+		this.x = x;
+		this.y = y;
 		requires((Subsystem) driveTrain);
 		requires((Subsystem) shooter);
 	}

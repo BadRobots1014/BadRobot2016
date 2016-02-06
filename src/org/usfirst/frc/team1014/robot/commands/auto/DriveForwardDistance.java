@@ -13,6 +13,7 @@ public class DriveForwardDistance extends CommandBase{
 	
 	public double speed, distance, ultraDistance;
 
+	//Distance is the distance in inches you want it to stop at
 	public DriveForwardDistance(double speed, double distance){
 		this.distance = distance;
 		this.speed = speed;
@@ -39,6 +40,7 @@ public class DriveForwardDistance extends CommandBase{
 	@Override
 	protected void execute() {
 		ultraDistance = driveTrain.getUltraDistance(true);
+		//Gets the ultrasonic distance in inches
 		driveTrain.tankDrive(speed, speed);
 		
 	}
