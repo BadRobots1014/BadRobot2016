@@ -55,7 +55,6 @@ public class DriveTrain extends BadSubsystem
 		frontLeft = new Talon(RobotMap.frontLeftSpeedController);
 		backRight = new Talon(RobotMap.backRightSpeedController);
 		frontRight = new Talon(RobotMap.frontRightSpeedController);
-		ringLight = new Talon(RobotMap.ringLight);
 		
 		lidar = new LIDAR(Port.kMXP);
 		ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
