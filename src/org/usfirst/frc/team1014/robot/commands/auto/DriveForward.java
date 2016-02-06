@@ -5,6 +5,11 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * 
+ * @author Sam G.
+ *
+ */
 public class DriveForward extends CommandBase {
 	
 	public double driveTime;

@@ -2,6 +2,11 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * 
+ * @author Vaarun N.
+ *
+ */
 public class ShootAndStay extends CommandGroup{
 
 	public ShootAndStay(){
@@ -13,7 +18,4 @@ public class ShootAndStay extends CommandGroup{
 		this.addSequential(new AutoShoot(1));
 		
 	}
-	
-	
-	
 }
