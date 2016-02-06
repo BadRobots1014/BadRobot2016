@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
-import org.usfirst.frc.team1014.robot.RobotMap;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
@@ -50,13 +50,13 @@ public class DriveTrain extends BadSubsystem
 	protected void initialize()
 	{
 		Logger.log(Logger.Level.Debug, "0001", "out message");
-		backLeft = new CANTalon(RobotMap.backLeftSpeedController);
-		frontLeft = new CANTalon(RobotMap.frontLeftSpeedController);
-		backRight = new CANTalon(RobotMap.backRightSpeedController);
-		frontRight = new CANTalon(RobotMap.frontRightSpeedController);
+		backLeft = new CANTalon(ControlsManager.BACK_LEFT_SRX);
+		frontLeft = new CANTalon(ControlsManager.FRONT_LEFT_SRX);
+		backRight = new CANTalon(ControlsManager.BACK_RIGHT_SRX);
+		frontRight = new CANTalon(ControlsManager.FRONT_RIGHT_SRX);
 
 		lidar = new LIDAR(Port.kMXP);
-		ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
+		ultrasonic = new Ultrasonic(ControlsManager.ULTRA_PING, ControlsManager.ULTRA_ECHO);
 		ultrasonic.setEnabled(true);
 		ultrasonic.setAutomaticMode(true);
 

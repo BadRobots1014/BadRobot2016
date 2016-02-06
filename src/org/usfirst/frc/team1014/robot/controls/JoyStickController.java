@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1014.robot;
+package org.usfirst.frc.team1014.robot.controls;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
  * @author Manu S.
  * 
  */
-public class Extreme3DPro extends Joystick
+public class JoyStickController extends Joystick
 {
 
 	public static final double DEADZONE_MAGIC_NUMBER = 0.15;
@@ -18,7 +18,7 @@ public class Extreme3DPro extends Joystick
 			BUTTON_5 = 4, BUTTON_6 = 5, BUTTON_7 = 6, BUTTON_8 = 7,
 			BUTTON_9 = 8, BUTTON_10 = 9, BUTTON_11 = 10, BUTTON_12 = 11;
 
-	public Extreme3DPro(int port)
+	public JoyStickController(int port)
 	{
 		super(port);
 	}

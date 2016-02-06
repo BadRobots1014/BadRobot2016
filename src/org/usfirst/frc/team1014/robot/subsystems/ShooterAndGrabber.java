@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
-import org.usfirst.frc.team1014.robot.RobotMap;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -25,11 +25,10 @@ public class ShooterAndGrabber extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
-		// TODO Auto-generated method stub
-		left = new Talon(RobotMap.shooterLeft);
-		right = new Talon(RobotMap.shooterRight);
-		rotator = new Talon(RobotMap.shooterRotator);
-		ringLight = new Relay(RobotMap.ringLight);
+		left = new Talon(ControlsManager.SHOOTER_LEFT);
+		right = new Talon(ControlsManager.SHOOTER_RIGHT);
+		rotator = new Talon(ControlsManager.SHOOTER_ROTATE);
+		ringLight = new Relay(ControlsManager.RING_LIGHT);
 	}
 
 	public void rotate(double speed)
@@ -67,14 +66,12 @@ public class ShooterAndGrabber extends BadSubsystem
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
 		return "ShooterAndGrabber";
 	}
 
 	@Override
 	protected void initDefaultCommand()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
