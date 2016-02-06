@@ -1,7 +1,8 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.OI;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
+
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * This class defines how the robot drives through teleop.
@@ -11,15 +12,15 @@ import org.usfirst.frc.team1014.robot.utilities.Logger;
  */
 public class TeleDrive extends CommandBase
 {
-
 	public TeleDrive()
 	{
-		requires(driveTrain);
+		requires((Subsystem) driveTrain);
 	}
 	
 	/**
-	 * This method runs before the command is executed to make sure everything is ready for it to be
-	 * executed.
+	 * This method runs before the command is 
+	 * executed to make sure everything is ready
+	 * for it to be executed.
 	 */
 	@Override
 	protected void initialize()
@@ -28,8 +29,9 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * This is really useless and doesn't really have much function, other than when we want to log
-	 * things.
+	 * This is really useless and doesn't really have
+	 * much function, other than when we want to 
+	 * log things.
 	 */
 	@Override
 	public String getConsoleIdentity()
@@ -38,21 +40,16 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * This is the method that gets called over and over again while the command is actually
-	 * running.
+	 * This is the method that gets called over and over
+	 * again while the command is actually running.
 	 */
 	@Override
-	protected void execute()
-	{
+	protected void execute() {
 		driveTrain.tankDrive(-OI.priXboxController.getLeftStickY(), -OI.priXboxController.getRightStickY());
-		if(OI.priXboxController.isRBButtonPressed())
-			driveTrain.tankDrive(-OI.priXboxController.getLeftStickY()*.5, -OI.priXboxController.getRightStickY()*.5);
-		
-		Logger.logThis("MXP Angle: " + driveTrain.getAngle360());
 	}
-
 	/**
-	 * Lets the system know when to stop this command and do some other one.
+	 * Lets the system know when to stop this command
+	 * and do some other one.
 	 */
 	@Override
 	protected boolean isFinished()
@@ -61,7 +58,8 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * What the robot should do once the command has finished executing.
+	 * What the robot should do once the command has
+	 * finished executing.
 	 */
 	@Override
 	protected void end()
