@@ -1,4 +1,4 @@
-<head><version>2.79.14</version></head>
+<head><version>2.79.15</version></head>
 <RGB_Filter>
   <channel>4</channel>
   <hue_value>110</hue_value>
@@ -33,10 +33,11 @@
 <NetworkTables>
   <delay>100</delay>
   <filter_type_index>0</filter_type_index>
-  <hostname>10.10.14.2</hostname>
+  <hostname>roboRIO-1014-FRC.local</hostname>
   <port>1735</port>
   <prefix>/SmartDashboard/</prefix>
-  <variables_to_send>COG_AREA
+  <variables_to_send>CLOCK_TIME
+COG_AREA
 COG_BOUNDING_COORDINATES
 COG_BOX_SIZE
 COG_DENSITY

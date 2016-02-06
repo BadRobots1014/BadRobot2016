@@ -32,12 +32,12 @@ public class ProcessedCam
 		return X;
 	}
 	public void setX(double x) {
-		X = x;
+		X = x - 320;
 	}
 	public double getY() {
 		return Y;
 	}
 	public void setY(double y) {
-		Y = y;
+		Y = y - 240;
 	}
 }
