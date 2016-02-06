@@ -12,7 +12,7 @@ public class SmartDashboard
 {
 	public static SmartDashboard smartDashboard;
 	public static NetworkTable table;
-	public String[] commands = {"TeleDrive","TeleopGroup","UseShooter"};
+	public String[] commands = {"TeleDrive","TeleopGroup","UseShooter","FindTarget"};
 	private static final String commandsPackageName = "org.usfirst.frc.team1014.robot.commands.";
 	private static String commandToRun;
 	private static final String commandRunKey = "Command running: ";
@@ -76,12 +76,10 @@ public class SmartDashboard
 		table.putString(commandRunKey, commandToRun);
 	}
 	
-	
-	
-	
 	public void update()
 	{
 		ProcessedCam.getInstance().setX(table.getNumber("OBJECT_TRACKING_X", 0.0));
 		ProcessedCam.getInstance().setY(table.getNumber("OBJECT_TRACKING_Y", 0.0));
+		ProcessedCam.getInstance().setObjTrackScore(table.getNumber("OBJECT_TRACKING_SCORE", 0.0));
 	}
 }

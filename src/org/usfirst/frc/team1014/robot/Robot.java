@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import org.usfirst.frc.team1014.robot.commands.FindTarget;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
 import org.usfirst.frc.team1014.utilities.SmartDashboard;
 
@@ -31,7 +32,7 @@ public class Robot extends IterativeRobot
 		CommandBase.init();
 		dashboard = SmartDashboard.getInstance();
 		// instantiate the command used for the autonomous period
-		// autonomousCommand = new ExampleCommand();
+		autonomousCommand = new FindTarget();
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class Robot extends IterativeRobot
 	{
 		if(autonomousCommand != null)
 			autonomousCommand.start();
-		dashboard.poll();
+		//dashboard.poll();
 	}
 
 	/**
