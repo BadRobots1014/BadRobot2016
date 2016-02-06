@@ -23,6 +23,8 @@ public class ControlsManager
 	public static final int ULTRA_PING = 1;
 	public static final int ULTRA_ECHO = 2;
 	public static final int RETRO_SENSOR = 0;
+	public static int encoderA = 2;
+	public static int encoderB = 3;
 
 	// Relay
 	public static final int RING_LIGHT = 0;

@@ -56,9 +56,9 @@ public class DriveTrain extends BadSubsystem
 		frontRight = new CANTalon(ControlsManager.FRONT_RIGHT_SRX);
 
 		lidar = new LIDAR(Port.kMXP);
-		ultrasonic = new Ultrasonic(ControlsManager.ULTRA_PING, ControlsManager.ULTRA_ECHO);
-		ultrasonic.setEnabled(true);
-		ultrasonic.setAutomaticMode(true);
+		// ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
+		// ultrasonic.setEnabled(true);
+		// ultrasonic.setAutomaticMode(true);
 
 		// mxp stuff
 		serialPort = new SerialPort(57600, SerialPort.Port.kMXP);
@@ -76,15 +76,11 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
-	/*public void turnOnRingLight()
-	{
-		ringLight.set(.1);
-	}
-
-	public void turnOffRingLight()
-	{
-		ringLight.set(0.0);
-	}*/
+	/*
+	 * public void turnOnRingLight() { ringLight.set(.1); }
+	 * 
+	 * public void turnOffRingLight() { ringLight.set(0.0); }
+	 */
 
 	public double getLIDARDistance()
 	{
