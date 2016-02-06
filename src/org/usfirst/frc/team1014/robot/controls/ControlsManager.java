@@ -8,13 +8,11 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public class ControlsManager
 {
-	//SRX Mapping
-	public static final int BACK_LEFT_SRX = 1;
-	public static final int FRONT_LEFT_SRX = 2;
-	public static final int BACK_RIGHT_SRX = 3;
-	public static final int FRONT_RIGHT_SRX = 4;
-	
 	//Button Mapping
+	public static final int BACK_LEFT_SPEED_CONTROLLER = 1;
+	public static final int FRONT_LEFT_SPEED_CONTROLLER = 5;
+	public static final int BACK_RIGHT_SPEED_CONTROLLER = 2;
+	public static final int FRONT_RIGHT_SPEED_CONTROLLER = 6;
 	public static final int SHOOTER_LEFT = 3;
 	public static final int SHOOTER_RIGHT = 4;
 	public static final int SHOOTER_ROTATE = 7;
