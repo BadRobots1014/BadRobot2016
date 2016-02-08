@@ -32,30 +32,27 @@ public class UseShooter extends CommandBase {
 	@Override
 	protected void execute()
 	{
-		if(ControlsManager.secondaryXboxController.isXButtonPressed())
-			usingShooter = true;
-		else if(ControlsManager.secondaryXboxController.isBButtonPressed())
-			usingShooter = false;
+		// TODO Auto-generated method stub
+				if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
+				{
+					if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)
+						maxSpeed -= .1;
+					else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
+						maxSpeed += .1;
+				}
 
-		if(ControlsManager.secondaryXboxController.isAButtonPressed() || ControlsManager.secondaryXboxController.isYButtonPressed())
-		{
-			if(ControlsManager.secondaryXboxController.isAButtonPressed() && maxSpeed > .5)
-				maxSpeed -= .1;
-			else if(ControlsManager.secondaryXboxController.isYButtonPressed() && maxSpeed < 1.0)
-				maxSpeed += .1;
-		}
-		shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
-
-		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY());
-		
-		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
-		{
-			shooter.ringLightOn();
-		}
-		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.0)
-			shooter.rotate(ControlsManager.secondaryXboxController.getLeftTrigger());
-		else if(ControlsManager.secondaryXboxController.getRightTrigger() > 0.0)
-			shooter.rotate(ControlsManager.secondaryXboxController.getRightTrigger());
+				shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
+				
+				shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY());
+				
+				if(ControlsManager.secondaryXboxController.isLBButtonPressed())
+				{
+					shooter.ringLightOn();
+				}
+				if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
+				{
+					shooter.ringLightOff();
+				}
 
 	}
 
