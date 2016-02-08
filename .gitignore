@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /OI.class
 /Robot.class
 /RobotMap.class
@@ -8,3 +9,16 @@ bin/
 /bin/
 build/
 dist/
+=======
+/OI.class
+/Robot.class
+/RobotMap.class
+.classpath
+.settings/org.eclipse.jdt.ui.prefs
+bin/
+.settings/
+/bin/
+build/
+dist/
+sysProps.xml
+>>>>>>> master

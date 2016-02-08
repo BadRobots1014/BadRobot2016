@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 // The imports for the final subsystems
-import org.usfirst.frc.team1014.robot.OI;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 
@@ -28,7 +28,7 @@ public abstract class CommandBase extends Command
 		// which commands extend), subsystems are not guaranteed to be
 		// yet. Thus, their requires() statements may grab null pointers. Bad
 		// news. Don't move it.
-		OI.init();
+		ControlsManager.init();
 	}
 
 	public CommandBase(String name)
@@ -45,4 +45,5 @@ public abstract class CommandBase extends Command
 	protected abstract void initialize();
 
 	public abstract String getConsoleIdentity();
+	public boolean isfinished = false;
 }
