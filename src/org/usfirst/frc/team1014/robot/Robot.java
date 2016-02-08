@@ -4,6 +4,7 @@ import org.usfirst.frc.team1014.control.BadScheduler;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.ObjectTrackingTest;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -89,7 +90,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
-		badScheduler.changeCommand(OI.secXboxController.isAButtonPressed(), new ObjectTrackingTest());
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressed(), new ObjectTrackingTest());
 		Scheduler.getInstance().run();
 		dashboard.update();
 	}

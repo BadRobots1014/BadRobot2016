@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1014.control;
-import org.usfirst.frc.team1014.robot.OI;
+
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -49,7 +50,7 @@ public class BadScheduler
 	{
 		try
 		{
-			if(OI.priXboxController.isYButtonPressed())
+			if(ControlsManager.primaryXboxController.isYButtonPressed())
 			{
 				if(nowRunning.getName() != mainTeleopClass.getName())
 				{
