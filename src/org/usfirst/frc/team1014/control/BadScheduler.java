@@ -8,16 +8,17 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class BadScheduler
 {
 	private Scheduler scheduler = Scheduler.getInstance();
-	private String mainTeleop = "TeleopGroup";
+	private String mainTeleop;
 	private String commandsPackageName = "org.usfirst.frc.team1014.robot.commands.";	
 	private Command nowRunning;
 	private Class<?> mainTeleopClass;
 	
-	public BadScheduler()
+	public BadScheduler(String mainTeleop)
 	{
 		try
 		{
-			mainTeleopClass = Class.forName(commandsPackageName+mainTeleop);
+			this.mainTeleop = mainTeleop;
+			mainTeleopClass = Class.forName(commandsPackageName+this.mainTeleop);
 		}
 		catch(ClassNotFoundException e)
 		{
