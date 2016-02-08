@@ -2,6 +2,7 @@ package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
@@ -12,6 +13,7 @@ public class ShooterAndGrabber extends BadSubsystem
 
 	private SpeedController left, right, rotator;
 	private SpeedController ringLight;
+	public Servo pusher;
 
 	public static ShooterAndGrabber getInstance()
 	{
@@ -27,6 +29,7 @@ public class ShooterAndGrabber extends BadSubsystem
 		left = new Talon(RobotMap.shooterLeft);
 		right = new Talon(RobotMap.shooterRight);
 		rotator = new Talon(RobotMap.shooterRotator);
+		pusher = new Servo(RobotMap.pusherServo);
 		ringLight = new Talon(RobotMap.ringLight);
 	}
 
@@ -57,6 +60,14 @@ public class ShooterAndGrabber extends BadSubsystem
 		ringLight.set(0);
 	}
 
+	public void driveServo(double power)
+	{
+		if (power > 0.650) {
+			power = 0.650;
+		}
+		pusher.set(power);
+	}
+	
 	@Override
 	public String getConsoleIdentity()
 	{

@@ -23,13 +23,12 @@ public class RobotMap
 	public static int frontLeftSpeedController = 5;
 	public static int backRightSpeedController = 2;
 	public static int frontRightSpeedController = 6;
+	
 	public static int shooterLeft = 4;
 	public static int shooterRight = 3;
-	public static int shooterRotator = 7;	
+	public static int shooterRotator = 7;
 	public static int ringLight = 9;
 
 	// DIO
-	public static int ultraPing = 1;
-	public static int ultraEcho = 2;
-	public static int retroSensor = 0;
+	public static int pusherServo = 0;
 }

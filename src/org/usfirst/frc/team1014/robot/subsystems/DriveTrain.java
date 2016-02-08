@@ -57,8 +57,9 @@ public class DriveTrain extends BadSubsystem
 		frontRight = new Talon(RobotMap.frontRightSpeedController);
 		
 		lidar = new LIDAR(Port.kMXP);
-		ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
-		ultrasonic.setEnabled(true); ultrasonic.setAutomaticMode(true);
+		
+//		ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
+//		ultrasonic.setEnabled(true); ultrasonic.setAutomaticMode(true);
 		
 		//mxp stuff
     	serialPort = new SerialPort(57600,SerialPort.Port.kMXP);

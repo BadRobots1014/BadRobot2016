@@ -9,6 +9,7 @@ public class UseShooter extends CommandBase {
 
 	boolean usingShooter;
 	double maxSpeed;
+	double servoPos;
 	
 	public UseShooter()
 	{
@@ -20,6 +21,7 @@ public class UseShooter extends CommandBase {
 		// TODO Auto-generated method stub
 		usingShooter = false;
 		maxSpeed = .5;
+		servoPos = .5;
 		
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
@@ -42,14 +44,18 @@ public class UseShooter extends CommandBase {
 				maxSpeed += .1;
 		}
 
-		shooter.shoot(OI.secXboxController.getRightStickY());
+		shooter.shoot(-OI.secXboxController.getRightStickY());
 		
-//		if(OI.secXboxController.isYButtonPressed())
-//			shooter.shoot(.7);
-//		
-//		if(OI.secXboxController.isAButtonPressed())
-//			shooter.grab(.9);
-
+		servoPos += OI.secXboxController.getLeftTrigger() * .5;
+		servoPos -= OI.secXboxController.getRightTrigger() * .5;
+		
+		Logger.logThis("Left Trigger: " + OI.secXboxController.getLeftTrigger());
+		Logger.logThis("Right Trigger: " + OI.secXboxController.getRightTrigger());
+		
+		shooter.pusher.set(servoPos);
+		
+		Logger.logThis("Servo position: " + shooter.pusher.get());
+		
 		shooter.rotate(OI.secXboxController.getLeftStickY());
 	}
 
