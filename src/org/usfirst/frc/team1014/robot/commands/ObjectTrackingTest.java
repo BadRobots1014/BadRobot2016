@@ -1,11 +1,16 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+
+import edu.wpi.first.wpilibj.Utility;
 
 public class ObjectTrackingTest extends CommandBase
 {
 	Runnable run;
 	Thread thread;
+	
+	boolean isFinishedRotate, isFinishedDrive;
 
 	public ObjectTrackingTest()
 	{
@@ -24,7 +29,7 @@ public class ObjectTrackingTest extends CommandBase
 			public void run()
 			{
 				for(int i = 0;i<50;i++)
-				{
+				{	
 					shooter.ringLightOn();
 					try
 					{
@@ -71,25 +76,34 @@ public class ObjectTrackingTest extends CommandBase
 		{
 			if(Math.abs(ProcessedCam.getInstance().getX()) > 10)
 			{
-				double speed = (ProcessedCam.getInstance().getX()/160 > 0.1) ? ProcessedCam.getInstance().getX()/160 : 0.1;
-				driveTrain.tankDrive(speed, -speed);
+				double speed = (ProcessedCam.getInstance().getX()/160 > 0.4) ? ProcessedCam.getInstance().getX()/160 : 0.4;
+				driveTrain.tankDrive(-speed, speed);
 			}
 			else
 			{
-				if(thread == null)
-				{
-					thread = new Thread(run);
-					thread.start();
-				}
 				driveTrain.tankDrive(0, 0);
-				isfinished = true;
+				isFinishedDrive = true;
+			}
+			if(Math.abs(ProcessedCam.getInstance().getY()) > 10)
+			{
+				double speed = (ProcessedCam.getInstance().getY()/120 > .1) ? ProcessedCam.getInstance().getY()/120 : .1;
+				shooter.rotate(speed);
+			}
+			else
+			{
+				shooter.rotate(0);
+				isFinishedRotate = true;
 			}
 		}
 		else
 		{
 			driveTrain.tankDrive(0, 0);
+			shooter.shoot(0);
+			isFinishedRotate = true;
+			isFinishedDrive = true;
 		}
 				
+		isfinished = isFinishedRotate && isFinishedDrive;
 		
 	}
 
@@ -97,12 +111,21 @@ public class ObjectTrackingTest extends CommandBase
 	protected void interrupted()
 	{
 		// TODO Auto-generated method stub
-		
+		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!!!");
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
+		if(isfinished)
+		{
+			if(thread == null)
+			{
+				thread = new Thread(run);
+				thread.start();
+			}
+		}
+		
 		return isfinished;
 	}
 	

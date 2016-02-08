@@ -3,6 +3,8 @@ package org.usfirst.frc.team1014.robot.sensors;
 public class ProcessedCam 
 {
 	public static  ProcessedCam processedCam;
+	private static int halfWidth = 160;
+	private static int halfHeight = 120;
 	
 	public static ProcessedCam getInstance()
 	{
@@ -21,10 +23,8 @@ public class ProcessedCam
 		return X;
 	}
 	public void setX(double x) {
-		X = x - 160;
+		X = x - halfWidth;
 	}
-	
-	
 	
 	public double getTrackingScore()
 	{
@@ -38,6 +38,6 @@ public class ProcessedCam
 		return Y;
 	}
 	public void setY(double y) {
-		Y = y - 120;
+		Y = y - halfHeight;
 	}
 }

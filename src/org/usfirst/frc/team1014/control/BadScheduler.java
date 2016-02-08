@@ -20,22 +20,28 @@ public class BadScheduler
 		}
 		catch(ClassNotFoundException e)
 		{
-			// TODO Auto-generated catch block
+			System.out.println("class no found issue");
 			e.printStackTrace();
 		}
 	}
 	
 	public void initTeleop()
 	{
+
 			try
 			{
 				nowRunning = (Command) mainTeleopClass.newInstance();
 				scheduler.add(nowRunning);
-			} catch(InstantiationException | IllegalAccessException e)
+			} catch(InstantiationException e)
 			{
-				// TODO Auto-generated catch block
+				System.out.println("instance issue with " + mainTeleopClass.getName());
+				e.printStackTrace();
+			} catch(IllegalAccessException e)
+			{
+				System.out.println("illegal access exception 1");
 				e.printStackTrace();
 			}
+			
 			
 	}
 	
@@ -74,9 +80,14 @@ public class BadScheduler
 				}
 			}
 		}
-		catch(InstantiationException | IllegalAccessException e)
+		catch(InstantiationException e)
 		{
-			// TODO Auto-generated catch block
+			System.out.println("can't instantiate stuffs");
+			e.printStackTrace();
+		}
+		catch(IllegalAccessException e)
+		{
+			System.out.println("illegal acces exception 2");
 			e.printStackTrace();
 		}
 
