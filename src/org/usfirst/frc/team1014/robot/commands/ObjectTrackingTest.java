@@ -4,15 +4,50 @@ import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 
 public class ObjectTrackingTest extends CommandBase
 {
+	Runnable run;
+	Thread thread;
 
 	public ObjectTrackingTest()
 	{
 		requires(driveTrain);
+		requires(shooter);
 	}
 	@Override
 	protected void initialize()
 	{
 		driveTrain.tankDrive(0, 0);
+		shooter.ringLightOn();
+		run = new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				for(int i = 0;i<50;i++)
+				{
+					shooter.ringLightOn();
+					try
+					{
+						Thread.sleep(100);
+					} catch(InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					shooter.ringLightOff();
+					try
+					{
+						Thread.sleep(100);
+					} catch(InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			}
+	
+		};
 	}
 
 	@Override
@@ -25,14 +60,36 @@ public class ObjectTrackingTest extends CommandBase
 	@Override
 	protected void end()
 	{
-		// TODO Auto-generated method stub
+		driveTrain.tankDrive(0.0f, 0.0f);
 		
 	}
 
 	@Override
 	protected void execute()
 	{
-		driveTrain.tankDrive(ProcessedCam.getInstance().getX()/320, -ProcessedCam.getInstance().getX()/320);
+		if(Math.abs(ProcessedCam.getInstance().getTrackingScore()) >= 90)
+		{
+			if(Math.abs(ProcessedCam.getInstance().getX()) > 10)
+			{
+				double speed = (ProcessedCam.getInstance().getX()/160 > 0.1) ? ProcessedCam.getInstance().getX()/160 : 0.1;
+				driveTrain.tankDrive(speed, -speed);
+			}
+			else
+			{
+				if(thread == null)
+				{
+					thread = new Thread(run);
+					thread.start();
+				}
+				driveTrain.tankDrive(0, 0);
+				isfinished = true;
+			}
+		}
+		else
+		{
+			driveTrain.tankDrive(0, 0);
+		}
+				
 		
 	}
 
@@ -46,8 +103,7 @@ public class ObjectTrackingTest extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return isfinished;
 	}
 	
 

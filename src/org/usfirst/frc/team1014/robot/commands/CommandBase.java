@@ -45,4 +45,5 @@ public abstract class CommandBase extends Command
 	protected abstract void initialize();
 
 	public abstract String getConsoleIdentity();
+	public boolean isfinished = false;
 }

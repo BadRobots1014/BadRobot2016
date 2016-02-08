@@ -52,7 +52,7 @@ public class ShooterAndGrabber extends BadSubsystem
 
 	public void ringLightOn()
 	{
-		ringLight.set(.1);
+		ringLight.set(.5);
 	}
 	
 	public void ringLightOff()

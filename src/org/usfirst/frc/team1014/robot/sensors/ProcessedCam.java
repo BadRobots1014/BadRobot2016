@@ -15,17 +15,29 @@ public class ProcessedCam
 	
 	private double X = 0;
 	private double Y = 0;
+	private double trackingScore = 0;
 	
 	public double getX() {
 		return X;
 	}
 	public void setX(double x) {
-		X = x - 320;
+		X = x - 160;
+	}
+	
+	
+	
+	public double getTrackingScore()
+	{
+		return trackingScore;
+	}
+	public void setTrackingScore(double trackingScore)
+	{
+		this.trackingScore = trackingScore;
 	}
 	public double getY() {
 		return Y;
 	}
 	public void setY(double y) {
-		Y = y - 240;
+		Y = y - 120;
 	}
 }
