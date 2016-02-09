@@ -43,11 +43,14 @@ public class UseShooter extends CommandBase {
 			else if(OI.secXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
+		
+		if(OI.secXboxController.isRBButtonPressed())
+			shooter.ringLightOn();
 
 		shooter.shoot(-OI.secXboxController.getRightStickY());
 		
-		servoPos += OI.secXboxController.getLeftTrigger() * .5;
-		servoPos -= OI.secXboxController.getRightTrigger() * .5;
+		servoPos += OI.secXboxController.getLeftTrigger() * .1;
+		servoPos -= OI.secXboxController.getRightTrigger() * .1;
 		
 		Logger.logThis("Left Trigger: " + OI.secXboxController.getLeftTrigger());
 		Logger.logThis("Right Trigger: " + OI.secXboxController.getRightTrigger());

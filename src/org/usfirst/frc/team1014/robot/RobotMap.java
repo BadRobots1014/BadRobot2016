@@ -30,5 +30,5 @@ public class RobotMap
 	public static int ringLight = 9;
 
 	// DIO
-	public static int pusherServo = 0;
+	public static int pusherServo = 8;
 }

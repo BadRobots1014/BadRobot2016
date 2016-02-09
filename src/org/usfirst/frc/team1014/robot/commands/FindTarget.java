@@ -51,6 +51,7 @@ public class FindTarget extends CommandBase {
 		{
 			driveTrain.tankDrive((ProcessedCam.getInstance().getX() - TARGET_X)/160,
 					-(ProcessedCam.getInstance().getY() - TARGET_X)/160);
+			shooter.rotate((ProcessedCam.getInstance().getY() - TARGET_Y)/120);
 		}
 		
 	}
