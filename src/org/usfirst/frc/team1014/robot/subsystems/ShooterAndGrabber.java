@@ -1,18 +1,18 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
-
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterAndGrabber extends BadSubsystem
 {
-
 	public static ShooterAndGrabber instance;
 
 	private SpeedController left, right, rotator;
 	private SpeedController ringLight;
+	public Servo pusher;
 
 	public static ShooterAndGrabber getInstance()
 	{
@@ -29,6 +29,8 @@ public class ShooterAndGrabber extends BadSubsystem
 		right = new Talon(ControlsManager.SHOOTER_RIGHT);
 		rotator = new Talon(ControlsManager.SHOOTER_ROTATE);
 		ringLight = new Talon(ControlsManager.RING_LIGHT);
+		pusher = new Servo(ControlsManager.PUSHER);
+		pusher.set(.4);
 	}
 
 	public void rotate(double speed)
@@ -52,10 +54,23 @@ public class ShooterAndGrabber extends BadSubsystem
 	{
 		ringLight.set(.5);
 	}
-	
+
 	public void ringLightOff()
 	{
 		ringLight.set(0);
+	}
+
+	public void driveServo(double power)
+	{
+		if(power > 0.650)
+		{
+			power = 0.650;
+		}
+		else if(power < .25)
+		{
+			power = .25;
+		}
+		pusher.set(power);
 	}
 
 	@Override

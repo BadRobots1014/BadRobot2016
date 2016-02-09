@@ -3,22 +3,25 @@ package org.usfirst.frc.team1014.robot.commands;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
+
 public class UseShooter extends CommandBase
 {
 
 	boolean usingShooter;
 	double maxSpeed;
+	double servoPos;
 
 	public UseShooter()
 	{
-		requires(shooter);
+		requires((Subsystem) shooter);
 	}
 
-	@Override
 	protected void initialize()
 	{
 		usingShooter = false;
 		maxSpeed = .5;
+		servoPos = .5;
 
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
@@ -41,7 +44,6 @@ public class UseShooter extends CommandBase
 			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
-
 		shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
 
 		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 5);

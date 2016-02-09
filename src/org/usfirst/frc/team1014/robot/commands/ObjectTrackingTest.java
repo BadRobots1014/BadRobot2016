@@ -84,6 +84,7 @@ public class ObjectTrackingTest extends CommandBase
 		double speed;
 		if(Math.abs(cam.getTrackingScore()) >= score)
 		{
+
 			if(Math.abs(cam.getX()) > deadzone)
 			{
 				if(Math.abs(cam.getX() / cam.getHalfHeight()) < minSpeed)
