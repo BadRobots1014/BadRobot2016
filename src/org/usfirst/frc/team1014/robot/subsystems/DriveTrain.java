@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
-import org.usfirst.frc.team1014.robot.RobotMap;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
@@ -8,7 +8,6 @@ import org.usfirst.frc.team1014.robot.utilities.Logger;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -23,8 +22,7 @@ public class DriveTrain extends BadSubsystem
 {
 	private RobotDrive train;
 	private static DriveTrain instance;
-	private SpeedController backLeft, frontLeft, backRight, frontRight;
-	private SpeedController ringLight;
+	private Talon backLeft, frontLeft, backRight, frontRight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 
@@ -52,14 +50,13 @@ public class DriveTrain extends BadSubsystem
 	protected void initialize()
 	{
 		Logger.log(Logger.Level.Debug, "0001", "out message");
-		backLeft = new Talon(RobotMap.backLeftSpeedController);
-		frontLeft = new Talon(RobotMap.frontLeftSpeedController);
-		backRight = new Talon(RobotMap.backRightSpeedController);
-		frontRight = new Talon(RobotMap.frontRightSpeedController);
-		ringLight = new Talon(RobotMap.ringLight);
+		backLeft = new Talon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER);
+		frontLeft = new Talon(ControlsManager.FRONT_LEFT_SPEED_CONTROLLER);
+		backRight = new Talon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER);
+		frontRight = new Talon(ControlsManager.FRONT_RIGHT_SPEED_CONTROLLER);
 
 		lidar = new LIDAR(Port.kMXP);
-		ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
+		ultrasonic = new Ultrasonic(ControlsManager.ULTRA_PING, ControlsManager.ULTRA_ECHO);
 		ultrasonic.setEnabled(true);
 		ultrasonic.setAutomaticMode(true);
 
@@ -79,15 +76,11 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
-	public void turnOnRingLight()
-	{
-		ringLight.set(.1);
-	}
-
-	public void turnOffRingLight()
-	{
-		ringLight.set(0.0);
-	}
+	/*
+	 * public void turnOnRingLight() { ringLight.set(.1); }
+	 * 
+	 * public void turnOffRingLight() { ringLight.set(0.0); }
+	 */
 
 	public double getLIDARDistance()
 	{
