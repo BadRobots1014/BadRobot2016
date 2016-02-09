@@ -1,11 +1,11 @@
-/OI.class
-/Robot.class
-/RobotMap.class
+*.class
+*~
+
 .classpath
-.settings/org.eclipse.jdt.ui.prefs
-bin/
 .settings/
-/bin/
+
+bin/
 build/
 dist/
+
 sysProps.xml
