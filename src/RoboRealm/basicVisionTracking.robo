@@ -1,0 +1,80 @@
+<head><version>2.79.15</version></head>
+<Axis_Internet_Camera>
+  <auto_back_light>TRUE</auto_back_light>
+  <auto_exposure>FALSE</auto_exposure>
+  <auto_white_balance>TRUE</auto_white_balance>
+  <brightness_value>50</brightness_value>
+  <color_level_value>50</color_level_value>
+  <compression_index>5</compression_index>
+  <contrast_value>50</contrast_value>
+  <exposure_value>50</exposure_value>
+  <ip_address>10.10.14.11</ip_address>
+  <is_active>TRUE</is_active>
+  <mirrot>FALSE</mirrot>
+  <password>FRC</password>
+  <port>80</port>
+  <resolution>320x240</resolution>
+  <sharpness_value>50</sharpness_value>
+  <username>FRC</username>
+</Axis_Internet_Camera>
+<RGB_Filter>
+  <channel>4</channel>
+  <hue_value>110</hue_value>
+  <hysteresis>0</hysteresis>
+  <min_value>140</min_value>
+</RGB_Filter>
+<Object_Tracking>
+  <acquire_index>1</acquire_index>
+  <detected_color>green</detected_color>
+  <line_thickness>3</line_thickness>
+  <lost_detected_color>red</lost_detected_color>
+  <low_detected_color>orange</low_detected_color>
+  <mouse_acquire>1</mouse_acquire>
+  <target_height>100</target_height>
+  <target_width>100</target_width>
+</Object_Tracking>
+<Center_of_Gravity>
+  <box_size>9</box_size>
+  <color_index>6</color_index>
+  <connect_line>TRUE</connect_line>
+  <density>1</density>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <overlay_image>Current</overlay_image>
+  <shape_index>2</shape_index>
+  <show_box>TRUE</show_box>
+  <show_cog>TRUE</show_cog>
+  <show_coord>TRUE</show_coord>
+  <size_index>11</size_index>
+  <threshold>10</threshold>
+  <use_subpixel>FALSE</use_subpixel>
+</Center_of_Gravity>
+<NetworkTables>
+  <delay>100</delay>
+  <filter_type_index>0</filter_type_index>
+  <hostname>roboRIO-1014-FRC.local</hostname>
+  <port>1735</port>
+  <prefix>/SmartDashboard/</prefix>
+  <variables_to_send>CLOCK_TIME
+COG_AREA
+COG_BOUNDING_COORDINATES
+COG_BOX_SIZE
+COG_DENSITY
+COG_WEIGHT
+COG_X
+COG_Y
+FPS
+OBJECT_TRACKING_ROTATION
+OBJECT_TRACKING_SCALE
+OBJECT_TRACKING_SCORE
+OBJECT_TRACKING_X
+OBJECT_TRACKING_X1
+OBJECT_TRACKING_X2
+OBJECT_TRACKING_X3
+OBJECT_TRACKING_X4
+OBJECT_TRACKING_Y
+OBJECT_TRACKING_Y1
+OBJECT_TRACKING_Y2
+OBJECT_TRACKING_Y3
+OBJECT_TRACKING_Y4</variables_to_send>
+  <variable_type_index>0</variable_type_index>
+</NetworkTables>

@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1014.robot.utilities;
 
-
 public class Logger
 {
 	// is logging enabled
