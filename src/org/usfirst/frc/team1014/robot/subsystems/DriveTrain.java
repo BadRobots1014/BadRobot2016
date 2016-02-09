@@ -53,12 +53,12 @@ public class DriveTrain extends BadSubsystem
 		backLeft = new CANTalon(ControlsManager.BACK_LEFT_SRX);
 		frontLeft = new CANTalon(ControlsManager.FRONT_LEFT_SRX);
 		backRight = new CANTalon(ControlsManager.BACK_RIGHT_SRX);
-		frontRight = new CANTalon(ControlsManager.FRONT_RIGHT_SRX);
+		frontRight = new CANTalon(6);
 
 		lidar = new LIDAR(Port.kMXP);
-		// ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
-		// ultrasonic.setEnabled(true);
-		// ultrasonic.setAutomaticMode(true);
+		ultrasonic = new Ultrasonic(ControlsManager.ULTRA_PING, ControlsManager.ULTRA_ECHO);
+		ultrasonic.setEnabled(true);
+		ultrasonic.setAutomaticMode(true);
 
 		// mxp stuff
 		serialPort = new SerialPort(57600, SerialPort.Port.kMXP);
@@ -115,6 +115,21 @@ public class DriveTrain extends BadSubsystem
 	public IMU getMXP()
 	{
 		return mxp;
+	}
+	
+	public double getEncoderRPM()
+	{
+		return frontRight.getSpeed();
+	}
+
+	public double getEncoderValue()
+	{
+		return frontRight.getPosition();
+	}
+	
+	public double getRange()
+	{
+		return this.ultrasonic.getRangeInches();
 	}
 
 	@Override
