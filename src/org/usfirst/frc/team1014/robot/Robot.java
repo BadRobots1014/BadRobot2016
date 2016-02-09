@@ -3,6 +3,7 @@ package org.usfirst.frc.team1014.robot;
 import org.usfirst.frc.team1014.control.BadScheduler;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.ObjectTrackingTest;
+import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.utilities.SmartDashboard;
 
@@ -22,7 +23,7 @@ public class Robot extends IterativeRobot
 
 	public Command autonomousCommand;
 	public static SmartDashboard dashboard;
-	public static BadScheduler badScheduler = new BadScheduler("TeleopGroup");
+	public static BadScheduler badScheduler = new BadScheduler(TeleopGroup.class);
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -89,7 +90,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressed(), new ObjectTrackingTest());
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), new ObjectTrackingTest());
 		Scheduler.getInstance().run();
 		dashboard.update();
 	}
@@ -103,4 +104,3 @@ public class Robot extends IterativeRobot
 		LiveWindow.run();
 	}
 }
-

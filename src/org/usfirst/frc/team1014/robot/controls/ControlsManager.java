@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public class ControlsManager
 {
-	//Button Mapping
+	// Button Mapping
 	public static final int BACK_LEFT_SPEED_CONTROLLER = 1;
 	public static final int FRONT_LEFT_SPEED_CONTROLLER = 5;
 	public static final int BACK_RIGHT_SPEED_CONTROLLER = 2;
@@ -23,7 +23,7 @@ public class ControlsManager
 	public static final int RETRO_SENSOR = 0;
 
 	// Relay
-	public static final int RING_LIGHT = 0;
+	public static final int RING_LIGHT = 9;
 
 	public static DriverStation driverStation;
 	public static XboxController primaryXboxController, secondaryXboxController;

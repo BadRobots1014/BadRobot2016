@@ -1,11 +1,11 @@
 package org.usfirst.frc.team1014.robot.sensors;
 
-public class ProcessedCam 
+public class ProcessedCam
 {
-	public static  ProcessedCam processedCam;
+	public static ProcessedCam processedCam;
 	private static int halfWidth = 160;
 	private static int halfHeight = 120;
-	
+
 	public static ProcessedCam getInstance()
 	{
 		if(processedCam == null)
@@ -14,30 +14,58 @@ public class ProcessedCam
 		}
 		return processedCam;
 	}
-	
+
 	private double X = 0;
 	private double Y = 0;
 	private double trackingScore = 0;
-	
-	public double getX() {
+
+	public double getX()
+	{
 		return X;
 	}
-	public void setX(double x) {
+
+	public void setX(double x)
+	{
 		X = x - halfWidth;
 	}
-	
+
 	public double getTrackingScore()
 	{
 		return trackingScore;
 	}
+
 	public void setTrackingScore(double trackingScore)
 	{
 		this.trackingScore = trackingScore;
 	}
-	public double getY() {
+
+	public double getY()
+	{
 		return Y;
 	}
-	public void setY(double y) {
+
+	public void setY(double y)
+	{
 		Y = y - halfHeight;
+	}
+
+	public int getHalfWidth()
+	{
+		return halfWidth;
+	}
+
+	public void setHalfWidth(int halfWidth)
+	{
+		ProcessedCam.halfWidth = halfWidth;
+	}
+
+	public int getHalfHeight()
+	{
+		return halfHeight;
+	}
+
+	public void setHalfHeight(int halfHeight)
+	{
+		ProcessedCam.halfHeight = halfHeight;
 	}
 }

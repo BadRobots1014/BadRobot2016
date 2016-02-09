@@ -3,7 +3,8 @@ package org.usfirst.frc.team1014.robot.commands;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
-public class UseShooter extends CommandBase {
+public class UseShooter extends CommandBase
+{
 
 	boolean usingShooter;
 	double maxSpeed;
@@ -33,26 +34,26 @@ public class UseShooter extends CommandBase {
 	protected void execute()
 	{
 		// TODO Auto-generated method stub
-				if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
-				{
-					if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)
-						maxSpeed -= .1;
-					else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
-						maxSpeed += .1;
-				}
+		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
+		{
+			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)
+				maxSpeed -= .1;
+			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
+				maxSpeed += .1;
+		}
 
-				shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
-				
-				shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY());
-				
-				if(ControlsManager.secondaryXboxController.isLBButtonPressed())
-				{
-					shooter.ringLightOn();
-				}
-				if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
-				{
-					shooter.ringLightOff();
-				}
+		shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
+
+		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 5);
+
+		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
+		{
+			shooter.ringLightOn();
+		}
+		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
+		{
+			shooter.ringLightOff();
+		}
 
 	}
 
