@@ -3,6 +3,11 @@ package org.usfirst.frc.team1014.robot.sensors;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
 
+/**
+ * 
+ * @author Tze Hei T.
+ *
+ */
 public class BadTalon extends Talon
 {
 
