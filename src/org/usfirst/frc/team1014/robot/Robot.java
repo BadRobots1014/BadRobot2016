@@ -2,8 +2,6 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.control.BadScheduler;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.commands.ObjectTrackingTest;
-import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -30,7 +28,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
-		//SmartDashboard.initDashboard();
+		// SmartDashboard.initDashboard();
 		CommandBase.init();
 		// instantiate the command used for the autonomous period
 		// autonomousCommand = new ExampleCommand();
@@ -46,7 +44,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
-		//Scheduler.getInstance().add(new TeleDrive());
+		// Scheduler.getInstance().add(new TeleDrive());
 	}
 
 	/**
@@ -82,7 +80,8 @@ public class Robot extends IterativeRobot
 	 */
 	public void teleopPeriodic()
 	{
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressed(), new ObjectTrackingTest());
+		// badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressed(),
+		// new ObjectTrackingTest());
 		Scheduler.getInstance().run();
 	}
 

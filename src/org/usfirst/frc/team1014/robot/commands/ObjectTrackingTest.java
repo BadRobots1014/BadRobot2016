@@ -3,13 +3,11 @@ package org.usfirst.frc.team1014.robot.commands;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
-import edu.wpi.first.wpilibj.Utility;
-
 public class ObjectTrackingTest extends CommandBase
 {
 	Runnable run;
 	Thread thread;
-	
+
 	boolean isFinishedRotate, isFinishedDrive;
 
 	public ObjectTrackingTest()
@@ -17,6 +15,7 @@ public class ObjectTrackingTest extends CommandBase
 		requires(driveTrain);
 		requires(shooter);
 	}
+
 	@Override
 	protected void initialize()
 	{
@@ -28,8 +27,8 @@ public class ObjectTrackingTest extends CommandBase
 			@Override
 			public void run()
 			{
-				for(int i = 0;i<50;i++)
-				{	
+				for(int i = 0; i < 50; i++)
+				{
 					shooter.ringLightOn();
 					try
 					{
@@ -49,9 +48,9 @@ public class ObjectTrackingTest extends CommandBase
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
-	
+
 		};
 	}
 
@@ -66,7 +65,7 @@ public class ObjectTrackingTest extends CommandBase
 	protected void end()
 	{
 		driveTrain.tankDrive(0.0f, 0.0f);
-		
+
 	}
 
 	@Override
@@ -76,7 +75,7 @@ public class ObjectTrackingTest extends CommandBase
 		{
 			if(Math.abs(ProcessedCam.getInstance().getX()) > 10)
 			{
-				double speed = (ProcessedCam.getInstance().getX()/160 > 0.4) ? ProcessedCam.getInstance().getX()/160 : 0.4;
+				double speed = (ProcessedCam.getInstance().getX() / 160 > 0.4) ? ProcessedCam.getInstance().getX() / 160 : 0.4;
 				driveTrain.tankDrive(-speed, speed);
 			}
 			else
@@ -86,7 +85,7 @@ public class ObjectTrackingTest extends CommandBase
 			}
 			if(Math.abs(ProcessedCam.getInstance().getY()) > 10)
 			{
-				double speed = (ProcessedCam.getInstance().getY()/120 > .1) ? ProcessedCam.getInstance().getY()/120 : .1;
+				double speed = (ProcessedCam.getInstance().getY() / 120 > .1) ? ProcessedCam.getInstance().getY() / 120 : .1;
 				shooter.rotate(speed);
 			}
 			else
@@ -102,9 +101,9 @@ public class ObjectTrackingTest extends CommandBase
 			isFinishedRotate = true;
 			isFinishedDrive = true;
 		}
-				
+
 		isfinished = isFinishedRotate && isFinishedDrive;
-		
+
 	}
 
 	@Override
@@ -125,9 +124,8 @@ public class ObjectTrackingTest extends CommandBase
 				thread.start();
 			}
 		}
-		
+
 		return isfinished;
 	}
-	
 
 }
