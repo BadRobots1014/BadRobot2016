@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 /**
  * This class defines how the robot drives through teleop.
@@ -42,6 +43,8 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void execute()
 	{
+		Logger.logThis("Speed: " + driveTrain.getEncoderRPM());
+		Logger.logThis("Value: " + driveTrain.getEncoderValue());
 		driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
 	}
 

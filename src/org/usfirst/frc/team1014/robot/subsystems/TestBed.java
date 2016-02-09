@@ -1,16 +1,13 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
-import org.usfirst.frc.team1014.robot.controls.ControlsManager;
-
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.SpeedController;
 
 public class TestBed extends BadSubsystem
 {
 
 	public static TestBed instance;
 
-	private SpeedController talon1, talon2;
+	private CANTalon talon2;
 
 	public TestBed()
 	{
@@ -28,24 +25,25 @@ public class TestBed extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
-		talon1 = new BadCAN(ControlsManager.BACK_LEFT_SRX, ControlsManager.encoderA, ControlsManager.encoderB);
-		talon2 = new CANTalon(ControlsManager.BACK_RIGHT_SRX);
+		// talon1 = new BadCAN(ControlsManager.BACK_LEFT_SRX, ControlsManager.encoderA,
+		// ControlsManager.encoderB);
+		talon2 = new CANTalon(6);
 	}
 
 	public void testSRX(double speed)
 	{
-		talon1.set(speed);
+		// talon1.set(speed);
 		talon2.set(speed);
 	}
 
 	public double getEncoderRPM()
 	{
-		return ((BadCAN) talon1).getRpm();
+		return talon2.getSpeed();
 	}
 
 	public double getEncoderValue()
 	{
-		return ((BadCAN) talon1).encoder.getDistance();
+		return talon2.getPosition();
 	}
 
 	@Override

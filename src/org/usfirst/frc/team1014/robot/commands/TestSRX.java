@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -35,8 +34,8 @@ public class TestSRX extends CommandBase
 	protected void execute()
 	{
 		testBed.testSRX(ControlsManager.primaryXboxController.getLeftStickY());
-		Logger.logThis("Encoder Value: " + testBed.getEncoderValue());
-		Logger.logThis("Encoder RPM: " + testBed.getEncoderRPM());
+		//Logger.logThis("Encoder Value: " + testBed.getEncoderValue());
+		//Logger.logThis("Encoder RPM: " + testBed.getEncoderRPM());
 	}
 
 	@Override
