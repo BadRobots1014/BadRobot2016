@@ -8,17 +8,17 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public class ControlsManager
 {
-	//Button Mapping
+	// Button Mapping
 	public static final int BACK_LEFT_SPEED_CONTROLLER = 1;
 	public static final int FRONT_LEFT_SPEED_CONTROLLER = 5;
 	public static final int BACK_RIGHT_SPEED_CONTROLLER = 2;
 	public static final int FRONT_RIGHT_SPEED_CONTROLLER = 6;
-	
+
 	public static final int SHOOTER_LEFT = 3;
 	public static final int SHOOTER_RIGHT = 4;
 	public static final int SHOOTER_ROTATE = 7;
 	public static final int RING_LIGHT = 9;
-	
+
 	public static final int PUSHER = 8;
 
 	// DIO

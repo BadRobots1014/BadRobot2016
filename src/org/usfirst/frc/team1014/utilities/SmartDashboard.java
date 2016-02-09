@@ -83,8 +83,8 @@ public class SmartDashboard
 		ProcessedCam.getInstance().setX(table.getNumber("OBJECT_TRACKING_X", 0.0));
 		ProcessedCam.getInstance().setY(table.getNumber("OBJECT_TRACKING_Y", 0.0));
 		ProcessedCam.getInstance().setTrackingScore(table.getNumber("OBJECT_TRACKING_SCORE", 0.0));
-		System.out.println(ProcessedCam.getInstance().getX());
-		System.out.println(ProcessedCam.getInstance().getY());
-		System.out.println(ProcessedCam.getInstance().getTrackingScore());
+		System.out.println("getX: " + ProcessedCam.getInstance().getX());
+		System.out.println("getY:" + ProcessedCam.getInstance().getY());
+		System.out.println("getScore:" + ProcessedCam.getInstance().getTrackingScore());
 	}
 }
