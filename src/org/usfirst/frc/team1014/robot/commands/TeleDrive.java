@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
-import org.usfirst.frc.team1014.robot.OI;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -44,8 +44,9 @@ public class TeleDrive extends CommandBase
 	 * again while the command is actually running.
 	 */
 	@Override
-	protected void execute() {
-		driveTrain.tankDrive(-OI.priXboxController.getLeftStickY(), -OI.priXboxController.getRightStickY());
+	protected void execute()
+	{
+		driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
 	}
 	/**
 	 * Lets the system know when to stop this command
