@@ -1,9 +1,11 @@
 package org.usfirst.frc.team1014.robot;
 
+import org.usfirst.frc.team1014.control.BadScheduler;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
-import org.usfirst.frc.team1014.robot.commands.auto.DriveForward;
+import org.usfirst.frc.team1014.robot.commands.auto.ObjectTrackingTest;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,6 +22,8 @@ public class Robot extends IterativeRobot
 {
 
 	public Command autonomousCommand;
+	public static SmartDashboard dashboard;
+	public static BadScheduler badScheduler = new BadScheduler(TeleopGroup.class);
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -27,8 +31,8 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
-		//SmartDashboard.initDashboard();
 		CommandBase.init();
+		dashboard = new SmartDashboard();
 	}
 
 	public void disabledPeriodic()
@@ -38,10 +42,9 @@ public class Robot extends IterativeRobot
 
 	public void autonomousInit()
 	{
-		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
-		Scheduler.getInstance().add(new DriveForward(6.0, .5));
+		dashboard.poll();
 	}
 
 	/**
@@ -60,7 +63,7 @@ public class Robot extends IterativeRobot
 		// this line or comment it out.
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
-		Scheduler.getInstance().add(new TeleopGroup());
+		badScheduler.initTeleop();
 	}
 
 	/**
@@ -77,6 +80,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void teleopPeriodic()
 	{
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), new ObjectTrackingTest());
 		Scheduler.getInstance().run();
 	}
 
