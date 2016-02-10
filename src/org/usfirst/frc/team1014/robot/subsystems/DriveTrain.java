@@ -21,9 +21,15 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 public class DriveTrain extends BadSubsystem
 {
 	private RobotDrive train;
+<<<<<<< HEAD
 	private static DriveTrain instance;
 	private SpeedController backLeft, frontLeft, backRight, frontRight;
 	private SpeedController ringLight;
+=======
+
+	private static DriveTrain instance;
+	private SpeedController backLeft, frontLeft, backRight, frontRight;
+>>>>>>> acc8f6065cd44963557a630d198e7046fc34d94e
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 

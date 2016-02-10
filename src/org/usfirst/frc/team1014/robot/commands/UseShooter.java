@@ -36,7 +36,6 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		// TODO Auto-generated method stub
 		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
 		{
 			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)

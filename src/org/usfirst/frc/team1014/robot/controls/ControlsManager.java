@@ -27,12 +27,42 @@ public class ControlsManager
 	public static final int RETRO_SENSOR = 0;
 
 	public static DriverStation driverStation;
-	public static XboxController primaryXboxController, secondaryXboxController;
+	public static XboxController primaryXboxController,
+			secondaryXboxController;
 
 	public static void init()
 	{
 		driverStation = DriverStation.getInstance();
 		primaryXboxController = new XboxController(0);
 		secondaryXboxController = new XboxController(1);
+	}
+
+	/**
+	 * 
+	 * @param number
+	 *            of the controller to get the layout of (1 = primary, 2 = secondary)
+	 * @return number of the layout that should be used with the current controller ( 0 = Default,
+	 *         1&2 = Alternate layouts)
+	 */
+	public static int getLayout(int controller)
+	{
+		if(controller == 1)
+		{
+			if(primaryXboxController.isLBButtonPressed())
+				return 1;
+			else if(primaryXboxController.isRBButtonPressed())
+				return 2;
+			else
+				return 0;
+		}
+		else
+		{
+			if(secondaryXboxController.isLBButtonPressed())
+				return 1;
+			else if(secondaryXboxController.isRBButtonPressed())
+				return 2;
+			else
+				return 0;
+		}
 	}
 }
