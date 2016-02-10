@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * 
- * @author someone
+ * @author Tze Hei T.
  *
  */
 public class GoOver extends CommandGroup{
