@@ -3,22 +3,25 @@ package org.usfirst.frc.team1014.robot.commands;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
+
 public class UseShooter extends CommandBase
 {
 
 	boolean usingShooter;
 	double maxSpeed;
+	double servoPos;
 
 	public UseShooter()
 	{
-		requires(shooter);
+		requires((Subsystem) shooter);
 	}
 
-	@Override
 	protected void initialize()
 	{
 		usingShooter = false;
 		maxSpeed = .5;
+		servoPos = .5;
 
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
@@ -33,33 +36,32 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		if(ControlsManager.secondaryXboxController.isXButtonPressed())
-			usingShooter = true;
-		else if(ControlsManager.secondaryXboxController.isBButtonPressed())
-			usingShooter = false;
-
-		if(ControlsManager.secondaryXboxController.isAButtonPressed() || ControlsManager.secondaryXboxController.isYButtonPressed())
+		// TODO Auto-generated method stub
+		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
 		{
-			if(ControlsManager.secondaryXboxController.isAButtonPressed() && maxSpeed > .5)
+			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)
 				maxSpeed -= .1;
-			else if(ControlsManager.secondaryXboxController.isYButtonPressed() && maxSpeed < 1.0)
+			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
 
-		if(usingShooter)
+		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
+			shooter.ringLightOn();
+
+		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
+
+		if(ControlsManager.secondaryXboxController.isAButtonPressed())
 		{
-			shooter.shoot(scaleSpeed(ControlsManager.secondaryXboxController.getLeftStickY()));
+			servoPos = .65;
 		}
 		else
 		{
-			shooter.grab(scaleSpeed(ControlsManager.secondaryXboxController.getLeftStickY()));
+			servoPos = .25;
 		}
 
-		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.0)
-			shooter.rotate(ControlsManager.secondaryXboxController.getLeftTrigger());
-		else if(ControlsManager.secondaryXboxController.getRightTrigger() > 0.0)
-			shooter.rotate(ControlsManager.secondaryXboxController.getRightTrigger());
+		shooter.driveServo(servoPos);
 
+		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY());
 	}
 
 	public double scaleSpeed(double speed)

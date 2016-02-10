@@ -41,8 +41,9 @@ public abstract class CommandBase extends Command
 		super();
 	}
 
-	@Override
 	protected abstract void initialize();
 
 	public abstract String getConsoleIdentity();
+
+	public boolean isfinished = false;
 }

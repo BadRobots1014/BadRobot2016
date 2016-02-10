@@ -3,11 +3,11 @@ package org.usfirst.frc.team1014.robot.subsystems;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -21,8 +21,9 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 public class DriveTrain extends BadSubsystem
 {
 	private RobotDrive train;
+
 	private static DriveTrain instance;
-	private Talon backLeft, frontLeft, backRight, frontRight;
+	private SpeedController backLeft, frontLeft, backRight, frontRight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 
@@ -49,16 +50,15 @@ public class DriveTrain extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
-		Logger.log(Logger.Level.Debug, "0001", "out message");
 		backLeft = new Talon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER);
 		frontLeft = new Talon(ControlsManager.FRONT_LEFT_SPEED_CONTROLLER);
 		backRight = new Talon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER);
 		frontRight = new Talon(ControlsManager.FRONT_RIGHT_SPEED_CONTROLLER);
 
 		lidar = new LIDAR(Port.kMXP);
-		ultrasonic = new Ultrasonic(ControlsManager.ULTRA_PING, ControlsManager.ULTRA_ECHO);
-		ultrasonic.setEnabled(true);
-		ultrasonic.setAutomaticMode(true);
+
+		// ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
+		// ultrasonic.setEnabled(true); ultrasonic.setAutomaticMode(true);
 
 		// mxp stuff
 		serialPort = new SerialPort(57600, SerialPort.Port.kMXP);
@@ -76,12 +76,6 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
-	/*
-	 * public void turnOnRingLight() { ringLight.set(.1); }
-	 * 
-	 * public void turnOffRingLight() { ringLight.set(0.0); }
-	 */
-
 	public double getLIDARDistance()
 	{
 		lidar.updateDistance();
@@ -97,7 +91,7 @@ public class DriveTrain extends BadSubsystem
 
 	public double getAngle()// return -180 - 180
 	{
-		return mxp.getYaw();
+		return (double) mxp.getYaw();
 	}
 
 	public double getAngle360() // returns 0 -360
