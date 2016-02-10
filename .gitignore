@@ -1,11 +1,34 @@
+<<<<<<< HEAD
 *.class
 *~
 
+=======
+<<<<<<< HEAD
+/OI.class
+/Robot.class
+/RobotMap.class
+.classpath
+.settings/org.eclipse.jdt.ui.prefs
+bin/
+.settings/
+/bin/
+build/
+dist/
+=======
+/OI.class
+/Robot.class
+/RobotMap.class
+>>>>>>> 9ba6ac359b0a7d2b93d4a08ab4c17a7ed38a851f
 .classpath
 .settings/
 
 bin/
 build/
 dist/
+<<<<<<< HEAD
 
 sysProps.xml
+=======
+sysProps.xml
+>>>>>>> master
+>>>>>>> 9ba6ac359b0a7d2b93d4a08ab4c17a7ed38a851f

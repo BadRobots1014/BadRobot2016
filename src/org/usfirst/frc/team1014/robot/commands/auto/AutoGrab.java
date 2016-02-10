@@ -10,19 +10,19 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * @author Vaarun N.
  *
  */
-public class AutoGrab extends CommandBase{
+public class AutoGrab extends CommandBase {
 
-	double speed; 
+	double speed;
 	double time;
-	
-	public AutoGrab (double speed) {
-		this.speed = speed ;
+
+	public AutoGrab(double speed) {
+		this.speed = speed;
 		requires((Subsystem) shooter);
 	}
-	
+
 	@Override
 	protected void initialize() {
-		shooter.grab(0);		
+		shooter.grab(0);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class AutoGrab extends CommandBase{
 	@Override
 	protected void end() {
 		shooter.grab(0);
-		
+
 	}
 
 	@Override
@@ -49,12 +49,11 @@ public class AutoGrab extends CommandBase{
 
 	@Override
 	protected boolean isFinished() {
-		if (time-1000<0) {
-		return true;
-		}
-		else 	{
+		if (time - 1000 < 0) {
+			return true;
+		} else {
 			return false;
 		}
-		
+
 	}
 }
