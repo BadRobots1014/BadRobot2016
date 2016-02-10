@@ -8,19 +8,16 @@ import edu.wpi.first.wpilibj.Talon;
  * @author Tze Hei T.
  *
  */
-public class BadTalon extends Talon
-{
+public class BadTalon extends Talon {
 
 	public Encoder encoder;
 
-	public BadTalon(int talonPWM, int aChannel, int bChannel)
-	{
+	public BadTalon(int talonPWM, int aChannel, int bChannel) {
 		super(talonPWM);
 		encoder = new Encoder(aChannel, bChannel);
 	}
 
-	public double getRpm()
-	{
+	public double getRpm() {
 		return encoder.getRate() * 60;
 	}
 }

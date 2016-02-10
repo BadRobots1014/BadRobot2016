@@ -23,15 +23,15 @@
  */
 package org.usfirst.frc.team1014.robot.sensors;
 
-public class IMUProtocol
-{
+public class IMUProtocol {
 
 	public final static byte PACKET_START_CHAR = '!';
 	final static int PROTOCOL_FLOAT_LENGTH = 7;
 	final static int CHECKSUM_LENGTH = 2;
 	final static int TERMINATOR_LENGTH = 2;
 
-	// Yaw/Pitch/Roll (YPR) Update Packet - e.g., !y[yaw][pitch][roll][checksum][cr][lf]
+	// Yaw/Pitch/Roll (YPR) Update Packet - e.g.,
+	// !y[yaw][pitch][roll][checksum][cr][lf]
 	public final static byte MSGID_YPR_UPDATE = 'y';
 	final static int YPR_UPDATE_MESSAGE_LENGTH = 34;
 	final static int YPR_UPDATE_YAW_VALUE_INDEX = 2;
@@ -88,7 +88,8 @@ public class IMUProtocol
 	final static int STREAM_CMD_CHECKSUM_INDEX = 5;
 	final static int STREAM_CMD_TERMINATOR_INDEX = 7;
 
-	// EnableStream Response Packet - e.g., !s[stream type][gyro full scale range][accel full scale
+	// EnableStream Response Packet - e.g., !s[stream type][gyro full scale
+	// range][accel full scale
 	// range][update rate hz][yaw_offset_degrees][flags][checksum][cr][lf]
 	public final static byte MSG_ID_STREAM_RESPONSE = 's';
 	final static int STREAM_RESPONSE_MESSAGE_LENGTH = 46;
@@ -115,8 +116,7 @@ public class IMUProtocol
 
 	public final static int IMU_PROTOCOL_MAX_MESSAGE_LENGTH = QUATERNION_UPDATE_MESSAGE_LENGTH;
 
-	static public class YPRUpdate
-	{
+	static public class YPRUpdate {
 
 		public float yaw;
 		public float pitch;
@@ -124,14 +124,12 @@ public class IMUProtocol
 		public float compass_heading;
 	}
 
-	static public class StreamCommand
-	{
+	static public class StreamCommand {
 
 		public byte stream_type;
 	}
 
-	static public class StreamResponse
-	{
+	static public class StreamResponse {
 
 		public byte stream_type;
 		public short gyro_fsr_dps;
@@ -145,8 +143,7 @@ public class IMUProtocol
 		public short flags;
 	}
 
-	static public class QuaternionUpdate
-	{
+	static public class QuaternionUpdate {
 
 		public short q1;
 		public short q2;
@@ -161,8 +158,7 @@ public class IMUProtocol
 		public float temp_c;
 	}
 
-	static public class GyroUpdate
-	{
+	static public class GyroUpdate {
 
 		public short gyro_x;
 		public short gyro_y;
@@ -176,8 +172,7 @@ public class IMUProtocol
 		public float temp_c;
 	}
 
-	public static int encodeStreamCommand(byte[] protocol_buffer, byte stream_type, byte update_rate_hz)
-	{
+	public static int encodeStreamCommand(byte[] protocol_buffer, byte stream_type, byte update_rate_hz) {
 		// Header
 		protocol_buffer[0] = PACKET_START_CHAR;
 		protocol_buffer[1] = MSGID_STREAM_CMD;
@@ -192,17 +187,13 @@ public class IMUProtocol
 		return STREAM_CMD_MESSAGE_LENGTH;
 	}
 
-	public static int decodeStreamResponse(byte[] buffer, int offset, int length, StreamResponse r)
-	{
+	public static int decodeStreamResponse(byte[] buffer, int offset, int length, StreamResponse r) {
 
-		if(length < STREAM_RESPONSE_MESSAGE_LENGTH)
-		{
+		if (length < STREAM_RESPONSE_MESSAGE_LENGTH) {
 			return 0;
 		}
-		if((buffer[offset + 0] == PACKET_START_CHAR) && (buffer[offset + 1] == MSG_ID_STREAM_RESPONSE))
-		{
-			if(!verifyChecksum(buffer, offset + STREAM_RESPONSE_CHECKSUM_INDEX))
-			{
+		if ((buffer[offset + 0] == PACKET_START_CHAR) && (buffer[offset + 1] == MSG_ID_STREAM_RESPONSE)) {
+			if (!verifyChecksum(buffer, offset + STREAM_RESPONSE_CHECKSUM_INDEX)) {
 				return 0;
 			}
 
@@ -222,16 +213,12 @@ public class IMUProtocol
 		return 0;
 	}
 
-	public static int decodeStreamCommand(byte[] buffer, int offset, int length, StreamCommand c)
-	{
-		if(length < STREAM_CMD_MESSAGE_LENGTH)
-		{
+	public static int decodeStreamCommand(byte[] buffer, int offset, int length, StreamCommand c) {
+		if (length < STREAM_CMD_MESSAGE_LENGTH) {
 			return 0;
 		}
-		if((buffer[offset + 0] == '!') && (buffer[offset + 1] == MSGID_STREAM_CMD))
-		{
-			if(!verifyChecksum(buffer, offset + STREAM_CMD_CHECKSUM_INDEX))
-			{
+		if ((buffer[offset + 0] == '!') && (buffer[offset + 1] == MSGID_STREAM_CMD)) {
+			if (!verifyChecksum(buffer, offset + STREAM_CMD_CHECKSUM_INDEX)) {
 				return 0;
 			}
 
@@ -241,16 +228,12 @@ public class IMUProtocol
 		return 0;
 	}
 
-	public static int decodeYPRUpdate(byte[] buffer, int offset, int length, YPRUpdate u)
-	{
-		if(length < YPR_UPDATE_MESSAGE_LENGTH)
-		{
+	public static int decodeYPRUpdate(byte[] buffer, int offset, int length, YPRUpdate u) {
+		if (length < YPR_UPDATE_MESSAGE_LENGTH) {
 			return 0;
 		}
-		if((buffer[offset + 0] == '!') && (buffer[offset + 1] == 'y'))
-		{
-			if(!verifyChecksum(buffer, offset + YPR_UPDATE_CHECKSUM_INDEX))
-			{
+		if ((buffer[offset + 0] == '!') && (buffer[offset + 1] == 'y')) {
+			if (!verifyChecksum(buffer, offset + YPR_UPDATE_CHECKSUM_INDEX)) {
 				return 0;
 			}
 
@@ -263,16 +246,12 @@ public class IMUProtocol
 		return 0;
 	}
 
-	public static int decodeQuaternionUpdate(byte[] buffer, int offset, int length, QuaternionUpdate u)
-	{
-		if(length < QUATERNION_UPDATE_MESSAGE_LENGTH)
-		{
+	public static int decodeQuaternionUpdate(byte[] buffer, int offset, int length, QuaternionUpdate u) {
+		if (length < QUATERNION_UPDATE_MESSAGE_LENGTH) {
 			return 0;
 		}
-		if((buffer[offset + 0] == PACKET_START_CHAR) && (buffer[offset + 1] == MSGID_QUATERNION_UPDATE))
-		{
-			if(!verifyChecksum(buffer, offset + QUATERNION_UPDATE_CHECKSUM_INDEX))
-			{
+		if ((buffer[offset + 0] == PACKET_START_CHAR) && (buffer[offset + 1] == MSGID_QUATERNION_UPDATE)) {
+			if (!verifyChecksum(buffer, offset + QUATERNION_UPDATE_CHECKSUM_INDEX)) {
 				return 0;
 			}
 
@@ -292,16 +271,12 @@ public class IMUProtocol
 		return 0;
 	}
 
-	public static int decodeGyroUpdate(byte[] buffer, int offset, int length, GyroUpdate u)
-	{
-		if(length < GYRO_UPDATE_MESSAGE_LENGTH)
-		{
+	public static int decodeGyroUpdate(byte[] buffer, int offset, int length, GyroUpdate u) {
+		if (length < GYRO_UPDATE_MESSAGE_LENGTH) {
 			return 0;
 		}
-		if((buffer[offset + 0] == PACKET_START_CHAR) && (buffer[offset + 1] == MSGID_GYRO_UPDATE))
-		{
-			if(!verifyChecksum(buffer, offset + GYRO_UPDATE_CHECKSUM_INDEX))
-			{
+		if ((buffer[offset + 0] == PACKET_START_CHAR) && (buffer[offset + 1] == MSGID_GYRO_UPDATE)) {
+			if (!verifyChecksum(buffer, offset + GYRO_UPDATE_CHECKSUM_INDEX)) {
 				return 0;
 			}
 
@@ -320,14 +295,12 @@ public class IMUProtocol
 		return 0;
 	}
 
-	public static void encodeTermination(byte[] buffer, int total_length, int content_length)
-	{
-		if((total_length >= (CHECKSUM_LENGTH + TERMINATOR_LENGTH)) && (total_length >= content_length + (CHECKSUM_LENGTH + TERMINATOR_LENGTH)))
-		{
+	public static void encodeTermination(byte[] buffer, int total_length, int content_length) {
+		if ((total_length >= (CHECKSUM_LENGTH + TERMINATOR_LENGTH))
+				&& (total_length >= content_length + (CHECKSUM_LENGTH + TERMINATOR_LENGTH))) {
 			// Checksum
 			byte checksum = 0;
-			for(int i = 0; i < content_length; i++)
-			{
+			for (int i = 0; i < content_length; i++) {
 				checksum += buffer[i];
 			}
 			// convert checksum to two ascii bytes
@@ -339,21 +312,20 @@ public class IMUProtocol
 		}
 	}
 
-	final protected static byte[] hexArray = new byte[] { (byte) '0', (byte) '1', (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6', (byte) '7', (byte) '8', (byte) '9', (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F' };
+	final protected static byte[] hexArray = new byte[] { (byte) '0', (byte) '1', (byte) '2', (byte) '3', (byte) '4',
+			(byte) '5', (byte) '6', (byte) '7', (byte) '8', (byte) '9', (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D',
+			(byte) 'E', (byte) 'F' };
 
-	public static void byteToHex(byte thebyte, byte[] dest, int offset)
-	{
+	public static void byteToHex(byte thebyte, byte[] dest, int offset) {
 		int v = thebyte & 0xFF;
 		dest[offset + 0] = hexArray[v >> 4];
 		dest[offset + 1] = hexArray[v & 0x0F];
 	}
 
-	public static short decodeProtocolUint16(byte[] uint16_string, int offset)
-	{
+	public static short decodeProtocolUint16(byte[] uint16_string, int offset) {
 		short decoded_uint16 = 0;
 		int shift_left = 12;
-		for(int i = offset + 0; i < offset + 4; i++)
-		{
+		for (int i = offset + 0; i < offset + 4; i++) {
 			byte digit = (byte) (uint16_string[i] <= '9' ? uint16_string[i] - '0' : ((uint16_string[i] - 'A') + 10));
 			decoded_uint16 += ((digit) << shift_left);
 			shift_left -= 4;
@@ -361,31 +333,29 @@ public class IMUProtocol
 		return decoded_uint16;
 	}
 
-	public static boolean verifyChecksum(byte[] buffer, int content_length)
-	{
+	public static boolean verifyChecksum(byte[] buffer, int content_length) {
 		// Calculate Checksum
 		byte checksum = 0;
-		for(int i = 0; i < content_length; i++)
-		{
+		for (int i = 0; i < content_length; i++) {
 			checksum += buffer[i];
 		}
 
 		// Decode Checksum
 		byte decoded_checksum = decodeUint8(buffer, content_length);
 
-		return(checksum == decoded_checksum);
+		return (checksum == decoded_checksum);
 	}
 
-	public static byte decodeUint8(byte[] checksum, int offset)
-	{
-		byte first_digit = (byte) (checksum[0 + offset] <= '9' ? checksum[0 + offset] - '0' : ((checksum[0 + offset] - 'A') + 10));
-		byte second_digit = (byte) (checksum[1 + offset] <= '9' ? checksum[1 + offset] - '0' : ((checksum[1 + offset] - 'A') + 10));
+	public static byte decodeUint8(byte[] checksum, int offset) {
+		byte first_digit = (byte) (checksum[0 + offset] <= '9' ? checksum[0 + offset] - '0'
+				: ((checksum[0 + offset] - 'A') + 10));
+		byte second_digit = (byte) (checksum[1 + offset] <= '9' ? checksum[1 + offset] - '0'
+				: ((checksum[1 + offset] - 'A') + 10));
 		byte decoded_checksum = (byte) ((first_digit * 16) + second_digit);
 		return decoded_checksum;
 	}
 
-	public static float decodeProtocolFloat(byte[] buffer, int offset)
-	{
+	public static float decodeProtocolFloat(byte[] buffer, int offset) {
 		String float_string = new String(buffer, offset, PROTOCOL_FLOAT_LENGTH);
 		return Float.parseFloat(float_string);
 	}

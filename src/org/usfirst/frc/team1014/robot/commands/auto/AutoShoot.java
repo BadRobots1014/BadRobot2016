@@ -24,7 +24,11 @@ public class AutoShoot extends CommandBase{
 		this.time = time * 1000000;
 		requires((Subsystem) shooter);
 	}
+
 	
+
+
+
 	@Override
 	protected void initialize() {
 		shooter.shoot(0);	
@@ -40,7 +44,7 @@ public class AutoShoot extends CommandBase{
 	@Override
 	protected void end() {
 		shooter.shoot(0);
-		
+
 	}
 
 	@Override
@@ -53,15 +57,14 @@ public class AutoShoot extends CommandBase{
 	protected void interrupted() {
 		System.out.print("Shooter was interrupted");
 	}
-
+	
 	@Override
 	protected boolean isFinished() {
-		if (currentTime >= endingTime) {
+
+		if (currentTime >= endingTime) 
 			return true;
-		}
-		else {
+		else 
 			return false;
-		}
-		
 	}
 }
+

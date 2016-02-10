@@ -44,7 +44,7 @@ public class AutoGrab extends CommandBase{
 	@Override
 	protected void end() {
 		shooter.grab(0);
-		
+
 	}
 
 	@Override
@@ -66,6 +66,6 @@ public class AutoGrab extends CommandBase{
 		else {
 			return false;
 		}
-		
+
 	}
 }

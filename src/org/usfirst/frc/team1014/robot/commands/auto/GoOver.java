@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * @author Tze Hei T.
  *
  */
-public class GoOver extends CommandGroup{
-	
-	public GoOver(){
-		
+public class GoOver extends CommandGroup {
+
+	public GoOver() {
+
 		this.addSequential(new DriveForwardDistance(1, 132));
-		
+
 	}
 
 }
