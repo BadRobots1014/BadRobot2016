@@ -65,7 +65,7 @@ public class AutoTurn extends CommandBase {
 
 	public double rotation() {
 		return (difference / rotationCoefficient);
-		//Scales difference to a smaller value for the drivetrain
+		// Scales difference to a smaller value for the drivetrain
 	}
 
 	@Override
