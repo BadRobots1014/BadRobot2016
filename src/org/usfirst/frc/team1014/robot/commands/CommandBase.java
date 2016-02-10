@@ -7,16 +7,14 @@ import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public abstract class CommandBase extends Command
-{
+public abstract class CommandBase extends Command {
 
 	public static DriveTrain driveTrain;
 	public static ShooterAndGrabber shooter;
 
 	// The subsystems on the final robot go here
 
-	public static void init()
-	{
+	public static void init() {
 		// Final Subsystems
 
 		driveTrain = DriveTrain.getInstance();
@@ -31,13 +29,11 @@ public abstract class CommandBase extends Command
 		ControlsManager.init();
 	}
 
-	public CommandBase(String name)
-	{
+	public CommandBase(String name) {
 		super(name);
 	}
 
-	public CommandBase()
-	{
+	public CommandBase() {
 		super();
 	}
 

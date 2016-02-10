@@ -7,10 +7,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * @author Tze Hei T.
  *
  */
-public class ShootAndComeBack extends CommandGroup
-{
-	public ShootAndComeBack()
-	{
+public class ShootAndComeBack extends CommandGroup {
+	public ShootAndComeBack() {
 		this.addSequential(new DriveForwardDistance(1, 132));
 		this.addSequential(new AutoTurn(90));
 		this.addSequential(new DriveForward(.5, 1));
@@ -20,6 +18,6 @@ public class ShootAndComeBack extends CommandGroup
 		this.addSequential(new DriveForward(.5, 1));
 		this.addSequential(new AutoTurn(-90));
 		this.addSequential(new DriveForward(2, 1));
-	
+
 	}
 }

@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class TeleopGroup extends CommandGroup {
 
-	public TeleopGroup()
-	{
+	public TeleopGroup() {
 		this.addParallel(new TeleDrive());
 		this.addParallel(new UseShooter());
 	}
