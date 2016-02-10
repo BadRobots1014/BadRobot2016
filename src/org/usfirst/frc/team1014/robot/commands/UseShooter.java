@@ -49,6 +49,8 @@ public class UseShooter extends CommandBase
 			shooter.ringLightOn();
 
 		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
+		Logger.logThis("Shooting RPM: " + shooter.getShootingRPM());
+		Logger.logThis("Input: " + ControlsManager.secondaryXboxController.getLeftStickY());
 
 		if(ControlsManager.secondaryXboxController.isAButtonPressed())
 		{

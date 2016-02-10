@@ -48,7 +48,6 @@ public class TeleDrive extends CommandBase
 	protected void execute()
 	{
 		driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
-		Logger.logThis("Sonic distance: " + driveTrain.getMaxbotixDistance());
 	}
 	
 	/**

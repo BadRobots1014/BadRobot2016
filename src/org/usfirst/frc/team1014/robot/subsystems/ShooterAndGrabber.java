@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -25,7 +26,8 @@ public class ShooterAndGrabber extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
-		left = new Talon(ControlsManager.SHOOTER_LEFT);
+		left = new BadTalon(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_ENCODER_A,
+				ControlsManager.SHOOTER_ENCODER_B);
 		right = new Talon(ControlsManager.SHOOTER_RIGHT);
 		rotator = new Talon(ControlsManager.SHOOTER_ROTATE);
 		ringLight = new Talon(ControlsManager.RING_LIGHT);
@@ -33,6 +35,11 @@ public class ShooterAndGrabber extends BadSubsystem
 		pusher.set(.4);
 	}
 
+	public double getShootingRPM()
+	{
+		return ((BadTalon) left).getRpm();
+	}
+	
 	public void rotate(double speed)
 	{
 		rotator.set(speed);
