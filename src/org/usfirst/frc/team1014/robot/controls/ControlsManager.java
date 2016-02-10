@@ -20,11 +20,13 @@ public class ControlsManager
 	public static final int RING_LIGHT = 9;
 	
 	public static final int PUSHER = 8;
-
-	// DIO
-	public static final int ULTRA_PING = 1;
-	public static final int ULTRA_ECHO = 2;
-	public static final int RETRO_SENSOR = 0;
+	
+	//DIO
+	public static final int SHOOTER_ENCODER_A = 8;
+	public static final int SHOOTER_ENCODER_B = 9;
+	
+	// Analog In
+	public static final int MAXBOTIX_ULTRASONIC = 0;
 
 	public static DriverStation driverStation;
 	public static XboxController primaryXboxController, secondaryXboxController;
