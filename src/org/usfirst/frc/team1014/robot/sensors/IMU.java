@@ -24,15 +24,15 @@ import edu.wpi.first.wpilibj.tables.ITable;
 /**
  * The IMU class provides a simplified interface to the KauaiLabs nav6 IMU.
  * 
- * The IMU class enables access to basic connectivity and state information, as
- * well as key orientation information (yaw, pitch, roll, compass heading).
+ * The IMU class enables access to basic connectivity and state information, as well as key
+ * orientation information (yaw, pitch, roll, compass heading).
  * 
- * Advanced capabilities of the nav6 IMU may be accessed via the IMUAdvanced
- * class.
+ * Advanced capabilities of the nav6 IMU may be accessed via the IMUAdvanced class.
  * 
  * @author Scott
  */
-public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Runnable {
+public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Runnable
+{
 
 	static final int YAW_HISTORY_LENGTH = 10;
 	static final byte DEFAULT_UPDATE_RATE_HZ = 100;
@@ -64,9 +64,8 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 	protected byte update_type = IMUProtocol.MSGID_YPR_UPDATE;
 
 	/**
-	 * Constructs the IMU class, overriding the default update rate with a
-	 * custom rate which may be from 4 to 100, representing the number of
-	 * updates per second sent by the nav6 IMU.
+	 * Constructs the IMU class, overriding the default update rate with a custom rate which may be
+	 * from 4 to 100, representing the number of updates per second sent by the nav6 IMU.
 	 * 
 	 * Note that increasing the update rate may increase the CPU utilization.
 	 * 
@@ -75,7 +74,8 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 	 * @param update_rate_hz
 	 *            Custom Update Rate (Hz)
 	 */
-	public IMU(SerialPort serial_port, byte update_rate_hz) {
+	public IMU(SerialPort serial_port, byte update_rate_hz)
+	{
 		ypr_update_data = new IMUProtocol.YPRUpdate();
 		this.update_rate_hz = update_rate_hz;
 		flags = 0;
@@ -86,9 +86,11 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 		yaw = (float) 0.0;
 		pitch = (float) 0.0;
 		roll = (float) 0.0;
-		try {
+		try
+		{
 			serial_port.reset();
-		} catch (RuntimeException ex) {
+		} catch(RuntimeException ex)
+		{
 			ex.printStackTrace();
 		}
 		initIMU();
@@ -102,11 +104,13 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 	 * @param serial_port
 	 *            BufferingSerialPort object to use
 	 */
-	public IMU(SerialPort serial_port) {
+	public IMU(SerialPort serial_port)
+	{
 		this(serial_port, DEFAULT_UPDATE_RATE_HZ);
 	}
 
-	protected void initIMU() {
+	protected void initIMU()
+	{
 
 		// The nav6 IMU serial port configuration is 8 data bits, no parity, one
 		// stop bit.
@@ -126,14 +130,17 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 		// set the nav6 into the desired update mode
 		byte stream_command_buffer[] = new byte[256];
 		int packet_length = IMUProtocol.encodeStreamCommand(stream_command_buffer, update_type, update_rate_hz);
-		try {
+		try
+		{
 			serial_port.write(stream_command_buffer, packet_length);
-		} catch (RuntimeException ex) {
+		} catch(RuntimeException ex)
+		{
 			ex.printStackTrace();
 		}
 	}
 
-	protected void setStreamResponse(IMUProtocol.StreamResponse response) {
+	protected void setStreamResponse(IMUProtocol.StreamResponse response)
+	{
 
 		flags = response.flags;
 		nav6_yaw_offset_degrees = response.yaw_offset_degrees;
@@ -142,14 +149,16 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 		update_rate_hz = (byte) response.update_rate_hz;
 	}
 
-	private void initializeYawHistory() {
+	private void initializeYawHistory()
+	{
 
 		Arrays.fill(yaw_history, 0);
 		next_yaw_history_index = 0;
 		last_update_time = 0.0;
 	}
 
-	private void setYawPitchRoll(float yaw, float pitch, float roll, float compass_heading) {
+	private void setYawPitchRoll(float yaw, float pitch, float roll, float compass_heading)
+	{
 
 		this.yaw = yaw;
 		this.pitch = pitch;
@@ -159,9 +168,11 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 		updateYawHistory(this.yaw);
 	}
 
-	protected void updateYawHistory(float curr_yaw) {
+	protected void updateYawHistory(float curr_yaw)
+	{
 
-		if (next_yaw_history_index >= YAW_HISTORY_LENGTH) {
+		if(next_yaw_history_index >= YAW_HISTORY_LENGTH)
+		{
 			next_yaw_history_index = 0;
 		}
 		yaw_history[next_yaw_history_index] = curr_yaw;
@@ -169,10 +180,12 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 		next_yaw_history_index++;
 	}
 
-	private double getAverageFromYawHistory() {
+	private double getAverageFromYawHistory()
+	{
 
 		double yaw_history_sum = 0.0;
-		for (int i = 0; i < YAW_HISTORY_LENGTH; i++) {
+		for(int i = 0; i < YAW_HISTORY_LENGTH; i++)
+		{
 			yaw_history_sum += yaw_history[i];
 		}
 		double yaw_history_avg = yaw_history_sum / YAW_HISTORY_LENGTH;
@@ -180,159 +193,169 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 	}
 
 	/**
-	 * Returns the current pitch value (in degrees, from -180 to 180) reported
-	 * by the nav6 IMU.
+	 * Returns the current pitch value (in degrees, from -180 to 180) reported by the nav6 IMU.
 	 * 
 	 * @return The current pitch value in degrees (-180 to 180).
 	 */
-	public float getPitch() {
+	public float getPitch()
+	{
 		return pitch;
 	}
 
 	/**
-	 * Returns the current roll value (in degrees, from -180 to 180) reported by
-	 * the nav6 IMU.
+	 * Returns the current roll value (in degrees, from -180 to 180) reported by the nav6 IMU.
 	 * 
 	 * @return The current roll value in degrees (-180 to 180).
 	 */
-	public float getRoll() {
+	public float getRoll()
+	{
 		return roll;
 	}
 
 	/**
-	 * Returns the current yaw value (in degrees, from -180 to 180) reported by
-	 * the nav6 IMU.
+	 * Returns the current yaw value (in degrees, from -180 to 180) reported by the nav6 IMU.
 	 * 
-	 * Note that the returned yaw value will be offset by a user-specified
-	 * offset value; this user-specified offset value is set by invoking the
-	 * zeroYaw() method.
+	 * Note that the returned yaw value will be offset by a user-specified offset value; this
+	 * user-specified offset value is set by invoking the zeroYaw() method.
 	 * 
 	 * @return The current yaw value in degrees (-180 to 180).
 	 */
-	public float getYaw() {
+	public float getYaw()
+	{
 		float calculated_yaw = (float) (this.yaw - user_yaw_offset);
-		if (calculated_yaw < -180) {
+		if(calculated_yaw < -180)
+		{
 			calculated_yaw += 360;
 		}
-		if (calculated_yaw > 180) {
+		if(calculated_yaw > 180)
+		{
 			calculated_yaw -= 360;
 		}
 		return calculated_yaw;
 	}
 
 	/**
-	 * Returns the current tilt-compensated compass heading value (in degrees,
-	 * from 0 to 360) reported by the nav6 IMU.
+	 * Returns the current tilt-compensated compass heading value (in degrees, from 0 to 360)
+	 * reported by the nav6 IMU.
 	 * 
-	 * Note that this value is sensed by the nav6 magnetometer, which can be
-	 * affected by nearby magnetic fields (e.g., the magnetic fields generated
-	 * by nearby motors).
+	 * Note that this value is sensed by the nav6 magnetometer, which can be affected by nearby
+	 * magnetic fields (e.g., the magnetic fields generated by nearby motors).
 	 * 
 	 * @return The current tilt-compensated compass heading, in degrees (0-360).
 	 */
-	public float getCompassHeading() {
+	public float getCompassHeading()
+	{
 		return compass_heading;
 	}
 
 	/**
-	 * Sets the user-specified yaw offset to the current yaw value reported by
-	 * the nav6 IMU.
+	 * Sets the user-specified yaw offset to the current yaw value reported by the nav6 IMU.
 	 * 
-	 * This user-specified yaw offset is automatically subtracted from
-	 * subsequent yaw values reported by the getYaw() method.
+	 * This user-specified yaw offset is automatically subtracted from subsequent yaw values
+	 * reported by the getYaw() method.
 	 */
-	public void zeroYaw() {
+	public void zeroYaw()
+	{
 		user_yaw_offset = getAverageFromYawHistory();
 	}
 
 	/**
-	 * Indicates whether the nav6 IMU is currently connected to the host
-	 * computer. A connection is considered established whenever a value update
-	 * packet has been received from the nav6 IMU within the last second.
+	 * Indicates whether the nav6 IMU is currently connected to the host computer. A connection is
+	 * considered established whenever a value update packet has been received from the nav6 IMU
+	 * within the last second.
 	 * 
-	 * @return Returns true if a valid update has been received within the last
-	 *         second.
+	 * @return Returns true if a valid update has been received within the last second.
 	 */
-	public boolean isConnected() {
+	public boolean isConnected()
+	{
 		double time_since_last_update = Timer.getFPGATimestamp() - this.last_update_time;
 		return time_since_last_update <= 1.0;
 	}
 
 	/**
-	 * Returns the count in bytes of data received from the nav6 IMU. This could
-	 * can be useful for diagnosing connectivity issues.
+	 * Returns the count in bytes of data received from the nav6 IMU. This could can be useful for
+	 * diagnosing connectivity issues.
 	 * 
-	 * If the byte count is increasing, but the update count (see
-	 * getUpdateCount()) is not, this indicates a software misconfiguration.
+	 * If the byte count is increasing, but the update count (see getUpdateCount()) is not, this
+	 * indicates a software misconfiguration.
 	 * 
 	 * @return The number of bytes received from the nav6 IMU.
 	 */
-	public double getByteCount() {
+	public double getByteCount()
+	{
 		return byte_count;
 	}
 
 	/**
-	 * Returns the count of valid update packets which have been received from
-	 * the nav6 IMU. This count should increase at the same rate indicated by
-	 * the configured update rate.
+	 * Returns the count of valid update packets which have been received from the nav6 IMU. This
+	 * count should increase at the same rate indicated by the configured update rate.
 	 * 
 	 * @return The number of valid updates received from the nav6 IMU.
 	 */
-	public double getUpdateCount() {
+	public double getUpdateCount()
+	{
 		return update_count;
 	}
 
 	/**
-	 * Returns true if the nav6 IMU is currently performing automatic
-	 * calibration. Automatic calibration occurs when the nav6 IMU is initially
-	 * powered on, during which time the nav6 IMU should be held still.
+	 * Returns true if the nav6 IMU is currently performing automatic calibration. Automatic
+	 * calibration occurs when the nav6 IMU is initially powered on, during which time the nav6 IMU
+	 * should be held still.
 	 * 
-	 * During this automatically calibration, the yaw, pitch and roll values
-	 * returned may not be accurate.
+	 * During this automatically calibration, the yaw, pitch and roll values returned may not be
+	 * accurate.
 	 * 
-	 * Once complete, the nav6 IMU will automatically remove an internal yaw
-	 * offset value from all reported values.
+	 * Once complete, the nav6 IMU will automatically remove an internal yaw offset value from all
+	 * reported values.
 	 * 
 	 * @return Returns true if the nav6 IMU is currently calibrating.
 	 */
-	public boolean isCalibrating() {
+	public boolean isCalibrating()
+	{
 		short calibration_state = (short) (this.flags & IMUProtocol.NAV6_FLAG_MASK_CALIBRATION_STATE);
-		return (calibration_state != IMUProtocol.NAV6_CALIBRATION_STATE_COMPLETE);
+		return(calibration_state != IMUProtocol.NAV6_CALIBRATION_STATE_COMPLETE);
 	}
 
 	/**
-	 * Returns the current yaw value reported by the nav6 IMU. This yaw value is
-	 * useful for implementing features including "auto rotate to a known
-	 * angle".
+	 * Returns the current yaw value reported by the nav6 IMU. This yaw value is useful for
+	 * implementing features including "auto rotate to a known angle".
 	 * 
 	 * @return The current yaw angle in degrees (-180 to 180).
 	 */
-	public double pidGet() {
+	public double pidGet()
+	{
 		return getYaw();
 	}
 
-	public void updateTable() {
-		if (m_table != null) {
+	public void updateTable()
+	{
+		if(m_table != null)
+		{
 			m_table.putNumber("Value", getYaw());
 		}
 	}
 
-	public void startLiveWindowMode() {
+	public void startLiveWindowMode()
+	{
 	}
 
-	public void stopLiveWindowMode() {
+	public void stopLiveWindowMode()
+	{
 	}
 
-	public void initTable(ITable itable) {
+	public void initTable(ITable itable)
+	{
 		m_table = itable;
 		updateTable();
 	}
 
-	public ITable getTable() {
+	public ITable getTable()
+	{
 		return m_table;
 	}
 
-	public String getSmartDashboardType() {
+	public String getSmartDashboardType()
+	{
 		return "Gyro";
 	}
 
@@ -340,30 +363,34 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 	// packet
 	// is valid, based upon IMU Protocol definitions; otherwise, returns 0
 
-	protected int decodePacketHandler(byte[] received_data, int offset, int bytes_remaining) {
+	protected int decodePacketHandler(byte[] received_data, int offset, int bytes_remaining)
+	{
 
 		int packet_length = IMUProtocol.decodeYPRUpdate(received_data, offset, bytes_remaining, ypr_update_data);
-		if (packet_length > 0) {
-			setYawPitchRoll(ypr_update_data.yaw, ypr_update_data.pitch, ypr_update_data.roll,
-					ypr_update_data.compass_heading);
+		if(packet_length > 0)
+		{
+			setYawPitchRoll(ypr_update_data.yaw, ypr_update_data.pitch, ypr_update_data.roll, ypr_update_data.compass_heading);
 		}
 		return packet_length;
 	}
 
 	// IMU Class thread run method
 
-	public void run() {
+	public void run()
+	{
 
 		stop = false;
 		boolean stream_response_received = false;
 		double last_stream_command_sent_timestamp = 0.0;
-		try {
+		try
+		{
 			serial_port.setReadBufferSize(512);
 			serial_port.setTimeout(1.0);
 			serial_port.enableTermination('\n');
 			serial_port.flush();
 			serial_port.reset();
-		} catch (RuntimeException ex) {
+		} catch(RuntimeException ex)
+		{
 			ex.printStackTrace();
 		}
 
@@ -372,51 +399,63 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 		byte[] stream_command = new byte[256];
 
 		int cmd_packet_length = IMUProtocol.encodeStreamCommand(stream_command, update_type, update_rate_hz);
-		try {
+		try
+		{
 			serial_port.reset();
 			serial_port.write(stream_command, cmd_packet_length);
 			serial_port.flush();
 			last_stream_command_sent_timestamp = Timer.getFPGATimestamp();
-		} catch (RuntimeException ex) {
+		} catch(RuntimeException ex)
+		{
 			ex.printStackTrace();
 		}
 
-		while (!stop) {
-			try {
+		while(!stop)
+		{
+			try
+			{
 
 				// Wait, with delays to conserve CPU resources, until
 				// bytes have arrived.
 
-				while (!stop && (serial_port.getBytesReceived() < 1)) {
+				while(!stop && (serial_port.getBytesReceived() < 1))
+				{
 					Timer.delay(0.1);
 				}
 
 				int packets_received = 0;
 				byte[] received_data = serial_port.read(256);
 				int bytes_read = received_data.length;
-				if (bytes_read > 0) {
+				if(bytes_read > 0)
+				{
 					byte_count += bytes_read;
 					int i = 0;
 					// Scan the buffer looking for valid packets
-					while (i < bytes_read) {
+					while(i < bytes_read)
+					{
 
 						// Attempt to decode a packet
 
 						int bytes_remaining = bytes_read - i;
 						int packet_length = decodePacketHandler(received_data, i, bytes_remaining);
-						if (packet_length > 0) {
+						if(packet_length > 0)
+						{
 							packets_received++;
 							update_count++;
 							i += packet_length;
-						} else {
-							packet_length = IMUProtocol.decodeStreamResponse(received_data, i, bytes_remaining,
-									response);
-							if (packet_length > 0) {
+						}
+						else
+						{
+							packet_length = IMUProtocol.decodeStreamResponse(received_data, i, bytes_remaining, response);
+							if(packet_length > 0)
+							{
 								packets_received++;
 								setStreamResponse(response);
 								stream_response_received = true;
 								i += packet_length;
-							} else {
+							}
+							else
+							{
 								// current index is not the start of a valid
 								// packet; increment
 								i++;
@@ -424,7 +463,8 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 						}
 					}
 
-					if ((packets_received == 0) && (bytes_read == 256)) {
+					if((packets_received == 0) && (bytes_read == 256))
+					{
 						// Workaround for issue found in Java SerialPort
 						// implementation:
 						// No packets received and 256 bytes received; this
@@ -438,26 +478,31 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 					// within three seconds
 					// of operation, (re)send a stream configuration request
 
-					if (!stream_response_received
-							&& ((Timer.getFPGATimestamp() - last_stream_command_sent_timestamp) > 3.0)) {
-						cmd_packet_length = IMUProtocol.encodeStreamCommand(stream_command, update_type,
-								update_rate_hz);
-						try {
+					if(!stream_response_received && ((Timer.getFPGATimestamp() - last_stream_command_sent_timestamp) > 3.0))
+					{
+						cmd_packet_length = IMUProtocol.encodeStreamCommand(stream_command, update_type, update_rate_hz);
+						try
+						{
 							last_stream_command_sent_timestamp = Timer.getFPGATimestamp();
 							serial_port.write(stream_command, cmd_packet_length);
 							serial_port.flush();
-						} catch (RuntimeException ex2) {
+						} catch(RuntimeException ex2)
+						{
 							ex2.printStackTrace();
 						}
-					} else {
+					}
+					else
+					{
 						// If no bytes remain in the buffer, and not awaiting a
 						// response, sleep a bit
-						if (stream_response_received && (serial_port.getBytesReceived() == 0)) {
+						if(stream_response_received && (serial_port.getBytesReceived() == 0))
+						{
 							Timer.delay(1.0 / update_rate_hz);
 						}
 					}
 				}
-			} catch (RuntimeException ex) {
+			} catch(RuntimeException ex)
+			{
 				// This exception typically indicates a Timeout
 				stream_response_received = false;
 				ex.printStackTrace();
@@ -466,13 +511,15 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 	}
 
 	@Override
-	public PIDSourceType getPIDSourceType() {
+	public PIDSourceType getPIDSourceType()
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setPIDSourceType(PIDSourceType arg0) {
+	public void setPIDSourceType(PIDSourceType arg0)
+	{
 		// TODO Auto-generated method stub
 
 	}

@@ -7,9 +7,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * @author Vaarun N.
  *
  */
-public class ShootAndStay extends CommandGroup {
+public class ShootAndStay extends CommandGroup
+{
 
-	public ShootAndStay() {
+	public ShootAndStay()
+	{
 
 		this.addSequential(new DriveForwardDistance(1, 132));
 		this.addSequential(new AutoTurn(90));

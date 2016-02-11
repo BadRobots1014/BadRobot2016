@@ -7,63 +7,75 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * 
- * The robot will automatically grab the ball after being initialized 
+ * The robot will automatically grab the ball after being initialized
  * 
  * @author Vaarun N. + Ian W.
  *
  */
-public class AutoGrab extends CommandBase{
-	// Initialize variables 
+public class AutoGrab extends CommandBase
+{
+	// Initialize variables
 	double currentTime, endingTime, time;
-	
+
 	/**
 	 * basic constructor
-	 * @param time - amount of time the grabber should be run
+	 * 
+	 * @param time
+	 *            - amount of time the grabber should be run
 	 * 
 	 */
-	public AutoGrab (double time) {
+	public AutoGrab(double time)
+	{
 		this.time = time * 1000000;
 		requires((Subsystem) shooter);
 	}
-	
+
 	/**
-	 * sets grabber to 0 
+	 * sets grabber to 0
 	 */
 	@Override
-	protected void initialize() {
-		shooter.grab(0);	
+	protected void initialize()
+	{
+		shooter.grab(0);
 		currentTime = Utility.getFPGATime();
 		endingTime = currentTime + time;
 	}
 
 	@Override
-	public String getConsoleIdentity() {
+	public String getConsoleIdentity()
+	{
 		return "Auto Grab";
 	}
 
 	@Override
-	protected void end() {
+	protected void end()
+	{
 		shooter.grab(0);
 
 	}
 
 	@Override
-	protected void execute() {
+	protected void execute()
+	{
 		shooter.grab(0.7);
 		currentTime = Utility.getFPGATime();
 	}
 
 	@Override
-	protected void interrupted() {
+	protected void interrupted()
+	{
 		System.out.print("Grabber was interrupted");
 	}
 
 	@Override
-	protected boolean isFinished() {
-		if (currentTime >= endingTime) {
+	protected boolean isFinished()
+	{
+		if(currentTime >= endingTime)
+		{
 			return true;
 		}
-		else {
+		else
+		{
 			return false;
 		}
 

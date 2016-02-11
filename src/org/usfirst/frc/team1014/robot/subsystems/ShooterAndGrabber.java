@@ -34,7 +34,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	protected void initialize()
 	{
-		left = new BadTalon(ControlsManager.SHOOTER_LEFT, 8, 9);
+		left = new BadTalon(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_ENCODER_A, ControlsManager.SHOOTER_ENCODER_B);
 		right = new Talon(ControlsManager.SHOOTER_RIGHT);
 		rotator = new Talon(ControlsManager.SHOOTER_ROTATE);
 		ringLight = new Talon(ControlsManager.RING_LIGHT);
@@ -105,6 +105,11 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		previousRPM = ((BadTalon) left).getRpm();
 		Logger.logThis("previousRPM = " + previousRPM);
 
+	}
+
+	public double getShootingRPM()
+	{
+		return ((BadTalon) left).getRpm();
 	}
 
 	public void rotate(double speed)
