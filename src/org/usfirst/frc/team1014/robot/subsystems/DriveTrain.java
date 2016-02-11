@@ -82,7 +82,7 @@ public class DriveTrain extends BadSubsystem
 
 	public void driveStraight(double leftStickY, double rightStickY, double gyroValue)
 	{
-		if(Math.abs(gyroValue) < 5)
+		if(Math.abs(gyroValue) > 5)
 		{
 			if(gyroValue < 0)
 			{
