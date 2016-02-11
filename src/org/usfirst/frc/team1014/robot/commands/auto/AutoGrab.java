@@ -31,8 +31,12 @@ public class AutoGrab extends CommandBase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * resets grabber's rotation starts a timer for current time in micro sec sets an ending time
 	 * based on user input
+=======
+	 * sets grabber to 0
+>>>>>>> branch 'testing' of https://github.com/BadRobots1014/BadRobot2016
 	 */
 	@Override
 	protected void initialize()

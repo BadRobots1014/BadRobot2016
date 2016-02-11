@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadUltrasonic;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
 
@@ -26,6 +27,7 @@ public class DriveTrain extends BadSubsystem
 	private SpeedController backLeft, frontLeft, backRight, frontRight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
+	private BadUltrasonic maxbotix;
 
 	private IMU mxp;
 	private SerialPort serialPort;
@@ -60,6 +62,8 @@ public class DriveTrain extends BadSubsystem
 		// ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
 		// ultrasonic.setEnabled(true); ultrasonic.setAutomaticMode(true);
 
+		maxbotix = new BadUltrasonic(ControlsManager.MAXBOTIX_ULTRASONIC);
+
 		// mxp stuff
 		serialPort = new SerialPort(57600, SerialPort.Port.kMXP);
 
@@ -76,10 +80,34 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
+	public void driveStraight(double moveSpeed, double targetGyro)
+	{
+		if(Math.abs(this.getAngle() - targetGyro) > 5)
+		{
+			if(this.getAngle() - targetGyro < 0)
+			{
+				tankDrive(moveSpeed, moveSpeed*.75);
+			}
+			else if(this.getAngle() - targetGyro > 0)
+			{
+				tankDrive(moveSpeed*.75, moveSpeed);
+			}
+		}
+		else
+		{
+			tankDrive(moveSpeed, moveSpeed);
+		}
+	}
+
 	public double getLIDARDistance()
 	{
 		lidar.updateDistance();
 		return lidar.getDistance();
+	}
+
+	public double getMaxbotixDistance()
+	{
+		return maxbotix.getDistance();
 	}
 
 	public double getUltraDistance(boolean inInches)

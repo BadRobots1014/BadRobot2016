@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -12,9 +13,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class TeleDrive extends CommandBase
 {
+
+	public double targetGyro;
+	
 	public TeleDrive()
 	{
 		requires((Subsystem) driveTrain);
+		targetGyro = 0;
 	}
 
 	/**
@@ -25,6 +30,7 @@ public class TeleDrive extends CommandBase
 	protected void initialize()
 	{
 		driveTrain.tankDrive(0, 0);
+		driveTrain.resetMXPAngle();
 	}
 
 	/**
@@ -44,7 +50,19 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void execute()
 	{
-		driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
+
+		if(ControlsManager.primaryXboxController.isLBButtonPressed())
+		{
+			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
+		}
+		else
+		{
+			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
+					-ControlsManager.primaryXboxController.getRightStickY());
+			targetGyro = driveTrain.getAngle();
+		}
+
+		Logger.logThis("MXP Angle: " + driveTrain.getAngle());
 	}
 
 	/**

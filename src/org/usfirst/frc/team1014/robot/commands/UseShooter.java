@@ -43,11 +43,14 @@ public class UseShooter extends CommandBase
 			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
-
 		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
-			shooter.ringLightOn();
-
-		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
+		{
+			shooter.grabBall();
+		}
+		else
+		{
+			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
+		}
 
 		if(ControlsManager.secondaryXboxController.isAButtonPressed())
 		{
@@ -58,9 +61,17 @@ public class UseShooter extends CommandBase
 			servoPos = .25;
 		}
 
-		shooter.driveServo(servoPos);
+		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 3);
 
-		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY());
+		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
+		{
+			shooter.ringLightOn();
+		}
+		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
+		{
+			shooter.ringLightOff();
+		}
+
 	}
 
 	public double scaleSpeed(double speed)

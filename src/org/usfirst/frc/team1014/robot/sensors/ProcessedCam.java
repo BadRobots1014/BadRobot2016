@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team1014.robot.sensors;
 
 /**
@@ -52,5 +53,25 @@ public class ProcessedCam
 	public void setY(double y)
 	{
 		Y = y - halfHeight;
+	}
+
+	public int getHalfWidth()
+	{
+		return halfWidth;
+	}
+
+	public void setHalfWidth(int halfWidth)
+	{
+		ProcessedCam.halfWidth = halfWidth;
+	}
+
+	public int getHalfHeight()
+	{
+		return halfHeight;
+	}
+
+	public void setHalfHeight(int halfHeight)
+	{
+		ProcessedCam.halfHeight = halfHeight;
 	}
 }

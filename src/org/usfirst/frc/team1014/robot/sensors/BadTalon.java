@@ -17,6 +17,7 @@ public class BadTalon extends Talon
 	{
 		super(talonPWM);
 		encoder = new Encoder(aChannel, bChannel);
+		this.encoder.setDistancePerPulse(.05);
 	}
 
 	public double getRpm()

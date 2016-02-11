@@ -6,21 +6,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class BadScheduler
 {
 	private Scheduler scheduler = Scheduler.getInstance();
-	private String mainTeleop = "TeleopGroup";
-	private String commandsPackageName = "org.usfirst.frc.team1014.robot.commands.";
 	private Command nowRunning;
-	private Class<?> mainTeleopClass;
+	private Class<? extends Command> mainTeleopClass;
 
-	public BadScheduler()
+	public BadScheduler(Class<? extends Command> mainTeleopClass)
 	{
-		try
-		{
-			mainTeleopClass = Class.forName(commandsPackageName + mainTeleop);
-		} catch(ClassNotFoundException e)
-		{
-			System.out.println("class no found issue");
-			e.printStackTrace();
-		}
+		this.mainTeleopClass = mainTeleopClass;
 	}
 
 	public void initTeleop()
@@ -76,6 +67,7 @@ public class BadScheduler
 					}
 				}
 			}
+
 		} catch(InstantiationException e)
 		{
 			System.out.println("can't instantiate stuffs");
@@ -89,3 +81,4 @@ public class BadScheduler
 	}
 
 }
+
