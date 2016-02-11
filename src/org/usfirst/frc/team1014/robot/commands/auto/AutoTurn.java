@@ -15,14 +15,15 @@ public class AutoTurn extends CommandBase {
 	public double degree, difference, proportion, sign;
 	public static int rotationCoefficient = 60;
 
-	// Positive degree values turn left
-	// Negative degree values turn right
+	/**
+	 * Constructor
+	 * @param degree - how far the robot needs to turn
+	 */
 	public AutoTurn(double degree) {
 		this.degree = degree;
 		requires((Subsystem) driveTrain);
 		driveTrain.resetMXPAngle();
-		sign = Math.abs(degree) / degree;
-		// Gets the sign of degree
+		sign = Math.abs(degree) / degree;	// Gets the sign of degree
 	}
 
 	@Override
@@ -41,12 +42,11 @@ public class AutoTurn extends CommandBase {
 		driveTrain.tankDrive(0, 0);
 
 	}
-
+	
 	@Override
 	protected void execute() {
 
 		difference = driveTrain.getAngle360() - degree;
-		// difference is how far off the angle is from the desired
 
 		if (sign < 0) {
 			driveTrain.tankDrive((rotation()), -rotation());
@@ -63,9 +63,13 @@ public class AutoTurn extends CommandBase {
 
 	}
 
+	/**
+	 * 
+	 * @return - scales the speed for the drivetrain
+	 */
 	public double rotation() {
 		return (difference / rotationCoefficient);
-		// Scales difference to a smaller value for the drivetrain
+
 	}
 
 	@Override
