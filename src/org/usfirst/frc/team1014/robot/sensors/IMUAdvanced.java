@@ -15,18 +15,18 @@ import java.util.Arrays;
 import edu.wpi.first.wpilibj.SerialPort;
 
 /**
- * The IMUAdvanced class provides a simplified interface to advanced
- * capabilities of the KauaiLabs nav6 IMU.
+ * The IMUAdvanced class provides a simplified interface to advanced capabilities of the KauaiLabs
+ * nav6 IMU.
  * 
- * The IMUAdvanced class enables access to basic connectivity and state
- * information, as well as key orientation information (yaw, pitch, roll,
- * compass heading). Additionally, the IMUAdvanced class also provides access to
- * extended information including linear acceleration, motion detection, and
+ * The IMUAdvanced class enables access to basic connectivity and state information, as well as key
+ * orientation information (yaw, pitch, roll, compass heading). Additionally, the IMUAdvanced class
+ * also provides access to extended information including linear acceleration, motion detection, and
  * sensor temperature.
  * 
  * @author Scott
  */
-public class IMUAdvanced extends IMU {
+public class IMUAdvanced extends IMU
+{
 
 	private IMUProtocol.QuaternionUpdate quaternion_update_data;
 	volatile float world_linear_accel_x;
@@ -40,20 +40,19 @@ public class IMUAdvanced extends IMU {
 	static final int WORLD_LINEAR_ACCEL_HISTORY_LENGTH = 10;
 
 	/**
-	 * Constructs the IMUAdvanced class, overriding the default update rate with
-	 * a custom rate which may be from 4 to 100, representing the number of
-	 * updates per second sent by the nav6 IMU.
+	 * Constructs the IMUAdvanced class, overriding the default update rate with a custom rate which
+	 * may be from 4 to 100, representing the number of updates per second sent by the nav6 IMU.
 	 * 
-	 * Note that increasing the update rate may increase the CPU utilization.
-	 * Note that calculation of some advanced values utilizes additional cpu
-	 * cycles, when compared to the IMU class.
+	 * Note that increasing the update rate may increase the CPU utilization. Note that calculation
+	 * of some advanced values utilizes additional cpu cycles, when compared to the IMU class.
 	 * 
 	 * @param serial_port
 	 *            BufferingSerialPort object to use
 	 * @param update_rate_hz
 	 *            Custom Update Rate (Hz)
 	 */
-	public IMUAdvanced(SerialPort serial_port, byte update_rate_hz) {
+	public IMUAdvanced(SerialPort serial_port, byte update_rate_hz)
+	{
 		super(serial_port, update_rate_hz);
 		quaternion_update_data = new IMUProtocol.QuaternionUpdate();
 		update_type = IMUProtocol.MSGID_QUATERNION_UPDATE;
@@ -62,23 +61,25 @@ public class IMUAdvanced extends IMU {
 	/**
 	 * Constructs the IMUAdvanced class, using the default update rate.
 	 * 
-	 * Note that calculation of some advanced values utilizes additional cpu
-	 * cycles, when compared to the IMU class.
+	 * Note that calculation of some advanced values utilizes additional cpu cycles, when compared
+	 * to the IMU class.
 	 * 
 	 * @param serial_port
 	 *            BufferingSerialPort object to use
 	 */
-	public IMUAdvanced(SerialPort serial_port) {
+	public IMUAdvanced(SerialPort serial_port)
+	{
 		this(serial_port, DEFAULT_UPDATE_RATE_HZ);
 	}
 
 	// @Override
 	@Override
-	protected int decodePacketHandler(byte[] received_data, int offset, int bytes_remaining) {
+	protected int decodePacketHandler(byte[] received_data, int offset, int bytes_remaining)
+	{
 
-		int packet_length = IMUProtocol.decodeQuaternionUpdate(received_data, offset, bytes_remaining,
-				quaternion_update_data);
-		if (packet_length > 0) {
+		int packet_length = IMUProtocol.decodeQuaternionUpdate(received_data, offset, bytes_remaining, quaternion_update_data);
+		if(packet_length > 0)
+		{
 			setQuaternion(quaternion_update_data);
 		}
 		return packet_length;
@@ -87,104 +88,113 @@ public class IMUAdvanced extends IMU {
 	/**
 	 * Returns the current linear acceleration in the x-axis (in g).
 	 * 
-	 * World linear acceleration refers to raw acceleration data, which has had
-	 * the gravity component removed, and which has been rotated to the same
-	 * reference frame as the current yaw value. The resulting value represents
-	 * the current acceleration in the x-axis of the body (e.g., the robot) on
-	 * which the nav6 IMU is mounted.
+	 * World linear acceleration refers to raw acceleration data, which has had the gravity
+	 * component removed, and which has been rotated to the same reference frame as the current yaw
+	 * value. The resulting value represents the current acceleration in the x-axis of the body
+	 * (e.g., the robot) on which the nav6 IMU is mounted.
 	 * 
 	 * @return Current world linear acceleration in the x-axis (in g).
 	 */
-	public float getWorldLinearAccelX() {
+	public float getWorldLinearAccelX()
+	{
 		return this.world_linear_accel_x;
 	}
 
 	/**
 	 * Returns the current linear acceleration in the y-axis (in g).
 	 * 
-	 * World linear acceleration refers to raw acceleration data, which has had
-	 * the gravity component removed, and which has been rotated to the same
-	 * reference frame as the current yaw value. The resulting value represents
-	 * the current acceleration in the y-axis of the body (e.g., the robot) on
-	 * which the nav6 IMU is mounted.
+	 * World linear acceleration refers to raw acceleration data, which has had the gravity
+	 * component removed, and which has been rotated to the same reference frame as the current yaw
+	 * value. The resulting value represents the current acceleration in the y-axis of the body
+	 * (e.g., the robot) on which the nav6 IMU is mounted.
 	 * 
 	 * @return Current world linear acceleration in the y-axis (in g).
 	 */
-	public float getWorldLinearAccelY() {
+	public float getWorldLinearAccelY()
+	{
 		return this.world_linear_accel_y;
 	}
 
 	/**
 	 * Returns the current linear acceleration in the z-axis (in g).
 	 * 
-	 * World linear acceleration refers to raw acceleration data, which has had
-	 * the gravity component removed, and which has been rotated to the same
-	 * reference frame as the current yaw value. The resulting value represents
-	 * the current acceleration in the z-axis of the body (e.g., the robot) on
-	 * which the nav6 IMU is mounted.
+	 * World linear acceleration refers to raw acceleration data, which has had the gravity
+	 * component removed, and which has been rotated to the same reference frame as the current yaw
+	 * value. The resulting value represents the current acceleration in the z-axis of the body
+	 * (e.g., the robot) on which the nav6 IMU is mounted.
 	 * 
 	 * @return Current world linear acceleration in the z-axis (in g).
 	 */
-	public float getWorldLinearAccelZ() {
+	public float getWorldLinearAccelZ()
+	{
 		return this.world_linear_accel_z;
 	}
 
 	/**
-	 * Indicates if the nav6 IMU is currently detection motion, based upon the x
-	 * and y-axis world linear acceleration values. If the sum of the absolute
-	 * values of the x and y axis exceed, 0.01g, the motion state is indicated.
+	 * Indicates if the nav6 IMU is currently detection motion, based upon the x and y-axis world
+	 * linear acceleration values. If the sum of the absolute values of the x and y axis exceed,
+	 * 0.01g, the motion state is indicated.
 	 * 
 	 * @return Returns true if the nav6 IMU is currently detecting motion.
 	 */
-	public boolean isMoving() {
-		return (getAverageFromWorldLinearAccelHistory() >= 0.01);
+	public boolean isMoving()
+	{
+		return(getAverageFromWorldLinearAccelHistory() >= 0.01);
 	}
 
 	/**
-	 * Returns the current temperature (in degrees centigrade) reported by the
-	 * nav6 gyro/accelerometer circuit.
+	 * Returns the current temperature (in degrees centigrade) reported by the nav6
+	 * gyro/accelerometer circuit.
 	 * 
-	 * This value may be useful in order to perform advanced temperature-
-	 * dependent calibration.
+	 * This value may be useful in order to perform advanced temperature- dependent calibration.
 	 * 
 	 * @return The current temperature (in degrees centigrade).
 	 */
-	public float getTempC() {
+	public float getTempC()
+	{
 		return this.temp_c;
 	}
 
 	// @Override
 	@Override
-	protected void initIMU() {
+	protected void initIMU()
+	{
 		super.initIMU();
 		world_linear_accel_history = new float[WORLD_LINEAR_ACCEL_HISTORY_LENGTH];
 		initWorldLinearAccelHistory();
 	}
 
-	private void initWorldLinearAccelHistory() {
+	private void initWorldLinearAccelHistory()
+	{
 		Arrays.fill(world_linear_accel_history, 0);
 		next_world_linear_accel_history_index = 0;
 		world_linear_acceleration_recent_avg = (float) 0.0;
 	}
 
-	private void updateWorldLinearAccelHistory(float x, float y, float z) {
-		if (next_world_linear_accel_history_index >= WORLD_LINEAR_ACCEL_HISTORY_LENGTH) {
+	private void updateWorldLinearAccelHistory(float x, float y, float z)
+	{
+		if(next_world_linear_accel_history_index >= WORLD_LINEAR_ACCEL_HISTORY_LENGTH)
+		{
 			next_world_linear_accel_history_index = 0;
 		}
 		world_linear_accel_history[next_world_linear_accel_history_index] = Math.abs(x) + Math.abs(y);
 		next_world_linear_accel_history_index++;
 	}
 
-	public float getAverageFromWorldLinearAccelHistory() {
+	public float getAverageFromWorldLinearAccelHistory()
+	{
 		float world_linear_accel_history_sum = (float) 0.0;
-		for (int i = 0; i < WORLD_LINEAR_ACCEL_HISTORY_LENGTH; i++) {
+		for(int i = 0; i < WORLD_LINEAR_ACCEL_HISTORY_LENGTH; i++)
+		{
 			world_linear_accel_history_sum += world_linear_accel_history[i];
 		}
 		return world_linear_accel_history_sum / WORLD_LINEAR_ACCEL_HISTORY_LENGTH;
 	}
 
-	private void setQuaternion(IMUProtocol.QuaternionUpdate raw_update) {
-		synchronized (this) { // synchronized block
+	private void setQuaternion(IMUProtocol.QuaternionUpdate raw_update)
+	{
+		synchronized(this)
+		{ // synchronized block
 
 			float[] q = new float[4];
 			float[] gravity = new float[3];
@@ -206,8 +216,8 @@ public class IMUAdvanced extends IMU {
 			q[1] = (raw_update.q2) / 16384.0f;
 			q[2] = (raw_update.q3) / 16384.0f;
 			q[3] = (raw_update.q4) / 16384.0f;
-			for (int i = 0; i < 4; i++)
-				if (q[i] >= 2)
+			for(int i = 0; i < 4; i++)
+				if(q[i] >= 2)
 					q[i] = -4 + q[i]; // Range-check quaterions
 
 			// below calculations are necessary for calculation of
@@ -242,9 +252,9 @@ public class IMUAdvanced extends IMU {
 
 			// Subtract nav6 offset, and handle potential 360 degree wrap-around
 			yaw_degrees -= nav6_yaw_offset_degrees;
-			if (yaw_degrees < -180)
+			if(yaw_degrees < -180)
 				yaw_degrees += 360;
-			if (yaw_degrees > 180)
+			if(yaw_degrees > 180)
 				yaw_degrees -= 360;
 
 			// calculate linear acceleration by
@@ -304,25 +314,20 @@ public class IMUAdvanced extends IMU {
 
 			float[] q_final = new float[4];
 
-			q_final[0] = q_product[0] * q_conjugate[0] - q_product[1] * q_conjugate[1] - q_product[2] * q_conjugate[2]
-					- q_product[3] * q_conjugate[3]; // new
-														// w
-			q_final[1] = q_product[0] * q_conjugate[1] + q_product[1] * q_conjugate[0] + q_product[2] * q_conjugate[3]
-					- q_product[3] * q_conjugate[2]; // new
-														// x
-			q_final[2] = q_product[0] * q_conjugate[2] - q_product[1] * q_conjugate[3] + q_product[2] * q_conjugate[0]
-					+ q_product[3] * q_conjugate[1]; // new
-														// y
-			q_final[3] = q_product[0] * q_conjugate[3] + q_product[1] * q_conjugate[2] - q_product[2] * q_conjugate[1]
-					+ q_product[3] * q_conjugate[0]; // new
-														// z
+			q_final[0] = q_product[0] * q_conjugate[0] - q_product[1] * q_conjugate[1] - q_product[2] * q_conjugate[2] - q_product[3] * q_conjugate[3]; // new
+																																						// w
+			q_final[1] = q_product[0] * q_conjugate[1] + q_product[1] * q_conjugate[0] + q_product[2] * q_conjugate[3] - q_product[3] * q_conjugate[2]; // new
+																																						// x
+			q_final[2] = q_product[0] * q_conjugate[2] - q_product[1] * q_conjugate[3] + q_product[2] * q_conjugate[0] + q_product[3] * q_conjugate[1]; // new
+																																						// y
+			q_final[3] = q_product[0] * q_conjugate[3] + q_product[1] * q_conjugate[2] - q_product[2] * q_conjugate[1] + q_product[3] * q_conjugate[0]; // new
+																																						// z
 
 			world_linear_acceleration_x = q_final[1];
 			world_linear_acceleration_y = q_final[2];
 			world_linear_acceleration_z = q_final[3];
 
-			updateWorldLinearAccelHistory(world_linear_acceleration_x, world_linear_acceleration_y,
-					world_linear_acceleration_z);
+			updateWorldLinearAccelHistory(world_linear_acceleration_x, world_linear_acceleration_y, world_linear_acceleration_z);
 
 			// Calculate tilt-compensated compass heading
 
@@ -335,8 +340,7 @@ public class IMUAdvanced extends IMU {
 			float sin_pitch = (float) Math.sin(inverted_pitch);
 
 			float MAG_X = raw_update.mag_x * cos_pitch + raw_update.mag_z * sin_pitch;
-			float MAG_Y = raw_update.mag_x * sin_roll * sin_pitch + raw_update.mag_y * cos_roll
-					- raw_update.mag_z * sin_roll * cos_pitch;
+			float MAG_Y = raw_update.mag_x * sin_roll * sin_pitch + raw_update.mag_y * cos_roll - raw_update.mag_z * sin_roll * cos_pitch;
 			float tilt_compensated_heading_radians = (float) Math.atan2(MAG_Y, MAG_X);
 			float tilt_compensated_heading_degrees = (float) (tilt_compensated_heading_radians * (180.0 / Math.PI));
 
@@ -345,7 +349,8 @@ public class IMUAdvanced extends IMU {
 			// 0-360 degrees
 
 			tilt_compensated_heading_degrees -= 90.0;
-			if (tilt_compensated_heading_degrees < 0) {
+			if(tilt_compensated_heading_degrees < 0)
+			{
 				tilt_compensated_heading_degrees += 360;
 			}
 

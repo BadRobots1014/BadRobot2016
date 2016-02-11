@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class SmartDashboard {
+public class SmartDashboard
+{
 	public static SmartDashboard smartDashboard;
 	public static NetworkTable table;
 	public String[] commands = { "TeleDrive", "TeleopGroup", "UseShooter", "ObjectTrackingTest" };
@@ -16,31 +17,39 @@ public class SmartDashboard {
 	private static String commandToRun;
 	private static final String commandRunKey = "Command running: ";
 
-	public SmartDashboard() {
+	public SmartDashboard()
+	{
 		table = NetworkTable.getTable("SmartDashboard");
 		setup();
 		// initDashboard();
 	}
 
-	public static SmartDashboard getInstance() {
-		if (smartDashboard == null) {
+	public static SmartDashboard getInstance()
+	{
+		if(smartDashboard == null)
+		{
 			smartDashboard = new SmartDashboard();
 		}
 		return smartDashboard;
 	}
 
-	private void initDashboard() {
+	private void initDashboard()
+	{
 		CameraServer server = CameraServer.getInstance();
 		server.startAutomaticCapture("cam0");
 		Logger.log(Logger.Level.Debug, "SmartDash", "Camera initialized");
 	}
 
-	private void setup() {
+	private void setup()
+	{
 		table.putString(commandRunKey, "");
-		for (String str : commands) {
-			try {
+		for(String str : commands)
+		{
+			try
+			{
 				Class.forName(commandsPackageName + str);
-			} catch (Exception e) {
+			} catch(Exception e)
+			{
 				e.printStackTrace();
 				continue;
 			}
@@ -48,13 +57,18 @@ public class SmartDashboard {
 		}
 	}
 
-	public void poll() {
-		for (String str : commands) {
-			if (table.getBoolean(str, false)) {
-				try {
+	public void poll()
+	{
+		for(String str : commands)
+		{
+			if(table.getBoolean(str, false))
+			{
+				try
+				{
 					Scheduler.getInstance().add((Command) Class.forName(commandsPackageName + str).newInstance());
 					commandToRun = str;
-				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+				} catch(InstantiationException | IllegalAccessException | ClassNotFoundException e)
+				{
 					e.printStackTrace();
 					continue;
 				}
@@ -64,7 +78,8 @@ public class SmartDashboard {
 		table.putString(commandRunKey, commandToRun);
 	}
 
-	public void update() {
+	public void update()
+	{
 		ProcessedCam.getInstance().setX(table.getNumber("OBJECT_TRACKING_X", 0.0));
 		ProcessedCam.getInstance().setY(table.getNumber("OBJECT_TRACKING_Y", 0.0));
 		ProcessedCam.getInstance().setTrackingScore(table.getNumber("OBJECT_TRACKING_SCORE", 0.0));

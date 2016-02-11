@@ -10,14 +10,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * @author Tze Hei T.
  *
  */
-public class AutoTurn extends CommandBase {
+public class AutoTurn extends CommandBase
+{
 
 	public double degree, difference, proportion, sign;
 	public static int rotationCoefficient = 60;
 
 	// Positive degree values turn left
 	// Negative degree values turn right
-	public AutoTurn(double degree) {
+	public AutoTurn(double degree)
+	{
 		this.degree = degree;
 		requires((Subsystem) driveTrain);
 		driveTrain.resetMXPAngle();
@@ -26,54 +28,66 @@ public class AutoTurn extends CommandBase {
 	}
 
 	@Override
-	protected void initialize() {
+	protected void initialize()
+	{
 		driveTrain.resetMXPAngle();
 		driveTrain.tankDrive(0, 0);
 	}
 
 	@Override
-	public String getConsoleIdentity() {
+	public String getConsoleIdentity()
+	{
 		return "AutoTurn";
 	}
 
 	@Override
-	protected void end() {
+	protected void end()
+	{
 		driveTrain.tankDrive(0, 0);
 
 	}
 
 	@Override
-	protected void execute() {
+	protected void execute()
+	{
 
 		difference = driveTrain.getAngle360() - degree;
 		// difference is how far off the angle is from the desired
 
-		if (sign < 0) {
+		if(sign < 0)
+		{
 			driveTrain.tankDrive((rotation()), -rotation());
 		}
-		if (sign > 0) {
+		if(sign > 0)
+		{
 			driveTrain.tankDrive(-rotation(), (rotation()));
 		}
 		Logger.logThis("MXP Angle: " + driveTrain.getAngle360());
 	}
 
 	@Override
-	protected void interrupted() {
+	protected void interrupted()
+	{
 		System.out.println("AutoTurn was interrupted");
 
 	}
 
-	public double rotation() {
-		return (difference / rotationCoefficient);
+	public double rotation()
+	{
+		return(difference / rotationCoefficient);
 		// Scales difference to a smaller value for the drivetrain
 	}
 
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinished()
+	{
 		// Stops if the difference is in the range
-		if (Math.abs(difference) < 5) {
+		if(Math.abs(difference) < 5)
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}

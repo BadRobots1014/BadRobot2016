@@ -6,22 +6,25 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
-public class ShooterAndGrabber extends BadSubsystem {
+public class ShooterAndGrabber extends BadSubsystem
+{
 	public static ShooterAndGrabber instance;
 
 	private SpeedController left, right, rotator;
 	private SpeedController ringLight;
 	public Servo pusher;
 
-	public static ShooterAndGrabber getInstance() {
-		if (instance == null)
+	public static ShooterAndGrabber getInstance()
+	{
+		if(instance == null)
 			instance = new ShooterAndGrabber();
 
 		return instance;
 	}
 
 	@Override
-	protected void initialize() {
+	protected void initialize()
+	{
 		left = new Talon(ControlsManager.SHOOTER_LEFT);
 		right = new Talon(ControlsManager.SHOOTER_RIGHT);
 		rotator = new Talon(ControlsManager.SHOOTER_ROTATE);
@@ -30,44 +33,55 @@ public class ShooterAndGrabber extends BadSubsystem {
 		pusher.set(.4);
 	}
 
-	public void rotate(double speed) {
+	public void rotate(double speed)
+	{
 		rotator.set(speed);
 	}
 
-	public void shoot(double speed) {
+	public void shoot(double speed)
+	{
 		left.set(speed);
 		right.set(-speed);
 	}
 
-	public void grab(double speed) {
+	public void grab(double speed)
+	{
 		left.set(-speed);
 		right.set(speed);
 	}
 
-	public void ringLightOn() {
+	public void ringLightOn()
+	{
 		ringLight.set(.5);
 	}
 
-	public void ringLightOff() {
+	public void ringLightOff()
+	{
 		ringLight.set(0);
 	}
 
-	public void driveServo(double power) {
-		if (power > 0.650) {
+	public void driveServo(double power)
+	{
+		if(power > 0.650)
+		{
 			power = 0.650;
-		} else if (power < .25) {
+		}
+		else if(power < .25)
+		{
 			power = .25;
 		}
 		pusher.set(power);
 	}
 
 	@Override
-	public String getConsoleIdentity() {
+	public String getConsoleIdentity()
+	{
 		return "ShooterAndGrabber";
 	}
 
 	@Override
-	protected void initDefaultCommand() {
+	protected void initDefaultCommand()
+	{
 
 	}
 
