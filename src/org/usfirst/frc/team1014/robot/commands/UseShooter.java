@@ -52,7 +52,17 @@ public class UseShooter extends CommandBase
 			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
 		}
 
+		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+		{
+			servoPos = .65;
+		}
+		else
+		{
+			servoPos = .25;
+		}
+
 		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 3);
+
 		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
 		{
 			shooter.ringLightOn();

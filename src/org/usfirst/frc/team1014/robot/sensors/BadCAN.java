@@ -2,15 +2,14 @@ package org.usfirst.frc.team1014.robot.sensors;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 
 /**
  * 
  * @author Tze Hei T.
  *
  */
-public class BadCAN extends CANTalon implements PIDSource, PIDOutput
+
+public class BadCAN extends CANTalon
 {
 
 	public Encoder encoder;

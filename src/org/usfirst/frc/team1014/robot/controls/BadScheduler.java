@@ -67,6 +67,7 @@ public class BadScheduler
 					}
 				}
 			}
+
 		} catch(InstantiationException e)
 		{
 			System.out.println("can't instantiate stuffs");

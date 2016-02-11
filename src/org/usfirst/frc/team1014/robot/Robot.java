@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot
 
 	public void autonomousInit()
 	{
+		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
 		dashboard.poll();
@@ -78,6 +79,7 @@ public class Robot extends IterativeRobot
 	/**
 	 * This function is called periodically during operator control
 	 */
+
 	public void teleopPeriodic()
 	{
 		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), new ObjectTrackingTest());
