@@ -45,7 +45,7 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void execute()
 	{
-		if(ControlsManager.primaryXboxController.isAButtonPressed())
+		if(ControlsManager.primaryXboxController.isLBButtonPressed())
 		{
 			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY(), driveTrain.getAngle());
 		}
