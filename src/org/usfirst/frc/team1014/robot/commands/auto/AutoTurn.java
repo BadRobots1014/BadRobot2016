@@ -54,7 +54,7 @@ public class AutoTurn extends CommandBase
 	protected void execute()
 	{
 
-		difference = driveTrain.getAngle360() - degree;
+		difference = driveTrain.getAngle360() - degree;		// amount robot is still off of the desired degree
 
 		if(sign < 0)
 		{
