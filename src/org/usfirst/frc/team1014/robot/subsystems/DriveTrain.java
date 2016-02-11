@@ -80,22 +80,22 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
-	public void driveStraight(double leftStickY, double rightStickY, double gyroValue)
+	public void driveStraight(double moveSpeed, double targetGyro)
 	{
-		if(Math.abs(gyroValue) > 5)
+		if(Math.abs(this.getAngle() - targetGyro) > 5)
 		{
-			if(gyroValue < 0)
+			if(this.getAngle() - targetGyro < 0)
 			{
-				tankDrive(leftStickY * 1.5, rightStickY);
+				tankDrive(moveSpeed, moveSpeed*.75);
 			}
-			else if(gyroValue > 0)
+			else if(this.getAngle() - targetGyro > 0)
 			{
-				tankDrive(leftStickY, rightStickY * 1.5);
+				tankDrive(moveSpeed*.75, moveSpeed);
 			}
 		}
 		else
 		{
-			tankDrive(leftStickY, rightStickY);
+			tankDrive(moveSpeed, moveSpeed);
 		}
 	}
 

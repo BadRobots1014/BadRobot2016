@@ -13,9 +13,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class TeleDrive extends CommandBase
 {
+	public double targetGyro;
+	
 	public TeleDrive()
 	{
 		requires((Subsystem) driveTrain);
+		targetGyro = 0;
 	}
 
 	/**
@@ -26,6 +29,7 @@ public class TeleDrive extends CommandBase
 	protected void initialize()
 	{
 		driveTrain.tankDrive(0, 0);
+		driveTrain.resetMXPAngle();
 	}
 
 	/**
@@ -47,11 +51,13 @@ public class TeleDrive extends CommandBase
 	{
 		if(ControlsManager.primaryXboxController.isAButtonPressed())
 		{
-			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY(), driveTrain.getAngle());
+			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
 		}
 		else
 		{
-			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
+			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
+					-ControlsManager.primaryXboxController.getRightStickY());
+			targetGyro = driveTrain.getAngle();
 		}
 
 		Logger.logThis("MXP Angle: " + driveTrain.getAngle());
