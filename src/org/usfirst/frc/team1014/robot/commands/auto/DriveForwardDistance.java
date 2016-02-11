@@ -13,7 +13,11 @@ public class DriveForwardDistance extends CommandBase {
 
 	public double speed, distance, ultraDistance;
 
-	// Distance is the distance in inches you want it to stop at
+	/**
+	 * Constructor
+	 * @param speed - speed the robot will run at
+	 * @param distance - the distance from something it will stop at
+	 */
 	public DriveForwardDistance(double speed, double distance) {
 		this.distance = distance;
 		this.speed = speed;
@@ -39,8 +43,8 @@ public class DriveForwardDistance extends CommandBase {
 
 	@Override
 	protected void execute() {
-		ultraDistance = driveTrain.getUltraDistance(true);
-		// Gets the ultrasonic distance in inches
+		ultraDistance = driveTrain.getUltraDistance(true);	// Gets the ultrasonic distance in inches
+		
 		driveTrain.tankDrive(speed, speed);
 
 	}
