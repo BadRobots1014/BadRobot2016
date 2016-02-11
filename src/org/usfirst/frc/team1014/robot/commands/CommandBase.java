@@ -58,7 +58,6 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new ShootAndComeBack());
 		commandClasses.add(new ShootAndStay());
 		commandClasses.add(new ObjectTrackingTest());
-
 	}
 
 	public CommandBase(String name)

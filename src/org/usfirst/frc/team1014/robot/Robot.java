@@ -1,15 +1,11 @@
 package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-<<<<<<< HEAD
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.ObjectTrackingTest;
+import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
-=======
-import org.usfirst.frc.team1014.robot.controls.BadScheduler;
-import org.usfirst.frc.team1014.utilities.SmartDashboard;
->>>>>>> acc8f6065cd44963557a630d198e7046fc34d94e
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -46,16 +42,9 @@ public class Robot extends IterativeRobot
 
 	public void autonomousInit()
 	{
-<<<<<<< HEAD
 		if(autonomousCommand != null)
 			autonomousCommand.start();
 		dashboard.poll();
-=======
-		// schedule the autonomous command (example)
-		if(autonomousCommand != null)
-			autonomousCommand.start();
-		// Scheduler.getInstance().add(new TeleDrive());
->>>>>>> acc8f6065cd44963557a630d198e7046fc34d94e
 	}
 
 	/**

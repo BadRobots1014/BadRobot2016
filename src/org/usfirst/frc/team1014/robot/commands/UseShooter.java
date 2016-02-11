@@ -43,10 +43,16 @@ public class UseShooter extends CommandBase
 			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
-		shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
+		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
+		{
+			shooter.grabBall();
+		}
+		else
+		{
+			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
+		}
 
-		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 5);
-
+		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 3);
 		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
 		{
 			shooter.ringLightOn();
