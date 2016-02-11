@@ -52,7 +52,7 @@ public class TeleDrive extends CommandBase {
 	}
 
 	/**
-	 * What the robot should do once the command has finished executing.
+	 * Removes loose ends and exits command properly.
 	 */
 	@Override
 	protected void end() {
@@ -60,7 +60,8 @@ public class TeleDrive extends CommandBase {
 	}
 
 	/**
-	 * Not sure what this is used for.
+	 * Called when another command requires the same subsystem or {@code cancel()} is called.
+	 * Cleans up dependencies and logs the interrupt.
 	 */
 	@Override
 	protected void interrupted() {

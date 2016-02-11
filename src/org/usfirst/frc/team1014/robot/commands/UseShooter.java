@@ -64,12 +64,19 @@ public class UseShooter extends CommandBase {
 		return false;
 	}
 
+	/**
+	 * Removes loose ends and exits command properly.
+	 */
 	@Override
 	protected void end() {
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
 	}
 
+	/**
+	 * Called when another command requires the same subsystem or {@code cancel()} is called.
+	 * Cleans up dependencies and logs the interrupt.
+	 */
 	@Override
 	protected void interrupted() {
 		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
