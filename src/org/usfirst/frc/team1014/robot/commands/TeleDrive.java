@@ -19,20 +19,22 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * This method runs before the command is executed to make sure everything
-	 * is ready for it to be executed.
+	 * This method runs before the command is executed to make sure everything is ready for it to be
+	 * executed.
 	 */
 	@Override
-	protected void initialize() {
+	protected void initialize()
+	{
 		driveTrain.tankDrive(0, 0);
 	}
 
 	/**
-	 * This is really useless and doesn't really have much function, other than
-	 * when we want to log things.
+	 * This is really useless and doesn't really have much function, other than when we want to log
+	 * things.
 	 */
 	@Override
-	public String getConsoleIdentity() {
+	public String getConsoleIdentity()
+	{
 		return "TeleDrive";
 	}
 
@@ -45,15 +47,13 @@ public class TeleDrive extends CommandBase
 	{
 		if(ControlsManager.primaryXboxController.isAButtonPressed())
 		{
-			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), 
-				-ControlsManager.primaryXboxController.getRightStickY(), driveTrain.getAngle());
+			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY(), driveTrain.getAngle());
 		}
 		else
 		{
-			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
-					-ControlsManager.primaryXboxController.getRightStickY());
+			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
 		}
-		
+
 		Logger.logThis("MXP Angle: " + driveTrain.getAngle());
 	}
 
@@ -61,7 +61,8 @@ public class TeleDrive extends CommandBase
 	 * Lets the system know when to stop this command and do some other one.
 	 */
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinished()
+	{
 		return false;
 	}
 
@@ -69,7 +70,8 @@ public class TeleDrive extends CommandBase
 	 * What the robot should do once the command has finished executing.
 	 */
 	@Override
-	protected void end() {
+	protected void end()
+	{
 		driveTrain.tankDrive(0, 0);
 	}
 
@@ -77,7 +79,8 @@ public class TeleDrive extends CommandBase
 	 * Not sure what this is used for.
 	 */
 	@Override
-	protected void interrupted() {
+	protected void interrupted()
+	{
 		org.usfirst.frc.team1014.robot.utilities.Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
 	}
 }
