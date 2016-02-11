@@ -49,8 +49,6 @@ public class UseShooter extends CommandBase
 			shooter.ringLightOn();
 
 		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
-		Logger.logThis("Shooting RPM: " + shooter.getShootingRPM());
-		Logger.logThis("Input: " + ControlsManager.secondaryXboxController.getLeftStickY());
 
 		if(ControlsManager.secondaryXboxController.isAButtonPressed())
 		{
@@ -63,7 +61,7 @@ public class UseShooter extends CommandBase
 
 		shooter.driveServo(servoPos);
 
-		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY());
+		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY() / 4);
 	}
 
 	public double scaleSpeed(double speed)

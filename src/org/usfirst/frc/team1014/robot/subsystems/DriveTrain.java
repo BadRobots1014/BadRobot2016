@@ -80,6 +80,25 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
+	public void driveStraight(double leftStickY, double rightStickY, double gyroValue)
+	{
+		if(Math.abs(gyroValue) < 5)
+		{
+			if(gyroValue < 0)
+			{
+				tankDrive(leftStickY * 1.5, rightStickY);
+			}
+			else if(gyroValue > 0)
+			{
+				tankDrive(leftStickY, rightStickY * 1.5);
+			}
+		}
+		else
+		{
+			tankDrive(leftStickY, rightStickY);
+		}
+	}
+	
 	public double getLIDARDistance()
 	{
 		lidar.updateDistance();
