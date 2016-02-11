@@ -8,16 +8,21 @@ import edu.wpi.first.wpilibj.Encoder;
  * @author Tze Hei T.
  *
  */
-public class BadCAN extends CANTalon {
+
+public class BadCAN extends CANTalon
+{
 
 	public Encoder encoder;
 
-	public BadCAN(int deviceNumber, int aChannel, int bChannel) {
+	public BadCAN(int deviceNumber, int aChannel, int bChannel)
+	{
 		super(deviceNumber);
 		encoder = new Encoder(aChannel, bChannel);
+		this.encoder.setDistancePerPulse(1 / 20);
 	}
 
-	public double getRpm() {
+	public double getRpm()
+	{
 		return encoder.getRate() * 60;
 	}
 }
