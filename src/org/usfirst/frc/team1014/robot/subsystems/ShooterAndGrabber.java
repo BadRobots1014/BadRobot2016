@@ -2,18 +2,26 @@ package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadTalon;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
-public class ShooterAndGrabber extends BadSubsystem
+public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
 	public static ShooterAndGrabber instance;
-
-	private SpeedController left, right, rotator;
+	private BadTalon left;
+	private SpeedController right, rotator;
 	private SpeedController ringLight;
 	public Servo pusher;
+	public boolean grabberSet = false;
+	private double previousRPM = 0;
+	private boolean grabbed = false;
+	private double grabSpeed = 0.5;
 
 	public static ShooterAndGrabber getInstance()
 	{
@@ -32,7 +40,72 @@ public class ShooterAndGrabber extends BadSubsystem
 		rotator = new Talon(ControlsManager.SHOOTER_ROTATE);
 		ringLight = new Talon(ControlsManager.RING_LIGHT);
 		pusher = new Servo(ControlsManager.PUSHER);
-		pusher.set(.4);
+		pusher.set(0);
+	}
+
+	public void setSpeeds(double speed)
+	{
+		if(previousRPM - 400 > ((BadTalon) left).getRpm() && grabberSet == true)
+		{
+			grabbed = true;
+			left.set(0);
+			right.set(0);
+		}
+		if(grabbed && previousRPM > 0 && grabberSet)
+		{
+			left.set(0);
+			right.set(0);
+		}
+		else if(grabbed && previousRPM <= 0 && grabberSet)
+		{
+			grabbed = false;
+			grabberSet = false;
+		}
+		else
+		{
+			left.set(speed);
+			right.set(-speed);
+			if(speed <= 0)
+			{
+				grabberSet = false;
+			}
+			else
+			{
+				grabberSet = true;
+			}
+		}
+		previousRPM = ((BadTalon) left).getRpm();
+		Logger.logThis("previousRPM = " + previousRPM);
+
+	}
+
+	public void grabBall()
+	{
+		grabberSet = true;
+		if(previousRPM - 400 > ((BadTalon) left).getRpm())
+		{
+			grabbed = true;
+			left.set(0);
+			right.set(0);
+		}
+		if(grabbed && previousRPM > 0)
+		{
+			left.set(0);
+			right.set(0);
+		}
+		else if(grabbed && previousRPM <= 0)
+		{
+			grabbed = false;
+			grabberSet = false;
+		}
+		else
+		{
+			left.set(grabSpeed);
+			right.set(-grabSpeed);
+		}
+		previousRPM = ((BadTalon) left).getRpm();
+		Logger.logThis("previousRPM = " + previousRPM);
+
 	}
 
 	public double getShootingRPM()
@@ -89,6 +162,33 @@ public class ShooterAndGrabber extends BadSubsystem
 	@Override
 	protected void initDefaultCommand()
 	{
+
+	}
+
+	@Override
+	public void pidWrite(double arg0)
+	{
+		left.set(arg0);
+		right.set(arg0);
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double pidGet()
+	{
+		return ((BadTalon) left).getRpm();
+	}
+
+	@Override
+	public void setPIDSourceType(PIDSourceType arg0)
+	{
+		// TODO Auto-generated method stub
 
 	}
 
