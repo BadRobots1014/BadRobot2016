@@ -1,34 +1,11 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-/OI.class
-/Robot.class
-/RobotMap.class
-.classpath
-.settings/org.eclipse.jdt.ui.prefs
-bin/
-.settings/
-/bin/
-build/
-dist/
-=======
-/OI.class
-/Robot.class
-/RobotMap.class
-=======
 *.class
 *~
 
->>>>>>> branch 'master' of https://github.com/BadRobots1014/BadRobot2016.git
 .classpath
 .settings/
 
 bin/
 build/
 dist/
-<<<<<<< HEAD
-sysProps.xml
->>>>>>> master
-=======
 
 sysProps.xml
->>>>>>> branch 'master' of https://github.com/BadRobots1014/BadRobot2016.git
