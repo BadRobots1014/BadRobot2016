@@ -65,5 +65,6 @@ public class TeleDrive extends CommandBase {
 	@Override
 	protected void interrupted() {
 		org.usfirst.frc.team1014.robot.utilities.Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
+		end();
 	}
 }

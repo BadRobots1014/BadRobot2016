@@ -73,6 +73,7 @@ public class UseShooter extends CommandBase {
 	@Override
 	protected void interrupted() {
 		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
+		end();
 	}
 
 }
