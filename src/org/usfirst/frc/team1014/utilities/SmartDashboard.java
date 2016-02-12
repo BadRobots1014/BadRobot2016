@@ -2,11 +2,15 @@ package org.usfirst.frc.team1014.utilities;
 
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
+
+import com.ni.vision.VisionException;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class SmartDashboard
 {
@@ -21,7 +25,7 @@ public class SmartDashboard
 	{
 		table = NetworkTable.getTable("SmartDashboard");
 		setup();
-		// initDashboard();
+		initDashboard();
 	}
 
 	public static SmartDashboard getInstance()
@@ -36,8 +40,21 @@ public class SmartDashboard
 	private void initDashboard()
 	{
 		CameraServer server = CameraServer.getInstance();
-		server.startAutomaticCapture("cam0");
-		Logger.log(Logger.Level.Debug, "SmartDash", "Camera initialized");
+		USBCamera camera;
+		try
+		{
+			camera = new USBCamera("cam0");
+			camera.openCamera();
+			server.startAutomaticCapture(camera);
+		} catch(VisionException ex)
+		{
+			Logger.log(Level.Error, "SmartDash", "Camera(cam0) failed to initialize");
+		} finally
+		{
+			server.startAutomaticCapture("cam0");
+			Logger.log(Level.Debug, "SmartDash", "Camera(cam0) initialized");
+		}
+
 	}
 
 	private void setup()

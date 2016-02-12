@@ -32,11 +32,17 @@ public class Robot extends IterativeRobot
 		CommandBase.init();
 	}
 
+	/**
+	 * This function is called periodically while the robot is disabled
+	 */
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
 	}
 
+	/**
+	 * Called when autonomous is first started
+	 */
 	public void autonomousInit()
 	{
 		// schedule the autonomous command (example)
@@ -53,6 +59,9 @@ public class Robot extends IterativeRobot
 		Scheduler.getInstance().run();
 	}
 
+	/**
+	 * Called when teleop is first started
+	 */
 	public void teleopInit()
 	{
 		// This makes sure that the autonomous stops running when

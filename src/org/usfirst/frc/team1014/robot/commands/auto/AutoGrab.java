@@ -8,53 +8,63 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  * @author Vaarun N.
- *
+ * 
  */
-public class AutoGrab extends CommandBase{
+public class AutoGrab extends CommandBase
+{
 
-	double speed; 
+	double speed;
 	double time;
-	
-	public AutoGrab (double speed) {
-		this.speed = speed ;
+
+	public AutoGrab(double speed)
+	{
+		this.speed = speed;
 		requires((Subsystem) shooter);
 	}
-	
+
 	@Override
-	protected void initialize() {
-		shooter.grab(0);		
+	protected void initialize()
+	{
+		shooter.grab(0);
 	}
 
 	@Override
-	public String getConsoleIdentity() {
+	public String getConsoleIdentity()
+	{
 		return "Grab";
 	}
 
 	@Override
-	protected void end() {
+	protected void end()
+	{
 		shooter.grab(0);
-		
+
 	}
 
 	@Override
-	protected void execute() {
+	protected void execute()
+	{
 		shooter.grab(speed);
 		time = Utility.getFPGATime();
 	}
 
 	@Override
-	protected void interrupted() {
+	protected void interrupted()
+	{
 		System.out.print("Grabber was interrupted");
 	}
 
 	@Override
-	protected boolean isFinished() {
-		if (time-1000<0) {
-		return true;
+	protected boolean isFinished()
+	{
+		if(time - 1000 < 0)
+		{
+			return true;
 		}
-		else 	{
+		else
+		{
 			return false;
 		}
-		
+
 	}
 }
