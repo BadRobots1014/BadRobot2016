@@ -82,16 +82,16 @@ public class DriveTrain extends BadSubsystem
 
 	public void driveStraight(double moveSpeed, double targetGyro)
 	{
-		if(Math.abs(this.getAngle() - targetGyro) > 5)
+		double difference = (getAngle() - targetGyro);
+		
+		if(Math.abs(difference) > 5)
 		{
-			if(this.getAngle() - targetGyro < 0)
-			{
-				tankDrive(moveSpeed, moveSpeed*.75);
-			}
-			else if(this.getAngle() - targetGyro > 0)
-			{
-				tankDrive(moveSpeed*.75, moveSpeed);
-			}
+			double turnSpeed = moveSpeed * difference / 5;
+			
+			if(Math.abs(turnSpeed) > 1)
+				turnSpeed = 1;
+			
+			tankDrive(-turnSpeed, turnSpeed);
 		}
 		else
 		{
