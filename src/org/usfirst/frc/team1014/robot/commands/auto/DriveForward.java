@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  * @author Sam G.
- *
+ * 
  */
 public class DriveForward extends CommandBase
 {
@@ -66,7 +66,10 @@ public class DriveForward extends CommandBase
 			System.out.println("DriveForward is done");
 			return true;
 		}
-		else return false;
+		else
+		{
+			return false;
+		}
 	}
 
 	public static double rotation()

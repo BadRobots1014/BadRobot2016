@@ -111,7 +111,6 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 
 	protected void initIMU()
 	{
-
 		// The nav6 IMU serial port configuration is 8 data bits, no parity, one
 		// stop bit.
 		// No flow control is used.
@@ -513,14 +512,12 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
 	@Override
 	public PIDSourceType getPIDSourceType()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setPIDSourceType(PIDSourceType arg0)
 	{
-		// TODO Auto-generated method stub
 
 	}
 }
