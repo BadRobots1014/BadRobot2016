@@ -117,6 +117,11 @@ public class DriveTrain extends BadSubsystem
 		return lidar.getDistance();
 	}
 
+	/**
+	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
+	 * 
+	 * @return - the distane to the nearest object in inches
+	 */
 	public double getMaxbotixDistance()
 	{
 		return maxbotix.getDistance();

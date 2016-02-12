@@ -10,15 +10,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * @author Sam G.
  * 
  */
-public class DriveForward extends CommandBase
+public class AutoDrive extends CommandBase
 {
 
 	public double driveTime;
 	public double speed;
 	public double startTime;
 	public double passedTime;
+	public double targetAngle;
 
-	public DriveForward(double driveTime, double speed)
+	public AutoDrive(double driveTime, double speed)
 	{
 		this.driveTime = driveTime;
 		this.speed = speed;
@@ -31,6 +32,7 @@ public class DriveForward extends CommandBase
 	protected void initialize()
 	{
 		driveTrain.tankDrive(0, 0);
+		targetAngle = driveTrain.getAngle();
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class DriveForward extends CommandBase
 	protected void execute()
 	{
 		passedTime = Utility.getFPGATime() - startTime;
-		driveTrain.tankDrive(-speed, -speed);
+		driveTrain.driveStraight(speed, targetAngle);
 	}
 
 	@Override

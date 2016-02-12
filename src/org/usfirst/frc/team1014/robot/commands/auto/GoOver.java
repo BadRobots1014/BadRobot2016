@@ -9,12 +9,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class GoOver extends CommandGroup
 {
-
 	public GoOver()
 	{
-
 		this.addSequential(new DriveForwardDistance(1, 132));
-
 	}
 
 }

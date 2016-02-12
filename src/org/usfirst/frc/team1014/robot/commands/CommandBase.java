@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoGrab;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
-import org.usfirst.frc.team1014.robot.commands.auto.DriveForward;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
 import org.usfirst.frc.team1014.robot.commands.auto.DriveForwardDistance;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOver;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOverAndComeBack;
@@ -55,7 +55,7 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new AutoGrab(0.0));
 		commandClasses.add(new AutoShoot(0.0));
 		commandClasses.add(new AutoTurn(90.0));
-		commandClasses.add(new DriveForward(0.0, 0.0));
+		commandClasses.add(new AutoDrive(0.0, 0.0));
 		commandClasses.add(new DriveForwardDistance(0.0, 0.0));
 		commandClasses.add(new GoOver());
 		commandClasses.add(new GoOverAndComeBack());
