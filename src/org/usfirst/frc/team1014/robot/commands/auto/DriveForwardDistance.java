@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  * @author Tze Hei T.
- *
+ * 
  */
 public class DriveForwardDistance extends CommandBase
 {
@@ -53,7 +53,6 @@ public class DriveForwardDistance extends CommandBase
 	protected void execute()
 	{
 		ultraDistance = driveTrain.getUltraDistance(true); // Gets the ultrasonic distance in inches
-
 		driveTrain.tankDrive(speed, speed);
 
 	}

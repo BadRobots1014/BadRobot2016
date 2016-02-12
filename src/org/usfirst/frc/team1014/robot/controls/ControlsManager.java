@@ -32,6 +32,9 @@ public class ControlsManager
 	public static XboxController primaryXboxController,
 			secondaryXboxController;
 
+	/**
+	 * Initializes controls for the robot. Should only be called once when the robot first loads up.
+	 */
 	public static void init()
 	{
 		driverStation = DriverStation.getInstance();

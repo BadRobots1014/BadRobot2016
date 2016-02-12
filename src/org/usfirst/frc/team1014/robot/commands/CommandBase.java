@@ -29,6 +29,10 @@ public abstract class CommandBase extends Command
 
 	// The subsystems on the final robot go here
 
+	/**
+	 * Initializes all commands that the robot will needed. This function should only be called
+	 * once, from the main Robot class.
+	 */
 	public static void init()
 	{
 		// Final Subsystems
