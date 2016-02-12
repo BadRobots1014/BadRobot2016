@@ -22,8 +22,8 @@ public class ControlsManager
 	public static final int PUSHER = 8;
 
 	// DIO
-	public static final int SHOOTER_ENCODER_A = 8;
-	public static final int SHOOTER_ENCODER_B = 9;
+	public static final int SHOOTER_ENCODER_A = 6;
+	public static final int SHOOTER_ENCODER_B = 7;
 
 	// Analog In
 	public static final int MAXBOTIX_ULTRASONIC = 0;

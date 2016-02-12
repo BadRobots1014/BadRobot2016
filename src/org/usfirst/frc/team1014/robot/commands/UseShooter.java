@@ -71,6 +71,8 @@ public class UseShooter extends CommandBase
 		{
 			shooter.ringLightOff();
 		}
+		
+		//Logger.logThis("Encoder RPM: " + shooter.getShootingRPM());
 
 	}
 

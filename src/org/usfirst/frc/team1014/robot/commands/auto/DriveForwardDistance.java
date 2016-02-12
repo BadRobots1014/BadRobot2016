@@ -13,6 +13,7 @@ public class DriveForwardDistance extends CommandBase
 {
 
 	public double speed, distance, ultraDistance;
+	public double zeroAngle;
 
 	/**
 	 * Constructor
@@ -33,7 +34,7 @@ public class DriveForwardDistance extends CommandBase
 	protected void initialize()
 	{
 		driveTrain.tankDrive(0, 0);
-
+		zeroAngle = driveTrain.getAngle();
 	}
 
 	@Override
@@ -52,8 +53,8 @@ public class DriveForwardDistance extends CommandBase
 	@Override
 	protected void execute()
 	{
-		ultraDistance = driveTrain.getUltraDistance(true); // Gets the ultrasonic distance in inches
-		driveTrain.tankDrive(speed, speed);
+		ultraDistance = driveTrain.getMaxbotixDistance(); // Gets the ultrasonic distance in inches
+		driveTrain.driveStraight(speed, zeroAngle);
 
 	}
 
