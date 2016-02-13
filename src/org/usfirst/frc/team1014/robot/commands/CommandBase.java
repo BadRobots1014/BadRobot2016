@@ -64,6 +64,7 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new ObjectTrackingTest());
 	}
 
+
 	public CommandBase(String name)
 	{
 		super(name);

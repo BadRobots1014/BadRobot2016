@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
+
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
+	
 	public static ShooterAndGrabber instance;
 	private BadTalon left;
 	public SpeedController right, rotator;
@@ -34,6 +36,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	protected void initialize()
 	{
+
 		left = new BadTalon(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_ENCODER_A, ControlsManager.SHOOTER_ENCODER_B);
 		right = new Talon(ControlsManager.SHOOTER_RIGHT);
 		rotator = new Talon(ControlsManager.SHOOTER_ROTATE);

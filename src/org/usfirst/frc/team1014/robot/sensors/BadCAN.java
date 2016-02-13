@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Encoder;
  * This class allows an encoder to be attached to each TalonSRX and use of getRpm
  * 
  * @author Tze Hei T.
+ *
  * 
  */
 

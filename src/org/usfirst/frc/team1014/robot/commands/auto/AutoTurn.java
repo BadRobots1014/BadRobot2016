@@ -20,7 +20,7 @@ public class AutoTurn extends CommandBase
 	 * Constructor
 	 * 
 	 * @param degree
-	 *            - how far the robot needs to turn
+	 *            - how far the robot needs to turn. Positive values turn right. Negative values turn left	 *      
 	 */
 	public AutoTurn(double degree)
 	{
@@ -72,6 +72,7 @@ public class AutoTurn extends CommandBase
 		System.out.println("AutoTurn was interrupted");
 
 	}
+
 
 	/**
 	 * 
