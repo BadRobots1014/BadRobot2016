@@ -5,18 +5,13 @@ import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-<<<<<<< HEAD
 /**
  * 
  * This class defines how the robot shooter will work in teleop.
  *
  */
-public class UseShooter extends CommandBase {
-=======
 public class UseShooter extends CommandBase
 {
->>>>>>> 572c57f3110713e9c366b35db0233d25b2f336dd
-
 	boolean usingShooter;
 	double maxSpeed;
 	double servoPos;

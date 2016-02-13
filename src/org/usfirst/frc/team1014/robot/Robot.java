@@ -1,20 +1,15 @@
 package org.usfirst.frc.team1014.robot;
-
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.ObjectTrackingTest;
+import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
-<<<<<<< HEAD
-=======
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
->>>>>>> 572c57f3110713e9c366b35db0233d25b2f336dd
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
