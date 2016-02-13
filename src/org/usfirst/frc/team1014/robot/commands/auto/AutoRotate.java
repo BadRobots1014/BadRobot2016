@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * 
- * @author Tze Hei 
+ * @author Tze Hei T.
  *
  */
 
@@ -16,16 +16,16 @@ public class AutoRotate extends CommandBase {
 	double revolutions;
 	double currentRevolutions;
 	double difference;
-	int direction;
+	boolean direction;
 
 	/**
-	 * 
+	 * Constructor
 	 * @param revolutions
 	 * 				- amount of revolutions you want to turn
 	 * @param direction
-	 * 				- -1 for down, 1 for up
+	 * 				- false for down, true for up
 	 */
-	public AutoRotate(double revolutions, int direction) {
+	public AutoRotate(double revolutions, boolean direction) {
 		this.direction = direction;
 		this.revolutions = revolutions;
 		requires((Subsystem) shooter);
@@ -53,9 +53,10 @@ public class AutoRotate extends CommandBase {
 	protected void execute() {
 		currentRevolutions = ((BadTalon) shooter.rotator).get();
 		difference = currentRevolutions - revolutions;
-		if(direction == 1){
-			shooter.rotate(.5);
-		}if(direction == -1){
+		
+		if(direction == true){
+			shooter.rotate(1);
+		}if(direction == false){
 			shooter.rotate(-1);
 		}
 
