@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * 
-  The robot will automatically grab the ball after being initialized
+ * The robot will automatically grab the ball after being initialized
  * 
- * @author Vaarun N. 
+ * @author Vaarun N.
  * 
  */
 public class AutoGrab extends CommandBase
@@ -31,9 +31,8 @@ public class AutoGrab extends CommandBase
 	}
 
 	/**
-	 * resets grabber's rotation
-	 * starts a timer for current time in micro sec, 
-	 * sets an ending time based on user input
+	 * resets grabber's rotation starts a timer for current time in micro sec, sets an ending time
+	 * based on user input
 	 */
 	@Override
 	protected void initialize()
@@ -68,6 +67,7 @@ public class AutoGrab extends CommandBase
 	{
 		System.out.print("Grabber was interrupted");
 	}
+
 	/**
 	 * when timer is greater than time entered, it stops
 	 */

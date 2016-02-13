@@ -17,7 +17,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	
 	public static ShooterAndGrabber instance;
 	private BadTalon left;
-	private SpeedController right, rotator;
+	public SpeedController right, rotator;
 	private SpeedController ringLight;
 	public Servo pusher;
 	public boolean grabberSet = false;
