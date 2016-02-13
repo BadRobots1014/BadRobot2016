@@ -40,21 +40,21 @@ public class SmartDashboard
 
 	private void initDashboard()
 	{
-		CameraServer server = CameraServer.getInstance();
-		USBCamera camera;
-		try
-		{
-			camera = new USBCamera("cam0");
-			camera.openCamera();
-			server.startAutomaticCapture(camera);
-		} catch(VisionException ex)
-		{
-			Logger.log(Level.Error, "SmartDash", "Camera(cam0) failed to initialize");
-		} finally
-		{
-			server.startAutomaticCapture("cam0");
-			Logger.log(Level.Debug, "SmartDash", "Camera(cam0) initialized");
-		}
+//		CameraServer server = CameraServer.getInstance();
+//		USBCamera camera;
+//		try
+//		{
+//			camera = new USBCamera("cam0");
+//			camera.openCamera();
+//			server.startAutomaticCapture(camera);
+//		} catch(VisionException ex)
+//		{
+//			Logger.log(Level.Error, "SmartDash", "Camera(cam0) failed to initialize");
+//		} finally
+//		{
+//			server.startAutomaticCapture("cam0");
+//			Logger.log(Level.Debug, "SmartDash", "Camera(cam0) initialized");
+//		}
 	}
 
 	private void setup()
@@ -84,7 +84,7 @@ public class SmartDashboard
 		ProcessedCam.getInstance().setY(table.getNumber("OBJECT_TRACKING_Y", 0.0));
 		ProcessedCam.getInstance().setTrackingScore(table.getNumber("OBJECT_TRACKING_SCORE", 0.0));
 		System.out.println("getX: " + ProcessedCam.getInstance().getX());
-		System.out.println("getY:" + ProcessedCam.getInstance().getY());
-		System.out.println("getScore:" + ProcessedCam.getInstance().getTrackingScore());
+		System.out.println("getY: " + ProcessedCam.getInstance().getY());
+		System.out.println("getScore: " + ProcessedCam.getInstance().getTrackingScore());
 	}
 }
