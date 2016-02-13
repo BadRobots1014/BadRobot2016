@@ -165,6 +165,11 @@ public class DriveTrain extends BadSubsystem
 		return "DriveTrain";
 	}
 
+	public float getRoll() {
+		return mxp.getRoll();
+	}
+	
+	
 	@Override
 	protected void initDefaultCommand()
 	{
