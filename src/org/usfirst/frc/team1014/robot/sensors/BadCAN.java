@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.Encoder;
  * 
  * @author Tze Hei T.
  *
+ * 
  */
+
 public class BadCAN extends CANTalon
 {
 

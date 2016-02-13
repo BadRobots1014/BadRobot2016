@@ -13,13 +13,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class TeleDrive extends CommandBase
 {
-
 	public double targetGyro;
+	public boolean gyroSet;
 	
 	public TeleDrive()
 	{
 		requires((Subsystem) driveTrain);
 		targetGyro = 0;
+		gyroSet = false;
 	}
 
 	/**
@@ -53,13 +54,19 @@ public class TeleDrive extends CommandBase
 
 		if(ControlsManager.primaryXboxController.isLBButtonPressed())
 		{
+			if(!gyroSet)
+			{
+				targetGyro = driveTrain.getAngle();
+				gyroSet = true;
+			}
 			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
+			Logger.logThis("Correcting orientation");
 		}
 		else
 		{
 			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
 					-ControlsManager.primaryXboxController.getRightStickY());
-			targetGyro = driveTrain.getAngle();
+			gyroSet = false;
 		}
 
 		Logger.logThis("MXP Angle: " + driveTrain.getAngle());

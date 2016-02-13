@@ -7,12 +7,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  * @author Tze Hei T.
- *
+ * 
  */
 public class DriveForwardDistance extends CommandBase
 {
 
 	public double speed, distance, ultraDistance;
+	public double zeroAngle;
 
 
 	// Distance is the distance in inches you want it to stop at
@@ -36,7 +37,7 @@ public class DriveForwardDistance extends CommandBase
 	protected void initialize()
 	{
 		driveTrain.tankDrive(0, 0);
-
+		zeroAngle = driveTrain.getAngle();
 	}
 
 	@Override
@@ -55,11 +56,8 @@ public class DriveForwardDistance extends CommandBase
 	@Override
 	protected void execute()
 	{
-
-		ultraDistance = driveTrain.getUltraDistance(true); 
-		// Gets the ultrasonic distance in inches
-		driveTrain.tankDrive(speed, speed);
-
+		ultraDistance = driveTrain.getMaxbotixDistance(); // Gets the ultrasonic distance in inches
+		driveTrain.driveStraight(speed, zeroAngle);
 	}
 
 	@Override
