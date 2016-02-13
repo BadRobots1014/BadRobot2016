@@ -80,18 +80,30 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
+	/**
+	 * This method allows the robot to go straight with just two parameters. The robot first
+	 * calculates how far off it is from the target angle, then checks if that is large enough to
+	 * act on. It then uses the proportional part of PID to calculate how fast it needs to turn to
+	 * correct its angle. Finally, it turns the robot to come back to the proper angle. If the robot
+	 * was never off in the first place, then it just drives forward at uniform speed.
+	 * 
+	 * @param moveSpeed
+	 *            - the speed at which to move if the angle is OK
+	 * @param targetGyro
+	 *            - the angle the robot wants to correct to
+	 */
 	public void driveStraight(double moveSpeed, double targetGyro)
 	{
-		if(Math.abs(this.getAngle() - targetGyro) > 5)
+		double difference = (getAngle() - targetGyro);
+
+		if(Math.abs(difference) > 5)
 		{
-			if(this.getAngle() - targetGyro < 0)
-			{
-				tankDrive(moveSpeed, moveSpeed*.75);
-			}
-			else if(this.getAngle() - targetGyro > 0)
-			{
-				tankDrive(moveSpeed*.75, moveSpeed);
-			}
+			double turnSpeed = moveSpeed * difference / 5;
+
+			if(Math.abs(turnSpeed) > 1)
+				turnSpeed = 1;
+
+			tankDrive(-turnSpeed, turnSpeed);
 		}
 		else
 		{
@@ -105,6 +117,11 @@ public class DriveTrain extends BadSubsystem
 		return lidar.getDistance();
 	}
 
+	/**
+	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
+	 * 
+	 * @return - the distane to the nearest object in inches
+	 */
 	public double getMaxbotixDistance()
 	{
 		return maxbotix.getDistance();

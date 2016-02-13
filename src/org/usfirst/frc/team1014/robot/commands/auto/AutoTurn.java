@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  * @author Tze Hei T.
- *
+ * 
  */
 public class AutoTurn extends CommandBase
 {
@@ -53,8 +53,7 @@ public class AutoTurn extends CommandBase
 	@Override
 	protected void execute()
 	{
-
-		difference = driveTrain.getAngle360() - degree;		// amount robot is still off of the desired degree
+		difference = driveTrain.getAngle360() - degree;
 
 		if(sign < 0)
 		{
@@ -81,13 +80,12 @@ public class AutoTurn extends CommandBase
 	public double rotation()
 	{
 		return(difference / rotationCoefficient);
-
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		// Stops if the difference is in the range
+		// Stops if the difference is in the range0
 		if(Math.abs(difference) < 5)
 		{
 			return true;
