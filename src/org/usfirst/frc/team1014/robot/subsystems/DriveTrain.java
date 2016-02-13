@@ -131,7 +131,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else return ultrasonic.getRangeMM();
+		else
+			return ultrasonic.getRangeMM();
 	}
 
 	public double getAngle()// return -180 - 180
@@ -143,7 +144,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;
-		else return mxp.getYaw();
+		else
+			return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()

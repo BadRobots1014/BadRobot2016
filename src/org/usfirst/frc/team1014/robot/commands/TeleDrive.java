@@ -15,7 +15,7 @@ public class TeleDrive extends CommandBase
 {
 	public double targetGyro;
 	public boolean gyroSet;
-	
+
 	public TeleDrive()
 	{
 		requires((Subsystem) driveTrain);
@@ -63,8 +63,7 @@ public class TeleDrive extends CommandBase
 		}
 		else
 		{
-			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
-					-ControlsManager.primaryXboxController.getRightStickY());
+			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
 			gyroSet = false;
 		}
 

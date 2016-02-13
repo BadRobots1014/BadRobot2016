@@ -67,8 +67,8 @@ public class AHRSProtocol extends IMUProtocol
 
 	public final static byte MSGID_AHRS_UPDATE = 'a';
 	final static int AHRS_UPDATE_YAW_VALUE_INDEX = 4; /*
-													 * Degrees. Signed Hundredths
-													 */
+														 * Degrees. Signed Hundredths
+														 */
 	final static int AHRS_UPDATE_PITCH_VALUE_INDEX = 6; /*
 														 * Degrees. Signed Hundredeths
 														 */
@@ -82,51 +82,52 @@ public class AHRSProtocol extends IMUProtocol
 															 * Meters. Signed 16:16
 															 */
 	final static int AHRS_UPDATE_FUSED_HEADING_VALUE_INDEX = 16; /*
-																 * Degrees. Unsigned Hundredths
-																 */
-	final static int AHRS_UPDATE_LINEAR_ACCEL_X_VALUE_INDEX = 18; /*
-																 * Inst. G. Signed Thousandths
-																 */
-	final static int AHRS_UPDATE_LINEAR_ACCEL_Y_VALUE_INDEX = 20; /*
-																 * Inst. G. Signed Thousandths
-																 */
-	final static int AHRS_UPDATE_LINEAR_ACCEL_Z_VALUE_INDEX = 22; /*
-																 * Inst. G. Signed Thousandths
-																 */
-	final static int AHRS_UPDATE_CAL_MAG_X_VALUE_INDEX = 24; /*
-															 * Int16 (Device Units)
-															 */
-	final static int AHRS_UPDATE_CAL_MAG_Y_VALUE_INDEX = 26; /*
-															 * Int16 (Device Units)
-															 */
-	final static int AHRS_UPDATE_CAL_MAG_Z_VALUE_INDEX = 28; /*
-															 * Int16 (Device Units)
-															 */
-	final static int AHRS_UPDATE_CAL_MAG_NORM_RATIO_VALUE_INDEX = 30; /*
-																	 * Ratio. Unsigned Hundredths
+																	 * Degrees. Unsigned Hundredths
 																	 */
-	final static int AHRS_UPDATE_CAL_MAG_SCALAR_VALUE_INDEX = 32; /*
-																 * Coefficient. Signed 16:16
+	final static int AHRS_UPDATE_LINEAR_ACCEL_X_VALUE_INDEX = 18; /*
+																	 * Inst. G. Signed Thousandths
+																	 */
+	final static int AHRS_UPDATE_LINEAR_ACCEL_Y_VALUE_INDEX = 20; /*
+																	 * Inst. G. Signed Thousandths
+																	 */
+	final static int AHRS_UPDATE_LINEAR_ACCEL_Z_VALUE_INDEX = 22; /*
+																	 * Inst. G. Signed Thousandths
+																	 */
+	final static int AHRS_UPDATE_CAL_MAG_X_VALUE_INDEX = 24; /*
+																 * Int16 (Device Units)
 																 */
+	final static int AHRS_UPDATE_CAL_MAG_Y_VALUE_INDEX = 26; /*
+																 * Int16 (Device Units)
+																 */
+	final static int AHRS_UPDATE_CAL_MAG_Z_VALUE_INDEX = 28; /*
+																 * Int16 (Device Units)
+																 */
+	final static int AHRS_UPDATE_CAL_MAG_NORM_RATIO_VALUE_INDEX = 30; /*
+																		 * Ratio. Unsigned
+																		 * Hundredths
+																		 */
+	final static int AHRS_UPDATE_CAL_MAG_SCALAR_VALUE_INDEX = 32; /*
+																	 * Coefficient. Signed 16:16
+																	 */
 	final static int AHRS_UPDATE_MPU_TEMP_VAUE_INDEX = 36; /*
 															 * Centigrade. Signed Hundredths
 															 */
 	final static int AHRS_UPDATE_RAW_MAG_X_VALUE_INDEX = 38; /*
-															 * INT16 (Device Units
-															 */
+																 * INT16 (Device Units
+																 */
 	final static int AHRS_UPDATE_RAW_MAG_Y_VALUE_INDEX = 40; /*
-															 * INT16 (Device Units
-															 */
+																 * INT16 (Device Units
+																 */
 	final static int AHRS_UPDATE_RAW_MAG_Z_VALUE_INDEX = 42; /*
-															 * INT16 (Device Units
-															 */
+																 * INT16 (Device Units
+																 */
 	final static int AHRS_UPDATE_QUAT_W_VALUE_INDEX = 44; /* INT16 */
 	final static int AHRS_UPDATE_QUAT_X_VALUE_INDEX = 46; /* INT16 */
 	final static int AHRS_UPDATE_QUAT_Y_VALUE_INDEX = 48; /* INT16 */
 	final static int AHRS_UPDATE_QUAT_Z_VALUE_INDEX = 50; /* INT16 */
 	final static int AHRS_UPDATE_BARO_PRESSURE_VALUE_INDEX = 52; /*
-																 * millibar. Signed 16:16
-																 */
+																	 * millibar. Signed 16:16
+																	 */
 	final static int AHRS_UPDATE_BARO_TEMP_VAUE_INDEX = 56; /*
 															 * Centigrade. Signed Hundredths
 															 */

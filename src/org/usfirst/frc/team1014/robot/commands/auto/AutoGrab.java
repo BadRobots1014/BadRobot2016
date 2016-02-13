@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * 
- <<<<<<< HEAD The robot will automatically grab the ball after being initialized
+ * <<<<<<< HEAD The robot will automatically grab the ball after being initialized
  * 
  * @author Vaarun N. + Ian W.
  * 

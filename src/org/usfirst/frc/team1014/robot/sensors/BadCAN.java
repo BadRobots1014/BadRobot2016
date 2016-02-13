@@ -14,18 +14,22 @@ public class BadCAN extends CANTalon
 {
 
 	public Encoder encoder;
+
 	/**
 	 * Constructor
 	 * 
-	 * @param deviceNumber - number of CanTalon
-	 * @param aChannel - a channel for encoder
-	 * @param bChannel - b channel for encoder
+	 * @param deviceNumber
+	 *            - number of CanTalon
+	 * @param aChannel
+	 *            - a channel for encoder
+	 * @param bChannel
+	 *            - b channel for encoder
 	 */
 	public BadCAN(int deviceNumber, int aChannel, int bChannel)
 	{
 		super(deviceNumber);
 		encoder = new Encoder(aChannel, bChannel);
-		this.encoder.setDistancePerPulse(.05);	// encoder is 20 pulses per revolution
+		this.encoder.setDistancePerPulse(.05); // encoder is 20 pulses per revolution
 	}
 
 	public double getRpm()

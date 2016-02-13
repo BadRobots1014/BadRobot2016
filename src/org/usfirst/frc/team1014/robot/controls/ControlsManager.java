@@ -29,8 +29,7 @@ public class ControlsManager
 	public static final int MAXBOTIX_ULTRASONIC = 0;
 
 	public static DriverStation driverStation;
-	public static XboxController primaryXboxController,
-			secondaryXboxController;
+	public static XboxController primaryXboxController, secondaryXboxController;
 
 	/**
 	 * Initializes controls for the robot. Should only be called once when the robot first loads up.
@@ -57,7 +56,8 @@ public class ControlsManager
 				return 1;
 			else if(primaryXboxController.isRBButtonPressed())
 				return 2;
-			else return 0;
+			else
+				return 0;
 		}
 		else
 		{
@@ -65,7 +65,8 @@ public class ControlsManager
 				return 1;
 			else if(secondaryXboxController.isRBButtonPressed())
 				return 2;
-			else return 0;
+			else
+				return 0;
 		}
 	}
 }

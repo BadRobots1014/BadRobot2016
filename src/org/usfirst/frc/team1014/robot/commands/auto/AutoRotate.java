@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 
-public class AutoRotate extends CommandBase {
+public class AutoRotate extends CommandBase
+{
 
 	double revolutions;
 	double currentRevolutions;
@@ -20,59 +21,73 @@ public class AutoRotate extends CommandBase {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param revolutions
-	 * 				- amount of revolutions you want to turn
+	 *            - amount of revolutions you want to turn
 	 * @param direction
-	 * 				- false for down, true for up
+	 *            - false for down, true for up
 	 */
-	public AutoRotate(double revolutions, boolean direction) {
+	public AutoRotate(double revolutions, boolean direction)
+	{
 		this.direction = direction;
 		this.revolutions = revolutions;
 		requires((Subsystem) shooter);
 	}
 
 	@Override
-	protected void initialize() {
+	protected void initialize()
+	{
 		shooter.rotate(0);
 
 	}
 
 	@Override
-	public String getConsoleIdentity() {
+	public String getConsoleIdentity()
+	{
 
 		return "AutoRotate";
 	}
 
 	@Override
-	protected void end() {
+	protected void end()
+	{
 		shooter.rotate(0);
 
 	}
 
 	@Override
-	protected void execute() {
+	protected void execute()
+	{
 		currentRevolutions = ((BadTalon) shooter.rotator).get();
 		difference = currentRevolutions - revolutions;
-		
-		if(direction == true){
+
+		if(direction == true)
+		{
 			shooter.rotate(1);
-		}if(direction == false){
+		}
+		if(direction == false)
+		{
 			shooter.rotate(-1);
 		}
 
 	}
 
 	@Override
-	protected void interrupted() {
+	protected void interrupted()
+	{
 		System.out.println("AutoRotate was interrupted");
 
 	}
 
 	@Override
-	protected boolean isFinished() {
-		if (Math.abs(difference) <= 0) {
+	protected boolean isFinished()
+	{
+		if(Math.abs(difference) <= 0)
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}

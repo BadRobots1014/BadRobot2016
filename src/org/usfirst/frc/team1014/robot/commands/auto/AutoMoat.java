@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * 
- * @author Tze Hei
+ * @author Tze Hei T.
  *
  */
-public class AutoMoat extends CommandGroup{
-	
+public class AutoMoat extends CommandGroup
+{
+
 	public AutoMoat()
 	{
-		this.addSequential(new AutoDrive(1, 1));
 		this.addSequential(new AutoRotateDown());
 		this.addSequential(new AutoDrive(2, 1));
 		this.addSequential(new AutoRotate(.5, true));
