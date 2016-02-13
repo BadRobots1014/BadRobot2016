@@ -31,4 +31,7 @@ public class BadTalon extends Talon
 	{
 		return encoder.getRate() * 60;
 	}
+	public double get(){
+		return encoder.get();
+	}
 }
