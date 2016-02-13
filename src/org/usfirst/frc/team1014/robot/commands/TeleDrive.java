@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -10,44 +11,72 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * @author Manu S.
  * 
  */
-public class TeleDrive extends CommandBase {
-	public TeleDrive() {
+public class TeleDrive extends CommandBase
+{
+	public double targetGyro;
+	public boolean gyroSet;
+	
+	public TeleDrive()
+	{
 		requires((Subsystem) driveTrain);
+		targetGyro = 0;
+		gyroSet = false;
 	}
 
 	/**
-	 * This method runs before the command is executed to make sure everything
-	 * is ready for it to be executed.
+	 * This method runs before the command is executed to make sure everything is ready for it to be
+	 * executed.
 	 */
 	@Override
-	protected void initialize() {
+	protected void initialize()
+	{
 		driveTrain.tankDrive(0, 0);
+		driveTrain.resetMXPAngle();
 	}
 
 	/**
-	 * This is really useless and doesn't really have much function, other than
-	 * when we want to log things.
+	 * This is really useless and doesn't really have much function, other than when we want to log
+	 * things.
 	 */
 	@Override
-	public String getConsoleIdentity() {
+	public String getConsoleIdentity()
+	{
 		return "TeleDrive";
 	}
 
 	/**
-	 * This is the method that gets called over and over again while the command
-	 * is actually running.
+	 * This is the method that gets called over and over again while the command is actually
+	 * running.
 	 */
 	@Override
-	protected void execute() {
-		driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
-				-ControlsManager.primaryXboxController.getRightStickY());
+	protected void execute()
+	{
+		if(ControlsManager.primaryXboxController.isLBButtonPressed())
+		{
+			if(!gyroSet)
+			{
+				targetGyro = driveTrain.getAngle();
+				gyroSet = true;
+			}
+			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
+			Logger.logThis("Correcting orientation");
+		}
+		else
+		{
+			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
+					-ControlsManager.primaryXboxController.getRightStickY());
+			gyroSet = false;
+		}
+
+		Logger.logThis("MXP Angle: " + driveTrain.getAngle());
 	}
 
 	/**
 	 * Lets the system know when to stop this command and do some other one.
 	 */
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinished()
+	{
 		return false;
 	}
 
@@ -55,7 +84,8 @@ public class TeleDrive extends CommandBase {
 	 * Removes loose ends and exits command properly.
 	 */
 	@Override
-	protected void end() {
+	protected void end()
+	{
 		driveTrain.tankDrive(0, 0);
 	}
 
@@ -64,7 +94,8 @@ public class TeleDrive extends CommandBase {
 	 * Cleans up dependencies and logs the interrupt.
 	 */
 	@Override
-	protected void interrupted() {
+	protected void interrupted()
+	{
 		org.usfirst.frc.team1014.robot.utilities.Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
 		end();
 	}

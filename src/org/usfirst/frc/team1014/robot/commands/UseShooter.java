@@ -5,22 +5,29 @@ import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+<<<<<<< HEAD
 /**
  * 
  * This class defines how the robot shooter will work in teleop.
  *
  */
 public class UseShooter extends CommandBase {
+=======
+public class UseShooter extends CommandBase
+{
+>>>>>>> 572c57f3110713e9c366b35db0233d25b2f336dd
 
 	boolean usingShooter;
 	double maxSpeed;
 	double servoPos;
 
-	public UseShooter() {
+	public UseShooter()
+	{
 		requires((Subsystem) shooter);
 	}
 
-	protected void initialize() {
+	protected void initialize()
+	{
 		usingShooter = false;
 		maxSpeed = .5;
 		servoPos = .5;
@@ -30,42 +37,62 @@ public class UseShooter extends CommandBase {
 	}
 
 	@Override
-	public String getConsoleIdentity() {
+	public String getConsoleIdentity()
+	{
 		return "UseShooter";
 	}
 
 	@Override
-	protected void execute() {
-		if (ControlsManager.secondaryXboxController.isBButtonPressed()
-				|| ControlsManager.secondaryXboxController.isXButtonPressed()) {
-			if (ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)
+	protected void execute()
+	{
+		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
+		{
+			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)
 				maxSpeed -= .1;
-			else if (ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
+			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
+		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
+		{
+			shooter.grabBall();
+		}
+		else
+		{
+			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
+		}
 
-		if (ControlsManager.secondaryXboxController.isRBButtonPressed())
-			shooter.ringLightOn();
-
-		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
-
-		if (ControlsManager.secondaryXboxController.isAButtonPressed()) {
+		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+		{
 			servoPos = .65;
-		} else {
+		}
+		else
+		{
 			servoPos = .25;
 		}
 
-		shooter.driveServo(servoPos);
+		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 3);
 
-		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY());
+		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
+		{
+			shooter.ringLightOn();
+		}
+		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
+		{
+			shooter.ringLightOff();
+		}
+		
+		//Logger.logThis("Encoder RPM: " + shooter.getShootingRPM());
+
 	}
 
-	public double scaleSpeed(double speed) {
+	public double scaleSpeed(double speed)
+	{
 		return speed * maxSpeed;
 	}
 
 	@Override
-	protected boolean isFinished() {
+	protected boolean isFinished()
+	{
 		return false;
 	}
 
@@ -73,7 +100,8 @@ public class UseShooter extends CommandBase {
 	 * Removes loose ends and exits command properly.
 	 */
 	@Override
-	protected void end() {
+	protected void end()
+	{
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
 	}
@@ -83,7 +111,8 @@ public class UseShooter extends CommandBase {
 	 * Cleans up dependencies and logs the interrupt.
 	 */
 	@Override
-	protected void interrupted() {
+	protected void interrupted()
+	{
 		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
 		end();
 	}
