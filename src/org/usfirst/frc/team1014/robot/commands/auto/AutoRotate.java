@@ -16,13 +16,17 @@ public class AutoRotate extends CommandBase {
 	double revolutions;
 	double currentRevolutions;
 	double difference;
+	int direction;
 
 	/**
 	 * 
 	 * @param revolutions
-	 *  			- amount of revolutions you want it to turn 
+	 * 				- amount of revolutions you want to turn
+	 * @param direction
+	 * 				- -1 for down, 1 for up
 	 */
-	public AutoRotate(double revolutions) {
+	public AutoRotate(double revolutions, int direction) {
+		this.direction = direction;
 		this.revolutions = revolutions;
 		requires((Subsystem) shooter);
 	}
@@ -49,6 +53,11 @@ public class AutoRotate extends CommandBase {
 	protected void execute() {
 		currentRevolutions = ((BadTalon) shooter.rotator).get();
 		difference = currentRevolutions - revolutions;
+		if(direction == 1){
+			shooter.rotate(.5);
+		}if(direction == -1){
+			shooter.rotate(-1);
+		}
 
 	}
 
