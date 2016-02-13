@@ -54,6 +54,7 @@ public class AutoTurn extends CommandBase
 	protected void execute()
 	{
 		difference = driveTrain.getAngle360() - degree;
+
 		if(sign < 0)
 		{
 			driveTrain.tankDrive((rotation()), -rotation());
