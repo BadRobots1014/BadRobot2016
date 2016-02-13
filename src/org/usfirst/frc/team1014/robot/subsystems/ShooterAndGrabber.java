@@ -22,6 +22,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	private double previousRPM = 0;
 	private boolean grabbed = false;
 	private double grabSpeed = 0.5;
+	private double rpmDrop = 400;
 
 	public static ShooterAndGrabber getInstance()
 	{
@@ -44,7 +45,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	public void setSpeeds(double speed)
 	{
-		if(previousRPM - 400 > ((BadTalon) left).getRpm() && grabberSet == true)
+		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm() && grabberSet == true)
 		{
 			grabbed = true;
 			left.set(0);
@@ -81,7 +82,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void grabBall()
 	{
 		grabberSet = true;
-		if(previousRPM - 400 > ((BadTalon) left).getRpm())
+		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm())
 		{
 			grabbed = true;
 			left.set(0);

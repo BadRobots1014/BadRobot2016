@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class TeleDrive extends CommandBase
 {
 	public double targetGyro;
-	
+
 	public TeleDrive()
 	{
 		requires((Subsystem) driveTrain);
@@ -55,8 +55,10 @@ public class TeleDrive extends CommandBase
 		}
 		else
 		{
-			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
-					-ControlsManager.primaryXboxController.getRightStickY());
+			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
+		}
+		if(ControlsManager.primaryXboxController.getLeftTrigger() > 0.5)
+		{
 			targetGyro = driveTrain.getAngle();
 		}
 

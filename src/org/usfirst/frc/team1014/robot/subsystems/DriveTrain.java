@@ -28,7 +28,8 @@ public class DriveTrain extends BadSubsystem
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 	private BadUltrasonic maxbotix;
-
+	private double minTurnSpeed = 0.4;
+	private double maxTurnSpeed = 0.6;
 	private IMU mxp;
 	private SerialPort serialPort;
 
@@ -84,13 +85,22 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(Math.abs(this.getAngle() - targetGyro) > 5)
 		{
+			double setSpeed = Math.abs(this.getAngle() - targetGyro) / 90;
+			if(setSpeed < minTurnSpeed)
+			{
+				setSpeed = minTurnSpeed;
+			}
+			else if(setSpeed > maxTurnSpeed)
+			{
+				setSpeed = maxTurnSpeed;
+			}
 			if(this.getAngle() - targetGyro < 0)
 			{
-				tankDrive(moveSpeed, moveSpeed*.75);
+				tankDrive(setSpeed, -setSpeed);
 			}
 			else if(this.getAngle() - targetGyro > 0)
 			{
-				tankDrive(moveSpeed*.75, moveSpeed);
+				tankDrive(-setSpeed, setSpeed);
 			}
 		}
 		else
