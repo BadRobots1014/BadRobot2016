@@ -2,7 +2,7 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.ObjectTrackingTest;
+import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
@@ -59,6 +59,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void autonomousPeriodic()
 	{
+		dashboard.update();
 		Scheduler.getInstance().run();
 	}
 
@@ -91,7 +92,8 @@ public class Robot extends IterativeRobot
 
 	public void teleopPeriodic()
 	{
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), new ObjectTrackingTest());
+		dashboard.update();
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), new FindTarget());
 		Scheduler.getInstance().run();
 	}
 
