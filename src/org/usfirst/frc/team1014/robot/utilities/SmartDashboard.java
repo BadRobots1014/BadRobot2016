@@ -26,7 +26,7 @@ public class SmartDashboard
 	{
 		table = NetworkTable.getTable("SmartDashboard");
 		setup();
-		initDashboard();
+
 	}
 
 	public static SmartDashboard getInstance()
@@ -36,25 +36,6 @@ public class SmartDashboard
 			smartDashboard = new SmartDashboard();
 		}
 		return smartDashboard;
-	}
-
-	private void initDashboard()
-	{
-		CameraServer server = CameraServer.getInstance();
-		USBCamera camera;
-		try
-		{
-			camera = new USBCamera("cam0");
-			camera.openCamera();
-			server.startAutomaticCapture(camera);
-		} catch(VisionException ex)
-		{
-			Logger.log(Level.Error, "SmartDash", "Camera(cam0) failed to initialize");
-		} finally
-		{
-			server.startAutomaticCapture("cam0");
-			Logger.log(Level.Debug, "SmartDash", "Camera(cam0) initialized");
-		}
 	}
 
 	private void setup()
