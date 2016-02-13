@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.Encoder;
 
 /**
  * 
- * @author Tze Hei T.
+ * @author Tze Hei T. 
+ *
  * 
  */
 
@@ -14,6 +15,15 @@ public class BadCAN extends CANTalon
 
 	public Encoder encoder;
 
+	/**
+	 * 
+	 * @param deviceNumber 
+	 * 				-identifier for TalonSRX
+	 * @param aChannel
+	 * 				-for encoder 
+	 * @param bChannel
+	 *				-for encoder
+	 */				
 	public BadCAN(int deviceNumber, int aChannel, int bChannel)
 	{
 		super(deviceNumber);

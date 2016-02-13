@@ -13,6 +13,15 @@ public class BadTalon extends Talon
 
 	public Encoder encoder;
 
+	/**
+	 * 
+	 * @param talonPWM
+	 * 				-PWM channel for encoder
+	 * @param aChannel
+	 * 				- for encoder
+	 * @param bChannel
+	 * 				- for encoder
+	 */
 	public BadTalon(int talonPWM, int aChannel, int bChannel)
 	{
 		super(talonPWM);
