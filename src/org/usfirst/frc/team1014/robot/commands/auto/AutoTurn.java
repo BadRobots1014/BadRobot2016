@@ -16,15 +16,11 @@ public class AutoTurn extends CommandBase
 	public double degree, difference, proportion, sign;
 	public static int rotationCoefficient = 60;
 
-
-	// Positive degree values turn left
-	// Negative degree values turn right
-
 	/**
 	 * Constructor
 	 * 
 	 * @param degree
-	 *            - how far the robot needs to turn
+	 *            - how far the robot needs to turn. Positive values turn right. Negative values turn left	 *      
 	 */
 	public AutoTurn(double degree)
 	{

@@ -15,9 +15,6 @@ public class DriveForwardDistance extends CommandBase
 	public double speed, distance, ultraDistance;
 	public double zeroAngle;
 
-
-	// Distance is the distance in inches you want it to stop at
-
 	/**
 	 * Constructor
 	 * 
@@ -66,7 +63,10 @@ public class DriveForwardDistance extends CommandBase
 		System.out.println("DriveForwardDistance was interrupted");
 
 	}
-
+	
+	/**
+	 * stops when distance is less than desired distance
+	 */
 	@Override
 	protected boolean isFinished()
 	{

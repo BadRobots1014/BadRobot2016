@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
+	
 	public static ShooterAndGrabber instance;
 	private BadTalon left;
 	private SpeedController right, rotator;

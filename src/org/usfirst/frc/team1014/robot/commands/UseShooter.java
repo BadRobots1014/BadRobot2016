@@ -32,7 +32,16 @@ public class UseShooter extends CommandBase
 	{
 		return "UseShooter";
 	}
-
+	
+	/**
+	 * when X is pressed, decreases speed. 
+	 * when B is pressed, increases speed. 
+	 * when RB is pressed, grabs ball
+	 * else sets speed with right stick's y axis
+	 * servo's position is moved to shoot ball when A is pressed
+	 * else in original position
+	 * LB turns light on, LT turns light off 
+	 */
 	@Override
 	protected void execute()
 	{
@@ -75,7 +84,7 @@ public class UseShooter extends CommandBase
 		//Logger.logThis("Encoder RPM: " + shooter.getShootingRPM());
 
 	}
-
+	
 	public double scaleSpeed(double speed)
 	{
 		return speed * maxSpeed;
@@ -87,6 +96,9 @@ public class UseShooter extends CommandBase
 		return false;
 	}
 
+	/**
+	 * when finished, shooter is set back to neutral
+	 */
 	@Override
 	protected void end()
 	{
