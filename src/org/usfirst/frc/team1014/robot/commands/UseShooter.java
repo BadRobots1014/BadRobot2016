@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class UseShooter extends CommandBase
 {
+	private static final double SHOOTER_SPEED_ADJUST_INTERVAL = .1;
+	private static final double MAX_SHOOTER_SPEED = 1.0;
+	private static final double MIN_SHOOTER_SPEED = .5;
 	boolean usingShooter;
 	double maxSpeed;
 	double servoPos;
@@ -49,13 +52,16 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
+		// Adjust shooter speed within min and max values
 		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
 		{
-			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)
-				maxSpeed -= .1;
-			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
-				maxSpeed += .1;
+			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > MIN_SHOOTER_SPEED)
+				maxSpeed -= SHOOTER_SPEED_ADJUST_INTERVAL;
+			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < MAX_SHOOTER_SPEED)
+				maxSpeed += SHOOTER_SPEED_ADJUST_INTERVAL;
 		}
+		
+		
 		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
 		{
 			shooter.grabBall();
