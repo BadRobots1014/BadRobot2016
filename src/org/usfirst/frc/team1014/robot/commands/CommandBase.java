@@ -19,6 +19,12 @@ import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * {@code CommandBase} handles all commands and instances.
+ * 
+ * All commands should extend this class to get access to the subsystems.
+ * This is an abstract class so no instances of {@code CommandBase} should be created.
+ */
 public abstract class CommandBase extends Command
 {
 
@@ -50,6 +56,9 @@ public abstract class CommandBase extends Command
 		addAuto();
 	}
 
+	/**
+	 * Creates an instance of each command used in autonumus and adds it to the {@code commandClasses} {@link ArrayList}.
+	 */
 	public static void addAuto()
 	{
 		commandClasses.add(new AutoGrab(0.0));
@@ -75,9 +84,22 @@ public abstract class CommandBase extends Command
 		super();
 	}
 
+	@Override
+	/**
+	 * {@inheritDoc}
+	 * This should be used to initialize the command.
+	 * After this method finishes execution the command should be ready to be used.
+	 */
 	protected abstract void initialize();
 
+	/**
+	 * @return a {@link String} with the name of the class.
+	 */
 	public abstract String getConsoleIdentity();
 
+	/**
+	 * A {@code boolean} that is true when the command has finished executing.
+	 * This should be set to true at the end of the {@code execute()} method.
+	 */
 	public boolean isfinished = false;
 }
