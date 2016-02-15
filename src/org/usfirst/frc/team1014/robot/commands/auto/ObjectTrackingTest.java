@@ -102,7 +102,8 @@ public class ObjectTrackingTest extends CommandBase
 				}
 				if(cam.getX() > 0)
 					driveTrain.tankDrive(speed, -speed);
-				else driveTrain.tankDrive(-speed, speed);
+				else
+					driveTrain.tankDrive(-speed, speed);
 				timeSet = false;
 			}
 			else
