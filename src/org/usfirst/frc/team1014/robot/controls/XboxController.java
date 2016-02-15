@@ -52,8 +52,8 @@ public class XboxController extends Joystick
 		// When the joystick is used for a purpose (passes the if statements,
 		// hence not just being loose), do math
 		return (d / Math.abs(d)) // gets the sign of d, negative or positive
-				* ((Math.abs(d) - DEADZONE_MAGIC_NUMBER) / (1 - DEADZONE_MAGIC_NUMBER)); // scales
-																							// it
+		* ((Math.abs(d) - DEADZONE_MAGIC_NUMBER) / (1 - DEADZONE_MAGIC_NUMBER)); // scales
+																					// it
 	}
 
 	public double getLeftStickX()

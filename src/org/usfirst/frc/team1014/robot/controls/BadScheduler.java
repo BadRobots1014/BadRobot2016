@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1014.robot.controls;
 
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -52,6 +55,7 @@ public class BadScheduler
 				{
 					if(nowRunning.getName() != nextCommandInput.getName())
 					{
+						Logger.log(Level.Debug, "69", "started new command");
 						scheduler.removeAll();
 						nowRunning = nextCommandInput;
 						scheduler.add(nowRunning);
@@ -61,6 +65,7 @@ public class BadScheduler
 				{
 					if(!nowRunning.isRunning())
 					{
+						Logger.logThis("new Tele");
 						scheduler.removeAll();
 						nowRunning = (Command) mainTeleopClass.newInstance();
 						scheduler.add(nowRunning);
@@ -81,3 +86,4 @@ public class BadScheduler
 	}
 
 }
+
