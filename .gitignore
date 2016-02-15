@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-*.class
-*~
-
-.classpath
-.settings/
-
-bin/
-build/
-dist/
-
-sysProps.xml
-=======
 .classpath
 .settings/org.eclipse.jdt.ui.prefs
 bin/
@@ -19,4 +6,3 @@ build/
 dist/
 sysProps.xml
 wpilibAPI/
->>>>>>> 572c57f3110713e9c366b35db0233d25b2f336dd
