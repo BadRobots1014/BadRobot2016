@@ -35,8 +35,7 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * This is really useless and doesn't really have much function, other than when we want to log
-	 * things.
+	 * @return the name of the class.
 	 */
 	@Override
 	public String getConsoleIdentity()

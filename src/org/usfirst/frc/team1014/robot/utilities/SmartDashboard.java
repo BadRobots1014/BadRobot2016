@@ -4,16 +4,13 @@ import java.util.ArrayList;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
-import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
-
-import com.ni.vision.VisionException;
-
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
+/**
+ * Class that setups and manages the smart dashboard.
+ */
 public class SmartDashboard
 {
 	public static SmartDashboard smartDashboard;
@@ -22,12 +19,15 @@ public class SmartDashboard
 	private static String commandToRun;
 	private static final String commandRunKey = "Command running: ";
 
-	public SmartDashboard()
+	private SmartDashboard()
 	{
 		table = NetworkTable.getTable("SmartDashboard");
 		setup();
 	}
 
+	/**
+	 * @return a not null instance of {@code SmartDashboard}.
+	 */
 	public static SmartDashboard getInstance()
 	{
 		if(smartDashboard == null)
@@ -37,6 +37,9 @@ public class SmartDashboard
 		return smartDashboard;
 	}
 
+	/**
+	 * Initializes the smart dashboard.
+	 */
 	private void setup()
 	{
 		table.putString(commandRunKey, "");
@@ -44,6 +47,9 @@ public class SmartDashboard
 			table.putBoolean(command.getName(), false);
 	}
 
+	/**
+	 * Goes through the {@link NetworkTable} and adds commands to the scheduler.
+	 */
 	public void poll()
 	{
 		for(Command command : commandClasses)
@@ -58,6 +64,9 @@ public class SmartDashboard
 		}
 	}
 
+	/**
+	 * Updates the smart dashboard and displays object tracking information.
+	 */
 	public void update()
 	{
 		ProcessedCam.getInstance().setX(table.getNumber("OBJECT_TRACKING_X", 0.0));
