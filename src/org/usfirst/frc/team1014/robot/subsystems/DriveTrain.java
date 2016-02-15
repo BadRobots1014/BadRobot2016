@@ -28,7 +28,8 @@ public class DriveTrain extends BadSubsystem
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 	private BadUltrasonic maxbotix;
-
+	private double minTurnSpeed = 0.4;
+	private double maxTurnSpeed = 0.6;
 	private IMU mxp;
 	private SerialPort serialPort;
 
@@ -100,11 +101,12 @@ public class DriveTrain extends BadSubsystem
 
 		if(Math.abs(difference) > 5)
 		{
-			double turnSpeed = moveSpeed * difference / 5;
+			double turnSpeed = moveSpeed * difference / 90;
 
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1;
-
+			else if(Math.abs(turnSpeed) < 0.4)
+				turnSpeed = 0.4;
 			tankDrive(-turnSpeed, turnSpeed);
 		}
 		else

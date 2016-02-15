@@ -67,8 +67,6 @@ public class TeleDrive extends CommandBase
 			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
 			gyroSet = false;
 		}
-
-		Logger.logThis("MXP Angle: " + driveTrain.getAngle());
 	}
 
 	/**
