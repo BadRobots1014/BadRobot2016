@@ -16,8 +16,8 @@ public class FindTarget extends CommandBase
 	boolean isFinishedRotate = true, isFinishedDrive = false;
 	boolean timeSet = false;
 	double waitTime = 5 * 1000000;
-	double minSpeed = 0.3;
-	double maxSpeed = 0.4;
+	double minSpeed = 0.4;
+	double maxSpeed = 0.5;
 	double score = 90;
 	double deadzone = 5;
 
@@ -38,7 +38,7 @@ public class FindTarget extends CommandBase
 	public String getConsoleIdentity()
 	{
 		// TODO Auto-generated method stub
-		return "ObjectTrackingTest";
+		return "FindTarget";
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class FindTarget extends CommandBase
 
 			if(Math.abs(cam.getX()) > deadzone)
 			{
-				if(Math.abs(cam.getX() / cam.getHalfHeight()) < minSpeed)
+				if(Math.abs(cam.getX() / cam.getHalfWidth()) < minSpeed)
 				{
 					speed = minSpeed;
 				}
@@ -72,16 +72,16 @@ public class FindTarget extends CommandBase
 				}
 				if(cam.getX() > 0)
 				{
-					for(int i = 0; i < 50; i ++)
-						driveTrain.tankDrive(.70, -.70);
-					
+					for(int i = 0; i < 50; i++)
+						driveTrain.tankDrive(1, -1);
+
 					driveTrain.tankDrive(speed, -speed);
 				}
 				else
 				{
-					for(int i = 0; i < 50; i ++)
+					for(int i = 0; i < 50; i++)
 						driveTrain.tankDrive(-1, 1);
-					
+
 					driveTrain.tankDrive(-speed, speed);
 				}
 				timeSet = false;
@@ -107,11 +107,36 @@ public class FindTarget extends CommandBase
 				}
 
 			}
-			/*
-			 * if(Math.abs(ProcessedCam.getInstance().getY()) > 10) { double speed =
-			 * (ProcessedCam.getInstance().getY()/120 > .1) ? ProcessedCam.getInstance().getY()/120
-			 * : .1; shooter.rotate(speed); } else { shooter.rotate(0); isFinishedRotate = true; }
-			 */
+			
+			if(Math.abs(cam.getY()) > 10)
+			{
+				double rotateSpeed = 0;
+				if(Math.abs(cam.getY() / 120) < .1)
+				{
+					if(cam.getY() / 120 < 0)
+						rotateSpeed = .1;
+					else
+						rotateSpeed = -.1;
+				}
+				else if(Math.abs(cam.getY() / 120) > .5)
+				{
+					if(cam.getY() / 120 < 0)
+						rotateSpeed = .5;
+					else
+						rotateSpeed = -.5;
+				}
+				else
+				{
+					rotateSpeed = -cam.getY() / 120;
+				}
+
+				shooter.rotate(rotateSpeed);
+			}
+			else
+			{
+				shooter.rotate(0);
+				isFinishedRotate = true;
+			}
 		}
 		else
 		{
