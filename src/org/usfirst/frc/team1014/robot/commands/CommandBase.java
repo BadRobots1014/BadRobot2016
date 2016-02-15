@@ -64,6 +64,7 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new FindTarget());
 	}
 
+
 	public CommandBase(String name)
 	{
 		super(name);

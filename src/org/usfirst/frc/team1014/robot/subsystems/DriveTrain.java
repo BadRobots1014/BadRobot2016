@@ -81,6 +81,7 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
+
 	/**
 	 * This method allows the robot to go straight with just two parameters. The robot first
 	 * calculates how far off it is from the target angle, then checks if that is large enough to
@@ -93,6 +94,7 @@ public class DriveTrain extends BadSubsystem
 	 * @param targetGyro
 	 *            - the angle the robot wants to correct to
 	 */
+
 	public void driveStraight(double moveSpeed, double targetGyro)
 	{
 		double difference = (getAngle() - targetGyro);
@@ -119,6 +121,7 @@ public class DriveTrain extends BadSubsystem
 		return lidar.getDistance();
 	}
 
+
 	/**
 	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
 	 * 
@@ -133,7 +136,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else return ultrasonic.getRangeMM();
+		else
+			return ultrasonic.getRangeMM();
 	}
 
 	public double getAngle()// return -180 - 180
@@ -145,7 +149,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;
-		else return mxp.getYaw();
+		else
+			return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()
@@ -164,6 +169,11 @@ public class DriveTrain extends BadSubsystem
 		return "DriveTrain";
 	}
 
+	public float getRoll() {
+		return mxp.getRoll();
+	}
+	
+	
 	@Override
 	protected void initDefaultCommand()
 	{
