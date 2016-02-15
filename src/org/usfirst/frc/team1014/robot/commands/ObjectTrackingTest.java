@@ -3,13 +3,50 @@ package org.usfirst.frc.team1014.robot.commands;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
+/**
+ * A command that demos the object tracking code.
+ */
 public class ObjectTrackingTest extends CommandBase
 {
+	private static final int RING_LIGHT_BLINK_DELAY = 100; // Delat between each ring light toggle
+
+	private static final int RING_LIGHT_BLINK_COUNTS = 50; // Times to blink light
+	
 	Runnable run;
 	Thread thread;
 
 	boolean isFinishedRotate, isFinishedDrive;
 
+	/**
+	 * Flashes the ring light {code RING_LIGHT_BLINK_COUNTS} times with a {@code RING_LIGHT_BLINK_DELAY} millisecond delay between each toggle.
+	 * Total running time should be {@literal 2 * RING_LIGHT_BLINK_COUNTS * RING_LIGHT_BLINK_DELAY} in milliseconds.
+	 * <br /><br />
+	 * <b>This method should only be called from a new {@link Thread} created in {@code initialize()}.</b>
+	 */
+	private static void blinkRingLight() {
+		for(int i = 0; i < RING_LIGHT_BLINK_COUNTS; i++)
+		{
+			shooter.ringLightOn();
+			try
+			{
+				Thread.sleep(RING_LIGHT_BLINK_DELAY);
+			} catch(InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			shooter.ringLightOff();
+			try
+			{
+				Thread.sleep(RING_LIGHT_BLINK_DELAY);
+			} catch(InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public ObjectTrackingTest()
 	{
 		requires(driveTrain);
@@ -17,47 +54,20 @@ public class ObjectTrackingTest extends CommandBase
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 * Creates a new {@link Thread} that toggles the light.
+	 */
 	protected void initialize()
 	{
 		driveTrain.tankDrive(0, 0);
 		shooter.ringLightOn();
-		run = new Runnable()
-		{
-
-			@Override
-			public void run()
-			{
-				for(int i = 0; i < 50; i++)
-				{
-					shooter.ringLightOn();
-					try
-					{
-						Thread.sleep(100);
-					} catch(InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					shooter.ringLightOff();
-					try
-					{
-						Thread.sleep(100);
-					} catch(InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-			}
-
-		};
+		run = (ObjectTrackingTest::blinkRingLight);
 	}
 
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
 		return "ObjectTrackingTest";
 	}
 
@@ -109,8 +119,8 @@ public class ObjectTrackingTest extends CommandBase
 	@Override
 	protected void interrupted()
 	{
-		// TODO Auto-generated method stub
-		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!!!");
+		Logger.logThis(getConsoleIdentity() + " interupted");
+		end();
 	}
 
 	@Override
