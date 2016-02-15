@@ -2,7 +2,6 @@ package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadTalon;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -75,8 +74,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			}
 		}
 		previousRPM = ((BadTalon) left).getRpm();
-		Logger.logThis("previousRPM = " + previousRPM);
-
 	}
 
 	public void grabBall()
@@ -104,7 +101,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			right.set(-grabSpeed);
 		}
 		previousRPM = ((BadTalon) left).getRpm();
-		Logger.logThis("previousRPM = " + previousRPM);
 
 	}
 
@@ -140,17 +136,16 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		ringLight.set(0);
 	}
 
-	public void driveServo(double power)
+	public void driveServo(boolean servoPos)
 	{
-		if(power > 0.650)
+		if(servoPos)
 		{
-			power = 0.650;
+			pusher.set(.25);
 		}
-		else if(power < .25)
+		else
 		{
-			power = .25;
+			pusher.set(0.9);
 		}
-		pusher.set(power);
 	}
 
 	@Override

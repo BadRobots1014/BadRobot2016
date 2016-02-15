@@ -2,14 +2,14 @@ package org.usfirst.frc.team1014.robot.commands;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoGrab;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
-import org.usfirst.frc.team1014.robot.commands.auto.DriveForward;
 import org.usfirst.frc.team1014.robot.commands.auto.DriveForwardDistance;
+import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOver;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOverAndComeBack;
-import org.usfirst.frc.team1014.robot.commands.auto.ObjectTrackingTest;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndComeBack;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndStay;
 // The imports for the final subsystems
@@ -29,6 +29,10 @@ public abstract class CommandBase extends Command
 
 	// The subsystems on the final robot go here
 
+	/**
+	 * Initializes all commands that the robot will needed. This function should only be called
+	 * once, from the main Robot class.
+	 */
 	public static void init()
 	{
 		// Final Subsystems
@@ -51,13 +55,13 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new AutoGrab(0.0));
 		commandClasses.add(new AutoShoot(0.0));
 		commandClasses.add(new AutoTurn(90.0));
-		commandClasses.add(new DriveForward(0.0, 0.0));
+		commandClasses.add(new AutoDrive(0.0, 0.0));
 		commandClasses.add(new DriveForwardDistance(0.0, 0.0));
 		commandClasses.add(new GoOver());
 		commandClasses.add(new GoOverAndComeBack());
 		commandClasses.add(new ShootAndComeBack());
 		commandClasses.add(new ShootAndStay());
-		commandClasses.add(new ObjectTrackingTest());
+		commandClasses.add(new FindTarget());
 	}
 
 	public CommandBase(String name)
@@ -74,5 +78,6 @@ public abstract class CommandBase extends Command
 
 	public abstract String getConsoleIdentity();
 
-	public boolean isfinished = false;
+	protected boolean isfinished = false;
+
 }

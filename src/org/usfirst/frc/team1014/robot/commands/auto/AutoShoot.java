@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * The robot will automatically
  * 
  * @author Vaarun N.
- *
+ * 
  */
 public class AutoShoot extends CommandBase
 {
@@ -65,9 +65,9 @@ public class AutoShoot extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-
 		if(currentTime >= endingTime)
 			return true;
-		else return false;
+		else
+			return false;
 	}
 }

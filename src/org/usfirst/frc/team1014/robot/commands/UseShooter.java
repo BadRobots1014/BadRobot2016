@@ -10,7 +10,8 @@ public class UseShooter extends CommandBase
 
 	boolean usingShooter;
 	double maxSpeed;
-	double servoPos;
+	boolean stillPressed = false;
+	boolean servoPos = false;
 
 	public UseShooter()
 	{
@@ -21,10 +22,10 @@ public class UseShooter extends CommandBase
 	{
 		usingShooter = false;
 		maxSpeed = .5;
-		servoPos = .5;
-
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
+		Logger.logThis("new shooter init");
+		shooter.driveServo(servoPos);
 	}
 
 	@Override
@@ -52,17 +53,22 @@ public class UseShooter extends CommandBase
 			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
 		}
 
-		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+		if(!stillPressed)
 		{
-			servoPos = .65;
+			if(ControlsManager.secondaryXboxController.isAButtonPressed())
+			{
+				servoPos = !servoPos;
+				shooter.driveServo(servoPos);
+				stillPressed = true;
+			}
 		}
 		else
 		{
-			servoPos = .25;
+			if(!ControlsManager.secondaryXboxController.isAButtonPressed())
+				stillPressed = false;
 		}
 
 		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 3);
-
 		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
 		{
 			shooter.ringLightOn();
@@ -71,6 +77,8 @@ public class UseShooter extends CommandBase
 		{
 			shooter.ringLightOff();
 		}
+
+		// Logger.logThis("Encoder RPM: " + shooter.getShootingRPM());
 
 	}
 
