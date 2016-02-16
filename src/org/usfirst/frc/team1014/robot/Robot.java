@@ -31,6 +31,9 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
+
+		// SmartDashboard.initDashboard();
+
 		CommandBase.init();
 		dashboard = new SmartDashboard();
 	}

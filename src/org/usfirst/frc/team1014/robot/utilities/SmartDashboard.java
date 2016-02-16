@@ -4,15 +4,10 @@ import java.util.ArrayList;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
-import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
-import com.ni.vision.VisionException;
-
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class SmartDashboard
 {
@@ -26,7 +21,6 @@ public class SmartDashboard
 	{
 		table = NetworkTable.getTable("SmartDashboard");
 		setup();
-		initDashboard();
 	}
 
 	public static SmartDashboard getInstance()
@@ -36,25 +30,6 @@ public class SmartDashboard
 			smartDashboard = new SmartDashboard();
 		}
 		return smartDashboard;
-	}
-
-	private void initDashboard()
-	{
-//		CameraServer server = CameraServer.getInstance();
-//		USBCamera camera;
-//		try
-//		{
-//			camera = new USBCamera("cam0");
-//			camera.openCamera();
-//			server.startAutomaticCapture(camera);
-//		} catch(VisionException ex)
-//		{
-//			Logger.log(Level.Error, "SmartDash", "Camera(cam0) failed to initialize");
-//		} finally
-//		{
-//			server.startAutomaticCapture("cam0");
-//			Logger.log(Level.Debug, "SmartDash", "Camera(cam0) initialized");
-//		}
 	}
 
 	private void setup()
@@ -83,8 +58,5 @@ public class SmartDashboard
 		ProcessedCam.getInstance().setX(table.getNumber("OBJECT_TRACKING_X", 0.0));
 		ProcessedCam.getInstance().setY(table.getNumber("OBJECT_TRACKING_Y", 0.0));
 		ProcessedCam.getInstance().setTrackingScore(table.getNumber("OBJECT_TRACKING_SCORE", 0.0));
-		System.out.println("getX: " + ProcessedCam.getInstance().getX());
-		System.out.println("getY: " + ProcessedCam.getInstance().getY());
-		System.out.println("getScore: " + ProcessedCam.getInstance().getTrackingScore());
 	}
 }
