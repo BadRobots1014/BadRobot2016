@@ -6,26 +6,19 @@ import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
-import edu.wpi.first.wpilibj.Utility;
-
 public class FindTarget extends CommandBase
 {
-	ProcessedCam cam = ProcessedCam.getInstance();
-	Runnable run;
-	Thread thread;
-	double time = Utility.getFPGATime();
-	boolean isFinishedRotate = false, isFinishedDrive = false;
-	boolean timeSet = false;
-	double waitTime = 5 * 1000000;
-	double minSpeedTurn = 0.37;
-	double maxSpeedTurn = 0.45;
-	double score = 90;
-	double deadzoneX = 3;
-	double deadzoneY = 3;
-	double downSpeedY = -.15;
-	double upSpeedY = .15;
-	boolean stillPressed = false;
-	boolean servoPos = false;
+	private ProcessedCam cam = ProcessedCam.getInstance();
+	private boolean isFinishedRotate = false, isFinishedDrive = false;
+	private double minSpeedTurn = 0.37;
+	private double maxSpeedTurn = 0.45;
+	private double score = 90;
+	private double deadzoneX = 3;
+	private double deadzoneY = 3;
+	private double downSpeedY = -.15;
+	private double upSpeedY = .15;
+	private boolean stillPressed = false;
+	private boolean servoPos = false;
 
 	public FindTarget()
 	{
@@ -39,9 +32,8 @@ public class FindTarget extends CommandBase
 		driveTrain.tankDrive(0, 0);
 		shooter.ringLightOn();
 		shooter.driveServo(servoPos);
-		run = new Runnable()
+		new Runnable()
 		{
-
 			@Override
 			public void run()
 			{
@@ -65,7 +57,6 @@ public class FindTarget extends CommandBase
 					}
 				}
 				shooter.ringLightOn();
-
 			}
 
 		};
@@ -112,13 +103,9 @@ public class FindTarget extends CommandBase
 			{
 				speed = Math.abs(cam.getX() / cam.getHalfWidth());
 				if(speed < minSpeedTurn)
-				{
 					speed = minSpeedTurn;
-				}
 				else if(speed > maxSpeedTurn)
-				{
 					speed = maxSpeedTurn;
-				}
 				speed = cam.getX() > 0 ? speed : -speed;
 				driveTrain.tankDrive(speed, -speed);
 			}
@@ -152,16 +139,8 @@ public class FindTarget extends CommandBase
 	}
 
 	@Override
-	protected void interrupted()
-	{
-		// TODO Auto-generated method stub
-		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!!!");
-	}
-
-	@Override
 	protected boolean isFinished()
 	{
 		return isfinished;
 	}
-
 }

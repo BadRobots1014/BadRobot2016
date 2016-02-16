@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class UseShooter extends CommandBase
 {
 
-	boolean usingShooter;
-	double maxSpeed;
-	boolean stillPressed = false;
-	boolean servoPos = false;
+	private boolean usingShooter;
+	private double maxSpeed;
+	private boolean stillPressed = false;
+	private boolean servoPos = false;
 
 	public UseShooter()
 	{
@@ -49,14 +49,11 @@ public class UseShooter extends CommandBase
 			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
+
 		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
-		{
 			shooter.grabBall();
-		}
 		else
-		{
 			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
-		}
 
 		if(!stillPressed)
 		{
@@ -74,14 +71,12 @@ public class UseShooter extends CommandBase
 		}
 
 		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 3);
+
 		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
-		{
 			shooter.ringLightOn();
-		}
+
 		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
-		{
 			shooter.ringLightOff();
-		}
 	}
 
 	public double scaleSpeed(double speed)
@@ -105,10 +100,9 @@ public class UseShooter extends CommandBase
 		shooter.rotate(0.0);
 	}
 
-	@Override
-	protected void interrupted()
+	public boolean isUsingShooter()
 	{
-		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
+		return this.usingShooter;
 	}
 
 }

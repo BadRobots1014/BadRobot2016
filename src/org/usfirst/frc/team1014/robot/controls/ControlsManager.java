@@ -5,6 +5,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands
  * and command groups that allow control of the robot.
+ * 
+ * @author Ryan T.
+ * 
  */
 public class ControlsManager
 {
@@ -29,7 +32,8 @@ public class ControlsManager
 	public static final int MAXBOTIX_ULTRASONIC = 0;
 
 	public static DriverStation driverStation;
-	public static XboxController primaryXboxController, secondaryXboxController;
+	public static XboxController primaryXboxController,
+			secondaryXboxController;
 
 	/**
 	 * Initializes controls for the robot. Should only be called once when the robot first loads up.
@@ -59,7 +63,6 @@ public class ControlsManager
 			if(secondaryXboxController.isLBButtonPressed())
 				return true;
 		}
-
 		return false;
 	}
 }

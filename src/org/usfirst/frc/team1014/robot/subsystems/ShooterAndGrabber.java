@@ -10,10 +10,9 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
-
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
-	
+
 	public static ShooterAndGrabber instance;
 	private BadTalon left;
 	public SpeedController right, rotator;
@@ -29,7 +28,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	{
 		if(instance == null)
 			instance = new ShooterAndGrabber();
-
 		return instance;
 	}
 
@@ -68,13 +66,9 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			left.set(speed);
 			right.set(-speed);
 			if(speed <= 0)
-			{
 				grabberSet = false;
-			}
 			else
-			{
 				grabberSet = true;
-			}
 		}
 		previousRPM = ((BadTalon) left).getRpm();
 	}
@@ -142,13 +136,9 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void driveServo(boolean servoPos)
 	{
 		if(servoPos)
-		{
 			pusher.set(.25);
-		}
 		else
-		{
 			pusher.set(0.9);
-		}
 	}
 
 	@Override
@@ -173,7 +163,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public PIDSourceType getPIDSourceType()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -186,8 +175,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public void setPIDSourceType(PIDSourceType arg0)
 	{
-		// TODO Auto-generated method stub
 
 	}
-
 }

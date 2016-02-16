@@ -57,27 +57,12 @@ public class DriveForwardDistance extends CommandBase
 		driveTrain.driveStraight(speed, zeroAngle);
 	}
 
-	@Override
-	protected void interrupted()
-	{
-		System.out.println("DriveForwardDistance was interrupted");
-
-	}
-	
 	/**
 	 * stops when distance is less than desired distance
 	 */
 	@Override
 	protected boolean isFinished()
 	{
-		if(ultraDistance < distance)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return ultraDistance < distance;
 	}
-
 }

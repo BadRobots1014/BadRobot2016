@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.PIDSource;
 
 public class PID extends PIDController
 {
-
 	public PID(double Kp, double Ki, double Kd, PIDSource source, PIDOutput output)
 	{
 		super(Kp, Ki, Kd, source, output);

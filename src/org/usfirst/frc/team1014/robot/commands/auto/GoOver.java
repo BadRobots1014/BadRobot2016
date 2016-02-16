@@ -13,5 +13,4 @@ public class GoOver extends CommandGroup
 	{
 		this.addSequential(new DriveForwardDistance(1, 132));
 	}
-
 }
