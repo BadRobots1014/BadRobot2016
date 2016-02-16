@@ -34,9 +34,7 @@ public class DriveTrain extends BadSubsystem
 	private SerialPort serialPort;
 
 	public DriveTrain()
-	{
-
-	}
+	{ }
 
 	/**
 	 * returns the current instance of drive train. If none exists, then it creates a new instance.
@@ -76,6 +74,11 @@ public class DriveTrain extends BadSubsystem
 		train = new RobotDrive(backLeft, frontLeft, backRight, frontRight);
 	}
 
+	/**
+	 * Drives the robot in tank mode
+	 * @param leftStickY forward speed of left motors
+	 * @param rightStickY forward speed of right motors
+	 */
 	public void tankDrive(double leftStickY, double rightStickY)
 	{
 		train.tankDrive(leftStickY, rightStickY);
@@ -93,7 +96,6 @@ public class DriveTrain extends BadSubsystem
 	 * @param targetGyro
 	 *            - the angle the robot wants to correct to
 	 */
-
 	public void driveStraight(double moveSpeed, double targetGyro)
 	{
 		double difference = (getAngle() - targetGyro);
@@ -114,6 +116,11 @@ public class DriveTrain extends BadSubsystem
 		}
 	}
 
+	/**
+	 * Updates the lidar distance and returns it.
+	 * Unit not specified.
+	 * @return distance
+	 */
 	public double getLIDARDistance()
 	{
 		lidar.updateDistance();
@@ -130,6 +137,14 @@ public class DriveTrain extends BadSubsystem
 		return maxbotix.getDistance();
 	}
 
+	/**
+	 * Returns the distance from the ultrasonic sensor.
+	 * <br /><br />
+	 * If {@code inInches} is true the distance is returned in inches.
+	 * If {@code inInches} is false the distance is returned in millimeters.
+	 * @param inInches
+	 * @return the distance
+	 */
 	public double getUltraDistance(boolean inInches)
 	{
 		if(inInches)
@@ -138,11 +153,17 @@ public class DriveTrain extends BadSubsystem
 			return ultrasonic.getRangeMM();
 	}
 
+	/**
+	 * @return the angle of the drive train from {@literal -180} to {@literal 180}.
+	 */
 	public double getAngle()// return -180 - 180
 	{
 		return (double) mxp.getYaw();
 	}
 
+	/**
+	 * @return the angle of the drive train from {@literal 0} to {@literal 360}.
+	 */
 	public double getAngle360() // returns 0 -360
 	{
 		return mxp.getYaw() < 0 ? mxp.getYaw() + 360 : mxp.getYaw();
