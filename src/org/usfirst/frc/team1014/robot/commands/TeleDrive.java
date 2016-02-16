@@ -35,8 +35,7 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * This is really useless and doesn't really have much function, other than when we want to log
-	 * things.
+	 * @return the name of the class.
 	 */
 	@Override
 	public String getConsoleIdentity()
@@ -79,11 +78,22 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * What the robot should do once the command has finished executing.
+	 * Removes loose ends and exits command properly.
 	 */
 	@Override
 	protected void end()
 	{
 		driveTrain.tankDrive(0, 0);
+	}
+
+	/**
+	 * Called when another command requires the same subsystem or {@code cancel()} is called.
+	 * Cleans up dependencies and logs the interrupt.
+	 */
+	@Override
+	protected void interrupted()
+	{
+		org.usfirst.frc.team1014.robot.utilities.Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
+		end();
 	}
 }

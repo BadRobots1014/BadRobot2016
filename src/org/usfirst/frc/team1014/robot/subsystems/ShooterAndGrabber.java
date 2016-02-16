@@ -10,8 +10,17 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
+/**
+ * A {@link BadSubsystem} that controls the Shooter and Grabber.
+ */
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
+	
+	private static final double SERVO_STANDARD_POS = 0.9;
+
+	private static final double SERVO_EXTENDED_POS = .25;
+
+	private static final double RING_LIGHT_ON_VALUE = .5;
 
 	public static ShooterAndGrabber instance;
 	private BadTalon left;
@@ -43,28 +52,51 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		pusher.set(0);
 	}
 
+	/**
+	 * Sets the shooter speeds if user has control.
+	 * <br />
+	 * <p>
+	 * More accurately if the grabber is enabled it looks for
+	 * the point where the ball is caught and the RPM is lowered
+	 * by a value greater than {@code BALL_CATCH_RPM_DECREASE}.
+	 * When this is reached the {@code grabbed} boolean is set to
+	 * true and the motors continue decreasing speed until they get
+	 * to {@literal 0}. When the motors do fully stop {@code grabbed}
+	 * is set to false and the grabber is reverted to user control
+	 * mode.
+	 * <br /><br />
+	 * When the grabber is above the value of zero the {@code grabberSet}
+	 * is set to true and the grabber will begin waiting for a ball to be
+	 * caught.
+	 * </p>
+	 * @param speed
+	 */
 	public void setSpeeds(double speed)
 	{
-		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm() && grabberSet == true)
+		// Catches point where motor speed goes down and ball is caught
+		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm() && grabberSet)
 		{
 			grabbed = true;
 			left.set(0);
 			right.set(0);
 		}
+		
+		// Stops motors if caught and motors still moving.
 		if(grabbed && previousRPM > 0 && grabberSet)
 		{
 			left.set(0);
 			right.set(0);
 		}
-		else if(grabbed && previousRPM <= 0 && grabberSet)
+		else if(grabbed && previousRPM <= 0 && grabberSet)  // Resets catching system
 		{
 			grabbed = false;
 			grabberSet = false;
 		}
-		else
+		else // Manual control of shooter
 		{
-			left.set(speed);
-			right.set(-speed);
+			shoot(speed);
+			
+			// If grabber starts moving the grabberSet is enabled
 			if(speed <= 0)
 				grabberSet = false;
 			else
@@ -73,6 +105,11 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		previousRPM = ((BadTalon) left).getRpm();
 	}
 
+	/**
+	 * Sets grabberSet to true and continues the ball grabbing
+	 * protocol detailed in {@code setSpeed}. Uses {@code grabSpeed}
+	 * as the speed.
+	 */
 	public void grabBall()
 	{
 		grabberSet = true;
@@ -94,51 +131,80 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		}
 		else
 		{
-			left.set(grabSpeed);
-			right.set(-grabSpeed);
+			shoot(grabSpeed);
 		}
 		previousRPM = ((BadTalon) left).getRpm();
 
 	}
 
+	
+	/**
+	 * @return the current RPM of the left motor
+	 */
 	public double getShootingRPM()
 	{
 		return ((BadTalon) left).getRpm();
 	}
 
+	/**
+	 * @param speed the speed to set the rotation motor to
+	 */
 	public void rotate(double speed)
 	{
 		rotator.set(speed);
 	}
 
+	/**
+	 * Sets the speed of the shooters.
+	 * Automatically inverts the proper motor to
+	 * keep them moving in the same direction.
+	 * @param speed to set the shooter to
+	 */
 	public void shoot(double speed)
 	{
 		left.set(speed);
 		right.set(-speed);
 	}
 
+	/**
+	 * Sets the grabber speed, the
+	 * exact opposite of {@code} shoot()}.
+	 * @param speed
+	 */
 	public void grab(double speed)
 	{
-		left.set(-speed);
-		right.set(speed);
+		shoot(-speed); // Reusing methods to prevent code repetition
 	}
 
+	/**
+	 * Sets the ring light to its on value.
+	 */
 	public void ringLightOn()
 	{
-		ringLight.set(.5);
+		ringLight.set(RING_LIGHT_ON_VALUE);
 	}
 
+	/**
+	 * Sets the ring light to its off value.
+	 */
 	public void ringLightOff()
 	{
 		ringLight.set(0);
 	}
 
+	/**
+	 * Sets the location of the servo motor.
+	 * If {@code servoPos} is true the value
+	 * is set to {@code SERVO_EXTENDED_POS}.
+	 * If it is false it is set to {@code SERVO_STANDARD_POS}.
+	 * @param servoPos value to set servo
+	 */
 	public void driveServo(boolean servoPos)
 	{
 		if(servoPos)
-			pusher.set(.25);
+			pusher.set(SERVO_EXTENDED_POS);
 		else
-			pusher.set(0.9);
+			pusher.set(SERVO_STANDARD_POS);
 	}
 
 	@Override
