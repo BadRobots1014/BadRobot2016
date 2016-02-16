@@ -38,7 +38,7 @@ public class AutoDrive extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return null;
+		return "AutoDrive";
 	}
 
 	@Override
@@ -52,12 +52,6 @@ public class AutoDrive extends CommandBase
 	{
 		passedTime = Utility.getFPGATime() - startTime;
 		driveTrain.driveStraight(speed, targetAngle);
-	}
-
-	@Override
-	protected void interrupted()
-	{
-
 	}
 
 	@Override
@@ -81,15 +75,7 @@ public class AutoDrive extends CommandBase
 
 	public static double deadzone(double d)
 	{
-		if(Math.abs(d) < .1)
-		{
-			return 0;
-		}
-		if(d == 0)
-		{
-			return 0;
-		}
-		return (d / Math.abs(d)) * ((Math.abs(d) - .1) / (1 - .1));
+		return (Math.abs(d) < .1 || d == 0) ? 0 : (d / Math.abs(d)) * ((Math.abs(d) - .1) / (1 - .1));
 	}
 
 }

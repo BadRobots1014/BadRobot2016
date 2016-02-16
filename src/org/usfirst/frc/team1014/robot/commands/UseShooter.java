@@ -13,14 +13,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class UseShooter extends CommandBase
 {
 	private static final double ROTATION_SPEED_MULTIPLYER = 1d / 3d; // Value to multiply rotation value by to decrease sensitivity
-	private static final double SERVO_PUSH_POS = .65;
-	private static final double SERVO_DEFAULT_POS = .25;
 	private static final double SHOOTER_SPEED_ADJUST_INTERVAL = .1;
 	private static final double MAX_SHOOTER_SPEED = 1.0;
 	private static final double MIN_SHOOTER_SPEED = .5;
-	boolean usingShooter;
-	double maxSpeed;
-	double servoPos;
+	
+	private boolean usingShooter;
+	private double maxSpeed;
+	private boolean stillPressed = false;
+	private boolean servoPos = false;
 
 	public UseShooter()
 	{
@@ -31,10 +31,10 @@ public class UseShooter extends CommandBase
 	{
 		usingShooter = false;
 		maxSpeed = .5;
-		servoPos = .5;
-
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
+		Logger.logThis("new shooter init");
+		shooter.driveServo(servoPos);
 	}
 
 	@Override
@@ -42,15 +42,11 @@ public class UseShooter extends CommandBase
 	{
 		return "UseShooter";
 	}
-	
+
 	/**
-	 * when X is pressed, decreases speed. 
-	 * when B is pressed, increases speed. 
-	 * when RB is pressed, grabs ball
-	 * else sets speed with right stick's y axis
-	 * servo's position is moved to shoot ball when A is pressed
-	 * else in original position
-	 * LB turns light on, LT turns light off 
+	 * when X is pressed, decreases speed. when B is pressed, increases speed. when RB is pressed,
+	 * grabs ball else sets speed with right stick's y axis servo's position is moved to shoot ball
+	 * when A is pressed else in original position LB turns light on, LT turns light off
 	 */
 	@Override
 	protected void execute()
@@ -64,26 +60,25 @@ public class UseShooter extends CommandBase
 				maxSpeed += SHOOTER_SPEED_ADJUST_INTERVAL;
 		}
 		
-		
 		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
-		{
 			// If RB button is pressed grab ball
 			shooter.grabBall();
-		}
 		else
-		{
-			// If RB not pressed set shooter to position of right joystick Y
 			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
-		}
 
-		// Push servo out if A is pressed
-		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+		if(!stillPressed)
 		{
-			servoPos = SERVO_PUSH_POS;
+			if(ControlsManager.secondaryXboxController.isAButtonPressed())
+			{
+				servoPos = !servoPos;
+				shooter.driveServo(servoPos);
+				stillPressed = true;
+			}
 		}
 		else
 		{
-			servoPos = SERVO_DEFAULT_POS;
+			if(!ControlsManager.secondaryXboxController.isAButtonPressed())
+				stillPressed = false;
 		}
 
 		// Rotate shooter with left joystick Y
@@ -91,16 +86,19 @@ public class UseShooter extends CommandBase
 
 		// Direct control of ring light
 		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
-		{
 			shooter.ringLightOn();
-		}
+
 		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
-		{
 			shooter.ringLightOff();
-		}
+	}
 
-		// Logger.logThis("Encoder RPM: " + shooter.getShootingRPM());
-
+	/**
+	 * @param speed
+	 * @return the speed multiplied by {@code maxSpeed}
+	 */
+	public double scaleSpeed(double speed)
+	{
+		return speed * maxSpeed;
 	}
 
 	@Override
@@ -128,6 +126,11 @@ public class UseShooter extends CommandBase
 	{
 		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
 		end();
+	}
+	
+	public boolean isUsingShooter()
+	{
+		return this.usingShooter;
 	}
 
 }

@@ -2,7 +2,6 @@ package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadTalon;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -17,10 +16,12 @@ import edu.wpi.first.wpilibj.Talon;
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
 	
-	private static final double SERVO_MIN_VALUE_CLAMP = .25;
-	private static final double SERVO_MAX_VALUE_CLAMP = 0.650;
+	private static final double SERVO_STANDARD_POS = 0.9;
+
+	private static final double SERVO_EXTENDED_POS = .25;
+
 	private static final double RING_LIGHT_ON_VALUE = .5;
-	private static final int BALL_CATCH_RPM_DECREASE = 400;
+
 	public static ShooterAndGrabber instance;
 	private BadTalon left;
 	public SpeedController right, rotator;
@@ -30,12 +31,12 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	private double previousRPM = 0;
 	private boolean grabbed = false;
 	private double grabSpeed = 0.5;
+	private double rpmDrop = 400;
 
 	public static ShooterAndGrabber getInstance()
 	{
 		if(instance == null)
 			instance = new ShooterAndGrabber();
-
 		return instance;
 	}
 
@@ -73,7 +74,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void setSpeeds(double speed)
 	{
 		// Catches point where motor speed goes down and ball is caught
-		if(previousRPM - BALL_CATCH_RPM_DECREASE > ((BadTalon) left).getRpm() && grabberSet == true)
+		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm() && grabberSet)
 		{
 			grabbed = true;
 			left.set(0);
@@ -97,17 +98,11 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			
 			// If grabber starts moving the grabberSet is enabled
 			if(speed <= 0)
-			{
 				grabberSet = false;
-			}
 			else
-			{
 				grabberSet = true;
-			}
 		}
 		previousRPM = ((BadTalon) left).getRpm();
-		Logger.logThis("previousRPM = " + previousRPM);
-
 	}
 
 	/**
@@ -118,7 +113,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void grabBall()
 	{
 		grabberSet = true;
-		if(previousRPM - BALL_CATCH_RPM_DECREASE > ((BadTalon) left).getRpm())
+		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm())
 		{
 			grabbed = true;
 			left.set(0);
@@ -139,7 +134,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			shoot(grabSpeed);
 		}
 		previousRPM = ((BadTalon) left).getRpm();
-		Logger.logThis("previousRPM = " + previousRPM);
 
 	}
 
@@ -199,23 +193,18 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	}
 
 	/**
-	 * Sets the speed of the servo after clamping it
-	 * to the servos power range. The values used to
-	 * restrict the values are {@code SERVO_MAX_VALUE_CLAMP}
-	 * and {@code SERVO_MIN_VALUE_CLAMP}.
-	 * @param power the value to set the servo
+	 * Sets the location of the servo motor.
+	 * If {@code servoPos} is true the value
+	 * is set to {@code SERVO_EXTENDED_POS}.
+	 * If it is false it is set to {@code SERVO_STANDARD_POS}.
+	 * @param servoPos value to set servo
 	 */
-	public void driveServo(double power)
+	public void driveServo(boolean servoPos)
 	{
-		if(power > SERVO_MAX_VALUE_CLAMP)
-		{
-			power = SERVO_MAX_VALUE_CLAMP;
-		}
-		else if(power < SERVO_MIN_VALUE_CLAMP)
-		{
-			power = SERVO_MIN_VALUE_CLAMP;
-		}
-		pusher.set(power);
+		if(servoPos)
+			pusher.set(SERVO_EXTENDED_POS);
+		else
+			pusher.set(SERVO_STANDARD_POS);
 	}
 
 	@Override
@@ -240,7 +229,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public PIDSourceType getPIDSourceType()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -253,8 +241,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public void setPIDSourceType(PIDSourceType arg0)
 	{
-		// TODO Auto-generated method stub
 
 	}
-
 }

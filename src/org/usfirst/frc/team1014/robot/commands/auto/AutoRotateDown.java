@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  * @author Tze Hei T.
- *
+ * 
  */
 public class AutoRotateDown extends CommandBase
 {
 
-	double currentRevolution;
-	int place = 0; // this is all the way down (guess)
+	private double currentRevolution;
+	private int place = 0; // this is all the way down (guess)
 
 	public AutoRotateDown()
 	{
@@ -51,20 +51,8 @@ public class AutoRotateDown extends CommandBase
 	}
 
 	@Override
-	protected void interrupted()
-	{
-		System.out.println("AutoRotateDown was interrupted");
-
-	}
-
-	@Override
 	protected boolean isFinished()
 	{
-		if(currentRevolution <= place)
-		{
-			return true;
-		}
-		return false;
+		return currentRevolution <= place;
 	}
-
 }

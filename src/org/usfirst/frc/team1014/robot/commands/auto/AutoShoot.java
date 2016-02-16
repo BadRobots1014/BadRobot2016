@@ -15,21 +15,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoShoot extends CommandBase
 {
 	// Initialize variables
-	double currentTime, endingTime, time;
+	private double currentTime, endingTime, time;
 
 	/**
 	 * 
 	 * @param time
-	 * 			- amount of time that you want it to run for
+	 *            - amount of time that you want it to run for
 	 */
 	public AutoShoot(double time)
 	{
 		this.time = time * 1000000;
 		requires((Subsystem) shooter);
 	}
+
 	/**
-	 * resets shooter's speed
-	 * starts a timer for current time in micro sec based on user input
+	 * resets shooter's speed starts a timer for current time in micro sec based on user input
 	 */
 	@Override
 	protected void initialize()
@@ -41,7 +41,7 @@ public class AutoShoot extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "Auto Shoot";
+		return "AutoShoot";
 	}
 
 	@Override
@@ -58,21 +58,12 @@ public class AutoShoot extends CommandBase
 		currentTime = Utility.getFPGATime();
 	}
 
-	@Override
-	protected void interrupted()
-	{
-		System.out.print("Shooter was interrupted");
-	}
-
 	/**
 	 * when timer is greater than time entered, it stops
 	 */
 	@Override
 	protected boolean isFinished()
 	{
-		if(currentTime >= endingTime)
-			return true;
-		else
-			return false;
+		return currentTime >= endingTime;
 	}
 }

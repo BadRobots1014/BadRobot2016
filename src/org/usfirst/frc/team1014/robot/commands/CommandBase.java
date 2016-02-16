@@ -7,15 +7,17 @@ import org.usfirst.frc.team1014.robot.commands.auto.AutoGrab;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
 import org.usfirst.frc.team1014.robot.commands.auto.DriveForwardDistance;
+import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOver;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOverAndComeBack;
-import org.usfirst.frc.team1014.robot.commands.auto.ObjectTrackingTest;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndComeBack;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndStay;
 // The imports for the final subsystems
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -70,13 +72,7 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new GoOverAndComeBack());
 		commandClasses.add(new ShootAndComeBack());
 		commandClasses.add(new ShootAndStay());
-		commandClasses.add(new ObjectTrackingTest());
-	}
-
-
-	public CommandBase(String name)
-	{
-		super(name);
+		commandClasses.add(new FindTarget());
 	}
 
 	public CommandBase()
@@ -101,5 +97,15 @@ public abstract class CommandBase extends Command
 	 * A {@code boolean} that is true when the command has finished executing.
 	 * This should be set to true at the end of the {@code execute()} method.
 	 */
-	public boolean isfinished = false;
+	protected boolean isfinished = false;
+
+	/**
+	 * Called when class is {@code cancel()} or multiple commands use the same subsystem.
+	 */
+	@Override
+	protected void interrupted()
+	{
+		Logger.log(Level.Error, getConsoleIdentity(), "I've been interrupted!");
+		end();
+	}
 }

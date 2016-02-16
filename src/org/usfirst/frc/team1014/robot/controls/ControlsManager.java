@@ -5,6 +5,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands
  * and command groups that allow control of the robot.
+ * 
+ * @author Ryan T.
+ * 
  */
 public class ControlsManager
 {
@@ -29,7 +32,8 @@ public class ControlsManager
 	public static final int MAXBOTIX_ULTRASONIC = 0;
 
 	public static DriverStation driverStation;
-	public static XboxController primaryXboxController, secondaryXboxController;
+	public static XboxController primaryXboxController,
+			secondaryXboxController;
 
 	/**
 	 * Initializes controls for the robot. Should only be called once when the robot first loads up.
@@ -43,30 +47,22 @@ public class ControlsManager
 
 	/**
 	 * 
-	 * @param number
-	 *            of the controller to get the layout of (1 = primary, 2 = secondary)
-	 * @return number of the layout that should be used with the current controller ( 0 = Default,
-	 *         1&2 = Alternate layouts)
+	 * @param controller
+	 *            to check the layout of
+	 * @return if the first layout should be used for the given controller
 	 */
-	public static int getLayout(int controller)
+	public static boolean shouldUseFirstLayout(int controller)
 	{
 		if(controller == 1)
 		{
 			if(primaryXboxController.isLBButtonPressed())
-				return 1;
-			else if(primaryXboxController.isRBButtonPressed())
-				return 2;
-			else
-				return 0;
+				return true;
 		}
 		else
 		{
 			if(secondaryXboxController.isLBButtonPressed())
-				return 1;
-			else if(secondaryXboxController.isRBButtonPressed())
-				return 2;
-			else
-				return 0;
+				return true;
 		}
+		return false;
 	}
 }

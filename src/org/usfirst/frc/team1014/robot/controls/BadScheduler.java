@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1014.robot.controls;
 
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -35,11 +38,11 @@ public class BadScheduler
 			scheduler.add(teleopCommandInstance);
 		} catch(InstantiationException e)
 		{
-			System.out.println("instance issue with " + mainTeleopClass.getName());
+			Logger.log(Level.Error, "BadScheduler", "instance issue with " + mainTeleopClass.getName());
 			e.printStackTrace();
 		} catch(IllegalAccessException e)
 		{
-			System.out.println("illegal access exception 1");
+			Logger.log(Level.Error, "BadScheduler", "illegal access exception 1");
 			e.printStackTrace();
 		}
 
@@ -50,7 +53,7 @@ public class BadScheduler
 	 * @param button an override for the Y button press
 	 * @param nextCommandInput an instance to add to scheduler
 	 */
-	public void changeCommand(boolean button, Command nextCommandInput)
+	public void changeCommand(boolean button, Class<? extends Command> nextCommandInput)
 	{
 		// This method should not exist
 		
@@ -69,11 +72,11 @@ public class BadScheduler
 			
 		} catch(InstantiationException e)
 		{
-			System.out.println("can't instantiate stuffs");
+			Logger.log(Level.Error, "BadScheduler", "can't instantiate stuffs");
 			e.printStackTrace();
 		} catch(IllegalAccessException e)
 		{
-			System.out.println("illegal acces exception 2");
+			Logger.log(Level.Error, "BadScheduler", "illegal acces exception 2");
 			e.printStackTrace();
 		}
 	}
@@ -108,6 +111,4 @@ public class BadScheduler
 			scheduler.add(teleopCommandInstance);
 		}
 	}
-
 }
-
