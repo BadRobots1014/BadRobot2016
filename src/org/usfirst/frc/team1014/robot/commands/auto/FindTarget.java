@@ -3,10 +3,11 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
 import edu.wpi.first.wpilibj.Utility;
 
-public class ObjectTrackingTest extends CommandBase
+public class FindTarget extends CommandBase
 {
 	ProcessedCam cam = ProcessedCam.getInstance();
 	Runnable run;
@@ -15,12 +16,12 @@ public class ObjectTrackingTest extends CommandBase
 	boolean isFinishedRotate = true, isFinishedDrive = false;
 	boolean timeSet = false;
 	double waitTime = 5 * 1000000;
-	double minSpeed = 0.4;
+	double minSpeed = 0.3;
 	double maxSpeed = 0.4;
 	double score = 90;
 	double deadzone = 5;
 
-	public ObjectTrackingTest()
+	public FindTarget()
 	{
 		requires(driveTrain);
 		requires(shooter);
@@ -31,38 +32,6 @@ public class ObjectTrackingTest extends CommandBase
 	{
 		driveTrain.tankDrive(0, 0);
 		shooter.ringLightOn();
-		run = new Runnable()
-		{
-
-			@Override
-			public void run()
-			{
-				for(int i = 0; i < 10; i++)
-				{
-					shooter.ringLightOn();
-					try
-					{
-						Thread.sleep(100);
-					} catch(InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					shooter.ringLightOff();
-					try
-					{
-						Thread.sleep(100);
-					} catch(InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				shooter.ringLightOn();
-
-			}
-
-		};
 	}
 
 	@Override
@@ -83,6 +52,7 @@ public class ObjectTrackingTest extends CommandBase
 	protected void execute()
 	{
 		double speed;
+		Logger.log(Level.Debug, "Hi", cam.getTrackingScore() + "");
 		if(Math.abs(cam.getTrackingScore()) >= score)
 		{
 
@@ -101,8 +71,19 @@ public class ObjectTrackingTest extends CommandBase
 					speed = Math.abs(cam.getX() / cam.getHalfWidth());
 				}
 				if(cam.getX() > 0)
+				{
+					for(int i = 0; i < 50; i ++)
+						driveTrain.tankDrive(.70, -.70);
+					
 					driveTrain.tankDrive(speed, -speed);
-				else driveTrain.tankDrive(-speed, speed);
+				}
+				else
+				{
+					for(int i = 0; i < 50; i ++)
+						driveTrain.tankDrive(-1, 1);
+					
+					driveTrain.tankDrive(-speed, speed);
+				}
 				timeSet = false;
 			}
 			else
