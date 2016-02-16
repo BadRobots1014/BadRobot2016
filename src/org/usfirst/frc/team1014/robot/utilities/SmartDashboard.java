@@ -19,7 +19,7 @@ public class SmartDashboard
 	private static String commandToRun;
 	private static final String commandRunKey = "Command running: ";
 
-	private SmartDashboard()
+	public SmartDashboard()
 	{
 		table = NetworkTable.getTable("SmartDashboard");
 		setup();
