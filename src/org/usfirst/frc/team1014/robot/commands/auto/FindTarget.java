@@ -8,6 +8,15 @@ import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
 import edu.wpi.first.wpilibj.Utility;
 
+/**
+ * This command is how the robot tracks the high goal. Firstly, it turns on the LED ring to activate
+ * the retroreflective tape on the target then it begins its vision tracking. The robot turns so
+ * that the target is in the center of the camera's field horizontally then moves the shooter up and
+ * down until the target is centered
+ * 
+ * @author Subash C. + Manu S. (a little)
+ *
+ */
 public class FindTarget extends CommandBase
 {
 	ProcessedCam cam = ProcessedCam.getInstance();
@@ -22,7 +31,7 @@ public class FindTarget extends CommandBase
 	double score = 90;
 	double deadzoneX = 3;
 	double deadzoneY = 3;
-	double downSpeedY = -.15;
+	double downSpeedY = -.20;
 	double upSpeedY = .15;
 	boolean stillPressed = false;
 	boolean servoPos = false;
