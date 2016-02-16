@@ -26,17 +26,17 @@ public class BadScheduler
 			scheduler.add(nowRunning);
 		} catch(InstantiationException e)
 		{
-			System.out.println("instance issue with " + mainTeleopClass.getName());
+			Logger.log(Level.Error, "BadScheduler", "instance issue with " + mainTeleopClass.getName());
 			e.printStackTrace();
 		} catch(IllegalAccessException e)
 		{
-			System.out.println("illegal access exception 1");
+			Logger.log(Level.Error, "BadScheduler", "illegal access exception 1");
 			e.printStackTrace();
 		}
 
 	}
 
-	public void changeCommand(boolean button, Command nextCommandInput)
+	public void changeCommand(boolean button, Class<? extends Command> nextCommandInput)
 	{
 		try
 		{
@@ -57,7 +57,7 @@ public class BadScheduler
 					{
 						Logger.log(Level.Debug, "69", "started new command");
 						scheduler.removeAll();
-						nowRunning = nextCommandInput;
+						nowRunning = nextCommandInput.newInstance();
 						scheduler.add(nowRunning);
 					}
 				}
@@ -75,15 +75,12 @@ public class BadScheduler
 
 		} catch(InstantiationException e)
 		{
-			System.out.println("can't instantiate stuffs");
+			Logger.log(Level.Error, "BadScheduler", "can't instantiate stuffs");
 			e.printStackTrace();
 		} catch(IllegalAccessException e)
 		{
-			System.out.println("illegal acces exception 2");
+			Logger.log(Level.Error, "BadScheduler", "illegal acces exception 2");
 			e.printStackTrace();
 		}
-
 	}
-
 }
-

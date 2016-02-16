@@ -96,7 +96,7 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		dashboard.update();
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), new FindTarget());
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), FindTarget.class);
 		Scheduler.getInstance().run();
 	}
 
