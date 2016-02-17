@@ -3,6 +3,7 @@ package org.usfirst.frc.team1014.robot.subsystems;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadUltrasonic;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
+import org.usfirst.frc.team1014.robot.sensors.IMUAdvanced;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
 
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.Utility;
 
 /**
  * This class defines the drive train subsystem and the abilities to do things like drive.
@@ -69,7 +71,7 @@ public class DriveTrain extends BadSubsystem
 		serialPort = new SerialPort(57600, SerialPort.Port.kMXP);
 
 		byte update_rate_hz = 127;
-		mxp = new IMU(serialPort, update_rate_hz);
+		mxp = new IMUAdvanced(serialPort, update_rate_hz);
 		Timer.delay(0.3);
 		mxp.zeroYaw();
 
@@ -167,6 +169,15 @@ public class DriveTrain extends BadSubsystem
 	public float getRoll()
 	{
 		return mxp.getRoll();
+	}
+	
+	public double getSpeed()
+	{
+		double time = Utility.getFPGATime();
+		double prevTime = time;
+		double accel = ((IMUAdvanced)mxp).getWorldLinearAccelX();
+		double speed = accel * (time-prevTime);
+		return speed;
 	}
 
 	@Override
