@@ -17,6 +17,8 @@ import org.usfirst.frc.team1014.robot.commands.auto.ShootAndStay;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -80,6 +82,19 @@ public abstract class CommandBase extends Command
 
 	public abstract String getConsoleIdentity();
 
-	protected boolean isfinished = false;
+	protected boolean isFinished = false;
+
+	/*
+	 * public boolean isFinished() { return isFinished; }
+	 */
+
+	/**
+	 * Not sure what this is used for.
+	 */
+	@Override
+	protected void interrupted()
+	{
+		Logger.log(Level.Error, getConsoleIdentity(), "I've been interrupted!");
+	}
 
 }

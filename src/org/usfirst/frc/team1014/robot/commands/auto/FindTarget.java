@@ -4,8 +4,8 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
-import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
+import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.Utility;
 
 /**
@@ -19,22 +19,25 @@ import edu.wpi.first.wpilibj.Utility;
  */
 public class FindTarget extends CommandBase
 {
-	ProcessedCam cam = ProcessedCam.getInstance();
-	Runnable run;
-	Thread thread;
-	double time = Utility.getFPGATime();
-	boolean isFinishedRotate = false, isFinishedDrive = false;
-	boolean timeSet = false;
-	double waitTime = 5 * 1000000;
-	double minSpeedTurn = 0.37;
-	double maxSpeedTurn = 0.45;
-	double score = 90;
-	double deadzoneX = 3;
-	double deadzoneY = 3;
-	double downSpeedY = -.20;
-	double upSpeedY = .15;
-	boolean stillPressed = false;
-	boolean servoPos = false;
+	private ProcessedCam cam = ProcessedCam.getInstance();
+	private boolean isFinishedRotate = false, isFinishedDrive = false;
+	private boolean stillPressed = false;
+	private boolean servoPos = false;
+	private boolean timeSet = false;
+	private boolean stopTimeSet = false;
+	private double counter = 0;
+	private double previousCamX = 0;
+	private double time = Utility.getFPGATime();
+
+	private final double minSpeedTurn = 0.48;
+	private final double maxSpeedTurn = 0.48;
+	private final double score = 90;
+	private final double deadzoneX = 3;
+	private final double deadzoneY = 5;
+	private final double downSpeedY = -.15;
+	private final double upSpeedY = .15;
+	private final double waitTime = 2 * 1000000;
+	private final double jerkSpeed = .3;
 
 	public FindTarget()
 	{
@@ -48,44 +51,11 @@ public class FindTarget extends CommandBase
 		driveTrain.tankDrive(0, 0);
 		shooter.ringLightOn();
 		shooter.driveServo(servoPos);
-		run = new Runnable()
-		{
-
-			@Override
-			public void run()
-			{
-				for(int i = 0; i < 10; i++)
-				{
-					shooter.ringLightOn();
-					try
-					{
-						Thread.sleep(100);
-					} catch(InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					shooter.ringLightOff();
-					try
-					{
-						Thread.sleep(100);
-					} catch(InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				shooter.ringLightOn();
-
-			}
-
-		};
 	}
 
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
 		return "ObjectTrackingTest";
 	}
 
@@ -120,6 +90,7 @@ public class FindTarget extends CommandBase
 
 		if(Math.abs(cam.getTrackingScore()) >= score)
 		{
+			stopTimeSet = false;
 			if(Math.abs(cam.getX()) > deadzoneX)
 			{
 				speed = Math.abs(cam.getX() / cam.getHalfWidth());
@@ -132,48 +103,86 @@ public class FindTarget extends CommandBase
 					speed = maxSpeedTurn;
 				}
 				speed = cam.getX() > 0 ? speed : -speed;
+				if(previousCamX == cam.getX())
+					counter++;
+				else counter = 0;
+				if(counter > 50)
+				{
+					counter = 0;
+					speed += speed < 0 ? -jerkSpeed : jerkSpeed;
+				}
 				driveTrain.tankDrive(speed, -speed);
+				previousCamX = cam.getX();
+				isFinishedDrive = false;
+				timeSet = false;
 			}
 			else
 			{
 				driveTrain.tankDrive(0, 0);
+				isFinishedDrive = true;
 			}
+
 			if(Math.abs(cam.getY()) > deadzoneY)
 			{
 				speed = cam.getY() > 0 ? downSpeedY : upSpeedY;
 				shooter.rotate(speed);
+				isFinishedRotate = false;
+				timeSet = false;
 			}
 			else
 			{
-				speed = 0;
-				shooter.rotate(speed);
+				shooter.rotate(0);
+				isFinishedRotate = true;
 			}
-			Logger.log(Level.Debug, "6969", "" + speed);
 
 		}
+
 		else
 		{
 			driveTrain.tankDrive(0.0f, 0.0f);
 			shooter.rotate(0.0f);
-			isFinishedRotate = true;
-			isFinishedDrive = true;
-		}
+			if(!stopTimeSet)
+			{
+				time = Utility.getFPGATime() + waitTime;
+				stopTimeSet = true;
+			}
 
-		isfinished = isFinishedRotate && isFinishedDrive;
-		isfinished = false;
+			if(Utility.getFPGATime() > time && stopTimeSet)
+			{
+				isFinished = true;
+			}
+			else
+			{
+				isFinished = false;
+			}
+		}
 	}
 
 	@Override
 	protected void interrupted()
 	{
-		// TODO Auto-generated method stub
 		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!!!");
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		return isfinished;
+		if(!isFinished)
+		{
+			if(isFinishedDrive && isFinishedRotate && !timeSet)
+			{
+				time = Utility.getFPGATime() + waitTime;
+				timeSet = true;
+			}
+			else if(isFinishedDrive && isFinishedRotate && timeSet)
+			{
+				if(Utility.getFPGATime() > time)
+				{
+					isFinished = true;
+				}
+			}
+		}
+		return isFinished;
 	}
 
 }
