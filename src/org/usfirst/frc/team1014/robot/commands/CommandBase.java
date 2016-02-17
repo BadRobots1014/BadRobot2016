@@ -12,6 +12,7 @@ import org.usfirst.frc.team1014.robot.commands.auto.GoOver;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOverAndComeBack;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndComeBack;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndStay;
+
 // The imports for the final subsystems
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
@@ -64,6 +65,12 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new ShootAndComeBack());
 		commandClasses.add(new ShootAndStay());
 		commandClasses.add(new FindTarget());
+	}
+
+
+	public CommandBase(String name)
+	{
+		super(name);
 	}
 
 	public CommandBase()

@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  * @author Tze Hei T.
- * 
+ *
  */
 
 public class AutoRotate extends CommandBase
 {
 
-	private double revolutions;
-	private double currentRevolutions;
-	private double difference;
-	private boolean direction;
+	double revolutions;
+	double currentRevolutions;
+	double difference;
+	boolean direction;
 
 	/**
 	 * Constructor
@@ -61,17 +61,35 @@ public class AutoRotate extends CommandBase
 		currentRevolutions = ((BadTalon) shooter.rotator).get();
 		difference = currentRevolutions - revolutions;
 
-		if(direction)
+		if(direction == true)
+		{
 			shooter.rotate(1);
-		else
+		}
+		if(direction == false)
+		{
 			shooter.rotate(-1);
+		}
+
+	}
+
+	@Override
+	protected void interrupted()
+	{
+		System.out.println("AutoRotate was interrupted");
 
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		return Math.abs(difference) <= 0;
+		if(Math.abs(difference) <= 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }

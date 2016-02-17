@@ -20,8 +20,7 @@ public class AutoTurn extends CommandBase
 	 * Constructor
 	 * 
 	 * @param degree
-	 *            - how far the robot needs to turn. Positive values turn right. Negative values
-	 *            turn left *
+	 *            - how far the robot needs to turn. Positive values turn right. Negative values turn left	 *      
 	 */
 	public AutoTurn(double degree)
 	{
@@ -57,12 +56,23 @@ public class AutoTurn extends CommandBase
 		difference = driveTrain.getAngle360() - degree;
 
 		if(sign < 0)
+		{
 			driveTrain.tankDrive((rotation()), -rotation());
-		else if(sign > 0)
+		}
+		if(sign > 0)
+		{
 			driveTrain.tankDrive(-rotation(), (rotation()));
-
+		}
 		Logger.logThis("MXP Angle: " + driveTrain.getAngle360());
 	}
+
+	@Override
+	protected void interrupted()
+	{
+		System.out.println("AutoTurn was interrupted");
+
+	}
+
 
 	/**
 	 * 
@@ -77,6 +87,14 @@ public class AutoTurn extends CommandBase
 	protected boolean isFinished()
 	{
 		// Stops if the difference is in the range0
-		return Math.abs(difference) < 5;
+		if(Math.abs(difference) < 5)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
+
 }

@@ -26,7 +26,9 @@ public class SmartDashboard
 	public static SmartDashboard getInstance()
 	{
 		if(smartDashboard == null)
+		{
 			smartDashboard = new SmartDashboard();
+		}
 		return smartDashboard;
 	}
 
