@@ -75,7 +75,11 @@ public abstract class CommandBase extends Command
 
 	public abstract String getConsoleIdentity();
 
-	protected boolean isfinished = false;
+	protected boolean isFinished = false;
+
+	/*
+	 * public boolean isFinished() { return isFinished; }
+	 */
 
 	/**
 	 * Not sure what this is used for.
