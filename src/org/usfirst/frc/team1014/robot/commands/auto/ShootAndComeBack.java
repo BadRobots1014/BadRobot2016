@@ -20,5 +20,6 @@ public class ShootAndComeBack extends CommandGroup
 		this.addSequential(new AutoDrive(.5, 1));
 		this.addSequential(new AutoTurn(-90));
 		this.addSequential(new AutoDrive(2, 1));
+
 	}
 }

@@ -12,6 +12,7 @@ import org.usfirst.frc.team1014.robot.commands.auto.GoOver;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOverAndComeBack;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndComeBack;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndStay;
+
 // The imports for the final subsystems
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
@@ -66,6 +67,12 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new FindTarget());
 	}
 
+
+	public CommandBase(String name)
+	{
+		super(name);
+	}
+
 	public CommandBase()
 	{
 		super();
@@ -75,7 +82,11 @@ public abstract class CommandBase extends Command
 
 	public abstract String getConsoleIdentity();
 
-	protected boolean isfinished = false;
+	protected boolean isFinished = false;
+
+	/*
+	 * public boolean isFinished() { return isFinished; }
+	 */
 
 	/**
 	 * Not sure what this is used for.

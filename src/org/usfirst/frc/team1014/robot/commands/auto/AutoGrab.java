@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoGrab extends CommandBase
 {
 	// Initialize variables
-	private double currentTime, endingTime, time;
+	double currentTime, endingTime, time;
 
 	/**
 	 * basic constructor
@@ -45,7 +45,7 @@ public class AutoGrab extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "AutoGrab";
+		return "Auto Grab";
 	}
 
 	@Override
@@ -62,12 +62,26 @@ public class AutoGrab extends CommandBase
 		currentTime = Utility.getFPGATime();
 	}
 
+	@Override
+	protected void interrupted()
+	{
+		System.out.print("Grabber was interrupted");
+	}
+
 	/**
 	 * when timer is greater than time entered, it stops
 	 */
 	@Override
 	protected boolean isFinished()
 	{
-		return currentTime >= endingTime;
+		if(currentTime >= endingTime)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
 	}
 }

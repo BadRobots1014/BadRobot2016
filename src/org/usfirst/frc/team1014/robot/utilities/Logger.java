@@ -14,7 +14,7 @@ public class Logger
 	 */
 	public static void logThis(String stringToLog)
 	{
-		Logger.log(Level.Debug, "SimpleOut", stringToLog);
+		System.out.println(stringToLog);
 	}
 
 	/**
