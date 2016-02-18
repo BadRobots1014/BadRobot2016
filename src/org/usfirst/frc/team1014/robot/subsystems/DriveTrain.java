@@ -83,7 +83,6 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
-
 	/**
 	 * This method allows the robot to go straight with just two parameters. The robot first
 	 * calculates how far off it is from the target angle, then checks if that is large enough to
@@ -123,7 +122,6 @@ public class DriveTrain extends BadSubsystem
 		return lidar.getDistance();
 	}
 
-
 	/**
 	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
 	 * 
@@ -138,8 +136,7 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else
-			return ultrasonic.getRangeMM();
+		else return ultrasonic.getRangeMM();
 	}
 
 	public double getAngle()// return -180 - 180
@@ -151,8 +148,7 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;
-		else
-			return mxp.getYaw();
+		else return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()
@@ -171,20 +167,68 @@ public class DriveTrain extends BadSubsystem
 		return "DriveTrain";
 	}
 
-	public float getRoll() {
+	public float getRoll()
+	{
 		return mxp.getRoll();
 	}
-	
 
+	/**
+	 * Starts a timer and sets the previous time equal to the time it just got. THen it gets the
+	 * MXP's acceleration and uses it to determine the speed of the robot. Since the time is so
+	 * small, the speed obtained is very accurate.
+	 * 
+	 * @return - the speed that it was moving at
+	 */
 	public double getSpeed()
 	{
 		double time = Utility.getFPGATime();
 		double prevTime = time;
-		double accel = ((IMUAdvanced)mxp).getWorldLinearAccelX();
-		double speed = accel * (time-prevTime);
+		double accel = ((IMUAdvanced) mxp).getWorldLinearAccelX();
+		double speed = accel * (time - prevTime);
 		return speed;
 	}
 
+	/**
+	 * uses the max speed to get the desired speed from the controller's analog, 
+	 * compares current speed to desired speed and makes adjustments.
+	 *  
+	 * @param leftStickY
+	 * 				- value of left stick
+	 * @param rightStickY
+	 * 				- value of right stick
+	 */
+	public void setSpeed(double leftStickY, double rightStickY)
+	{
+		final double MAX_SPEED = 5;		//this is a guess 
+		double speed = this.getSpeed();
+		double desiredSpeedLeft = leftStickY * MAX_SPEED;
+		double desiredSpeedRight = rightStickY * MAX_SPEED;
+
+		if(speed > desiredSpeedLeft)
+		{
+			backLeft.set(backLeft.get() - .1);
+			frontLeft.set(frontLeft.get() - .1);
+		}
+
+		if(speed < desiredSpeedLeft)
+		{
+			backLeft.set(backLeft.get() + .1);
+			frontLeft.set(frontLeft.get() + .1);
+		}
+
+		if(speed > desiredSpeedRight)
+		{
+			backRight.set(backRight.get() - .1);
+			frontRight.set(frontRight.get() - .1);
+		}
+
+		if(speed < desiredSpeedRight)
+		{
+			backRight.set(backRight.get() + .1);
+			frontRight.set(frontRight.get() + .1);
+		}
+
+	}
 
 	@Override
 	protected void initDefaultCommand()
