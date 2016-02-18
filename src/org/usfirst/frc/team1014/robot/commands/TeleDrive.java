@@ -62,16 +62,18 @@ public class TeleDrive extends CommandBase
 			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
 			Logger.logThis("Correcting orientation");
 		}
-		if(ControlsManager.primaryXboxController.getLeftTrigger() == 0)
+		
+		if(ControlsManager.primaryXboxController.getLeftTrigger() < -.5)
+		{
+			driveTrain.setSpeed(-ControlsManager.primaryXboxController.getLeftStickY(),
+					-ControlsManager.primaryXboxController.getRightStickY());
+			gyroSet = false;
+		}
+		else
 		{
 			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
 					-ControlsManager.primaryXboxController.getRightStickY());
 			gyroSet = false;
-		}
-		if(ControlsManager.primaryXboxController.getLeftTrigger() == 1)
-		{
-			driveTrain.setSpeed(-ControlsManager.primaryXboxController.getLeftStickY(),
-					-ControlsManager.primaryXboxController.getRightStickY());
 		}
 	}
 

@@ -189,17 +189,21 @@ public class DriveTrain extends BadSubsystem
 	}
 
 	/**
-	 * uses the max speed to get the desired speed from the controller's analog, 
-	 * compares current speed to desired speed and makes adjustments.
-	 *  
+	 * GET ACTUAL NUMBERS FOR THIS, DONT USE THIS, IT WONT WORK, PLZ GET REAL NUMBERS BEFORE EVEN
+	 * TRYING TO USE THIS ITS A BAD IDEA TO USE THIS IS THE NUMBER HASNT BEEN FIXED PLZ FIX THAT
+	 * NUMBER
+	 * 
+	 * When it finally works, it uses the max speed to get the desired speed from the controller's
+	 * analog, compares current speed to desired speed and makes adjustments.
+	 * 
 	 * @param leftStickY
-	 * 				- value of left stick
+	 *            - value of left stick
 	 * @param rightStickY
-	 * 				- value of right stick
+	 *            - value of right stick
 	 */
 	public void setSpeed(double leftStickY, double rightStickY)
 	{
-		final double MAX_SPEED = 5;		//this is a guess 
+		final double MAX_SPEED = 5; // this is a guess
 		double speed = this.getSpeed();
 		double desiredSpeedLeft = leftStickY * MAX_SPEED;
 		double desiredSpeedRight = rightStickY * MAX_SPEED;
