@@ -60,7 +60,6 @@ public class TeleDrive extends CommandBase
 				gyroSet = true;
 			}
 			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
-			Logger.logThis("Correcting orientation");
 		}
 		else
 		{
