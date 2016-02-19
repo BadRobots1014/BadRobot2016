@@ -59,7 +59,6 @@ public class TeleDrive extends CommandBase
 				gyroSet = true;
 			}
 			driveTrain.driveStraight(ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
-			Logger.logThis("Correcting orientation");
 		}
 		else
 		{
@@ -67,7 +66,6 @@ public class TeleDrive extends CommandBase
 			gyroSet = false;
 		}
 
-		Logger.logThis("MXP Angle: " + driveTrain.getAngle());
 	}
 
 	/**

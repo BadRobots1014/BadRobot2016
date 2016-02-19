@@ -39,12 +39,15 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		/*
-		 * if(ControlsManager.secondaryXboxController.isRBButtonPressed()) { shooter.grabBall(); }
-		 * else { shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY()); }
-		 */
+		 if(ControlsManager.secondaryXboxController.isRBButtonPressed())
+		 {
+			 shooter.grabBall();
+			 Logger.logThis("Shooter RPM: " + shooter.getShootingRPM());
+		 }
+		 else {
+			 shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY()); 
+		 }
 
-		shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
 		if(ControlsManager.secondaryXboxController.isAButtonPressed())
 			isServoOut = true;
 		else
