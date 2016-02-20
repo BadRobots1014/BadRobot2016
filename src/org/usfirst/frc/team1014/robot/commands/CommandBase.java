@@ -99,8 +99,8 @@ public abstract class CommandBase extends Command
 	 * @return a {@link String} with the name of the class.
 	 */
 	public abstract String getConsoleIdentity();
-
-	protected boolean isFinished = false;
+	
+	public boolean isFinished;
 
 	/**
 	 * Called when class is {@code cancel()} or multiple commands use the same subsystem.
