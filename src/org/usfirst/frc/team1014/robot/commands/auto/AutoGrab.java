@@ -18,10 +18,9 @@ public class AutoGrab extends CommandBase
 	double currentTime, endingTime, time;
 
 	/**
-	 * basic constructor
 	 * 
 	 * @param time
-	 *            - amount of time the grabber should be run
+	 *            - amount of time the grabber should be run in seconds
 	 * 
 	 */
 	public AutoGrab(double time)

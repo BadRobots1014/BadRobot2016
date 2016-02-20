@@ -15,7 +15,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 {
 
 	public static ShooterAndGrabber instance;
-	private SpeedController left, right, rotator;
+	public SpeedController left, right, rotator;
 	private SpeedController ringLight;
 	public Servo pusher;
 	public boolean grabberSet = false;
@@ -145,16 +145,15 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		ringLight.set(0);
 	}
 
-	public void driveServo(double power)
+	public void driveServo(boolean servoPos)
 	{
-		if(power > 0.650)
+		if(servoPos)
 		{
-			power = 0.650;
+			pusher.set(.25);
 		}
-		else if(power < .25)
+		else
 		{
-			power = .25;
-
+			pusher.set(0.9);
 		}
 	}
 

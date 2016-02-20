@@ -21,8 +21,6 @@ public class AutoRotate extends CommandBase
 	boolean direction;
 
 	/**
-	 * Constructor
-	 * 
 	 * @param revolutions
 	 *            - amount of revolutions you want to turn
 	 * @param direction

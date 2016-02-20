@@ -20,16 +20,16 @@ public class AutoShoot extends CommandBase
 	/**
 	 * 
 	 * @param time
-	 * 			- amount of time that you want it to run for
+	 *            - amount of time that you want it to run for in seconds
 	 */
 	public AutoShoot(double time)
 	{
 		this.time = time * 1000000;
 		requires((Subsystem) shooter);
 	}
+
 	/**
-	 * resets shooter's speed
-	 * starts a timer for current time in micro sec based on user input
+	 * resets shooter's speed starts a timer for current time in micro sec based on user input
 	 */
 	@Override
 	protected void initialize()

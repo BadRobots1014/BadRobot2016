@@ -17,8 +17,6 @@ public class DriveForwardDistance extends CommandBase
 	public double zeroAngle;
 
 	/**
-	 * Constructor
-	 * 
 	 * @param speed
 	 *            - speed the robot will run at
 	 * @param distance

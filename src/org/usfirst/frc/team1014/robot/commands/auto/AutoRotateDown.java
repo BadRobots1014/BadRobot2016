@@ -15,7 +15,7 @@ public class AutoRotateDown extends CommandBase
 {
 
 	double currentRevolution;
-	int place = 0; // this is all the way down (guess)
+	int place = 0; // this is all the way down (guess, need to find actual value)
 
 	public AutoRotateDown()
 	{
