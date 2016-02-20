@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -12,9 +13,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class TeleDrive extends CommandBase
 {
+	public double targetGyro;
+	public boolean gyroSet;
+
 	public TeleDrive()
 	{
 		requires((Subsystem) driveTrain);
+		targetGyro = 0;
+		gyroSet = false;
 	}
 
 	/**
@@ -25,11 +31,11 @@ public class TeleDrive extends CommandBase
 	protected void initialize()
 	{
 		driveTrain.tankDrive(0, 0);
+		driveTrain.resetMXPAngle();
 	}
 
 	/**
-	 * This is really useless and doesn't really have much function, other than when we want to log
-	 * things.
+	 * @return the name of the class.
 	 */
 	@Override
 	public String getConsoleIdentity()
@@ -44,7 +50,23 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void execute()
 	{
-		driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(), -ControlsManager.primaryXboxController.getRightStickY());
+
+		if(ControlsManager.primaryXboxController.isLBButtonPressed())
+		{
+			if(!gyroSet)
+			{
+				targetGyro = driveTrain.getAngle();
+				gyroSet = true;
+			}
+			driveTrain.driveStraight(ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
+			Logger.logThis("Correcting orientation");
+		}
+		else
+		{
+			driveTrain.tankDrive(ControlsManager.primaryXboxController.getRightStickY(), ControlsManager.primaryXboxController.getLeftStickY());
+
+			gyroSet = false;
+		}
 	}
 
 	/**
@@ -57,7 +79,7 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * What the robot should do once the command has finished executing.
+	 * Removes loose ends and exits command properly.
 	 */
 	@Override
 	protected void end()
@@ -66,11 +88,17 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
+<<<<<<< HEAD
+	 * Called when another command requires the same subsystem or {@code cancel()} is called.
+	 * Cleans up dependencies and logs the interrupt.
+=======
 	 * Not sure what this is used for.
+>>>>>>> 8a7b4162529917dec92a80113a0bd3fcd55c5440
 	 */
 	@Override
 	protected void interrupted()
 	{
 		org.usfirst.frc.team1014.robot.utilities.Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
+		end();
 	}
 }

@@ -13,7 +13,16 @@ public class DriveForwardDistance extends CommandBase
 {
 
 	public double speed, distance, ultraDistance;
+	public double zeroAngle;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param speed
+	 *            - speed the robot will run at
+	 * @param distance
+	 *            - the distance from something it will stop at
+	 */
 	public DriveForwardDistance(double speed, double distance)
 	{
 		this.distance = distance;
@@ -25,7 +34,7 @@ public class DriveForwardDistance extends CommandBase
 	protected void initialize()
 	{
 		driveTrain.tankDrive(0, 0);
-
+		zeroAngle = driveTrain.getAngle();
 	}
 
 	@Override
@@ -44,9 +53,8 @@ public class DriveForwardDistance extends CommandBase
 	@Override
 	protected void execute()
 	{
-		ultraDistance = driveTrain.getUltraDistance(true);
-		driveTrain.tankDrive(speed, speed);
-
+		ultraDistance = driveTrain.getMaxbotixDistance(); // Gets the ultrasonic distance in inches
+		driveTrain.driveStraight(speed, zeroAngle);
 	}
 
 	@Override
@@ -55,7 +63,10 @@ public class DriveForwardDistance extends CommandBase
 		System.out.println("DriveForwardDistance was interrupted");
 
 	}
-
+	
+	/**
+	 * stops when distance is less than desired distance
+	 */
 	@Override
 	protected boolean isFinished()
 	{

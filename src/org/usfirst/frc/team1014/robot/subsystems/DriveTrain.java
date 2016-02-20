@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadUltrasonic;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
 
@@ -26,14 +27,12 @@ public class DriveTrain extends BadSubsystem
 	private SpeedController backLeft, frontLeft, backRight, frontRight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
-
+	private BadUltrasonic maxbotix;
 	private IMU mxp;
 	private SerialPort serialPort;
 
 	public DriveTrain()
-	{
-
-	}
+	{ }
 
 	/**
 	 * returns the current instance of drive train. If none exists, then it creates a new instance.
@@ -60,6 +59,8 @@ public class DriveTrain extends BadSubsystem
 		// ultrasonic = new Ultrasonic(RobotMap.ultraPing, RobotMap.ultraEcho);
 		// ultrasonic.setEnabled(true); ultrasonic.setAutomaticMode(true);
 
+		maxbotix = new BadUltrasonic(ControlsManager.MAXBOTIX_ULTRASONIC);
+
 		// mxp stuff
 		serialPort = new SerialPort(57600, SerialPort.Port.kMXP);
 
@@ -71,17 +72,79 @@ public class DriveTrain extends BadSubsystem
 		train = new RobotDrive(backLeft, frontLeft, backRight, frontRight);
 	}
 
+	/**
+	 * Drives the robot in tank mode
+	 * @param leftStickY forward speed of left motors
+	 * @param rightStickY forward speed of right motors
+	 */
 	public void tankDrive(double leftStickY, double rightStickY)
 	{
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
+
+	/**
+	 * This method allows the robot to go straight with just two parameters. The robot first
+	 * calculates how far off it is from the target angle, then checks if that is large enough to
+	 * act on. It then uses the proportional part of PID to calculate how fast it needs to turn to
+	 * correct its angle. Finally, it turns the robot to come back to the proper angle. If the robot
+	 * was never off in the first place, then it just drives forward at uniform speed.
+	 * 
+	 * @param moveSpeed
+	 *            - the speed at which to move if the angle is OK
+	 * @param targetGyro
+	 *            - the angle the robot wants to correct to
+	 */
+	public void driveStraight(double moveSpeed, double targetGyro)
+	{
+		double difference = (getAngle() - targetGyro);
+
+		if(Math.abs(difference) > 5)
+		{
+			double turnSpeed = moveSpeed * difference / 90;
+
+			if(Math.abs(turnSpeed) > 1)
+				turnSpeed = 1;
+			else if(Math.abs(turnSpeed) < 0.4)
+				turnSpeed = 0.4;
+			tankDrive(-turnSpeed, turnSpeed);
+		}
+		else
+		{
+			tankDrive(moveSpeed, moveSpeed);
+		}
+	}
+
+	/**
+	 * Updates the lidar distance and returns it.
+	 * Unit not specified.
+	 * @return distance
+	 */
 	public double getLIDARDistance()
 	{
 		lidar.updateDistance();
 		return lidar.getDistance();
 	}
 
+
+	/**
+	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
+	 * 
+	 * @return - the distane to the nearest object in inches
+	 */
+	public double getMaxbotixDistance()
+	{
+		return maxbotix.getDistance();
+	}
+
+	/**
+	 * Returns the distance from the ultrasonic sensor.
+	 * <br /><br />
+	 * If {@code inInches} is true the distance is returned in inches.
+	 * If {@code inInches} is false the distance is returned in millimeters.
+	 * @param inInches
+	 * @return the distance
+	 */
 	public double getUltraDistance(boolean inInches)
 	{
 		if(inInches)
@@ -90,11 +153,17 @@ public class DriveTrain extends BadSubsystem
 			return ultrasonic.getRangeMM();
 	}
 
+	/**
+	 * @return the angle of the drive train from {@literal -180} to {@literal 180}.
+	 */
 	public double getAngle()// return -180 - 180
 	{
 		return (double) mxp.getYaw();
 	}
 
+	/**
+	 * @return the angle of the drive train from {@literal 0} to {@literal 360}.
+	 */
 	public double getAngle360() // returns 0 -360
 	{
 		if(mxp.getYaw() < 0)
@@ -119,6 +188,11 @@ public class DriveTrain extends BadSubsystem
 		return "DriveTrain";
 	}
 
+	public float getRoll() {
+		return mxp.getRoll();
+	}
+	
+	
 	@Override
 	protected void initDefaultCommand()
 	{

@@ -7,33 +7,41 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * 
+ * The robot will automatically shoot a ball
+ * 
  * @author Vaarun N.
  * 
  */
 public class AutoShoot extends CommandBase
 {
+	// Initialize variables
+	double currentTime, endingTime, time;
 
-	double speed;
-	double time;
-
-	public AutoShoot(double speed)
+	/**
+	 * 
+	 * @param time
+	 * 			- amount of time that you want it to run for
+	 */
+	public AutoShoot(double time)
 	{
-		this.speed = speed;
+		this.time = time * 1000000;
 		requires((Subsystem) shooter);
 	}
-
+	/**
+	 * resets shooter's speed
+	 * starts a timer for current time in micro sec based on user input
+	 */
 	@Override
 	protected void initialize()
 	{
 		shooter.shoot(0);
-
+		endingTime = currentTime + time;
 	}
 
 	@Override
 	public String getConsoleIdentity()
 	{
-
-		return "Shooter";
+		return "Auto Shoot";
 	}
 
 	@Override
@@ -46,30 +54,25 @@ public class AutoShoot extends CommandBase
 	@Override
 	protected void execute()
 	{
-		shooter.shoot(speed);
-		time = Utility.getFPGATime();
-
+		shooter.shoot(1);
+		currentTime = Utility.getFPGATime();
 	}
 
 	@Override
 	protected void interrupted()
 	{
 		System.out.print("Shooter was interrupted");
-
 	}
 
+	/**
+	 * when timer is greater than time entered, it stops
+	 */
 	@Override
 	protected boolean isFinished()
 	{
-		if(time - 1000 < 0)
-		{
+		if(currentTime >= endingTime)
 			return true;
-		}
 		else
-		{
 			return false;
-		}
-
 	}
-
 }

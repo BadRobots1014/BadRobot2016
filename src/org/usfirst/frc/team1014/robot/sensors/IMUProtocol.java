@@ -31,7 +31,8 @@ public class IMUProtocol
 	final static int CHECKSUM_LENGTH = 2;
 	final static int TERMINATOR_LENGTH = 2;
 
-	// Yaw/Pitch/Roll (YPR) Update Packet - e.g., !y[yaw][pitch][roll][checksum][cr][lf]
+	// Yaw/Pitch/Roll (YPR) Update Packet - e.g.,
+	// !y[yaw][pitch][roll][checksum][cr][lf]
 	public final static byte MSGID_YPR_UPDATE = 'y';
 	final static int YPR_UPDATE_MESSAGE_LENGTH = 34;
 	final static int YPR_UPDATE_YAW_VALUE_INDEX = 2;
@@ -88,7 +89,8 @@ public class IMUProtocol
 	final static int STREAM_CMD_CHECKSUM_INDEX = 5;
 	final static int STREAM_CMD_TERMINATOR_INDEX = 7;
 
-	// EnableStream Response Packet - e.g., !s[stream type][gyro full scale range][accel full scale
+	// EnableStream Response Packet - e.g., !s[stream type][gyro full scale
+	// range][accel full scale
 	// range][update rate hz][yaw_offset_degrees][flags][checksum][cr][lf]
 	public final static byte MSG_ID_STREAM_RESPONSE = 's';
 	final static int STREAM_RESPONSE_MESSAGE_LENGTH = 46;

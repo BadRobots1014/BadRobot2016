@@ -220,7 +220,8 @@ public class IMUAdvanced extends IMU
 				if(q[i] >= 2)
 					q[i] = -4 + q[i]; // Range-check quaterions
 
-			// below calculations are necessary for calculation of yaw/pitch/roll,
+			// below calculations are necessary for calculation of
+			// yaw/pitch/roll,
 			// and tilt-compensated compass heading
 
 			// calculate gravity vector
@@ -229,12 +230,15 @@ public class IMUAdvanced extends IMU
 			gravity[2] = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
 
 			// calculate Euler angles
-			// This code is here for reference, and is commented out for performance reasons
+			// This code is here for reference, and is commented out for
+			// performance reasons
 
-			// euler[0] = (float) MathUtils.atan2(2*q[1]*q[2] - 2*q[0]*q[3], 2*q[0]*q[0] +
+			// euler[0] = (float) MathUtils.atan2(2*q[1]*q[2] - 2*q[0]*q[3],
+			// 2*q[0]*q[0] +
 			// 2*q[1]*q[1] - 1);
 			// euler[1] = (float) -MathUtils.asin(2*q[1]*q[3] + 2*q[0]*q[2]);
-			// euler[2] = (float) MathUtils.atan2(2*q[2]*q[3] - 2*q[0]*q[1], 2*q[0]*q[0] +
+			// euler[2] = (float) MathUtils.atan2(2*q[2]*q[3] - 2*q[0]*q[1],
+			// 2*q[0]*q[0] +
 			// 2*q[3]*q[3] - 1);
 
 			// calculate yaw/pitch/roll angles
@@ -254,7 +258,8 @@ public class IMUAdvanced extends IMU
 				yaw_degrees -= 360;
 
 			// calculate linear acceleration by
-			// removing the gravity component (+1g = +4096 in standard DMP FIFO packet)
+			// removing the gravity component (+1g = +4096 in standard DMP FIFO
+			// packet)
 
 			linear_acceleration_x = (float) (((raw_update.accel_x) / (32768.0 / accel_fsr_g)) - gravity[0]);
 			linear_acceleration_y = (float) (((raw_update.accel_y) / (32768.0 / accel_fsr_g)) - gravity[1]);
@@ -267,7 +272,8 @@ public class IMUAdvanced extends IMU
 			q2[2] = linear_acceleration_y;
 			q2[3] = linear_acceleration_z;
 
-			// Rotate linear acceleration so that it's relative to the world reference frame
+			// Rotate linear acceleration so that it's relative to the world
+			// reference frame
 
 			// http://www.cprogramming.com/tutorial/3d/quaternions.html
 			// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/transforms/index.htm
@@ -279,7 +285,8 @@ public class IMUAdvanced extends IMU
 			// - P_out is the output vector
 			// - q is the orientation quaternion
 			// - P_in is the input vector (a*aReal)
-			// - conj(q) is the conjugate of the orientation quaternion (q=[w,x,y,z],
+			// - conj(q) is the conjugate of the orientation quaternion
+			// (q=[w,x,y,z],
 			// q*=[w,-x,-y,-z])
 
 			// calculate quaternion product
@@ -289,10 +296,14 @@ public class IMUAdvanced extends IMU
 			// (Q1 * Q2).y = (w1y2 - x1z2 + y1w2 + z1x2)
 			// (Q1 * Q2).z = (w1z2 + x1y2 - y1x2 + z1w2
 
-			q_product[0] = q[0] * q2[0] - q[1] * q2[1] - q[2] * q2[2] - q[3] * q2[3]; // new w
-			q_product[1] = q[0] * q2[1] + q[1] * q2[0] + q[2] * q2[3] - q[3] * q2[2]; // new x
-			q_product[2] = q[0] * q2[2] - q[1] * q2[3] + q[2] * q2[0] + q[3] * q2[1]; // new y
-			q_product[3] = q[0] * q2[3] + q[1] * q2[2] - q[2] * q2[1] + q[3] * q2[0]; // new z
+			q_product[0] = q[0] * q2[0] - q[1] * q2[1] - q[2] * q2[2] - q[3] * q2[3]; // new
+																						// w
+			q_product[1] = q[0] * q2[1] + q[1] * q2[0] + q[2] * q2[3] - q[3] * q2[2]; // new
+																						// x
+			q_product[2] = q[0] * q2[2] - q[1] * q2[3] + q[2] * q2[0] + q[3] * q2[1]; // new
+																						// y
+			q_product[3] = q[0] * q2[3] + q[1] * q2[2] - q[2] * q2[1] + q[3] * q2[0]; // new
+																						// z
 
 			float[] q_conjugate = new float[4];
 

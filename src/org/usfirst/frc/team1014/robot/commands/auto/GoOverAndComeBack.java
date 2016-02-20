@@ -14,7 +14,7 @@ public class GoOverAndComeBack extends CommandGroup
 	{
 
 		this.addSequential(new DriveForwardDistance(1, 132));
-		this.addSequential(new DriveForward(2, 1));
+		this.addSequential(new AutoDrive(2, 1));
 
 	}
 

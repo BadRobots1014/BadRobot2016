@@ -1,17 +1,14 @@
 /* ============================================
  NavX-MXP source code is placed under the MIT license
  Copyright (c) 2015 Kauai Labs
-
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -66,30 +63,71 @@ public class AHRSProtocol extends IMUProtocol
 	/* including the checksum and terminator sequence. */
 
 	public final static byte MSGID_AHRS_UPDATE = 'a';
-	final static int AHRS_UPDATE_YAW_VALUE_INDEX = 4; /* Degrees. Signed Hundredths */
-	final static int AHRS_UPDATE_PITCH_VALUE_INDEX = 6; /* Degrees. Signed Hundredeths */
-	final static int AHRS_UPDATE_ROLL_VALUE_INDEX = 8; /* Degrees. Signed Hundredths */
-	final static int AHRS_UPDATE_HEADING_VALUE_INDEX = 10; /* Degrees. Unsigned Hundredths */
-	final static int AHRS_UPDATE_ALTITUDE_VALUE_INDEX = 12; /* Meters. Signed 16:16 */
-	final static int AHRS_UPDATE_FUSED_HEADING_VALUE_INDEX = 16; /* Degrees. Unsigned Hundredths */
-	final static int AHRS_UPDATE_LINEAR_ACCEL_X_VALUE_INDEX = 18; /* Inst. G. Signed Thousandths */
-	final static int AHRS_UPDATE_LINEAR_ACCEL_Y_VALUE_INDEX = 20; /* Inst. G. Signed Thousandths */
-	final static int AHRS_UPDATE_LINEAR_ACCEL_Z_VALUE_INDEX = 22; /* Inst. G. Signed Thousandths */
-	final static int AHRS_UPDATE_CAL_MAG_X_VALUE_INDEX = 24; /* Int16 (Device Units) */
-	final static int AHRS_UPDATE_CAL_MAG_Y_VALUE_INDEX = 26; /* Int16 (Device Units) */
-	final static int AHRS_UPDATE_CAL_MAG_Z_VALUE_INDEX = 28; /* Int16 (Device Units) */
-	final static int AHRS_UPDATE_CAL_MAG_NORM_RATIO_VALUE_INDEX = 30; /* Ratio. Unsigned Hundredths */
-	final static int AHRS_UPDATE_CAL_MAG_SCALAR_VALUE_INDEX = 32; /* Coefficient. Signed 16:16 */
-	final static int AHRS_UPDATE_MPU_TEMP_VAUE_INDEX = 36; /* Centigrade. Signed Hundredths */
-	final static int AHRS_UPDATE_RAW_MAG_X_VALUE_INDEX = 38; /* INT16 (Device Units */
-	final static int AHRS_UPDATE_RAW_MAG_Y_VALUE_INDEX = 40; /* INT16 (Device Units */
-	final static int AHRS_UPDATE_RAW_MAG_Z_VALUE_INDEX = 42; /* INT16 (Device Units */
+	final static int AHRS_UPDATE_YAW_VALUE_INDEX = 4; /*
+														 * Degrees. Signed Hundredths
+														 */
+	final static int AHRS_UPDATE_PITCH_VALUE_INDEX = 6; /*
+														 * Degrees. Signed Hundredeths
+														 */
+	final static int AHRS_UPDATE_ROLL_VALUE_INDEX = 8; /*
+														 * Degrees. Signed Hundredths
+														 */
+	final static int AHRS_UPDATE_HEADING_VALUE_INDEX = 10; /*
+															 * Degrees. Unsigned Hundredths
+															 */
+	final static int AHRS_UPDATE_ALTITUDE_VALUE_INDEX = 12; /*
+															 * Meters. Signed 16:16
+															 */
+	final static int AHRS_UPDATE_FUSED_HEADING_VALUE_INDEX = 16; /*
+																	 * Degrees. Unsigned Hundredths
+																	 */
+	final static int AHRS_UPDATE_LINEAR_ACCEL_X_VALUE_INDEX = 18; /*
+																	 * Inst. G. Signed Thousandths
+																	 */
+	final static int AHRS_UPDATE_LINEAR_ACCEL_Y_VALUE_INDEX = 20; /*
+																	 * Inst. G. Signed Thousandths
+																	 */
+	final static int AHRS_UPDATE_LINEAR_ACCEL_Z_VALUE_INDEX = 22; /*
+																	 * Inst. G. Signed Thousandths
+																	 */
+	final static int AHRS_UPDATE_CAL_MAG_X_VALUE_INDEX = 24; /*
+																 * Int16 (Device Units)
+																 */
+	final static int AHRS_UPDATE_CAL_MAG_Y_VALUE_INDEX = 26; /*
+																 * Int16 (Device Units)
+																 */
+	final static int AHRS_UPDATE_CAL_MAG_Z_VALUE_INDEX = 28; /*
+																 * Int16 (Device Units)
+																 */
+	final static int AHRS_UPDATE_CAL_MAG_NORM_RATIO_VALUE_INDEX = 30; /*
+																		 * Ratio. Unsigned
+																		 * Hundredths
+																		 */
+	final static int AHRS_UPDATE_CAL_MAG_SCALAR_VALUE_INDEX = 32; /*
+																	 * Coefficient. Signed 16:16
+																	 */
+	final static int AHRS_UPDATE_MPU_TEMP_VAUE_INDEX = 36; /*
+															 * Centigrade. Signed Hundredths
+															 */
+	final static int AHRS_UPDATE_RAW_MAG_X_VALUE_INDEX = 38; /*
+																 * INT16 (Device Units
+																 */
+	final static int AHRS_UPDATE_RAW_MAG_Y_VALUE_INDEX = 40; /*
+																 * INT16 (Device Units
+																 */
+	final static int AHRS_UPDATE_RAW_MAG_Z_VALUE_INDEX = 42; /*
+																 * INT16 (Device Units
+																 */
 	final static int AHRS_UPDATE_QUAT_W_VALUE_INDEX = 44; /* INT16 */
 	final static int AHRS_UPDATE_QUAT_X_VALUE_INDEX = 46; /* INT16 */
 	final static int AHRS_UPDATE_QUAT_Y_VALUE_INDEX = 48; /* INT16 */
 	final static int AHRS_UPDATE_QUAT_Z_VALUE_INDEX = 50; /* INT16 */
-	final static int AHRS_UPDATE_BARO_PRESSURE_VALUE_INDEX = 52; /* millibar. Signed 16:16 */
-	final static int AHRS_UPDATE_BARO_TEMP_VAUE_INDEX = 56; /* Centigrade. Signed Hundredths */
+	final static int AHRS_UPDATE_BARO_PRESSURE_VALUE_INDEX = 52; /*
+																	 * millibar. Signed 16:16
+																	 */
+	final static int AHRS_UPDATE_BARO_TEMP_VAUE_INDEX = 56; /*
+															 * Centigrade. Signed Hundredths
+															 */
 	final static int AHRS_UPDATE_OPSTATUS_VALUE_INDEX = 58; /* NAVX_OP_STATUS_XXX */
 	final static int AHRS_UPDATE_SENSOR_STATUS_VALUE_INDEX = 59; /* NAVX_SENSOR_STATUS_XXX */
 	final static int AHRS_UPDATE_CAL_STATUS_VALUE_INDEX = 60; /* NAVX_CAL_STATUS_XXX */
@@ -98,7 +136,8 @@ public class AHRSProtocol extends IMUProtocol
 	final static int AHRS_UPDATE_MESSAGE_TERMINATOR_INDEX = 64;
 	final static int AHRS_UPDATE_MESSAGE_LENGTH = 66;
 
-	// Data Get Request: Tuning Variable, Mag Cal, Board Identity (Response message depends upon
+	// Data Get Request: Tuning Variable, Mag Cal, Board Identity (Response
+	// message depends upon
 	// request type)
 	public final static byte MSGID_DATA_REQUEST = 'D';
 	final static int DATA_REQUEST_DATATYPE_VALUE_INDEX = 4;
@@ -116,7 +155,8 @@ public class AHRSProtocol extends IMUProtocol
 	final static int DATA_SET_RESPONSE_MESSAGE_TERMINATOR_INDEX = 9;
 	final static int DATA_SET_RESPONSE_MESSAGE_LENGTH = 11;
 
-	// Magnetometer Calibration Packet - e.g., !m[x_bias][y_bias][z_bias][m1,1 ... m3,3][cr][lf]
+	// Magnetometer Calibration Packet - e.g., !m[x_bias][y_bias][z_bias][m1,1
+	// ... m3,3][cr][lf]
 	public final static byte MSGID_MAG_CAL_CMD = 'M';
 	final static int MAG_CAL_DATA_ACTION_VALUE_INDEX = 4;
 	final static int MAG_X_BIAS_VALUE_INDEX = 5; /* signed short */
@@ -145,7 +185,8 @@ public class AHRSProtocol extends IMUProtocol
 	final static int FUSION_TUNING_CMD_MESSAGE_TERMINATOR_INDEX = 12;
 	final static int FUSION_TUNING_CMD_MESSAGE_LENGTH = 14;
 
-	// Board Identity Response Packet- e.g., !c[type][hw_rev][fw_major][fw_minor][unique_id[12]]
+	// Board Identity Response Packet- e.g.,
+	// !c[type][hw_rev][fw_major][fw_minor][unique_id[12]]
 	public final static byte MSGID_BOARD_IDENTITY_RESPONSE = 'i';
 	final static int BOARD_IDENTITY_BOARDTYPE_VALUE_INDEX = 4;
 	final static int BOARD_IDENTITY_HWREV_VALUE_INDEX = 5;

@@ -5,12 +5,21 @@ import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * 
+ * This class defines how the robot shooter will work in teleop.
+ *
+ */
 public class UseShooter extends CommandBase
 {
-
-	boolean usingShooter;
+	private static final double ROTATION_SPEED_MULTIPLYER = 1d / 3d; // Value to multiply rotation value by to decrease sensitivity
+	private static final double SHOOTER_SPEED_ADJUST_INTERVAL = .1;
+	private static final double MAX_SHOOTER_SPEED = 1.0;
+	private static final double MIN_SHOOTER_SPEED = .5;
+	
 	double maxSpeed;
-	double servoPos;
+	boolean stillPressed = false;
+	boolean isServoOut = false;
 
 	public UseShooter()
 	{
@@ -19,12 +28,11 @@ public class UseShooter extends CommandBase
 
 	protected void initialize()
 	{
-		usingShooter = false;
 		maxSpeed = .5;
-		servoPos = .5;
-
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
+		Logger.logThis("new shooter init");
+		shooter.driveServo(isServoOut);
 	}
 
 	@Override
@@ -33,37 +41,58 @@ public class UseShooter extends CommandBase
 		return "UseShooter";
 	}
 
+	/**
+	 * when X is pressed, decreases speed. when B is pressed, increases speed. when RB is pressed,
+	 * grabs ball else sets speed with right stick's y axis servo's position is moved to shoot ball
+	 * when A is pressed else in original position LB turns light on, LT turns light off
+	 */
 	@Override
 	protected void execute()
-	{
-		// TODO Auto-generated method stub
-		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
-		{
-			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)
-				maxSpeed -= .1;
-			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
-				maxSpeed += .1;
-		}
+	{		
+		shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
+		
+		// Adjust shooter max speed within min and max values
+//		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
+//		{
+//			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > MIN_SHOOTER_SPEED)
+//				maxSpeed -= SHOOTER_SPEED_ADJUST_INTERVAL;
+//			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < MAX_SHOOTER_SPEED)
+//				maxSpeed += SHOOTER_SPEED_ADJUST_INTERVAL;
+//		}
 
 		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
-			shooter.ringLightOn();
-
-		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
-
-		if(ControlsManager.secondaryXboxController.isAButtonPressed())
 		{
-			servoPos = .65;
+			shooter.grabBall();
 		}
 		else
 		{
-			servoPos = .25;
+			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
 		}
+		
+		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+			isServoOut = true;
+		else
+			isServoOut = false;
+		shooter.driveServo(isServoOut);
 
-		shooter.driveServo(servoPos);
+		// Rotate shooter with left joystick Y
+		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() * ROTATION_SPEED_MULTIPLYER); //Divide by double to prevent truncating value to 0
 
-		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY());
+		// Direct control of ring light
+		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
+		{
+			shooter.ringLightOn();
+		}
+		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
+		{
+			shooter.ringLightOff();
+		}
 	}
 
+	/**
+	 * @param speed
+	 * @return the speed multiplied by {@code maxSpeed}
+	 */
 	public double scaleSpeed(double speed)
 	{
 		return speed * maxSpeed;
@@ -75,6 +104,9 @@ public class UseShooter extends CommandBase
 		return false;
 	}
 
+	/**
+	 * when finished, shooter is set back to neutral
+	 */
 	@Override
 	protected void end()
 	{
@@ -82,10 +114,14 @@ public class UseShooter extends CommandBase
 		shooter.rotate(0.0);
 	}
 
+	/**
+	 * Called when another command requires the same subsystem or {@code cancel()} is called.
+	 * Cleans up dependencies and logs the interrupt.
+	 */
 	@Override
 	protected void interrupted()
 	{
 		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
+		end();
 	}
-
 }
