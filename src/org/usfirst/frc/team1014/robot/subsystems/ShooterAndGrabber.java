@@ -17,9 +17,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 {
 	
 	private static final double SERVO_STANDARD_POS = 0.9;
-
 	private static final double SERVO_EXTENDED_POS = .25;
-
 	private static final double RING_LIGHT_ON_VALUE = .5;
 
 	public static ShooterAndGrabber instance;
@@ -37,6 +35,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	{
 		if(instance == null)
 			instance = new ShooterAndGrabber();
+
 		return instance;
 	}
 
@@ -98,9 +97,13 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			
 			// If grabber starts moving the grabberSet is enabled
 			if(speed <= 0)
+			{
 				grabberSet = false;
+			}
 			else
+			{
 				grabberSet = true;
+			}
 		}
 		previousRPM = ((BadTalon) left).getRpm();
 	}
@@ -229,6 +232,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public PIDSourceType getPIDSourceType()
 	{
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -241,6 +245,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public void setPIDSourceType(PIDSourceType arg0)
 	{
+		// TODO Auto-generated method stub
 
 	}
+
 }

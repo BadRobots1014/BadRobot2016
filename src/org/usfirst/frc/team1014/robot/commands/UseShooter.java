@@ -17,10 +17,9 @@ public class UseShooter extends CommandBase
 	private static final double MAX_SHOOTER_SPEED = 1.0;
 	private static final double MIN_SHOOTER_SPEED = .5;
 	
-	private boolean usingShooter;
-	private double maxSpeed;
-	private boolean stillPressed = false;
-	private boolean servoPos = false;
+	double maxSpeed;
+	boolean stillPressed = false;
+	boolean isServoOut = false;
 
 	public UseShooter()
 	{
@@ -29,12 +28,11 @@ public class UseShooter extends CommandBase
 
 	protected void initialize()
 	{
-		usingShooter = false;
 		maxSpeed = .5;
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
 		Logger.logThis("new shooter init");
-		shooter.driveServo(servoPos);
+		shooter.driveServo(isServoOut);
 	}
 
 	@Override
@@ -59,37 +57,35 @@ public class UseShooter extends CommandBase
 			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < MAX_SHOOTER_SPEED)
 				maxSpeed += SHOOTER_SPEED_ADJUST_INTERVAL;
 		}
-		
 		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
-			// If RB button is pressed grab ball
+		{
 			shooter.grabBall();
+		}
 		else
+		{
 			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
-
-		if(!stillPressed)
-		{
-			if(ControlsManager.secondaryXboxController.isAButtonPressed())
-			{
-				servoPos = !servoPos;
-				shooter.driveServo(servoPos);
-				stillPressed = true;
-			}
 		}
+		
+		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+			isServoOut = true;
 		else
-		{
-			if(!ControlsManager.secondaryXboxController.isAButtonPressed())
-				stillPressed = false;
-		}
+			isServoOut = false;
+		
+		shooter.driveServo(isServoOut);
 
 		// Rotate shooter with left joystick Y
 		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() * ROTATION_SPEED_MULTIPLYER); //Divide by double to prevent truncating value to 0
 
 		// Direct control of ring light
 		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
+		{
 			shooter.ringLightOn();
-
+		}
 		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
+		{
 			shooter.ringLightOff();
+		}
+
 	}
 
 	/**
@@ -128,9 +124,4 @@ public class UseShooter extends CommandBase
 		end();
 	}
 	
-	public boolean isUsingShooter()
-	{
-		return this.usingShooter;
-	}
-
 }

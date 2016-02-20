@@ -31,7 +31,9 @@ public class SmartDashboard
 	public static SmartDashboard getInstance()
 	{
 		if(smartDashboard == null)
+		{
 			smartDashboard = new SmartDashboard();
+		}
 		return smartDashboard;
 	}
 
@@ -67,6 +69,8 @@ public class SmartDashboard
 	 */
 	public void update()
 	{
+		ProcessedCam.getInstance().setHalfHeight(table.getNumber("IMAGE_HEIGHT", 240) / 2);
+		ProcessedCam.getInstance().setHalfWidth(table.getNumber("IMAGE_WIDTH", 320) / 2);
 		ProcessedCam.getInstance().setX(table.getNumber("OBJECT_TRACKING_X", 0.0));
 		ProcessedCam.getInstance().setY(table.getNumber("OBJECT_TRACKING_Y", 0.0));
 		ProcessedCam.getInstance().setTrackingScore(table.getNumber("OBJECT_TRACKING_SCORE", 0.0));

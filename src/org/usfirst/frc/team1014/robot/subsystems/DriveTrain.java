@@ -28,8 +28,6 @@ public class DriveTrain extends BadSubsystem
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 	private BadUltrasonic maxbotix;
-	// private double minTurnSpeed = 0.4;
-	// private double maxTurnSpeed = 0.6;
 	private IMU mxp;
 	private SerialPort serialPort;
 
@@ -84,6 +82,7 @@ public class DriveTrain extends BadSubsystem
 		train.tankDrive(leftStickY, rightStickY);
 	}
 
+
 	/**
 	 * This method allows the robot to go straight with just two parameters. The robot first
 	 * calculates how far off it is from the target angle, then checks if that is large enough to
@@ -127,6 +126,7 @@ public class DriveTrain extends BadSubsystem
 		return lidar.getDistance();
 	}
 
+
 	/**
 	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
 	 * 
@@ -166,7 +166,10 @@ public class DriveTrain extends BadSubsystem
 	 */
 	public double getAngle360() // returns 0 -360
 	{
-		return mxp.getYaw() < 0 ? mxp.getYaw() + 360 : mxp.getYaw();
+		if(mxp.getYaw() < 0)
+			return mxp.getYaw() + 360;
+		else
+			return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()
@@ -185,11 +188,11 @@ public class DriveTrain extends BadSubsystem
 		return "DriveTrain";
 	}
 
-	public float getRoll()
-	{
+	public float getRoll() {
 		return mxp.getRoll();
 	}
-
+	
+	
 	@Override
 	protected void initDefaultCommand()
 	{
