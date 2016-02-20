@@ -6,6 +6,7 @@ import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
+ * Allows the shooter to rotate an amount of revolutions in autonomous
  * 
  * @author Tze Hei T.
  *
@@ -55,6 +56,10 @@ public class AutoRotate extends CommandBase
 
 	}
 
+	/**
+	 * Checks how far off the amount of revolutions is from the desired and turns the rotator in the
+	 * direction that was entered
+	 */
 	@Override
 	protected void execute()
 	{
@@ -82,6 +87,9 @@ public class AutoRotate extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
+		/**
+		 * Stops when the amount of revolutions is reached or passed
+		 */
 		if(Math.abs(difference) <= 0)
 		{
 			return true;

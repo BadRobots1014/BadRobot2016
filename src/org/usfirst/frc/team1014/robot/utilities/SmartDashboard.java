@@ -21,6 +21,7 @@ public class SmartDashboard
 	{
 		table = NetworkTable.getTable("SmartDashboard");
 		setup();
+
 	}
 
 	public static SmartDashboard getInstance()
@@ -29,7 +30,9 @@ public class SmartDashboard
 		{
 			smartDashboard = new SmartDashboard();
 		}
+
 		return smartDashboard;
+
 	}
 
 	private void setup()

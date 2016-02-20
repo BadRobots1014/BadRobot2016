@@ -6,6 +6,7 @@ import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
+ * Rotates the shooter all the way down
  * 
  * @author Tze Hei T.
  *
@@ -42,6 +43,9 @@ public class AutoRotateDown extends CommandBase
 
 	}
 
+	/**
+	 * Checks the current value of the encoder and rotates the shooter down
+	 */
 	@Override
 	protected void execute()
 	{
@@ -60,6 +64,10 @@ public class AutoRotateDown extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
+		/**
+		 * Stops once the encoder position is less than the value of the encoder that is all the way
+		 * down
+		 */
 		if(currentRevolution <= place)
 		{
 			return true;

@@ -6,6 +6,7 @@ import org.usfirst.frc.team1014.robot.utilities.Logger;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
+ * Allows the robot to turn a certain number of degrees
  * 
  * @author Tze Hei T.
  * 
@@ -20,7 +21,8 @@ public class AutoTurn extends CommandBase
 	 * Constructor
 	 * 
 	 * @param degree
-	 *            - how far the robot needs to turn. Positive values turn right. Negative values turn left	 *      
+	 *            - how far the robot needs to turn. Positive values turn right. Negative values
+	 *            turn left
 	 */
 	public AutoTurn(double degree)
 	{
@@ -50,6 +52,10 @@ public class AutoTurn extends CommandBase
 
 	}
 
+	/**
+	 * Checks how far off the current degree is from the desired degree and turns the robot
+	 * according to the sign of the degree entered
+	 */
 	@Override
 	protected void execute()
 	{
@@ -73,7 +79,6 @@ public class AutoTurn extends CommandBase
 
 	}
 
-
 	/**
 	 * 
 	 * @return - scales the speed for the drivetrain
@@ -86,7 +91,9 @@ public class AutoTurn extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-		// Stops if the difference is in the range0
+		/**
+		 * Stops if the difference is in the range
+		 */
 		if(Math.abs(difference) < 5)
 		{
 			return true;

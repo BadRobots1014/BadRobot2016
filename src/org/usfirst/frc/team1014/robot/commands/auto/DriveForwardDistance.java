@@ -5,6 +5,7 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
+ * Drive forward command that uses an ultrasonic distance to stop
  * 
  * @author Tze Hei T.
  * 
@@ -50,10 +51,13 @@ public class DriveForwardDistance extends CommandBase
 
 	}
 
+	/**
+	 * Gets the distance from the ultrasonic and drives forward
+	 */
 	@Override
 	protected void execute()
 	{
-		ultraDistance = driveTrain.getMaxbotixDistance(); // Gets the ultrasonic distance in inches
+		ultraDistance = driveTrain.getMaxbotixDistance();
 		driveTrain.driveStraight(speed, zeroAngle);
 	}
 
@@ -63,7 +67,7 @@ public class DriveForwardDistance extends CommandBase
 		System.out.println("DriveForwardDistance was interrupted");
 
 	}
-	
+
 	/**
 	 * stops when distance is less than desired distance
 	 */

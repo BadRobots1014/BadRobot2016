@@ -125,7 +125,7 @@ public class DriveTrain extends BadSubsystem
 	/**
 	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
 	 * 
-	 * @return - the distane to the nearest object in inches
+	 * @return - the distance to the nearest object in inches
 	 */
 	public double getMaxbotixDistance()
 	{
@@ -136,7 +136,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else return ultrasonic.getRangeMM();
+		else
+			return ultrasonic.getRangeMM();
 	}
 
 	public double getAngle()// return -180 - 180
@@ -148,7 +149,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;
-		else return mxp.getYaw();
+		else
+			return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()
@@ -173,7 +175,7 @@ public class DriveTrain extends BadSubsystem
 	}
 
 	/**
-	 * Starts a timer and sets the previous time equal to the time it just got. THen it gets the
+	 * Starts a timer and sets the previous time equal to the time it just got. Then it gets the
 	 * MXP's acceleration and uses it to determine the speed of the robot. Since the time is so
 	 * small, the speed obtained is very accurate.
 	 * 
