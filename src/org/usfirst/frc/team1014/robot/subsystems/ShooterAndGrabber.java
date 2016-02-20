@@ -22,7 +22,8 @@ import edu.wpi.first.wpilibj.Talon;
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
 	public static ShooterAndGrabber instance;
-	private SpeedController left, right, rotator;
+	private SpeedController left, right;
+	public SpeedController rotator;
 	private SpeedController ringLight;
 	public Servo pusher;
 	public boolean grabberSet = false;

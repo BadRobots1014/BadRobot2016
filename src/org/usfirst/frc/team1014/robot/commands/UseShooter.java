@@ -55,7 +55,8 @@ public class UseShooter extends CommandBase
 
 		shooter.driveServo(isServoOut);
 
-		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() / 3);
+		shooter.rotate(-ControlsManager.secondaryXboxController.getLeftStickY() / 3);
+		
 		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
 		{
 			shooter.ringLightOn();

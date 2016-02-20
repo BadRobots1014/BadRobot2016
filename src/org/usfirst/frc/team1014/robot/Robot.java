@@ -2,6 +2,8 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
+import org.usfirst.frc.team1014.robot.commands.auto.FakeScore;
 import org.usfirst.frc.team1014.robot.commands.auto.ObjectTrackingTest;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
@@ -41,6 +43,7 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
+		autonomousCommand = new AutoDrive(4, .5);
 	}
 
 	/**
