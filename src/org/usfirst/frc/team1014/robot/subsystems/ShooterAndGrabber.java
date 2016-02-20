@@ -2,7 +2,6 @@ package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadCAN;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -13,7 +12,6 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
-
 	public static ShooterAndGrabber instance;
 	public SpeedController left, right, rotator;
 	private SpeedController ringLight;
@@ -33,7 +31,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	}
 
 	@Override
-
 	protected void initialize()
 	{
 		left = new BadCAN(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_LEFT_ENCODER_A, ControlsManager.SHOOTER_LEFT_ENCODER_B);
@@ -46,9 +43,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	public void setSpeeds(double speed)
 	{
-		if(previousRPM - 400 > ((BadCAN) left).getRpm() && grabberSet == true)
+		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm() && grabberSet == true)
 		{
-
 			grabbed = true;
 			left.set(0);
 			right.set(0);
@@ -78,14 +74,12 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		}
 
 		previousRPM = ((BadCAN) left).getRpm();
-		Logger.logThis("previousRPM = " + previousRPM);
-
 	}
 
 	public void grabBall()
 	{
 		grabberSet = true;
-		if(previousRPM - 400 > ((BadCAN) left).getRpm())
+		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm())
 		{
 			grabbed = true;
 			left.set(0);
@@ -108,7 +102,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		}
 
 		previousRPM = ((BadCAN) left).getRpm();
-		Logger.logThis("previousRPM = " + previousRPM);
 
 	}
 
@@ -119,7 +112,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	public void rotate(double speed)
 	{
-
 		rotator.set(speed);
 	}
 
@@ -164,7 +156,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	}
 
 	@Override
-
 	protected void initDefaultCommand()
 	{
 
