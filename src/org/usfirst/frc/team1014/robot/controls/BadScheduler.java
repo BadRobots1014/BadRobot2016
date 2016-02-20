@@ -3,6 +3,11 @@ package org.usfirst.frc.team1014.robot.controls;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+/**
+ * 
+ * @author Subash C.
+ *
+ */
 public class BadScheduler
 {
 	private Scheduler scheduler = Scheduler.getInstance();
