@@ -36,7 +36,6 @@ public class ControlsManager
 	public static final int SHOOTER_LEFT = 1;
 	public static final int SHOOTER_RIGHT = 2;
 	public static final int SHOOTER_ROTATE = 3;
-	
 
 	/**
 	 * Initializes controls for the robot. Should only be called once when the robot first loads up.
@@ -50,28 +49,23 @@ public class ControlsManager
 
 	/**
 	 * 
-	 * @param number
-	 *            of the controller to get the layout of (1 = primary, 2 = secondary)
-	 * @return number of the layout that should be used with the current controller ( 0 = Default,
-	 *         1&2 = Alternate layouts)
+	 * @param controller
+	 *            to check the layout of
+	 * @return if the first layout should be used for the given controller
 	 */
-	public static int getLayout(int controller)
+	public static boolean shouldUseFirstLayout(int controller)
 	{
 		if(controller == 1)
 		{
 			if(primaryXboxController.isLBButtonPressed())
-				return 1;
-			else if(primaryXboxController.isRBButtonPressed())
-				return 2;
-			else return 0;
+				return true;
 		}
 		else
 		{
 			if(secondaryXboxController.isLBButtonPressed())
-				return 1;
-			else if(secondaryXboxController.isRBButtonPressed())
-				return 2;
-			else return 0;
+				return true;
 		}
+
+		return false;
 	}
 }
