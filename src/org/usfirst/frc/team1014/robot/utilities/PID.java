@@ -33,7 +33,8 @@ public class PID extends PIDController
 	{
 		double range = max - min;
 		if(difference < 0)
-			return Math.cos((Math.PI / range) * difference - .5);
-		else return -Math.cos((Math.PI / range) * difference + .5);
+			return -Math.cos((Math.PI / range) * difference - .5);
+		else 
+			return -Math.cos((Math.PI / range) * difference + .5);
 	}
 }

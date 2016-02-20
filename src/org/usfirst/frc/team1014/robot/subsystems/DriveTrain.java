@@ -99,6 +99,8 @@ public class DriveTrain extends BadSubsystem
   	{
 		double difference180 = targetGyro - getAngle();
 		
+		Logger.logThis("" + difference180);
+		
 //		double difference360 = difference180 - 360;
 //		double realDifference = 0;
 //		
@@ -119,7 +121,7 @@ public class DriveTrain extends BadSubsystem
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);
 			
-			tankDrive(-turnSpeed, turnSpeed);
+			tankDrive(turnSpeed, -turnSpeed);
 		}
 		else
 		{
