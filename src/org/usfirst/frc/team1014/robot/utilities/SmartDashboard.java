@@ -4,15 +4,10 @@ import java.util.ArrayList;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
-import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
-import com.ni.vision.VisionException;
-
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class SmartDashboard
 {
@@ -35,7 +30,9 @@ public class SmartDashboard
 		{
 			smartDashboard = new SmartDashboard();
 		}
+
 		return smartDashboard;
+
 	}
 
 	private void setup()
@@ -61,11 +58,10 @@ public class SmartDashboard
 
 	public void update()
 	{
+		ProcessedCam.getInstance().setHalfHeight(table.getNumber("IMAGE_HEIGHT", 240) / 2);
+		ProcessedCam.getInstance().setHalfWidth(table.getNumber("IMAGE_WIDTH", 320) / 2);
 		ProcessedCam.getInstance().setX(table.getNumber("OBJECT_TRACKING_X", 0.0));
 		ProcessedCam.getInstance().setY(table.getNumber("OBJECT_TRACKING_Y", 0.0));
 		ProcessedCam.getInstance().setTrackingScore(table.getNumber("OBJECT_TRACKING_SCORE", 0.0));
-		System.out.println("getX: " + ProcessedCam.getInstance().getX());
-		System.out.println("getY:" + ProcessedCam.getInstance().getY());
-		System.out.println("getScore:" + ProcessedCam.getInstance().getTrackingScore());
 	}
 }

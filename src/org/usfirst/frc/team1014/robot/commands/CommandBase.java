@@ -2,20 +2,23 @@ package org.usfirst.frc.team1014.robot.commands;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoGrab;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
 import org.usfirst.frc.team1014.robot.commands.auto.DriveForwardDistance;
+import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOver;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOverAndComeBack;
-import org.usfirst.frc.team1014.robot.commands.auto.ObjectTrackingTest;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndComeBack;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndStay;
+
 // The imports for the final subsystems
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -61,8 +64,9 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new GoOverAndComeBack());
 		commandClasses.add(new ShootAndComeBack());
 		commandClasses.add(new ShootAndStay());
-		commandClasses.add(new ObjectTrackingTest());
+		commandClasses.add(new FindTarget());
 	}
+
 
 	public CommandBase(String name)
 	{
@@ -78,5 +82,19 @@ public abstract class CommandBase extends Command
 
 	public abstract String getConsoleIdentity();
 
-	public boolean isfinished = false;
+	protected boolean isFinished = false;
+
+	/*
+	 * public boolean isFinished() { return isFinished; }
+	 */
+
+	/**
+	 * Not sure what this is used for.
+	 */
+	@Override
+	protected void interrupted()
+	{
+		Logger.log(Level.Error, getConsoleIdentity(), "I've been interrupted!");
+	}
+
 }

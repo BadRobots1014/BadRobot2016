@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1014.robot.controls;
 
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -81,3 +84,4 @@ public class BadScheduler
 	}
 
 }
+

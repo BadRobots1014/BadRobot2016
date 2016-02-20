@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Talon;
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
 	public static ShooterAndGrabber instance;
-	private SpeedController left, right, rotator;
+	public SpeedController left, right, rotator;
 	private SpeedController ringLight;
 	public Servo pusher;
 	public boolean grabberSet = false;
@@ -72,6 +72,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 				grabberSet = true;
 			}
 		}
+
 		previousRPM = ((BadCAN) left).getRpm();
 	}
 
@@ -99,6 +100,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			left.set(grabSpeed);
 			right.set(-grabSpeed);
 		}
+
 		previousRPM = ((BadCAN) left).getRpm();
 
 	}

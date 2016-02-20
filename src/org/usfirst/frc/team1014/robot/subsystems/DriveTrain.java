@@ -3,6 +3,7 @@ package org.usfirst.frc.team1014.robot.subsystems;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadUltrasonic;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
+import org.usfirst.frc.team1014.robot.sensors.IMUAdvanced;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
 
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.Utility;
 
 /**
  * This class defines the drive train subsystem and the abilities to do things like drive.
@@ -28,7 +30,8 @@ public class DriveTrain extends BadSubsystem
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 	private BadUltrasonic maxbotix;
-
+	private double minTurnSpeed = 0.4;
+	private double maxTurnSpeed = 0.6;
 	private IMU mxp;
 	private SerialPort serialPort;
 
@@ -68,7 +71,7 @@ public class DriveTrain extends BadSubsystem
 		serialPort = new SerialPort(57600, SerialPort.Port.kMXP);
 
 		byte update_rate_hz = 127;
-		mxp = new IMU(serialPort, update_rate_hz);
+		mxp = new IMUAdvanced(serialPort, update_rate_hz);
 		Timer.delay(0.3);
 		mxp.zeroYaw();
 
@@ -92,17 +95,19 @@ public class DriveTrain extends BadSubsystem
 	 * @param targetGyro
 	 *            - the angle the robot wants to correct to
 	 */
+
 	public void driveStraight(double moveSpeed, double targetGyro)
 	{
 		double difference = (getAngle() - targetGyro);
 
 		if(Math.abs(difference) > 5)
 		{
-			double turnSpeed = moveSpeed * difference / 5;
+			double turnSpeed = moveSpeed * difference / 90;
 
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1;
-
+			else if(Math.abs(turnSpeed) < 0.4)
+				turnSpeed = 0.4;
 			tankDrive(-turnSpeed, turnSpeed);
 		}
 		else
@@ -120,7 +125,7 @@ public class DriveTrain extends BadSubsystem
 	/**
 	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
 	 * 
-	 * @return - the distane to the nearest object in inches
+	 * @return - the distance to the nearest object in inches
 	 */
 	public double getMaxbotixDistance()
 	{
@@ -131,7 +136,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else return ultrasonic.getRangeMM();
+		else
+			return ultrasonic.getRangeMM();
 	}
 
 	public double getAngle()// return -180 - 180
@@ -143,7 +149,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;
-		else return mxp.getYaw();
+		else
+			return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()
@@ -160,6 +167,73 @@ public class DriveTrain extends BadSubsystem
 	public String getConsoleIdentity()
 	{
 		return "DriveTrain";
+	}
+
+	public float getRoll()
+	{
+		return mxp.getRoll();
+	}
+
+	/**
+	 * Starts a timer and sets the previous time equal to the time it just got. Then it gets the
+	 * MXP's acceleration and uses it to determine the speed of the robot. Since the time is so
+	 * small, the speed obtained is very accurate.
+	 * 
+	 * @return - the speed that it was moving at
+	 */
+	public double getSpeed()
+	{
+		double time = Utility.getFPGATime();
+		double prevTime = time;
+		double accel = ((IMUAdvanced) mxp).getWorldLinearAccelX();
+		double speed = accel * (time - prevTime);
+		return speed;
+	}
+
+	/**
+	 * GET ACTUAL NUMBERS FOR THIS, DONT USE THIS, IT WONT WORK, PLZ GET REAL NUMBERS BEFORE EVEN
+	 * TRYING TO USE THIS ITS A BAD IDEA TO USE THIS IS THE NUMBER HASNT BEEN FIXED PLZ FIX THAT
+	 * NUMBER
+	 * 
+	 * When it finally works, it uses the max speed to get the desired speed from the controller's
+	 * analog, compares current speed to desired speed and makes adjustments.
+	 * 
+	 * @param leftStickY
+	 *            - value of left stick
+	 * @param rightStickY
+	 *            - value of right stick
+	 */
+	public void setSpeed(double leftStickY, double rightStickY)
+	{
+		final double MAX_SPEED = 5; // this is a guess
+		double speed = this.getSpeed();
+		double desiredSpeedLeft = leftStickY * MAX_SPEED;
+		double desiredSpeedRight = rightStickY * MAX_SPEED;
+
+		if(speed > desiredSpeedLeft)
+		{
+			backLeft.set(backLeft.get() - .1);
+			frontLeft.set(frontLeft.get() - .1);
+		}
+
+		if(speed < desiredSpeedLeft)
+		{
+			backLeft.set(backLeft.get() + .1);
+			frontLeft.set(frontLeft.get() + .1);
+		}
+
+		if(speed > desiredSpeedRight)
+		{
+			backRight.set(backRight.get() - .1);
+			frontRight.set(frontRight.get() - .1);
+		}
+
+		if(speed < desiredSpeedRight)
+		{
+			backRight.set(backRight.get() + .1);
+			frontRight.set(frontRight.get() + .1);
+		}
+
 	}
 
 	@Override
