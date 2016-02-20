@@ -27,6 +27,7 @@ public class ControlsManager
 
 	// Analog In
 	public static final int MAXBOTIX_ULTRASONIC = 0;
+	public static final int ARM_SPEED_CONTROLLER = -1;
 
 	public static DriverStation driverStation;
 	public static XboxController primaryXboxController, secondaryXboxController;
