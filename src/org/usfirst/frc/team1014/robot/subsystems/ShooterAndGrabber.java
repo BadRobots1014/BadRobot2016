@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.Talon;
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
 	
-	private static final double SERVO_STANDARD_POS = 0.9;
-	private static final double SERVO_EXTENDED_POS = .25;
+	private static final double SERVO_STANDARD_POS = 0.25;
+	private static final double SERVO_EXTENDED_POS = 0.9;
 	private static final double RING_LIGHT_ON_VALUE = .5;
 
 	public static ShooterAndGrabber instance;
