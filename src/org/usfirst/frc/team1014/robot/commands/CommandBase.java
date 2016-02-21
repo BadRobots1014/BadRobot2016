@@ -16,6 +16,7 @@ import org.usfirst.frc.team1014.robot.commands.auto.ShootAndStay;
 // The imports for the final subsystems
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1014.robot.subsystems.SallyPortArm;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
@@ -33,6 +34,7 @@ public abstract class CommandBase extends Command
 
 	public static DriveTrain driveTrain;
 	public static ShooterAndGrabber shooter;
+	public static SallyPortArm arm;
 
 	public static ArrayList<Command> commandClasses = new ArrayList<Command>();
 
@@ -48,6 +50,7 @@ public abstract class CommandBase extends Command
 
 		driveTrain = DriveTrain.getInstance();
 		shooter = ShooterAndGrabber.getInstance();
+		arm = SallyPortArm.getInstance();
 		// camera = new AxisCamera("axis-camera.local");
 
 		// This MUST be here. If the OI creates Commands (which it very likely
