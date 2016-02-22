@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot
 {
-
 	public Command autonomousCommand;
 	public static SmartDashboard dashboard;
 	public static BadScheduler badScheduler = new BadScheduler(TeleopGroup.class);
@@ -93,11 +92,10 @@ public class Robot extends IterativeRobot
 	/**
 	 * This function is called periodically during operator control
 	 */
-
 	public void teleopPeriodic()
 	{
 		dashboard.update();
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), visionTracking);
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), FindTarget.class);
 		Scheduler.getInstance().run();
 	}
 

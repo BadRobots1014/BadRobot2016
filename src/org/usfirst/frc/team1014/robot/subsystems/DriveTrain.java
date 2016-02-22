@@ -103,22 +103,11 @@ public class DriveTrain extends BadSubsystem
 		
 		Logger.logThis("" + difference180);
 		
-//		double difference360 = difference180 - 360;
-//		double realDifference = 0;
-//		
 		double turnSpeed = 0;
-//		if(Math.abs(difference360) < Math.abs(difference180))
-//		{
-//			realDifference = difference360;
-//		}
-//		else
-//		{
-//			realDifference = difference180;
-//		}
 		
 		if(Math.abs(difference180) > 5)
 		{
-			turnSpeed = moveSpeed * PID.trigScale(Math.toRadians(difference180));
+			turnSpeed = moveSpeed * PID.trigScale(-Math.PI, Math.PI, Math.toRadians(difference180));
 			
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);

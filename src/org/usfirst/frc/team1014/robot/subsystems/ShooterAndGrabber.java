@@ -2,6 +2,7 @@ package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadCAN;
+import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -19,6 +20,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	private static final double SERVO_STANDARD_POS = 0.25;
 	private static final double SERVO_EXTENDED_POS = 0.9;
 	private static final double RING_LIGHT_ON_VALUE = .5;
+	private static final double MAX_RPM = 6000;
 
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
@@ -139,6 +141,19 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	}
 
+	public void shootAt(double shootingRPM)
+	{
+		double currentRPM = getShootingRPM();
+		double power = 1;
+		double difference = (currentRPM / MAX_RPM) - shootingRPM;
+		
+		if(Math.abs(difference) > 100)
+		{
+			power = PID.trigScale(-MAX_RPM, MAX_RPM, difference);
+		}
+		
+		shoot(power);
+	}
 	
 	/**
 	 * @return the current RPM of the left motor

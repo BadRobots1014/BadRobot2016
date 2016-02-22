@@ -29,11 +29,12 @@ public class PID extends PIDController
 	 *            - the highest value for this value
 	 * @return the correction value 
 	 */
-	public static double trigScale(double difference)
+	public static double trigScale(double min, double max, double difference)
 	{
+		double range = (max - min) / 2;
 		if(difference < 0)
-			return Math.cos(.5 * difference - Math.PI / 2) - .5;
+			return Math.cos((range / Math.PI) * difference - Math.PI / 2) - .5;
 		else 
-			return -Math.cos(.5 * difference + Math.PI / 2) + .5;
+			return -Math.cos((range / Math.PI) * difference + Math.PI / 2) + .5;
 	}
 }
