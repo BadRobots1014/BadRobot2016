@@ -13,14 +13,17 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
 /**
- * This class is what defines the shooter (and grabber) subsystem and gives it a host of useful
- * methods it needs to perform its tasks.
+ * A {@link BadSubsystem} that controls the Shooter and Grabber.
  * 
- * @author Manu S.
- *
+ * @author - Manu S.
  */
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
+
+	private static final double SERVO_STANDARD_POS = 0.25;
+	private static final double SERVO_EXTENDED_POS = 0.9;
+	private static final double RING_LIGHT_ON_VALUE = .5;
+
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
 	public SpeedController rotator;
@@ -46,16 +49,26 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		left = new CANTalon(ControlsManager.SHOOTER_LEFT);
 		right = new BadCAN(ControlsManager.SHOOTER_RIGHT, ControlsManager.SHOOTER_RIGHT_ENCODER_A, ControlsManager.SHOOTER_RIGHT_ENCODER_B);
 		rotator = new BadCAN(ControlsManager.SHOOTER_ROTATE, ControlsManager.ARTICULATOR_ENCODER_A, ControlsManager.ARTICULATOR_ENCODER_B);
+
 		ringLight = new Talon(ControlsManager.RING_LIGHT);
 		pusher = new Servo(ControlsManager.PUSHER);
 		pusher.set(0);
 	}
 
 	/**
-	 * Sets the speed of the shooting motors such that they lose power if the RPM drops too low.
+	 * Sets the shooter speeds if user has control. <br />
+	 * <p>
+	 * More accurately if the grabber is enabled it looks for the point where the ball is caught and
+	 * the RPM is lowered by a value greater than {@code BALL_CATCH_RPM_DECREASE}. When this is
+	 * reached the {@code grabbed} boolean is set to true and the motors continue decreasing speed
+	 * until they get to {@literal 0}. When the motors do fully stop {@code grabbed} is set to false
+	 * and the grabber is reverted to user control mode. <br />
+	 * <br />
+	 * When the grabber is above the value of zero the {@code grabberSet} is set to true and the
+	 * grabber will begin waiting for a ball to be caught.
+	 * </p>
 	 * 
 	 * @param speed
-	 *            - the raw speed that is being fed into the shooting motors
 	 */
 	public void setSpeeds(double speed)
 	{
@@ -65,20 +78,24 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			left.set(0);
 			right.set(0);
 		}
+
+		// Stops motors if caught and motors still moving.
 		if(grabbed && previousRPM > 0 && grabberSet)
 		{
 			left.set(0);
 			right.set(0);
 		}
-		else if(grabbed && previousRPM <= 0 && grabberSet)
+		else if(grabbed && previousRPM <= 0 && grabberSet) // Resets catching system
 		{
 			grabbed = false;
 			grabberSet = false;
 		}
 		else
+		// Manual control of shooter
 		{
-			left.set(speed);
-			right.set(-speed);
+			shoot(speed);
+
+			// If grabber starts moving the grabberSet is enabled
 			if(speed <= 0)
 			{
 				grabberSet = false;
@@ -92,8 +109,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	}
 
 	/**
-	 * This method runs the shooting motors in reverse so that the robot can grab the ball and cut
-	 * power once it is in.
+	 * Sets grabberSet to true and continues the ball grabbing protocol detailed in {@code setSpeed}
+	 * . Uses {@code grabSpeed} as the speed.
 	 */
 	public void grabBall()
 	{
@@ -120,8 +137,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		}
 		else
 		{
-			left.set(grabSpeed);
-			right.set(-grabSpeed);
+			shoot(grabSpeed);
 		}
 		previousRPM = ((BadCAN) right).getRpm();
 
@@ -134,7 +150,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public double getShootingRPM()
 	{
-		return ((BadCAN) right).getRpm();
+		return -((BadCAN) right).getRpm();
 	}
 
 	/**
@@ -149,10 +165,11 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	}
 
 	/**
-	 * This shoots the ball with a certain speed.
+	 * Sets the speed of the shooters. Automatically inverts the proper motor to keep them moving in
+	 * the same direction.
 	 * 
 	 * @param speed
-	 *            - the speed at which to shoot the ball
+	 *            to set the shooter to
 	 */
 	public void shoot(double speed)
 	{
@@ -161,15 +178,13 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	}
 
 	/**
-	 * This grabs the ball with a certain speed.
+	 * Sets the grabber speed, the exact opposite of {@code} shoot()}.
 	 * 
 	 * @param speed
-	 *            - the speed at which to suck the ball in
 	 */
 	public void grab(double speed)
 	{
-		left.set(-speed);
-		right.set(speed);
+		shoot(-speed); // Reusing methods to prevent code repetition
 	}
 
 	/**
@@ -178,7 +193,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void ringLightOn()
 	{
-		ringLight.set(.5);
+		ringLight.set(RING_LIGHT_ON_VALUE);
 	}
 
 	/**
@@ -191,22 +206,18 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	}
 
 	/**
-	 * Moves the servo to a predefined position (in or out).
+	 * Sets the location of the servo motor. If {@code servoPos} is true the value is set to
+	 * {@code SERVO_EXTENDED_POS}. If it is false it is set to {@code SERVO_STANDARD_POS}.
 	 * 
 	 * @param servoPos
-	 *            - should the servo be pushed forward or not. True pushes it out and false pulls it
-	 *            back in.
+	 *            value to set servo
 	 */
 	public void driveServo(boolean servoPos)
 	{
 		if(servoPos)
-		{
-			pusher.set(.9);
-		}
+			pusher.set(SERVO_EXTENDED_POS);
 		else
-		{
-			pusher.set(.25);
-		}
+			pusher.set(SERVO_STANDARD_POS);
 	}
 
 	@Override
@@ -231,7 +242,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public PIDSourceType getPIDSourceType()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -244,7 +254,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public void setPIDSourceType(PIDSourceType arg0)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
