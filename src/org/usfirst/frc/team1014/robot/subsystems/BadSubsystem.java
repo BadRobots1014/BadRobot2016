@@ -1,7 +1,11 @@
+
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * An abstract class with the minimums for a subsystem.
+ */
 public abstract class BadSubsystem extends Subsystem
 {
 	protected BadSubsystem()
@@ -22,3 +26,4 @@ public abstract class BadSubsystem extends Subsystem
 	 */
 	public abstract String getConsoleIdentity();
 }
+
