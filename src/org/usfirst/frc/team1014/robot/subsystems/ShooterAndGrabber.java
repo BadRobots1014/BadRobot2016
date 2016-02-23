@@ -108,11 +108,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		return ((BadCAN) left).getRpm();
 	}
 
-	public double getArticulatorPosition()
-	{
-		return (double) ((BadCAN) rotator).encoder.get();
-	}
-
 	public void rotate(double speed)
 	{
 		rotator.set(speed);
