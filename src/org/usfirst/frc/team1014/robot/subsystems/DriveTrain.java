@@ -4,6 +4,8 @@ import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadUltrasonic;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -96,18 +98,35 @@ public class DriveTrain extends BadSubsystem
 	 *            - the angle the robot wants to correct to
 	 */
 	public void driveStraight(double moveSpeed, double targetGyro)
-	{
-		double difference = (getAngle() - targetGyro);
-
-		if(Math.abs(difference) > 5)
+  	{
+		double difference180 = targetGyro - getAngle();
+		
+		Logger.logThis("" + difference180);
+		
+//		double difference360 = difference180 - 360;
+//		double realDifference = 0;
+//		
+		double turnSpeed = 0;
+//		if(Math.abs(difference360) < Math.abs(difference180))
+//		{
+//			realDifference = difference360;
+//		}
+//		else
+//		{
+//			realDifference = difference180;
+//		}
+		
+		if(Math.abs(difference180) > 5)
 		{
-			double turnSpeed = moveSpeed * difference / 90;
-
+			turnSpeed = moveSpeed * PID.trigScale(Math.toRadians(difference180));
+			
 			if(Math.abs(turnSpeed) > 1)
-				turnSpeed = 1;
-			else if(Math.abs(turnSpeed) < 0.4)
-				turnSpeed = 0.4;
-			tankDrive(-turnSpeed, turnSpeed);
+				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);
+			
+			if(Math.abs(turnSpeed) < .4)
+				turnSpeed = .4 * turnSpeed / Math.abs(turnSpeed);
+			
+			tankDrive(turnSpeed, -turnSpeed);
 		}
 		else
 		{
@@ -130,7 +149,7 @@ public class DriveTrain extends BadSubsystem
 	/**
 	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
 	 * 
-	 * @return - the distane to the nearest object in inches
+	 * @return - the distance to the nearest object in inches
 	 */
 	public double getMaxbotixDistance()
 	{

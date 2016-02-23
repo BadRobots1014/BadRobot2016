@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
-import org.usfirst.frc.team1014.robot.sensors.BadTalon;
+import org.usfirst.frc.team1014.robot.sensors.BadCAN;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj.Talon;
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
 	
-	private static final double SERVO_STANDARD_POS = 0.9;
-	private static final double SERVO_EXTENDED_POS = .25;
+	private static final double SERVO_STANDARD_POS = 0.25;
+	private static final double SERVO_EXTENDED_POS = 0.9;
 	private static final double RING_LIGHT_ON_VALUE = .5;
 
 	public static ShooterAndGrabber instance;
-	private BadTalon left;
-	public SpeedController right, rotator;
+	private SpeedController left, right;
+	public SpeedController rotator;
 	private SpeedController ringLight;
 	public Servo pusher;
 	public boolean grabberSet = false;
@@ -42,10 +42,10 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	protected void initialize()
 	{
+		left = new BadCAN(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_LEFT_ENCODER_A, ControlsManager.SHOOTER_LEFT_ENCODER_B);
+		right = new BadCAN(ControlsManager.SHOOTER_RIGHT, ControlsManager.SHOOTER_RIGHT_ENCODER_A, ControlsManager.SHOOTER_RIGHT_ENCODER_B);
+		rotator = new BadCAN(ControlsManager.SHOOTER_ROTATE, ControlsManager.ARTICULATOR_ENCODER_A, ControlsManager.ARTICULATOR_ENCODER_B);
 
-		left = new BadTalon(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_ENCODER_A, ControlsManager.SHOOTER_ENCODER_B);
-		right = new Talon(ControlsManager.SHOOTER_RIGHT);
-		rotator = new Talon(ControlsManager.SHOOTER_ROTATE);
 		ringLight = new Talon(ControlsManager.RING_LIGHT);
 		pusher = new Servo(ControlsManager.PUSHER);
 		pusher.set(0);
@@ -72,8 +72,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void setSpeeds(double speed)
 	{
-		// Catches point where motor speed goes down and ball is caught
-		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm() && grabberSet)
+		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm() && grabberSet == true)
 		{
 			grabbed = true;
 			left.set(0);
@@ -105,7 +104,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 				grabberSet = true;
 			}
 		}
-		previousRPM = ((BadTalon) left).getRpm();
+		previousRPM = ((BadCAN) left).getRpm();
 	}
 
 	/**
@@ -116,7 +115,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void grabBall()
 	{
 		grabberSet = true;
-		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm())
+		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm())
 		{
 			grabbed = true;
 			left.set(0);
@@ -136,7 +135,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		{
 			shoot(grabSpeed);
 		}
-		previousRPM = ((BadTalon) left).getRpm();
+		previousRPM = ((BadCAN) left).getRpm();
 
 	}
 
@@ -146,7 +145,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public double getShootingRPM()
 	{
-		return ((BadTalon) left).getRpm();
+		return ((BadCAN) left).getRpm();
 	}
 
 	/**
@@ -239,7 +238,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public double pidGet()
 	{
-		return ((BadTalon) left).getRpm();
+		return ((BadCAN) left).getRpm();
 	}
 
 	@Override

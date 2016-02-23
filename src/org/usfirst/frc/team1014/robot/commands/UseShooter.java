@@ -48,15 +48,18 @@ public class UseShooter extends CommandBase
 	 */
 	@Override
 	protected void execute()
-	{
+	{		
+		shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
+		
 		// Adjust shooter max speed within min and max values
-		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
-		{
-			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > MIN_SHOOTER_SPEED)
-				maxSpeed -= SHOOTER_SPEED_ADJUST_INTERVAL;
-			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < MAX_SHOOTER_SPEED)
-				maxSpeed += SHOOTER_SPEED_ADJUST_INTERVAL;
-		}
+//		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
+//		{
+//			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > MIN_SHOOTER_SPEED)
+//				maxSpeed -= SHOOTER_SPEED_ADJUST_INTERVAL;
+//			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < MAX_SHOOTER_SPEED)
+//				maxSpeed += SHOOTER_SPEED_ADJUST_INTERVAL;
+//		}
+
 		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
 		{
 			shooter.grabBall();
@@ -70,7 +73,6 @@ public class UseShooter extends CommandBase
 			isServoOut = true;
 		else
 			isServoOut = false;
-		
 		shooter.driveServo(isServoOut);
 
 		// Rotate shooter with left joystick Y
@@ -85,7 +87,6 @@ public class UseShooter extends CommandBase
 		{
 			shooter.ringLightOff();
 		}
-
 	}
 
 	/**
@@ -123,5 +124,4 @@ public class UseShooter extends CommandBase
 		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
 		end();
 	}
-	
 }

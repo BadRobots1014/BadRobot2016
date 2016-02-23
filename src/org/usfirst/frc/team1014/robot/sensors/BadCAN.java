@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Encoder;
 
 public class BadCAN extends CANTalon
 {
-
 	public Encoder encoder;
 
 	/**
