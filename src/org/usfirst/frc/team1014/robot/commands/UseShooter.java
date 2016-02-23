@@ -20,8 +20,8 @@ public class UseShooter extends CommandBase
 
 	private double maxSpeed;
 	private boolean isServoOut = false;
-	private boolean rightLightOn = false;
-	private boolean startButtonPushed = false;
+	private boolean ringLightOn = false;
+	private boolean ringLightButtonPressed = false;
 
 	public UseShooter()
 	{
@@ -84,18 +84,18 @@ public class UseShooter extends CommandBase
 		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY() * ROTATION_SPEED_MULTIPLYER);
 
 		// Direct control of ring light
-		if(ControlsManager.secondaryXboxController.isStartButtonPressed() && !this.startButtonPushed)
+		if(ControlsManager.secondaryXboxController.isStartButtonPressed() && !this.ringLightButtonPressed)
 		{
-			if(this.rightLightOn)
+			if(!this.ringLightOn)
 				shooter.ringLightOn();
 			else
 				shooter.ringLightOff();
-			this.rightLightOn = !this.rightLightOn;
-			startButtonPushed = true;
+			this.ringLightOn = !this.ringLightOn;
+			this.ringLightButtonPressed = true;
 		}
-		else
+		else if(!ControlsManager.secondaryXboxController.isStartButtonPressed())
 		{
-			startButtonPushed = false;
+			this.ringLightButtonPressed = false;
 		}
 	}
 
