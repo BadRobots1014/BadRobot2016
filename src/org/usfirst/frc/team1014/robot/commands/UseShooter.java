@@ -68,6 +68,16 @@ public class UseShooter extends CommandBase
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
 		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY() * ROTATION_SPEED_MULTIPLIER);
+		
+		if(ControlsManager.secondaryXboxController.isXButtonPressed())
+		{
+			shooter.rotateTo(-300);
+		}
+		else if(ControlsManager.secondaryXboxController.isBButtonPressed())
+		{
+			shooter.rotateTo(750);
+		}
+		
 		Logger.logThis("Shooting RPM: " + ((BadCAN) shooter.rotator).encoder.getRate());
 		//Logger.logThis("Rotating Position: " + ((BadCAN) shooter.rotator).encoder.get());
 

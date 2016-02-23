@@ -105,7 +105,7 @@ public class DriveTrain extends BadSubsystem
 		
 		if(Math.abs(difference180) > 5)
 		{
-			turnSpeed = moveSpeed * PID.trigScale(-Math.PI, Math.PI, Math.toRadians(difference180), 1);
+			turnSpeed = moveSpeed * PID.turnSpeedScale(Math.PI, Math.PI, Math.toRadians(difference180));
 			
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);
