@@ -27,13 +27,16 @@ public class PID extends PIDController
 	 *            - the lowest value for this value
 	 * @param max
 	 *            - the highest value for this value
-	 * @return the correction value 
+	 * @param halfSpeed
+	 *            - the speed the half value for each side should move at
+	 * @return the correction value
 	 */
-	public static double trigScale(double difference)
+	public static double trigScale(double difference, double min, double max, double fullSpeed)
 	{
+		double range = (max - min);
 		if(difference < 0)
-			return Math.cos(.5 * difference - Math.PI / 2) - .5;
+			return fullSpeed * Math.cos(((2 * Math.PI)/range) * difference - (range / 4)) - fullSpeed;
 		else 
-			return -Math.cos(.5 * difference + Math.PI / 2) + .5;
+			return fullSpeed * Math.cos((range / (2 * Math.PI)) * difference + (range / 4)) + fullSpeed;
 	}
 }

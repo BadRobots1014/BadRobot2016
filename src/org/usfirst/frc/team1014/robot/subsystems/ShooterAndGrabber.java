@@ -3,6 +3,7 @@ package org.usfirst.frc.team1014.robot.subsystems;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadCAN;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -23,6 +24,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	private static final double SERVO_STANDARD_POS = 0.25;
 	private static final double SERVO_EXTENDED_POS = 0.9;
 	private static final double RING_LIGHT_ON_VALUE = .5;
+	private static final double SHOOTER_LOWEST_POS = .3;
+	private static final double SHOOTER_HIGHEST_POS = .8;
 
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
@@ -162,6 +165,31 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void rotate(double speed)
 	{
 		rotator.set(speed);
+	}
+	
+	public void rotateTo(double position)
+	{
+		double difference = position - ((BadCAN) rotator).encoder.getDistance();
+		double rotateSpeed = .5;
+		
+		if(Math.abs(difference) > .1)
+		{
+			rotateSpeed = -PID.trigScale(difference, SHOOTER_LOWEST_POS, SHOOTER_HIGHEST_POS, .6);
+
+			if(Math.abs(rotateSpeed) > 1)
+				rotateSpeed = 1 * rotateSpeed / Math.abs(rotateSpeed);
+			if(Math.abs(rotateSpeed) < .135)
+				rotateSpeed = .135 * rotateSpeed / Math.abs(rotateSpeed);
+		}
+		
+		rotate(rotateSpeed);
+	}
+	
+	public void resetEncoders()
+	{
+		((BadCAN) left).encoder.reset();
+		((BadCAN) right).encoder.reset();
+		((BadCAN) rotator).encoder.reset();
 	}
 
 	/**

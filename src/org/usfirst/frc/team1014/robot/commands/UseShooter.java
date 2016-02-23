@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadCAN;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -33,7 +34,6 @@ public class UseShooter extends CommandBase
 		maxSpeed = .5;
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
-		Logger.logThis("new shooter init");
 		shooter.driveServo(isServoOut);
 	}
 
@@ -54,7 +54,6 @@ public class UseShooter extends CommandBase
 		 if(ControlsManager.secondaryXboxController.isRBButtonPressed())
 		 {
 			 shooter.grabBall();
-			 Logger.logThis("Shooter RPM: " + shooter.getShootingRPM());
 		 }
 		 else {
 			 shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickY()); 
@@ -69,6 +68,8 @@ public class UseShooter extends CommandBase
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
 		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY() * ROTATION_SPEED_MULTIPLIER);
+		Logger.logThis("Shooting RPM: " + ((BadCAN) shooter.rotator).encoder.getRate());
+		//Logger.logThis("Rotating Position: " + ((BadCAN) shooter.rotator).encoder.get());
 
 		// Direct control of ring light
 		if(ControlsManager.secondaryXboxController.isStartButtonPressed() && !this.ringLightButtonPressed)

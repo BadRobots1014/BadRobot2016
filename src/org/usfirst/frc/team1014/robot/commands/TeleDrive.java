@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadTalon;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -61,6 +63,7 @@ public class TeleDrive extends CommandBase
 		else
 		{
 			driveTrain.tankDrive(ControlsManager.primaryXboxController.getRightStickY(), ControlsManager.primaryXboxController.getLeftStickY());
+			Logger.logThis("Driving Speed: " + ((BadTalon) driveTrain.backLeft).encoder.get());
 
 			gyroSet = false;
 		}
