@@ -1,8 +1,6 @@
 package org.usfirst.frc.team1014.robot.controls;
 
-import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -95,7 +93,7 @@ public class BadScheduler
 		}
 
 	}
-	
+
 	/**
 	 * If {@code teleopCommandInstance.isRunning()} returns false the scheduler is cleared and a new
 	 * instance.

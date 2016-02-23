@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Utility;
  * 
  * @author Subash C.
  * @edit Manu S.
- *
+ * 
  */
 public class FindTarget extends CommandBase
 {
@@ -103,7 +103,8 @@ public class FindTarget extends CommandBase
 		// moves the cam servo at any time
 		if(ControlsManager.secondaryXboxController.isAButtonPressed())
 			isServoOut = true;
-		else isServoOut = false;
+		else
+			isServoOut = false;
 
 		shooter.driveServo(isServoOut);
 
@@ -128,7 +129,8 @@ public class FindTarget extends CommandBase
 				// make sure the robot is actually moving
 				if(previousCamX == cam.getX())
 					counter++;
-				else counter = 0;
+				else
+					counter = 0;
 
 				// if the robot isn't moving ...
 				if(counter > 50)

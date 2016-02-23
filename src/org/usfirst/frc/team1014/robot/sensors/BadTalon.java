@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Talon;
  * This class allows an encoder to be attached to each Talon and use of getRpm
  * 
  * @author Tze Hei T.
- *
+ * 
  */
 public class BadTalon extends Talon
 {
