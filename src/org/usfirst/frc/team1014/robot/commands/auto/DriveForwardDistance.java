@@ -55,7 +55,6 @@ public class DriveForwardDistance extends CommandBase
 	{
 		ultraDistance = driveTrain.getMaxbotixDistance(); // Gets the ultrasonic distance in inches
 		driveTrain.driveStraight(speed, zeroAngle);
-
 	}
 
 	@Override
@@ -64,7 +63,10 @@ public class DriveForwardDistance extends CommandBase
 		System.out.println("DriveForwardDistance was interrupted");
 
 	}
-
+	
+	/**
+	 * stops when distance is less than desired distance
+	 */
 	@Override
 	protected boolean isFinished()
 	{

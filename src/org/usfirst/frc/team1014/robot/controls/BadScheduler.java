@@ -1,26 +1,44 @@
 package org.usfirst.frc.team1014.robot.controls;
 
+import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
+import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+/**
+ * A class that adds the {@link TeleopGroup} to the {@link Scheduler}.
+ */
 public class BadScheduler
 {
 	private Scheduler scheduler = Scheduler.getInstance();
-	private Command nowRunning;
+	private Command teleopCommandInstance;
 	private Class<? extends Command> mainTeleopClass;
 
+	/**
+	 * Sets the {@code mainTeleopClass} to a Java {@link Class} object so when {@code initTeleop()}
+	 * is called an instance is created and added to the scheduler.
+	 * 
+	 * @param mainTeleopClass
+	 *            the class object of the teleop command
+	 */
 	public BadScheduler(Class<? extends Command> mainTeleopClass)
 	{
 		this.mainTeleopClass = mainTeleopClass;
 	}
 
+	/**
+	 * Creates a new instance from the {@code mainTeleopClass} and adds the instance to the
+	 * scheduler.
+	 */
 	public void initTeleop()
 	{
-
 		try
 		{
-			nowRunning = (Command) mainTeleopClass.newInstance();
-			scheduler.add(nowRunning);
+			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
+			scheduler.add(teleopCommandInstance);
 		} catch(InstantiationException e)
 		{
 			System.out.println("instance issue with " + mainTeleopClass.getName());
@@ -33,41 +51,39 @@ public class BadScheduler
 
 	}
 
+	/**
+	 * Resets the instance of the teleop group in the scheduler.
+	 * 
+	 * @param button
+	 *            an override for the Y button press
+	 * @param nextCommandInput
+	 *            an instance to add to scheduler
+	 */
 	public void changeCommand(boolean button, Command nextCommandInput)
 	{
 		try
 		{
+			// If Y is pressed clear out scheduler and adds a new instance of the mainTeleopClass
+			// after emptying the scheduler
 			if(ControlsManager.primaryXboxController.isYButtonPressed())
 			{
-				if(nowRunning.getName() != mainTeleopClass.getName())
-				{
-					scheduler.removeAll();
-					nowRunning = (Command) mainTeleopClass.newInstance();
-					scheduler.add(nowRunning);
-				}
+				Logger.logThis("STOPPING");
+				resetTeleopCommandToInitial();
 			}
 			else
 			{
-				if(button)
+				if(button) // Assumes Y is pressed
 				{
-					if(nowRunning.getName() != nextCommandInput.getName())
-					{
-						scheduler.removeAll();
-						nowRunning = nextCommandInput;
-						scheduler.add(nowRunning);
-					}
+					scheduler.add(nextCommandInput);
 				}
 				else
 				{
-					if(!nowRunning.isRunning())
-					{
-						scheduler.removeAll();
-						nowRunning = (Command) mainTeleopClass.newInstance();
-						scheduler.add(nowRunning);
-					}
+					// If command is no longer running replace it with a new instance
+					Logger.logThis("Find Target Running: " + nextCommandInput.isRunning());
+					if(!nextCommandInput.isRunning())
+						resetCommandIfStopped();
 				}
 			}
-
 		} catch(InstantiationException e)
 		{
 			System.out.println("can't instantiate stuffs");
@@ -79,5 +95,43 @@ public class BadScheduler
 		}
 
 	}
+	
+	/**
+	 * If {@code teleopCommandInstance.isRunning()} returns false the scheduler is cleared and a new
+	 * instance.
+	 * 
+	 * @throws InstantiationException
+	 *             if the class can't be created
+	 * @throws IllegalAccessException
+	 *             if the class constructor can't be accessed
+	 */
+	private void resetCommandIfStopped() throws InstantiationException, IllegalAccessException
+	{
+		if(!teleopCommandInstance.isRunning())
+		{
+			scheduler.removeAll();
+			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
+			scheduler.add(teleopCommandInstance);
+		}
+	}
 
+	/**
+	 * If the name of the {@code teleopCommandInstance} is not the same as the name of
+	 * {@code mainTeleopClass} it will empty the scheduler and add a new instance of the
+	 * {@code mainTeleopClass}.
+	 * 
+	 * @throws InstantiationException
+	 *             if the class can't be created
+	 * @throws IllegalAccessException
+	 *             if the class constructor can't be accessed
+	 */
+	private void resetTeleopCommandToInitial() throws InstantiationException, IllegalAccessException
+	{
+		if(teleopCommandInstance.getName() != mainTeleopClass.getName())
+		{
+			scheduler.removeAll();
+			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
+			scheduler.add(teleopCommandInstance);
+		}
+	}
 }
