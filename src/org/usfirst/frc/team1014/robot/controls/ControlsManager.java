@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands
  * and command groups that allow control of the robot.
+ * 
+ * @author Ryan T
  */
 public class ControlsManager
 {
@@ -13,7 +15,7 @@ public class ControlsManager
 	public static final int FRONT_LEFT_SPEED_CONTROLLER = 5;
 	public static final int BACK_RIGHT_SPEED_CONTROLLER = 2;
 	public static final int FRONT_RIGHT_SPEED_CONTROLLER = 6;
-	
+
 	public static final int RING_LIGHT = 9;
 
 	public static final int PUSHER = 8;
@@ -21,7 +23,7 @@ public class ControlsManager
 	// DIO
 	public static final int SHOOTER_LEFT_ENCODER_A = 6;
 	public static final int SHOOTER_LEFT_ENCODER_B = 7;
-	public static final int SHOOTER_RIGHT_ENCODER_A = 8; 
+	public static final int SHOOTER_RIGHT_ENCODER_A = 8;
 	public static final int SHOOTER_RIGHT_ENCODER_B = 9;
 	public static final int ARTICULATOR_ENCODER_A = 4;
 	public static final int ARTICULATOR_ENCODER_B = 5;

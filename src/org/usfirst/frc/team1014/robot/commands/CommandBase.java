@@ -12,7 +12,6 @@ import org.usfirst.frc.team1014.robot.commands.auto.GoOver;
 import org.usfirst.frc.team1014.robot.commands.auto.GoOverAndComeBack;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndComeBack;
 import org.usfirst.frc.team1014.robot.commands.auto.ShootAndStay;
-
 // The imports for the final subsystems
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
@@ -26,8 +25,8 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * {@code CommandBase} handles all commands and instances.
  * 
- * All commands should extend this class to get access to the subsystems.
- * This is an abstract class so no instances of {@code CommandBase} should be created.
+ * All commands should extend this class to get access to the subsystems. This is an abstract class
+ * so no instances of {@code CommandBase} should be created.
  */
 public abstract class CommandBase extends Command
 {
@@ -63,7 +62,8 @@ public abstract class CommandBase extends Command
 	}
 
 	/**
-	 * Creates an instance of each command used in autonumus and adds it to the {@code commandClasses} {@link ArrayList}.
+	 * Creates an instance of each command used in autonumus and adds it to the
+	 * {@code commandClasses} {@link ArrayList}.
 	 */
 	public static void addAuto()
 	{
@@ -78,7 +78,6 @@ public abstract class CommandBase extends Command
 		commandClasses.add(new ShootAndStay());
 		commandClasses.add(new FindTarget());
 	}
-
 
 	public CommandBase(String name)
 	{
@@ -102,7 +101,7 @@ public abstract class CommandBase extends Command
 	 * @return a {@link String} with the name of the class.
 	 */
 	public abstract String getConsoleIdentity();
-	
+
 	public boolean isFinished;
 
 	/**

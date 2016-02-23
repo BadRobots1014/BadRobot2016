@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  * @author Tze Hei T.
- *
+ * 
  */
 public class AutoRotateDown extends CommandBase
 {

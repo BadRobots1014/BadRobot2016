@@ -27,13 +27,13 @@ public class PID extends PIDController
 	 *            - the lowest value for this value
 	 * @param max
 	 *            - the highest value for this value
-	 * @return the correction value 
+	 * @return the correction value
 	 */
 	public static double trigScale(double difference)
 	{
 		if(difference < 0)
 			return Math.cos(.5 * difference - Math.PI / 2) - .5;
-		else 
+		else
 			return -Math.cos(.5 * difference + Math.PI / 2) + .5;
 	}
 }

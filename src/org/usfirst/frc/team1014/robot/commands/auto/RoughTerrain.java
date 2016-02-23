@@ -7,8 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * 
- * @author Vaarun N.
- * Robot goes over the rough terrain obstacle and corrects itself when imbalanced
+ * @author Vaarun N. Robot goes over the rough terrain obstacle and corrects itself when imbalanced
  */
 public class RoughTerrain extends CommandBase
 
@@ -52,10 +51,8 @@ public class RoughTerrain extends CommandBase
 	}
 
 	/**
-	 * starts timer in microseconds 
-	 * robot drives forward 
-	 * gets the amount the robot has rolled 
-	 * if the absolute value of the roll is too high then robot will correct it
+	 * starts timer in microseconds robot drives forward gets the amount the robot has rolled if the
+	 * absolute value of the roll is too high then robot will correct it
 	 */
 	@Override
 	protected void execute()
@@ -88,7 +85,8 @@ public class RoughTerrain extends CommandBase
 	{
 		if(currentTime >= 5000000)
 			return true;
-		else return false;
+		else
+			return false;
 	}
 
 }

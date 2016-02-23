@@ -8,18 +8,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  * This class defines how the robot shooter will work in teleop.
- *
+ * 
  */
 public class UseShooter extends CommandBase
 {
-	private static final double ROTATION_SPEED_MULTIPLYER = 1d / 3d; // Value to multiply rotation value by to decrease sensitivity
+	private static final double ROTATION_SPEED_MULTIPLYER = 1d / 4d; // Value to multiply rotation
+																		// value by to decrease
+																		// sensitivity
 	private static final double SHOOTER_SPEED_ADJUST_INTERVAL = .1;
 	private static final double MAX_SHOOTER_SPEED = 1.0;
 	private static final double MIN_SHOOTER_SPEED = .5;
-	
-	double maxSpeed;
-	boolean stillPressed = false;
-	boolean isServoOut = false;
+
+	private double maxSpeed;
+	private boolean isServoOut = false;
+	private boolean ringLightOn = false;
+	private boolean ringLightButtonPressed = false;
 
 	public UseShooter()
 	{
@@ -48,44 +51,47 @@ public class UseShooter extends CommandBase
 	 */
 	@Override
 	protected void execute()
-	{		
-		shooter.shoot(ControlsManager.secondaryXboxController.getRightStickY());
-		
+	{
+		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
+
 		// Adjust shooter max speed within min and max values
-//		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
-//		{
-//			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > MIN_SHOOTER_SPEED)
-//				maxSpeed -= SHOOTER_SPEED_ADJUST_INTERVAL;
-//			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < MAX_SHOOTER_SPEED)
-//				maxSpeed += SHOOTER_SPEED_ADJUST_INTERVAL;
-//		}
+		// if(ControlsManager.secondaryXboxController.isBButtonPressed() ||
+		// ControlsManager.secondaryXboxController.isXButtonPressed())
+		// {
+		// if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed >
+		// MIN_SHOOTER_SPEED)
+		// maxSpeed -= SHOOTER_SPEED_ADJUST_INTERVAL;
+		// else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed <
+		// MAX_SHOOTER_SPEED)
+		// maxSpeed += SHOOTER_SPEED_ADJUST_INTERVAL;
+		// }
 
 		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
-		{
 			shooter.grabBall();
-		}
 		else
-		{
-			shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
-		}
-		
+			shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickY());
+
 		if(ControlsManager.secondaryXboxController.isAButtonPressed())
 			isServoOut = true;
 		else
 			isServoOut = false;
 		shooter.driveServo(isServoOut);
 
-		// Rotate shooter with left joystick Y
-		shooter.rotate(ControlsManager.secondaryXboxController.getLeftStickY() * ROTATION_SPEED_MULTIPLYER); //Divide by double to prevent truncating value to 0
+		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
+		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY() * ROTATION_SPEED_MULTIPLYER);
 
-		// Direct control of ring light
-		if(ControlsManager.secondaryXboxController.isLBButtonPressed())
+		if(ControlsManager.secondaryXboxController.isStartButtonPressed() && !this.ringLightButtonPressed)
 		{
-			shooter.ringLightOn();
+			if(!this.ringLightOn)
+				shooter.ringLightOn();
+			else
+				shooter.ringLightOff();
+			this.ringLightOn = !this.ringLightOn;
+			this.ringLightButtonPressed = true;
 		}
-		if(ControlsManager.secondaryXboxController.getLeftTrigger() > 0.5f)
+		else if(!ControlsManager.secondaryXboxController.isStartButtonPressed())
 		{
-			shooter.ringLightOff();
+			this.ringLightButtonPressed = false;
 		}
 	}
 
@@ -115,8 +121,8 @@ public class UseShooter extends CommandBase
 	}
 
 	/**
-	 * Called when another command requires the same subsystem or {@code cancel()} is called.
-	 * Cleans up dependencies and logs the interrupt.
+	 * Called when another command requires the same subsystem or {@code cancel()} is called. Cleans
+	 * up dependencies and logs the interrupt.
 	 */
 	@Override
 	protected void interrupted()

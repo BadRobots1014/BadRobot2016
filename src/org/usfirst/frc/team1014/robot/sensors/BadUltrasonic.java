@@ -7,16 +7,17 @@ import edu.wpi.first.wpilibj.AnalogInput;
  * of around 64 inches.
  * 
  * @author Manu S.
- *
+ * 
  */
 public class BadUltrasonic extends AnalogInput
 {
 	private static double SCALE_FACTOR = 0.6005858778953552 / 64; // in V/inches
-/**
- * 
- * @param ultraChannel
- * 					- Channel for ultrasonic sensor
- */
+
+	/**
+	 * 
+	 * @param ultraChannel
+	 *            - Channel for ultrasonic sensor
+	 */
 	public BadUltrasonic(int ultraChannel)
 	{
 		super(ultraChannel);
