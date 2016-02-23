@@ -36,6 +36,7 @@ public class ControlsManager
 	public static final int SHOOTER_LEFT = 1;
 	public static final int SHOOTER_RIGHT = 2;
 	public static final int SHOOTER_ROTATE = 3;
+	public static final int SALLY_PORT = 4;
 
 	/**
 	 * Initializes controls for the robot. Should only be called once when the robot first loads up.

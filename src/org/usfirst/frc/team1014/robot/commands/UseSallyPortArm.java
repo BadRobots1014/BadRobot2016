@@ -25,14 +25,14 @@ public class UseSallyPortArm extends CommandBase
 	{
 		// TODO Auto-generated method stub
 		
-		if(ControlsManager.secondaryXboxController.getPOV() == 1)
-			arm.useIt(.25);
-		else if(ControlsManager.secondaryXboxController.getPOV() == 5)
-			arm.useIt(-.25);
-		else
-			arm.useIt(0);
+//		if(ControlsManager.secondaryXboxController.getPOV() == 1)
+//			arm.useIt(.25);
+//		else if(ControlsManager.secondaryXboxController.getPOV() == 5)
+//			arm.useIt(-.25);
+//		else
+//			arm.useIt(0);
 		
-//		arm.useIt(ControlsManager.secondaryXboxController.getRightStickY() / 2);
+		arm.useIt(ControlsManager.secondaryXboxController.getRightStickY() / 2);
 	}
 
 	@Override
