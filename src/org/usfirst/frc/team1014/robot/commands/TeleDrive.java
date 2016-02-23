@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -92,7 +93,7 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void interrupted()
 	{
-		org.usfirst.frc.team1014.robot.utilities.Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
+		Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
 		end();
 	}
 }

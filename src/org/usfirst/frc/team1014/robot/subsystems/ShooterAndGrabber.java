@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
-import org.usfirst.frc.team1014.robot.sensors.BadCAN;
 import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -69,7 +68,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void setSpeeds(double speed)
 	{
-		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm() && grabberSet == true)
+		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm() && grabberSet == true)
 		{
 			grabbed = true;
 			left.set(0);
@@ -102,7 +101,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 				grabberSet = true;
 			}
 		}
-		previousRPM = ((BadCAN) left).getRpm();
+		previousRPM = ((BadTalon) left).getRpm();
 	}
 
 	/**
@@ -112,7 +111,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void grabBall()
 	{
 		grabberSet = true;
-		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm())
+		if(previousRPM - rpmDrop > ((BadTalon) left).getRpm())
 		{
 			grabbed = true;
 			left.set(0);
@@ -132,7 +131,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		{
 			shoot(grabSpeed);
 		}
-		previousRPM = ((BadCAN) left).getRpm();
+		previousRPM = ((BadTalon) left).getRpm();
 
 	}
 
@@ -141,7 +140,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public double getShootingRPM()
 	{
-		return ((BadCAN) left).getRpm();
+		return ((BadTalon) left).getRpm();
 	}
 
 	/**
@@ -235,7 +234,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public double pidGet()
 	{
-		return ((BadCAN) left).getRpm();
+		return ((BadTalon) left).getRpm();
 	}
 
 	@Override
