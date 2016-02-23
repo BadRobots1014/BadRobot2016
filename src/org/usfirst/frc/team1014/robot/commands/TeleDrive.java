@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -87,12 +86,8 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Called when another command requires the same subsystem or {@code cancel()} is called.
-	 * Cleans up dependencies and logs the interrupt.
-=======
-	 * Not sure what this is used for.
->>>>>>> 8a7b4162529917dec92a80113a0bd3fcd55c5440
+	 * Called when another command requires the same subsystem or {@code cancel()} is called. Cleans
+	 * up dependencies and logs the interrupt.
 	 */
 	@Override
 	protected void interrupted()
