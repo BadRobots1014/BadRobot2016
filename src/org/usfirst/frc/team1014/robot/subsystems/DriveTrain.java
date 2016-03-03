@@ -121,6 +121,11 @@ public class DriveTrain extends BadSubsystem
 		}
 	}
 
+	public double getDriveEncoderDistance()
+	{
+		return ((BadTalon) backLeft).get();
+	}
+	
 	/**
 	 * Updates the lidar distance and returns it.
 	 * Unit not specified.
