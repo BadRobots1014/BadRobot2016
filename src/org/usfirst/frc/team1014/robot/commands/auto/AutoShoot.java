@@ -71,7 +71,10 @@ public class AutoShoot extends CommandBase
 	protected boolean isFinished()
 	{
 		if(currentTime >= endingTime)
+		{
+			shooter.driveServo(true);
 			return true;
+		}
 		else
 			return false;
 	}

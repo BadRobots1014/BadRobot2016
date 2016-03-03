@@ -1,0 +1,47 @@
+Team 1014 Bad Robots! 
+Button Mapping Document 
+
+Primary XBox Controller: 
+
+	First Layout:
+	* Left Stick - 
+		Y - drives left side of the robot forward
+		Y + RB - drives straight
+	* Right Stick - 
+		Y - drives right side of the robot forward
+	* RB - 
+		Hold - activates drive straight
+	* LB - 
+		Hold - precision drive (half-speed)
+	* LT - 
+		Hold - changes to second layout
+	
+	Second Layout:
+	* LT - 
+		Hold - changes to second layout
+	
+Secondary XBox Controller: 
+
+	First Layout:
+	* Left Stick - 
+		Y - grabs or shoots the ball, based on polarity
+	* Right Stick - 
+		Y - moves the shooter up and down
+	* B -
+		Press - moves the rotator to the up position
+	* X - 
+		Press - moves the rotator to the down position
+	* Y - 
+		Press - activates the vision tracking
+	* RB - 
+		Hold - grabs the ball, making sure to stop
+	* Start - 
+		Toggle - turns on and off ring light
+	* LT - 
+		Hold - changes to second layout
+	
+	Second Layout:
+	* Right Stick - 
+		Y - moves the Sally Port arm up and down
+	* LT - 
+		Hold - changes to second layout

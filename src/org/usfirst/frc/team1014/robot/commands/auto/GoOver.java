@@ -11,7 +11,7 @@ public class GoOver extends CommandGroup
 {
 	public GoOver()
 	{
-		this.addSequential(new DriveForwardDistance(1, 132));
+		this.addSequential(new AutoDriveDistanceUltrasonic(1, 132));
 	}
 
 }

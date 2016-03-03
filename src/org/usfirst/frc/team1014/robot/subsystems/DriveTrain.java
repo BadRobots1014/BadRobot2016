@@ -1,10 +1,10 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 import org.usfirst.frc.team1014.robot.sensors.BadUltrasonic;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -26,7 +26,7 @@ public class DriveTrain extends BadSubsystem
 	private RobotDrive train;
 
 	private static DriveTrain instance;
-	private SpeedController backLeft, frontLeft, backRight, frontRight;
+	public SpeedController backLeft, frontLeft, backRight, frontRight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 	private BadUltrasonic maxbotix;
@@ -51,7 +51,7 @@ public class DriveTrain extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
-		backLeft = new Talon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER);
+		backLeft = new BadTalon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER, ControlsManager.BACK_LEFT_ENCODER_A, ControlsManager.BACK_LEFT_ENCODER_B);
 		frontLeft = new Talon(ControlsManager.FRONT_LEFT_SPEED_CONTROLLER);
 		backRight = new Talon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER);
 		frontRight = new Talon(ControlsManager.FRONT_RIGHT_SPEED_CONTROLLER);
@@ -101,24 +101,11 @@ public class DriveTrain extends BadSubsystem
   	{
 		double difference180 = targetGyro - getAngle();
 		
-		Logger.logThis("" + difference180);
-		
-//		double difference360 = difference180 - 360;
-//		double realDifference = 0;
-//		
 		double turnSpeed = 0;
-//		if(Math.abs(difference360) < Math.abs(difference180))
-//		{
-//			realDifference = difference360;
-//		}
-//		else
-//		{
-//			realDifference = difference180;
-//		}
 		
 		if(Math.abs(difference180) > 5)
 		{
-			turnSpeed = moveSpeed * PID.trigScale(Math.toRadians(difference180));
+			turnSpeed = moveSpeed * PID.turnSpeedScale(Math.PI, Math.PI, Math.toRadians(difference180));
 			
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);
@@ -134,6 +121,11 @@ public class DriveTrain extends BadSubsystem
 		}
 	}
 
+	public double getDriveEncoderDistance()
+	{
+		return ((BadTalon) backLeft).get();
+	}
+	
 	/**
 	 * Updates the lidar distance and returns it.
 	 * Unit not specified.

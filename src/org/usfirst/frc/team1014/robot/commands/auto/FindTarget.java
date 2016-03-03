@@ -98,10 +98,10 @@ public class FindTarget extends CommandBase
 		double moveSpeed;
 
 		// allows the driver to shoot the ball at any time
-		shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
+		shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout());
 
 		// moves the cam servo at any time
-		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
 			isServoOut = true;
 		else isServoOut = false;
 

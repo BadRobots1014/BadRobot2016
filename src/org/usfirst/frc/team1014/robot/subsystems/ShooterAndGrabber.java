@@ -2,7 +2,10 @@ package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadCAN;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.PID;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -12,6 +15,8 @@ import edu.wpi.first.wpilibj.Talon;
 
 /**
  * A {@link BadSubsystem} that controls the Shooter and Grabber.
+ * 
+ * @author - Manu S.
  */
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
@@ -19,6 +24,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	private static final double SERVO_STANDARD_POS = 0.25;
 	private static final double SERVO_EXTENDED_POS = 0.9;
 	private static final double RING_LIGHT_ON_VALUE = .5;
+	private static final double SHOOTER_LOWEST_POS = .3;
+	private static final double SHOOTER_HIGHEST_POS = .8;
 
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
@@ -42,7 +49,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	protected void initialize()
 	{
-		left = new BadCAN(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_LEFT_ENCODER_A, ControlsManager.SHOOTER_LEFT_ENCODER_B);
+		left = new CANTalon(ControlsManager.SHOOTER_LEFT);
 		right = new BadCAN(ControlsManager.SHOOTER_RIGHT, ControlsManager.SHOOTER_RIGHT_ENCODER_A, ControlsManager.SHOOTER_RIGHT_ENCODER_B);
 		rotator = new BadCAN(ControlsManager.SHOOTER_ROTATE, ControlsManager.ARTICULATOR_ENCODER_A, ControlsManager.ARTICULATOR_ENCODER_B);
 
@@ -68,7 +75,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void setSpeeds(double speed)
 	{
-		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm() && grabberSet == true)
+		if(previousRPM - rpmDrop > ((BadCAN) right).getRpm() && grabberSet == true)
 		{
 			grabbed = true;
 			left.set(0);
@@ -101,7 +108,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 				grabberSet = true;
 			}
 		}
-		previousRPM = ((BadCAN) left).getRpm();
+		previousRPM = ((BadCAN) right).getRpm();
 	}
 
 	/**
@@ -111,11 +118,15 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void grabBall()
 	{
 		grabberSet = true;
-		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm())
+		if(previousRPM - rpmDrop > ((BadCAN) right).getRpm())
 		{
 			grabbed = true;
-			left.set(0);
-			right.set(0);
+			for(int i = 0; i < 1000; i ++)
+			{
+				Logger.logThis("cutting power");
+				left.set(0);
+				right.set(0);
+			}
 		}
 		if(grabbed && previousRPM > 0)
 		{
@@ -131,25 +142,54 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		{
 			shoot(grabSpeed);
 		}
-		previousRPM = ((BadCAN) left).getRpm();
+		previousRPM = ((BadCAN) right).getRpm();
 
 	}
 
 	/**
-	 * @return the current RPM of the left motor
+	 * Easy way to access the shooting RPM.
+	 * 
+	 * @return - the RPM of the shooting motors
 	 */
 	public double getShootingRPM()
 	{
-		return ((BadCAN) left).getRpm();
+		return -((BadCAN) right).getRpm();
 	}
 
 	/**
+	 * Sets the speed of the articulator and allows the shooter to rotate back and forth.
+	 * 
 	 * @param speed
-	 *            the speed to set the rotation motor to
+	 *            - the speed at which the shooter articulates
 	 */
 	public void rotate(double speed)
 	{
 		rotator.set(speed);
+	}
+	
+	public void rotateTo(double position)
+	{
+		double difference = position - ((BadCAN) rotator).encoder.getDistance();
+		double rotateSpeed = .5;
+		
+		if(Math.abs(difference) > .1)
+		{
+			rotateSpeed = -PID.trigScale(difference, SHOOTER_LOWEST_POS, SHOOTER_HIGHEST_POS, .6);
+
+			if(Math.abs(rotateSpeed) > 1)
+				rotateSpeed = 1 * rotateSpeed / Math.abs(rotateSpeed);
+			if(Math.abs(rotateSpeed) < .135)
+				rotateSpeed = .135 * rotateSpeed / Math.abs(rotateSpeed);
+		}
+		
+		rotate(rotateSpeed);
+	}
+	
+	public void resetEncoders()
+	{
+		((BadCAN) left).encoder.reset();
+		((BadCAN) right).encoder.reset();
+		((BadCAN) rotator).encoder.reset();
 	}
 
 	/**
@@ -176,7 +216,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	}
 
 	/**
-	 * Sets the ring light to its on value.
+	 * Turns the ring light on. This method is for use while the light is wired to a speed
+	 * controller.
 	 */
 	public void ringLightOn()
 	{
@@ -184,7 +225,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	}
 
 	/**
-	 * Sets the ring light to its off value.
+	 * Turns the ring light off. This method is only for use while the light is wired to a speed
+	 * controller.
 	 */
 	public void ringLightOff()
 	{
@@ -234,7 +276,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	public double pidGet()
 	{
-		return ((BadCAN) left).getRpm();
+		return ((BadCAN) right).getRpm();
 	}
 
 	@Override

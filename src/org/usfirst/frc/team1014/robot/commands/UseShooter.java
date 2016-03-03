@@ -13,12 +13,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class UseShooter extends CommandBase
 {
 	// Value to multiply rotation value by to decrease sensitivity
-	private static final double ROTATION_SPEED_MULTIPLYER = 1d / 4d;
+	private static final double ROTATION_SPEED_MULTIPLIER = 1d / 4d;
 	private static final double SHOOTER_SPEED_ADJUST_INTERVAL = .1;
 	private static final double MAX_SHOOTER_SPEED = 1.0;
 	private static final double MIN_SHOOTER_SPEED = .5;
 
-	private double maxSpeed;
 	private boolean isServoOut = false;
 	private boolean ringLightOn = false;
 	private boolean ringLightButtonPressed = false;
@@ -30,10 +29,8 @@ public class UseShooter extends CommandBase
 
 	protected void initialize()
 	{
-		maxSpeed = .5;
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
-		Logger.logThis("new shooter init");
 		shooter.driveServo(isServoOut);
 	}
 
@@ -51,40 +48,40 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
+		 if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
+		 {
+			 shooter.grabBall();
+		 }
+		 else {
+			 shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout()); 
+		 }
+		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
 
-		// Adjust shooter max speed within min and max values
-		// if(ControlsManager.secondaryXboxController.isBButtonPressed() ||
-		// ControlsManager.secondaryXboxController.isXButtonPressed())
-		// {
-		// if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed >
-		// MIN_SHOOTER_SPEED)
-		// maxSpeed -= SHOOTER_SPEED_ADJUST_INTERVAL;
-		// else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed <
-		// MAX_SHOOTER_SPEED)
-		// maxSpeed += SHOOTER_SPEED_ADJUST_INTERVAL;
-		// }
-
-		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
-		{
-			shooter.grabBall();
-		}
-		else
-		{
-			shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickY());
-		}
-
-		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
 			isServoOut = true;
 		else
 			isServoOut = false;
 		shooter.driveServo(isServoOut);
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
-		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY() * ROTATION_SPEED_MULTIPLYER);
+		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
+		
+		if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())
+		{
+			shooter.rotateTo(-300);
+		}
+		else if(ControlsManager.secondaryXboxController.isBButtonPressedPrimaryLayout())
+		{
+			shooter.rotateTo(750);
+		}
 
+		if(ControlsManager.secondaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.secondaryXboxController.getLeftTriggerSecondaryLayout() > .5)
+			ControlsManager.changeToSecondaryLayout(2);
+		else
+			ControlsManager.changeToPrimaryLayout(2);
+		
 		// Direct control of ring light
-		if(ControlsManager.secondaryXboxController.isStartButtonPressed() && !this.ringLightButtonPressed)
+		if(ControlsManager.secondaryXboxController.isStartButtonPressedPrimaryLayout() && !this.ringLightButtonPressed)
 		{
 			if(!this.ringLightOn)
 				shooter.ringLightOn();
@@ -93,19 +90,10 @@ public class UseShooter extends CommandBase
 			this.ringLightOn = !this.ringLightOn;
 			this.ringLightButtonPressed = true;
 		}
-		else if(!ControlsManager.secondaryXboxController.isStartButtonPressed())
+		else if(!ControlsManager.secondaryXboxController.isStartButtonPressedPrimaryLayout())
 		{
 			this.ringLightButtonPressed = false;
 		}
-	}
-
-	/**
-	 * @param speed
-	 * @return the speed multiplied by {@code maxSpeed}
-	 */
-	public double scaleSpeed(double speed)
-	{
-		return speed * maxSpeed;
 	}
 
 	@Override

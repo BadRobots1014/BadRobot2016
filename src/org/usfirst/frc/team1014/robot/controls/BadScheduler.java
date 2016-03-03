@@ -1,8 +1,6 @@
 package org.usfirst.frc.team1014.robot.controls;
 
-import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,6 +8,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * A class that adds the {@link TeleopGroup} to the {@link Scheduler}.
+ * 
+ * @author Subash C.
  */
 public class BadScheduler
 {
@@ -65,7 +65,7 @@ public class BadScheduler
 		{
 			// If Y is pressed clear out scheduler and adds a new instance of the mainTeleopClass
 			// after emptying the scheduler
-			if(ControlsManager.primaryXboxController.isYButtonPressed())
+			if(ControlsManager.primaryXboxController.isYButtonPressedPrimaryLayout())
 			{
 				Logger.logThis("STOPPING");
 				resetTeleopCommandToInitial();
