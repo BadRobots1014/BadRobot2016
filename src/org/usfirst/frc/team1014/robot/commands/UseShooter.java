@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
-import org.usfirst.frc.team1014.robot.sensors.BadCAN;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,7 +18,6 @@ public class UseShooter extends CommandBase
 	private static final double MAX_SHOOTER_SPEED = 1.0;
 	private static final double MIN_SHOOTER_SPEED = .5;
 
-	private double maxSpeed;
 	private boolean isServoOut = false;
 	private boolean ringLightOn = false;
 	private boolean ringLightButtonPressed = false;
@@ -31,7 +29,6 @@ public class UseShooter extends CommandBase
 
 	protected void initialize()
 	{
-		maxSpeed = .5;
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
 		shooter.driveServo(isServoOut);
@@ -51,38 +48,40 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		 if(ControlsManager.secondaryXboxController.isRBButtonPressed())
+		 if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
 		 {
 			 shooter.grabBall();
 		 }
 		 else {
-			 shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickY()); 
+			 shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout()); 
 		 }
-		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
+		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
 
-		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
 			isServoOut = true;
 		else
 			isServoOut = false;
 		shooter.driveServo(isServoOut);
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
-		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY() * ROTATION_SPEED_MULTIPLIER);
+		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
 		
-		if(ControlsManager.secondaryXboxController.isXButtonPressed())
+		if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())
 		{
 			shooter.rotateTo(-300);
 		}
-		else if(ControlsManager.secondaryXboxController.isBButtonPressed())
+		else if(ControlsManager.secondaryXboxController.isBButtonPressedPrimaryLayout())
 		{
 			shooter.rotateTo(750);
 		}
-		
-		Logger.logThis("Shooting RPM: " + ((BadCAN) shooter.rotator).encoder.getRate());
-		//Logger.logThis("Rotating Position: " + ((BadCAN) shooter.rotator).encoder.get());
 
+		if(ControlsManager.secondaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.secondaryXboxController.getLeftTriggerSecondaryLayout() > .5)
+			ControlsManager.changeToSecondaryLayout(2);
+		else
+			ControlsManager.changeToPrimaryLayout(2);
+		
 		// Direct control of ring light
-		if(ControlsManager.secondaryXboxController.isStartButtonPressed() && !this.ringLightButtonPressed)
+		if(ControlsManager.secondaryXboxController.isStartButtonPressedPrimaryLayout() && !this.ringLightButtonPressed)
 		{
 			if(!this.ringLightOn)
 				shooter.ringLightOn();
@@ -91,19 +90,10 @@ public class UseShooter extends CommandBase
 			this.ringLightOn = !this.ringLightOn;
 			this.ringLightButtonPressed = true;
 		}
-		else if(!ControlsManager.secondaryXboxController.isStartButtonPressed())
+		else if(!ControlsManager.secondaryXboxController.isStartButtonPressedPrimaryLayout())
 		{
 			this.ringLightButtonPressed = false;
 		}
-	}
-
-	/**
-	 * @param speed
-	 * @return the speed multiplied by {@code maxSpeed}
-	 */
-	public double scaleSpeed(double speed)
-	{
-		return speed * maxSpeed;
 	}
 
 	@Override

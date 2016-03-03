@@ -65,7 +65,7 @@ public class BadScheduler
 		{
 			// If Y is pressed clear out scheduler and adds a new instance of the mainTeleopClass
 			// after emptying the scheduler
-			if(ControlsManager.primaryXboxController.isYButtonPressed())
+			if(ControlsManager.primaryXboxController.isYButtonPressedPrimaryLayout())
 			{
 				Logger.logThis("STOPPING");
 				resetTeleopCommandToInitial();

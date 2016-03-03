@@ -99,7 +99,7 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		dashboard.update();
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), visionTracking);
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressedPrimaryLayout(), visionTracking);
 		Scheduler.getInstance().run();
 	}
 

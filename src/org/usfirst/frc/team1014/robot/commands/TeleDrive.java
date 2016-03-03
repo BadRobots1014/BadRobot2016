@@ -51,22 +51,27 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void execute()
 	{
-		if(ControlsManager.primaryXboxController.isLBButtonPressed())
+		if(ControlsManager.primaryXboxController.isLBButtonPressedPrimaryLayout())
 		{
 			if(!gyroSet)
 			{
 				targetGyro = driveTrain.getAngle();
 				gyroSet = true;
 			}
-			driveTrain.driveStraight(ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
+			driveTrain.driveStraight(ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout(), targetGyro);
 		}
 		else
 		{
-			driveTrain.tankDrive(ControlsManager.primaryXboxController.getRightStickY(), ControlsManager.primaryXboxController.getLeftStickY());
+			driveTrain.tankDrive(ControlsManager.primaryXboxController.getRightStickYPrimaryLayout(), ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout());
 			Logger.logThis("Driving Speed: " + ((BadTalon) driveTrain.backLeft).encoder.get());
 
 			gyroSet = false;
 		}
+		
+		if(ControlsManager.primaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.primaryXboxController.getLeftTriggerSecondaryLayout() > .5)
+			ControlsManager.changeToSecondaryLayout(1);
+		else
+			ControlsManager.changeToPrimaryLayout(1);
 	}
 
 	/**
