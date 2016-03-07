@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -48,15 +49,17 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		 if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
-		 {
-			 shooter.grabBall();
-		 }
-		 else {
-			 shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout()); 
-		 }
+		// grabbing balls with speed moderation
+		if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
+		{
+			shooter.grabBall();
+		}
+		else {
+			shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout()); 
+		}
 		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
 
+		// servo control
 		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
 			isServoOut = true;
 		else
@@ -66,15 +69,17 @@ public class UseShooter extends CommandBase
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
 		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
 		
+		// move to preset heights
 		if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())
 		{
-			shooter.rotateTo(-300);
+			shooter.rotateTo(ShooterAndGrabber.SHOOTER_LOWEST_POS);
 		}
 		else if(ControlsManager.secondaryXboxController.isBButtonPressedPrimaryLayout())
 		{
-			shooter.rotateTo(750);
+			shooter.rotateTo(ShooterAndGrabber.SHOOTER_HIGHEST_POS);
 		}
 
+		// switch layouts
 		if(ControlsManager.secondaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.secondaryXboxController.getLeftTriggerSecondaryLayout() > .5)
 			ControlsManager.changeToSecondaryLayout(2);
 		else

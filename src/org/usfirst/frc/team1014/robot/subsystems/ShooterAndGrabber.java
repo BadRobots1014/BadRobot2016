@@ -24,8 +24,9 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	private static final double SERVO_STANDARD_POS = 0.25;
 	private static final double SERVO_EXTENDED_POS = 0.9;
 	private static final double RING_LIGHT_ON_VALUE = .5;
-	private static final double SHOOTER_LOWEST_POS = .3;
-	private static final double SHOOTER_HIGHEST_POS = .8;
+	public static final double SHOOTER_LOWEST_POS = -300;
+	public static final double SHOOTER_HIGHEST_POS = 750;
+	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 200;
 
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;

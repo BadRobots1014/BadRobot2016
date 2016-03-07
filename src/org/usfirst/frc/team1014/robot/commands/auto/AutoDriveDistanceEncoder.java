@@ -15,6 +15,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	public double speed, currentRotations;
 	public double zeroAngle;
 	public double targetRotations;
+	public double difference;
 
 	/**
 	 * Constructor
@@ -26,7 +27,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	 */
 	public AutoDriveDistanceEncoder(double speed, double numRotations)
 	{
-		this.targetRotations = numRotations;
+		this.targetRotations = driveTrain.getDriveEncoderDistance() + numRotations;
 		this.speed = speed;
 		requires((Subsystem) driveTrain);
 	}
@@ -56,13 +57,15 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	protected void execute()
 	{
 		currentRotations = driveTrain.getDriveEncoderDistance(); // Gets the rotations
+		difference = currentRotations - targetRotations;
+		
 		driveTrain.driveStraight(speed, zeroAngle);
 	}
 
 	@Override
 	protected void interrupted()
 	{
-		System.out.println("DriveForwardDistanceEncoder was interrupted");
+		System.out.println("DriveForwardDistanceEncoder was interrupted!");
 
 	}
 	
@@ -72,7 +75,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-		if(currentRotations < targetRotations)
+		if(Math.abs(difference) < .1)
 		{
 			return true;
 		}

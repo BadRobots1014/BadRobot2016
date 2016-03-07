@@ -17,7 +17,6 @@ public class AutoRotate extends CommandBase
 	double revolutions;
 	double currentRevolutions;
 	double difference;
-	boolean direction;
 
 	/**
 	 * Constructor
@@ -27,9 +26,8 @@ public class AutoRotate extends CommandBase
 	 * @param direction
 	 *            - false for down, true for up
 	 */
-	public AutoRotate(double revolutions, boolean direction)
+	public AutoRotate(double revolutions)
 	{
-		this.direction = direction;
 		this.revolutions = revolutions;
 		requires((Subsystem) shooter);
 	}
@@ -61,14 +59,7 @@ public class AutoRotate extends CommandBase
 		currentRevolutions = ((BadTalon) shooter.rotator).get();
 		difference = currentRevolutions - revolutions;
 
-		if(direction == true)
-		{
-			shooter.rotate(1);
-		}
-		if(direction == false)
-		{
-			shooter.rotate(-1);
-		}
+		shooter.rotateTo(revolutions);
 
 	}
 
@@ -82,7 +73,7 @@ public class AutoRotate extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-		if(Math.abs(difference) <= 0)
+		if(Math.abs(difference) <= 3)
 		{
 			return true;
 		}
