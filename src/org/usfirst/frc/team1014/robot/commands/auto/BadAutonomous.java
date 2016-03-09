@@ -11,6 +11,13 @@ import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * This {@code CommandGroup} is how we will run our autonomous programs. The constructor takes
+ * various variables as inputs and creates its own autonomous program to carry it out.
+ * 
+ * @author Manu S.
+ *
+ */
 public class BadAutonomous extends CommandGroup
 {
 	public boolean isShooting;

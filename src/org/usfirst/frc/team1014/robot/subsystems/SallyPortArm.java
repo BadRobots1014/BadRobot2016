@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -26,7 +28,7 @@ public class SallyPortArm extends BadSubsystem
 	protected void initialize()
 	{
 		// TODO Auto-generated method stub
-		actuator = new CANTalon(4);
+		actuator = new CANTalon(ControlsManager.SALLY_PORT_ARM);
 	}
 	
 	public void useIt(double power)

@@ -50,8 +50,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	protected void initialize()
 	{
-		left = new CANTalon(ControlsManager.SHOOTER_LEFT);
-		right = new BadCAN(ControlsManager.SHOOTER_RIGHT, ControlsManager.SHOOTER_RIGHT_ENCODER_A, ControlsManager.SHOOTER_RIGHT_ENCODER_B);
+		left = new BadCAN(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_LEFT_ENCODER_A, ControlsManager.SHOOTER_LEFT_ENCODER_B);
+		right = new CANTalon(ControlsManager.SHOOTER_RIGHT);
 		rotator = new BadCAN(ControlsManager.SHOOTER_ROTATE, ControlsManager.ARTICULATOR_ENCODER_A, ControlsManager.ARTICULATOR_ENCODER_B);
 
 		ringLight = new Talon(ControlsManager.RING_LIGHT);
@@ -76,7 +76,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void setSpeeds(double speed)
 	{
-		if(previousRPM - rpmDrop > ((BadCAN) right).getRpm() && grabberSet == true)
+		if(previousRPM - rpmDrop < ((BadCAN) left).getRpm() && grabberSet == true)
 		{
 			grabbed = true;
 			left.set(0);
@@ -109,7 +109,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 				grabberSet = true;
 			}
 		}
-		previousRPM = ((BadCAN) right).getRpm();
+		previousRPM = ((BadCAN) left).getRpm();
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void grabBall()
 	{
 		grabberSet = true;
-		if(previousRPM - rpmDrop > ((BadCAN) right).getRpm())
+		if(previousRPM - rpmDrop < ((BadCAN) left).getRpm())
 		{
 			grabbed = true;
 			for(int i = 0; i < 1000; i ++)
@@ -143,7 +143,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		{
 			shoot(grabSpeed);
 		}
-		previousRPM = ((BadCAN) right).getRpm();
+		previousRPM = ((BadCAN) left).getRpm();
 
 	}
 
@@ -154,7 +154,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public double getShootingRPM()
 	{
-		return -((BadCAN) right).getRpm();
+		return -((BadCAN) left).getRpm();
 	}
 
 	/**

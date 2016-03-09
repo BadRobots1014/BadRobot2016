@@ -53,7 +53,7 @@ public class DriveTrain extends BadSubsystem
 	{
 		backLeft = new BadTalon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER, ControlsManager.BACK_LEFT_ENCODER_A, ControlsManager.BACK_LEFT_ENCODER_B);
 		frontLeft = new Talon(ControlsManager.FRONT_LEFT_SPEED_CONTROLLER);
-		backRight = new Talon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER);
+		backRight = new BadTalon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER, ControlsManager.BACK_RIGHT_ENCODER_A, ControlsManager.BACK_RIGHT_ENCODER_B);
 		frontRight = new Talon(ControlsManager.FRONT_RIGHT_SPEED_CONTROLLER);
 
 		lidar = new LIDAR(Port.kMXP);

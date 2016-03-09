@@ -15,7 +15,7 @@ public class Drawbridge extends CommandGroup
 		this.addSequential(new AutoSallyPortArm(3, true));
 		this.addSequential(new AutoDriveDistanceEncoder(-.25, .25));
 		this.addSequential(new AutoSallyPortArm(3, true));
-		this.addSequential(new AutoDriveDistanceEncoder(.25, .25));
+		this.addSequential(new AutoDriveDistanceEncoder(.25, .5));
 		this.addSequential(new AutoSallyPortArm(6, false));
 		this.addSequential(new AutoDriveDistanceEncoder(.5, 4.3));
 	}
