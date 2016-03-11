@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class UseShooter extends CommandBase
 {
 	// Value to multiply rotation value by to decrease sensitivity
-	private static final double ROTATION_SPEED_MULTIPLIER = 1d / 4d;
+	private static final double ROTATION_SPEED_MULTIPLIER = 1d / 3d;
 	private static final double SHOOTER_SPEED_ADJUST_INTERVAL = .1;
 	private static final double MAX_SHOOTER_SPEED = 1.0;
 	private static final double MIN_SHOOTER_SPEED = .5;
@@ -69,6 +69,8 @@ public class UseShooter extends CommandBase
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
 		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
+		Logger.logThis("Rotator Encoder: " + ((BadCAN) shooter.rotator).encoder.getDistance());
+		Logger.logThis("Shooting RPM " + shooter.getShootingRPM());
 		
 		// move to preset heights
 		if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())

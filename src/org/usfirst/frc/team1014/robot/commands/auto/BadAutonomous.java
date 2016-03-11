@@ -168,7 +168,7 @@ public class BadAutonomous extends CommandGroup
 		else if(isShooting && goingForLow)
 		{
 			moveShooter = new AutoRotate(ShooterAndGrabber.SHOOTER_LOWEST_POS);
-			shootBall = new AutoShoot(1);
+			shootBall = new AutoShoot(3);
 		}
 		else
 		{

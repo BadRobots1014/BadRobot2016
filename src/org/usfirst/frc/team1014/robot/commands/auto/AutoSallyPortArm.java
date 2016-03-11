@@ -25,7 +25,7 @@ public class AutoSallyPortArm extends CommandBase
 	public AutoSallyPortArm(double time, boolean out)
 	{
 		requires((Subsystem) arm);
-		runTime = time*1000000;
+		runTime = time * 1;
 		goingOut = out;
 	}
 
@@ -42,6 +42,9 @@ public class AutoSallyPortArm extends CommandBase
 			arm.useIt(-.25);
 		else
 			arm.useIt(.25);
+		
+		Logger.logThis("endTime: " + endTime);
+		Logger.logThis("currentTime: " + currentTime);
 	}
 
 	@Override
@@ -61,8 +64,10 @@ public class AutoSallyPortArm extends CommandBase
 	protected boolean isFinished()
 	{
 		if(currentTime > endTime)
+		{
+			Logger.logThis("DONE!");
 			return true;
-		else
+		}else
 			return false;
 	}
 

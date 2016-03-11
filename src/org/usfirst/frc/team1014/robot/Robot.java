@@ -2,9 +2,13 @@ package org.usfirst.frc.team1014.robot;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoRotate;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoSallyPortArm;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
 import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -46,7 +50,7 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
-		autonomousCommand = new AutoDrive(4, .5);
+		autonomousCommand = new AutoShoot(5);
 	}
 
 	/**

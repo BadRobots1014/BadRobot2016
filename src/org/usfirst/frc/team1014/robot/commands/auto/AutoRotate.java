@@ -1,7 +1,8 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.sensors.BadTalon;
+import org.usfirst.frc.team1014.robot.sensors.BadCAN;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -23,8 +24,6 @@ public class AutoRotate extends CommandBase
 	 * 
 	 * @param revolutions
 	 *            - amount of revolutions you want to turn
-	 * @param direction
-	 *            - false for down, true for up
 	 */
 	public AutoRotate(double revolutions)
 	{
@@ -36,7 +35,6 @@ public class AutoRotate extends CommandBase
 	protected void initialize()
 	{
 		shooter.rotate(0);
-
 	}
 
 	@Override
@@ -56,17 +54,16 @@ public class AutoRotate extends CommandBase
 	@Override
 	protected void execute()
 	{
-		currentRevolutions = ((BadTalon) shooter.rotator).get();
-		difference = currentRevolutions - revolutions;
+		currentRevolutions = ((BadCAN) shooter.rotator).encoder.getDistance();
+		difference = revolutions - currentRevolutions;
 
 		shooter.rotateTo(revolutions);
-
 	}
 
 	@Override
 	protected void interrupted()
 	{
-		System.out.println("AutoRotate was interrupted");
+		System.out.println("AutoRotate was interrupted!");
 
 	}
 

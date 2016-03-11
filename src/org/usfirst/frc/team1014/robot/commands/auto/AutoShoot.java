@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoShoot extends CommandBase
 {
 	// Initialize variables
-	double currentTime, endingTime, time;
+	double currentTime, endingTime, runTime;
 
 	/**
 	 * 
@@ -24,7 +25,7 @@ public class AutoShoot extends CommandBase
 	 */
 	public AutoShoot(double time)
 	{
-		this.time = time * 1000000;
+		this.runTime = time * 1000000;
 		requires((Subsystem) shooter);
 	}
 	/**
@@ -35,7 +36,8 @@ public class AutoShoot extends CommandBase
 	protected void initialize()
 	{
 		shooter.shoot(0);
-		endingTime = currentTime + time;
+		currentTime = Utility.getFPGATime();
+		endingTime = currentTime + runTime;
 	}
 
 	@Override
@@ -56,6 +58,12 @@ public class AutoShoot extends CommandBase
 	{
 		shooter.shoot(1);
 		currentTime = Utility.getFPGATime();
+		Logger.logThis("Running SHooter");
+		
+		if(currentTime >= endingTime - 1*1000000)
+			shooter.driveServo(true);
+		else
+			shooter.driveServo(false);
 	}
 
 	@Override
@@ -72,10 +80,11 @@ public class AutoShoot extends CommandBase
 	{
 		if(currentTime >= endingTime)
 		{
-			shooter.driveServo(true);
 			return true;
 		}
 		else
+		{
 			return false;
+		}
 	}
 }

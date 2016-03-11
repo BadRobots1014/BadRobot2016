@@ -51,8 +51,8 @@ public class SmartDashboard
 		table.putString("Which Defense to Cross", "ROUGH TERRAIN");
 		table.putNumber("Waiting Time", 0);
 		
-		for(Command command : commandClasses)
-			table.putBoolean(command.getName(), false);
+//		for(Command command : commandClasses)
+//			table.putBoolean(command.getName(), false);
 	}
 
 	/**

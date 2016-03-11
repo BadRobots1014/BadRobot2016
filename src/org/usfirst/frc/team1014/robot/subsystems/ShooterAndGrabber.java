@@ -21,12 +21,12 @@ import edu.wpi.first.wpilibj.Talon;
 public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOutput
 {
 
-	private static final double SERVO_STANDARD_POS = 0.25;
-	private static final double SERVO_EXTENDED_POS = 0.9;
+	private static final double SERVO_STANDARD_POS = 0.9;
+	private static final double SERVO_EXTENDED_POS = 0.25;
 	private static final double RING_LIGHT_ON_VALUE = .5;
-	public static final double SHOOTER_LOWEST_POS = -300;
-	public static final double SHOOTER_HIGHEST_POS = 750;
-	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 200;
+	public static final double SHOOTER_LOWEST_POS = 70;
+	public static final double SHOOTER_HIGHEST_POS = 0;
+	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 37;
 
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
@@ -119,7 +119,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void grabBall()
 	{
 		grabberSet = true;
-		if(previousRPM - rpmDrop < ((BadCAN) left).getRpm())
+		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm())
 		{
 			grabbed = true;
 			for(int i = 0; i < 1000; i ++)
@@ -173,7 +173,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		double difference = position - ((BadCAN) rotator).encoder.getDistance();
 		double rotateSpeed = .5;
 		
-		if(Math.abs(difference) > .1)
+		if(Math.abs(difference) > 1)
 		{
 			rotateSpeed = -PID.trigScale(difference, SHOOTER_LOWEST_POS, SHOOTER_HIGHEST_POS, .6);
 
