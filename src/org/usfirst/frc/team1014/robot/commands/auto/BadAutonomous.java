@@ -28,6 +28,7 @@ public class BadAutonomous extends CommandGroup
 	public Command moveToTurnSpot;
 	public Command moveShooter;
 	public Command turnToGoal;
+	public Command visionTracking;
 	public Command shootBall;
 
 	/**
@@ -156,24 +157,21 @@ public class BadAutonomous extends CommandGroup
 					turnToGoal = new AutoTurn(0);
 			}
 		}
-
+		
 		/*
-		 * Sets the shooter to shooting position (or not) and creates the command to shoot
+		 * Moves the shooter
 		 */
 		if(isShooting && !goingForLow)
 		{
 			moveShooter = new AutoRotate(ShooterAndGrabber.SHOOTER_DEFAULT_SHOOTING_POS);
-			shootBall = new FindTarget();
 		}
 		else if(isShooting && goingForLow)
 		{
 			moveShooter = new AutoRotate(ShooterAndGrabber.SHOOTER_LOWEST_POS);
-			shootBall = new AutoShoot(3);
 		}
 		else
 		{
 			moveShooter = new AutoRotate(ShooterAndGrabber.SHOOTER_HIGHEST_POS);
-			shootBall = new AutoShoot(0);
 		}
 
 		// adds some of the commands to the Scheduler
@@ -200,6 +198,23 @@ public class BadAutonomous extends CommandGroup
 			else
 			{
 			}
+		}		
+
+		/*
+		 * Creates the command to shoot
+		 */
+		if(isShooting && !goingForLow)
+		{
+			this.addSequential(new FindTarget());
+			shootBall = new AutoShoot(3);
+		}
+		else if(isShooting && goingForLow)
+		{
+			shootBall = new AutoShoot(3);
+		}
+		else
+		{
+			shootBall = new AutoShoot(0);
 		}
 
 		// add the final part
