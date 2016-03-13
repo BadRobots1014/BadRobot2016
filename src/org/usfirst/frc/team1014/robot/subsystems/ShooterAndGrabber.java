@@ -29,7 +29,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public static final double SHOOTER_HIGHEST_POS = 5;
 	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 37;
 	private static final double CUT_POWER_RPM_DROP = 400;
-	private double DEFAULT_GRAB_SPEED = 0.5;
+	public static final double DEFAULT_GRAB_SPEED = -0.5;
 	public static double shooterOffset = 0;
 
 	public DigitalInput limitSwitch;
@@ -81,8 +81,10 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 * 
 	 * @param speed
 	 */
+	@Deprecated
 	public void setSpeeds(double speed)
 	{
+		
 		if(previousRPM - CUT_POWER_RPM_DROP < ((BadCAN) left).getRpm() && grabberSet == true)
 		{
 			grabbed = true;
@@ -123,7 +125,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 * Sets grabberSet to true and continues the ball grabbing protocol detailed in {@code setSpeed}
 	 * . Uses {@code grabSpeed} as the speed.
 	 */
-	public void grabBall()
+	public void grabBall(double speed)
 	{
 		grabberSet = true;
 		if(previousRPM - CUT_POWER_RPM_DROP > ((BadCAN) left).getRpm())
@@ -147,7 +149,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		}
 		else
 		{
-			shoot(DEFAULT_GRAB_SPEED);
+			shoot(speed);
 		}
 		previousRPM = ((BadCAN) left).getRpm();
 
@@ -182,10 +184,10 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		}
 	}
 
-	public void rotateTo(double position)
+	public boolean rotateTo(double position)
 	{
 		double difference = ((BadCAN) rotator).getDistance() - position;
-		double rotateSpeed = .5;
+		double rotateSpeed = 0;
 
 		Logger.logThis("Rotating difference: " + difference);
 		
@@ -198,8 +200,13 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			if(Math.abs(rotateSpeed) < .135)
 				rotateSpeed = .135 * rotateSpeed / Math.abs(rotateSpeed);
 		}
+		else
+		{
+			return true;
+		}
 
 		rotate(rotateSpeed);
+		return false;
 	}
 
 	public void resetEncoders()
