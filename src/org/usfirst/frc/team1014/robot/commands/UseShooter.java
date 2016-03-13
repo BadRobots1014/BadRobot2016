@@ -83,13 +83,17 @@ public class UseShooter extends CommandBase
 		}
 
 		// move to preset heights
-		if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())
+		if(ControlsManager.secondaryXboxController.isBButtonPressedPrimaryLayout())
 		{
 			shooter.rotateTo(ShooterAndGrabber.SHOOTER_LOWEST_POS);
 		}
-		else if(ControlsManager.secondaryXboxController.isBButtonPressedPrimaryLayout())
+		else if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())
 		{
 			shooter.rotateTo(ShooterAndGrabber.SHOOTER_HIGHEST_POS);
+		}
+		else if(ControlsManager.secondaryXboxController.isYButtonPressedPrimaryLayout())
+		{
+			shooter.rotateTo(ShooterAndGrabber.SHOOTER_DEFAULT_SHOOTING_POS);
 		}
 
 		// switch layouts

@@ -12,11 +12,11 @@ public class Drawbridge extends CommandGroup
 	public Drawbridge()
 	{
 		this.addSequential(new AutoRotate(ShooterAndGrabber.SHOOTER_HIGHEST_POS));
-		this.addSequential(new AutoSallyPortArm(3, true));
+		this.addSequential(new AutoSallyPortArm(new Double(3), true));
 		this.addSequential(new AutoDriveDistanceEncoder(-.25, .25));
-		this.addSequential(new AutoSallyPortArm(3, true));
+		this.addSequential(new AutoSallyPortArm(new Double(3), true));
 		this.addSequential(new AutoDriveDistanceEncoder(.25, .5));
-		this.addSequential(new AutoSallyPortArm(6, false));
+		this.addSequential(new AutoSallyPortArm(new Double(6), false));
 		this.addSequential(new AutoDriveDistanceEncoder(.5, 4.3));
 	}
 }

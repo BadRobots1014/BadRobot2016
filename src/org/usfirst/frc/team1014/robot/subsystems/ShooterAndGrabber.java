@@ -25,9 +25,9 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	private static final double SERVO_STANDARD_POS = 0.9;
 	private static final double SERVO_EXTENDED_POS = 0.1;
 	//private static final double RING_LIGHT_ON_VALUE = .5;
-	public static final double SHOOTER_LOWEST_POS = 63;
-	public static final double SHOOTER_HIGHEST_POS = 5;
-	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 37;
+	public static final double SHOOTER_LOWEST_POS = 60;
+	public static final double SHOOTER_HIGHEST_POS = 2;
+	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 16;
 	private static final double CUT_POWER_RPM_DROP = 400;
 	public static final double DEFAULT_GRAB_SPEED = -0.5;
 	public static double shooterOffset = 0;
@@ -195,10 +195,10 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		{
 			rotateSpeed = PID.trigScale(difference, SHOOTER_HIGHEST_POS, SHOOTER_LOWEST_POS, .6);
 
-			if(Math.abs(rotateSpeed) > 1)
-				rotateSpeed = 1 * rotateSpeed / Math.abs(rotateSpeed);
-			if(Math.abs(rotateSpeed) < .135)
-				rotateSpeed = .135 * rotateSpeed / Math.abs(rotateSpeed);
+			if(Math.abs(rotateSpeed) > .5)
+				rotateSpeed = .5 * rotateSpeed / Math.abs(rotateSpeed);
+			if(Math.abs(rotateSpeed) < .3)
+				rotateSpeed = .3 * rotateSpeed / Math.abs(rotateSpeed);
 		}
 		else
 		{

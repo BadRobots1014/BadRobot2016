@@ -25,7 +25,7 @@ public class AutoRotate extends CommandBase
 	 * @param revolutions
 	 *            - amount of revolutions you want to turn
 	 */
-	public AutoRotate(double revolutions)
+	public AutoRotate(Double revolutions)
 	{
 		this.revolutions = revolutions;
 		requires((Subsystem) shooter);

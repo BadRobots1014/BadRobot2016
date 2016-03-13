@@ -22,10 +22,11 @@ public class AutoSallyPortArm extends CommandBase
 	 * @param out
 	 *            - should the arm be going out
 	 */
-	public AutoSallyPortArm(double time, boolean out)
+	public AutoSallyPortArm(Double time, Boolean out)
 	{
 		requires((Subsystem) arm);
-		runTime = time * 1;
+		runTime = time * 1000000;
+		endTime = Utility.getFPGATime() + runTime;
 		goingOut = out;
 	}
 
@@ -39,19 +40,17 @@ public class AutoSallyPortArm extends CommandBase
 	protected void execute()
 	{
 		if(!goingOut)
-			arm.useIt(-.25);
+			arm.useIt(-.4);
 		else
-			arm.useIt(.25);
+			arm.useIt(.4);
 		
-		Logger.logThis("endTime: " + endTime);
-		Logger.logThis("currentTime: " + currentTime);
+		currentTime = Utility.getFPGATime();
 	}
 
 	@Override
 	protected void initialize()
 	{
-		currentTime = Utility.getFPGATime();
-		endTime = currentTime + runTime;
+		arm.useIt(0);
 	}
 
 	@Override
@@ -65,7 +64,6 @@ public class AutoSallyPortArm extends CommandBase
 	{
 		if(currentTime > endTime)
 		{
-			Logger.logThis("DONE!");
 			return true;
 		}else
 			return false;

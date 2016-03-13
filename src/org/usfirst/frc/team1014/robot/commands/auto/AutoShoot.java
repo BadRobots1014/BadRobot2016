@@ -23,9 +23,11 @@ public class AutoShoot extends CommandBase
 	 * @param time
 	 *            - amount of time that you want it to run for
 	 */
-	public AutoShoot(double time)
+	public AutoShoot(Double time)
 	{
+		Logger.logThis("starting");
 		this.runTime = time * 1000000;
+		endingTime = Utility.getFPGATime() + runTime;
 		requires((Subsystem) shooter);
 	}
 
@@ -36,8 +38,6 @@ public class AutoShoot extends CommandBase
 	protected void initialize()
 	{
 		shooter.shoot(0);
-		currentTime = Utility.getFPGATime();
-		endingTime = currentTime + runTime;
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class AutoShoot extends CommandBase
 	@Override
 	protected void interrupted()
 	{
-		System.out.print("Shooter was interrupted");
+		Logger.logThis("Shooter was interrupted");
 	}
 
 	/**

@@ -86,15 +86,15 @@ public class BadAutonomous extends CommandGroup
 		switch(defense.toUpperCase())
 		{
 			case "P":
-				crossDefense = new Portcullis();
+				crossDefense = new Portcullis(); break;
 			case "S":
-				crossDefense = new SallyPort();
+				crossDefense = new SallyPort(); break;
 			case "D":
-				crossDefense = new Drawbridge();
+				crossDefense = new Drawbridge(); break;
 			case "C":
-				crossDefense = new ChevalDeFrise();
+				crossDefense = new ChevalDeFrise(); break;
 			case "L":
-				crossDefense = new LowBar();
+				crossDefense = new LowBar(); break;
 			default:
 				crossDefense = new GenericCrossDefense();
 		}
@@ -111,9 +111,9 @@ public class BadAutonomous extends CommandGroup
 		switch(defenseToCross)
 		{
 			case 2:
-				moveToTurnSpot = new AutoDriveDistanceEncoder(.5, 3.046);
+				moveToTurnSpot = new AutoDriveDistanceEncoder(.5, 3.046); break;
 			case 5:
-				moveToTurnSpot = new AutoDriveDistanceEncoder(.5, 3.690);
+				moveToTurnSpot = new AutoDriveDistanceEncoder(.5, 3.690); break;
 			default:
 				moveToTurnSpot = new AutoDriveDistanceEncoder(.5, 0);
 		}
@@ -126,17 +126,17 @@ public class BadAutonomous extends CommandGroup
 			switch(defenseToCross)
 			{
 				case 1:
-					turnToGoal = new AutoTurn(60);
+					turnToGoal = new AutoTurn(new Double(60)); break;
 				case 2:
-					turnToGoal = new AutoTurn(60);
+					turnToGoal = new AutoTurn(new Double(60)); break;
 				case 3:
-					turnToGoal = new AutoTurn(-30);
+					turnToGoal = new AutoTurn(new Double(-30)); break;
 				case 4:
-					turnToGoal = new AutoTurn(30);
+					turnToGoal = new AutoTurn(new Double(30)); break;
 				case 5:
-					turnToGoal = new AutoTurn(-60);
+					turnToGoal = new AutoTurn(new Double(-60)); break;
 				default:
-					turnToGoal = new AutoTurn(0);
+					turnToGoal = new AutoTurn(new Double(0)); break;
 			}
 		}
 		else
@@ -144,17 +144,17 @@ public class BadAutonomous extends CommandGroup
 			switch(defenseToCross)
 			{
 				case 1:
-					turnToGoal = new AutoTurn(60);
+					turnToGoal = new AutoTurn(new Double(60)); break;
 				case 2:
-					turnToGoal = new AutoTurn(60);
+					turnToGoal = new AutoTurn(new Double(60)); break;
 				case 3:
-					turnToGoal = new AutoTurn(22);
+					turnToGoal = new AutoTurn(new Double(22)); break;
 				case 4:
-					turnToGoal = new AutoTurn(-8);
+					turnToGoal = new AutoTurn(new Double(-8)); break;
 				case 5:
-					turnToGoal = new AutoTurn(-60);
+					turnToGoal = new AutoTurn(new Double(-60)); break;
 				default:
-					turnToGoal = new AutoTurn(0);
+					turnToGoal = new AutoTurn(new Double(0)); break;
 			}
 		}
 
@@ -188,12 +188,12 @@ public class BadAutonomous extends CommandGroup
 			if(defenseToCross == 3 && goingForLow)
 			{
 				this.addSequential(new AutoDriveDistanceEncoder(.5, 3.638));
-				this.addSequential(new AutoTurn(90));
+				this.addSequential(new AutoTurn(new Double(90)));
 			}
 			else if(defenseToCross == 4 && goingForLow)
 			{
 				this.addSequential(new AutoDriveDistanceEncoder(.5, 4.192));
-				this.addSequential(new AutoTurn(-90));
+				this.addSequential(new AutoTurn(new Double(-90)));
 			}
 			else
 			{
@@ -206,15 +206,15 @@ public class BadAutonomous extends CommandGroup
 		if(isShooting && !goingForLow)
 		{
 			this.addSequential(new FindTarget());
-			shootBall = new AutoShoot(3);
+			shootBall = new AutoShoot(new Double(3));
 		}
 		else if(isShooting && goingForLow)
 		{
-			shootBall = new AutoShoot(3);
+			shootBall = new AutoShoot(new Double(3));
 		}
 		else
 		{
-			shootBall = new AutoShoot(0);
+			shootBall = new AutoShoot(new Double(0));
 		}
 
 		// add the final part

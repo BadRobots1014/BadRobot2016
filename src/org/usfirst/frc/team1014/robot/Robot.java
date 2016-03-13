@@ -2,8 +2,10 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveDistanceEncoder;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoRotate;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoSallyPortArm;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
 import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
@@ -26,7 +28,6 @@ public class Robot extends IterativeRobot
 	public Command autonomousCommand;
 	public static SmartDashboard dashboard;
 	public static BadScheduler badScheduler = new BadScheduler(TeleopGroup.class);
-	public FindTarget visionTracking;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -34,12 +35,10 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
-
 		// SmartDashboard.initDashboard();
 
 		CommandBase.init();
 		dashboard = new SmartDashboard();
-		visionTracking = new FindTarget();
 	}
 
 	/**
@@ -48,7 +47,7 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
-		autonomousCommand = new AutoTurn(90);
+		autonomousCommand = new AutoSallyPortArm(new Double(1), false);
 	}
 
 	/**
@@ -101,8 +100,10 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		dashboard.update();
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressedPrimaryLayout(), visionTracking);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressedSecondaryLayout(), new AutoShoot(2));
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressedSecondaryLayout(), AutoSallyPortArm.class);
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressedSecondaryLayout(), AutoShoot.class);
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isXButtonPressedSecondaryLayout(), AutoRotate.class);
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isBButtonPressedSecondaryLayout(), AutoDriveDistanceEncoder.class);
 		Scheduler.getInstance().run();
 	}
 
