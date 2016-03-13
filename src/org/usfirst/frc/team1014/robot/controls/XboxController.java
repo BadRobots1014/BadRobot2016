@@ -18,12 +18,15 @@ public class XboxController extends Joystick
 			RIGHT_JOY_CLICK = 10;
 	private static int LEFT_TRIGGER = 2, RIGHT_TRIGGER = 3;
 
+	public boolean onPrimaryLayout;
+
 	// Unused
 	// private long lastTimeXHeld, timeXHeld;
 
-	public XboxController(int port)
+	public XboxController(int port, boolean onPrimaryLayout)
 	{
 		super(port);
+		this.onPrimaryLayout = onPrimaryLayout;
 	}
 
 	/**
@@ -56,85 +59,208 @@ public class XboxController extends Joystick
 																							// it
 	}
 
-	public double getLeftStickX()
+	public void changeLayout(boolean primary)
 	{
-		return deadzone(this.getRawAxis(LEFT_STICK_X));
+		if(onPrimaryLayout && !primary)
+			onPrimaryLayout = false;
+		else if(!onPrimaryLayout && primary)
+			onPrimaryLayout = true;
 	}
 
-	public double getLeftStickY()
+	public double getLeftStickXPrimaryLayout()
 	{
-		return deadzone(this.getRawAxis(LEFT_STICK_Y));
+		if(onPrimaryLayout)
+			return deadzone(this.getRawAxis(LEFT_STICK_X));
+		else return 0;
 	}
 
-	public double getRightStickX()
+	public double getLeftStickYPrimaryLayout()
 	{
-		return deadzone(this.getRawAxis(RIGHT_STICK_X));
+		if(onPrimaryLayout)
+			return deadzone(this.getRawAxis(LEFT_STICK_Y));
+		else return 0;
 	}
 
-	public double getRightStickY()
+	public double getRightStickXPrimaryLayout()
 	{
-		return deadzone(this.getRawAxis(RIGHT_STICK_Y));
+		if(onPrimaryLayout)
+			return deadzone(this.getRawAxis(RIGHT_STICK_X));
+		else return 0;
 	}
 
-	public boolean isXButtonPressed()
+	public double getRightStickYPrimaryLayout()
 	{
-		return this.getRawButton(X_BUTTON);
+		if(onPrimaryLayout)
+			return deadzone(this.getRawAxis(RIGHT_STICK_Y));
+		else return 0;
 	}
 
-	public boolean isYButtonPressed()
+	public boolean isXButtonPressedPrimaryLayout()
 	{
-		return this.getRawButton(Y_BUTTON);
+		if(onPrimaryLayout)
+			return this.getRawButton(X_BUTTON);
+		else return false;
 	}
 
-	public boolean isAButtonPressed()
+	public boolean isYButtonPressedPrimaryLayout()
 	{
-		return this.getRawButton(A_BUTTON);
+		if(onPrimaryLayout)
+			return this.getRawButton(Y_BUTTON);
+		else return false;
 	}
 
-	public boolean isBButtonPressed()
+	public boolean isAButtonPressedPrimaryLayout()
 	{
-		return this.getRawButton(B_BUTTON);
+		if(onPrimaryLayout)
+			return this.getRawButton(A_BUTTON);
+		else return false;
 	}
 
-	public boolean isRBButtonPressed()
+	public boolean isBButtonPressedPrimaryLayout()
 	{
-		return this.getRawButton(RB);
+		if(onPrimaryLayout)
+			return this.getRawButton(B_BUTTON);
+		else return false;
 	}
 
-	public boolean isLBButtonPressed()
+	public boolean isRBButtonPressedPrimaryLayout()
 	{
-		return this.getRawButton(LB);
+		if(onPrimaryLayout)
+			return this.getRawButton(RB);
+		else return false;
 	}
 
-	public boolean isLeftJoyClick()
+	public boolean isLBButtonPressedPrimaryLayout()
 	{
-		return this.getRawButton(RIGHT_JOY_CLICK);
+		if(onPrimaryLayout)
+			return this.getRawButton(LB);
+		else return false;
 	}
 
-	public boolean isRightJoyClick()
+	public boolean isLeftJoyClickPrimaryLayout()
 	{
-		return this.getRawButton(LEFT_JOY_CLICK);
+		if(onPrimaryLayout)
+			return this.getRawButton(RIGHT_JOY_CLICK);
+		else return false;
 	}
 
-	public boolean isSelectButtonPressed()
+	public boolean isRightJoyClickPrimaryLayout()
 	{
-		return this.getRawButton(SELECT);
+		if(onPrimaryLayout)
+			return this.getRawButton(LEFT_JOY_CLICK);
+		else return false;
 	}
 
-	public boolean isStartButtonPressed()
+	public boolean isSelectButtonPressedPrimaryLayout()
 	{
-		return this.getRawButton(START);
+		if(onPrimaryLayout)
+			return this.getRawButton(SELECT);
+		else return false;
 	}
 
-	public boolean isAButtonToggled(boolean lastState)
+	public boolean isStartButtonPressedPrimaryLayout()
 	{
-		if(lastState == isAButtonPressed())
-			return lastState;
-		else
-		{
-			lastState = isAButtonPressed();
-			return lastState;
-		}
+		if(onPrimaryLayout)
+			return this.getRawButton(START);
+		else return false;
+	}
+
+	public double getLeftStickXSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return deadzone(this.getRawAxis(LEFT_STICK_X));
+		else return 0;
+	}
+
+	public double getLeftStickYSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return deadzone(this.getRawAxis(LEFT_STICK_Y));
+		else return 0;
+	}
+
+	public double getRightStickXSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return deadzone(this.getRawAxis(RIGHT_STICK_X));
+		else return 0;
+	}
+
+	public double getRightStickYSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return deadzone(this.getRawAxis(RIGHT_STICK_Y));
+		else return 0;
+	}
+
+	public boolean isXButtonPressedSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(X_BUTTON);
+		else return false;
+	}
+
+	public boolean isYButtonPressedSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(Y_BUTTON);
+		else return false;
+	}
+
+	public boolean isAButtonPressedSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(A_BUTTON);
+		else return false;
+	}
+
+	public boolean isBButtonPressedSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(B_BUTTON);
+		else return false;
+	}
+
+	public boolean isRBButtonPressedSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(RB);
+		else return false;
+	}
+
+	public boolean isLBButtonPressedSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(LB);
+		else return false;
+	}
+
+	public boolean isLeftJoyClickSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(RIGHT_JOY_CLICK);
+		else return false;
+	}
+
+	public boolean isRightJoyClickSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(LEFT_JOY_CLICK);
+		else return false;
+	}
+
+	public boolean isSelectButtonPressedSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(SELECT);
+		else return false;
+	}
+
+	public boolean isStartButtonPressedSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return this.getRawButton(START);
+		else return false;
 	}
 
 	/**
@@ -144,13 +270,31 @@ public class XboxController extends Joystick
 	 * 
 	 * @return
 	 */
-	public double getRightTrigger()
+	public double getRightTriggerPrimaryLayout()
 	{
-		return deadzone(this.getRawAxis(RIGHT_TRIGGER));
+		if(onPrimaryLayout)
+			return deadzone(this.getRawAxis(RIGHT_TRIGGER));
+		else return 0;
 	}
 
-	public double getLeftTrigger()
+	public double getLeftTriggerPrimaryLayout()
 	{
-		return deadzone(this.getRawAxis(LEFT_TRIGGER));
+		if(onPrimaryLayout)
+			return deadzone(this.getRawAxis(LEFT_TRIGGER));
+		else return 0;
+	}
+
+	public double getRightTriggerSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return deadzone(this.getRawAxis(RIGHT_TRIGGER));
+		else return 0;
+	}
+
+	public double getLeftTriggerSecondaryLayout()
+	{
+		if(!onPrimaryLayout)
+			return deadzone(this.getRawAxis(LEFT_TRIGGER));
+		else return 0;
 	}
 }

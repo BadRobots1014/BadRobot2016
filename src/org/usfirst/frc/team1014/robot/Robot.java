@@ -2,7 +2,9 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.ObjectTrackingTest;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveDistanceEncoder;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
+import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
@@ -24,6 +26,7 @@ public class Robot extends IterativeRobot
 	public Command autonomousCommand;
 	public static SmartDashboard dashboard;
 	public static BadScheduler badScheduler = new BadScheduler(TeleopGroup.class);
+	public FindTarget visionTracking;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -31,8 +34,12 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
+
+		// SmartDashboard.initDashboard();
+
 		CommandBase.init();
 		dashboard = new SmartDashboard();
+		visionTracking = new FindTarget();
 	}
 
 	/**
@@ -41,6 +48,7 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
+		autonomousCommand = new AutoDriveDistanceEncoder(.5, 3);
 	}
 
 	/**
@@ -51,7 +59,7 @@ public class Robot extends IterativeRobot
 		// schedule the autonomous command (example)
 		if(autonomousCommand != null)
 			autonomousCommand.start();
-		dashboard.poll();
+		// dashboard.poll();
 	}
 
 	/**
@@ -59,6 +67,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void autonomousPeriodic()
 	{
+		dashboard.update();
 		Scheduler.getInstance().run();
 	}
 
@@ -91,7 +100,9 @@ public class Robot extends IterativeRobot
 
 	public void teleopPeriodic()
 	{
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressed(), new ObjectTrackingTest());
+		dashboard.update();
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressedPrimaryLayout(), visionTracking);
+		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressedSecondaryLayout(), new AutoShoot(2));
 		Scheduler.getInstance().run();
 	}
 

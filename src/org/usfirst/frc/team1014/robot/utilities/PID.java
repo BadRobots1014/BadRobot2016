@@ -16,4 +16,39 @@ public class PID extends PIDController
 	{
 		this.calculate();
 	}
+
+	/**
+	 * This method scales values based on two cosine curves to bring the robot back to the center
+	 * position.
+	 * 
+	 * @param difference
+	 *            - how far off the robot is
+	 * @param min
+	 *            - the lowest value for this value
+	 * @param max
+	 *            - the highest value for this value
+	 * @param halfSpeed
+	 *            - the speed the half value for each side should move at
+	 * @return the correction value
+	 */
+	public static double turnSpeedScale(double difference, double min, double max)
+	{
+		double range = (max - min);
+		if(difference < 0)
+			return Math.cos((range / (2 * Math.PI)) * difference - Math.PI / 2) - .5;
+		else return -Math.cos((range / (2 * Math.PI)) * difference + Math.PI / 2) + .5;
+	}
+	
+	public static double trigScale(double difference, double min, double max, double fullSpeed)
+	{
+		double range = (max - min);
+		if(difference < 0)
+		{
+			return fullSpeed*Math.cos((2*Math.PI / range)*difference) - fullSpeed;
+		}
+		else
+		{
+			return -fullSpeed*Math.cos((2*Math.PI / range)*difference) + fullSpeed;
+		}
+	}
 }

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * @author Tze Hei T.
  * 
  */
-public class DriveForwardDistance extends CommandBase
+public class AutoDriveDistanceUltrasonic extends CommandBase
 {
 
 	public double speed, distance, ultraDistance;
@@ -23,7 +23,7 @@ public class DriveForwardDistance extends CommandBase
 	 * @param distance
 	 *            - the distance from something it will stop at
 	 */
-	public DriveForwardDistance(double speed, double distance)
+	public AutoDriveDistanceUltrasonic(double speed, double distance)
 	{
 		this.distance = distance;
 		this.speed = speed;
@@ -55,7 +55,6 @@ public class DriveForwardDistance extends CommandBase
 	{
 		ultraDistance = driveTrain.getMaxbotixDistance(); // Gets the ultrasonic distance in inches
 		driveTrain.driveStraight(speed, zeroAngle);
-
 	}
 
 	@Override
@@ -64,7 +63,10 @@ public class DriveForwardDistance extends CommandBase
 		System.out.println("DriveForwardDistance was interrupted");
 
 	}
-
+	
+	/**
+	 * stops when distance is less than desired distance
+	 */
 	@Override
 	protected boolean isFinished()
 	{

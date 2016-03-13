@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,7 +16,7 @@ public class TeleDrive extends CommandBase
 {
 	public double targetGyro;
 	public boolean gyroSet;
-	
+
 	public TeleDrive()
 	{
 		requires((Subsystem) driveTrain);
@@ -35,8 +36,7 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * This is really useless and doesn't really have much function, other than when we want to log
-	 * things.
+	 * @return the name of the class.
 	 */
 	@Override
 	public String getConsoleIdentity()
@@ -51,24 +51,26 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void execute()
 	{
-		if(ControlsManager.primaryXboxController.isLBButtonPressed())
+		if(ControlsManager.primaryXboxController.isLBButtonPressedPrimaryLayout())
 		{
 			if(!gyroSet)
 			{
 				targetGyro = driveTrain.getAngle();
 				gyroSet = true;
 			}
-			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
-			Logger.logThis("Correcting orientation");
+			driveTrain.driveStraight(ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout(), targetGyro);
 		}
 		else
 		{
-			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getLeftStickY(),
-					-ControlsManager.primaryXboxController.getRightStickY());
+			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getRightStickYPrimaryLayout(), -ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout());
+
+			Logger.logThis("Drive encoders " + ((BadTalon) driveTrain.backRight).encoder.getDistance());
 			gyroSet = false;
 		}
 
-		Logger.logThis("MXP Angle: " + driveTrain.getAngle());
+		if(ControlsManager.primaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.primaryXboxController.getLeftTriggerSecondaryLayout() > .5)
+			ControlsManager.changeToSecondaryLayout(1);
+		else ControlsManager.changeToPrimaryLayout(1);
 	}
 
 	/**
@@ -81,7 +83,7 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * What the robot should do once the command has finished executing.
+	 * Removes loose ends and exits command properly.
 	 */
 	@Override
 	protected void end()
@@ -90,11 +92,13 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-	 * Not sure what this is used for.
+	 * Called when another command requires the same subsystem or {@code cancel()} is called. Cleans
+	 * up dependencies and logs the interrupt.
 	 */
 	@Override
 	protected void interrupted()
 	{
 		org.usfirst.frc.team1014.robot.utilities.Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
+		end();
 	}
 }
