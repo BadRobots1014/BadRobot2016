@@ -163,7 +163,6 @@ public class FindTarget extends CommandBase
 			{
 				// set the direction of the shooter's movement
 				moveSpeed = cam.getY() > 0 ? ROTATE_SPEED : -ROTATE_SPEED;
-				Logger.logThis("Rotating Speed: " + moveSpeed);
 
 				// move it at that speed
 				shooter.rotate(moveSpeed);

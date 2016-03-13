@@ -5,6 +5,7 @@ import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 import org.usfirst.frc.team1014.robot.sensors.BadUltrasonic;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -107,19 +108,21 @@ public class DriveTrain extends BadSubsystem
 	 */
 	public void driveStraight(double moveSpeed, double targetGyro)
 	{
-		double difference180 = targetGyro - getAngle();
+		double difference180 = getAngle() - targetGyro;
 
 		double turnSpeed = 0;
 
-		if(Math.abs(difference180) > 5)
+		if(Math.abs(difference180) > 1)
 		{
-			turnSpeed = moveSpeed * PID.turnSpeedScale(Math.PI, Math.PI, Math.toRadians(difference180));
+			turnSpeed = PID.turnSpeedScale(Math.toRadians(difference180), -Math.PI, Math.PI);
 
+			Logger.logThis("turning Speed " + turnSpeed);
+			
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);
 
-			if(Math.abs(turnSpeed) < .4)
-				turnSpeed = .4 * turnSpeed / Math.abs(turnSpeed);
+			if(Math.abs(turnSpeed) < .45)
+				turnSpeed = .45 * turnSpeed / Math.abs(turnSpeed);
 
 			tankDrive(turnSpeed, -turnSpeed);
 		}

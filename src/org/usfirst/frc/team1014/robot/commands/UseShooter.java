@@ -52,7 +52,8 @@ public class UseShooter extends CommandBase
 	{
 		if(shooter.limitSwitch.get())
 		{
-			ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
+			//ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
+			shooter.resetEncoders();
 		}
 		// grabbing balls with speed moderation
 		if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
@@ -63,7 +64,7 @@ public class UseShooter extends CommandBase
 		{
 			shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
 		}
-		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
+		shooter.shoot(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
 
 		// servo control
 		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
@@ -73,17 +74,17 @@ public class UseShooter extends CommandBase
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
 		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
+		
 		Logger.logThis("Rotator Encoder: " + ((BadCAN) shooter.rotator).encoder.getDistance());
-		Logger.logThis("Shooting RPM " + shooter.getShootingRPM());
 
 		// move to preset heights
 		if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())
 		{
-			shooter.rotateTo(shooter.getLowestPosWithOffset());
+			shooter.rotateTo(ShooterAndGrabber.SHOOTER_LOWEST_POS);
 		}
 		else if(ControlsManager.secondaryXboxController.isBButtonPressedPrimaryLayout())
 		{
-			shooter.rotateTo(shooter.getHighestPosWithOffset());
+			shooter.rotateTo(ShooterAndGrabber.SHOOTER_HIGHEST_POS);
 		}
 
 		// switch layouts

@@ -80,7 +80,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-		if(Math.abs(difference) < .1)
+		if(Math.abs(difference) < .01)
 		{
 			return true;
 		}

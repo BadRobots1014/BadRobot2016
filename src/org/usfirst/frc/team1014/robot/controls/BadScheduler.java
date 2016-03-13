@@ -67,7 +67,6 @@ public class BadScheduler
 			// after emptying the scheduler
 			if(ControlsManager.primaryXboxController.isYButtonPressedPrimaryLayout())
 			{
-				Logger.logThis("STOPPING");
 				resetTeleopCommandToInitial();
 			}
 			else
@@ -79,7 +78,6 @@ public class BadScheduler
 				else
 				{
 					// If command is no longer running replace it with a new instance
-					Logger.logThis("Find Target Running: " + nextCommandInput.isRunning());
 					if(!nextCommandInput.isRunning())
 						resetCommandIfStopped();
 				}

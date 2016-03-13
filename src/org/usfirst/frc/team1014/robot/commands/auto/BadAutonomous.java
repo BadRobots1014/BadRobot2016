@@ -163,15 +163,15 @@ public class BadAutonomous extends CommandGroup
 		 */
 		if(isShooting && !goingForLow)
 		{
-			moveShooter = new AutoRotate(ShooterAndGrabber.getInstance().getDefaultPosWithOffset());
+			moveShooter = new AutoRotate(ShooterAndGrabber.SHOOTER_DEFAULT_SHOOTING_POS);
 		}
 		else if(isShooting && goingForLow)
 		{
-			moveShooter = new AutoRotate(ShooterAndGrabber.getInstance().getLowestPosWithOffset());
+			moveShooter = new AutoRotate(ShooterAndGrabber.SHOOTER_LOWEST_POS);
 		}
 		else
 		{
-			moveShooter = new AutoRotate(ShooterAndGrabber.getInstance().getHighestPosWithOffset());
+			moveShooter = new AutoRotate(ShooterAndGrabber.SHOOTER_HIGHEST_POS);
 		}
 
 		// adds some of the commands to the Scheduler

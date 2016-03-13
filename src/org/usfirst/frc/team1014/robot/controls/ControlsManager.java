@@ -9,16 +9,16 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class ControlsManager
 {
 	// PWM
+	
 	public static final int BACK_LEFT_SPEED_CONTROLLER = 1;
 	public static final int FRONT_LEFT_SPEED_CONTROLLER = 5;
 	public static final int BACK_RIGHT_SPEED_CONTROLLER = 2;
 	public static final int FRONT_RIGHT_SPEED_CONTROLLER = 6;
 
-	public static final int RING_LIGHT = 9;
-
 	public static final int PUSHER = 8;
 
 	// DIO
+	
 	// public static final int FRONT_RIGHT_ENCODER_A = 6;
 	// public static final int FRONT_RIGHT_ENCODER_B = 7;
 	// public static final int FRONT_LEFT_ENCODER_A = 4;
@@ -44,6 +44,10 @@ public class ControlsManager
 	public static final int SHOOTER_ROTATE = 3;
 	public static final int SALLY_PORT_ARM = 4;
 
+	// Relay
+
+	public static final int RING_LIGHT = 0;
+	
 	public static DriverStation driverStation;
 	public static XboxController primaryXboxController, secondaryXboxController;
 

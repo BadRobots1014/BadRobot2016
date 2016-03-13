@@ -58,7 +58,6 @@ public class AutoShoot extends CommandBase
 	{
 		shooter.shoot(1);
 		currentTime = Utility.getFPGATime();
-		Logger.logThis("Running SHooter");
 
 		if(currentTime >= endingTime - 1 * 1000000)
 			shooter.driveServo(true);

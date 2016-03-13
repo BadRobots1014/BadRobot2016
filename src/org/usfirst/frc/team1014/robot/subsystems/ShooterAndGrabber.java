@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
 
 /**
  * A {@link BadSubsystem} that controls the Shooter and Grabber.
@@ -24,23 +24,26 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	private static final double SERVO_STANDARD_POS = 0.9;
 	private static final double SERVO_EXTENDED_POS = 0.1;
-	private static final double RING_LIGHT_ON_VALUE = .5;
-	public static final double SHOOTER_LOWEST_POS = 65;
-	public static final double SHOOTER_HIGHEST_POS = 0;
+	//private static final double RING_LIGHT_ON_VALUE = .5;
+	public static final double SHOOTER_LOWEST_POS = 63;
+	public static final double SHOOTER_HIGHEST_POS = 5;
 	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 37;
+	private static final double CUT_POWER_RPM_DROP = 400;
+	private double DEFAULT_GRAB_SPEED = 0.5;
 	public static double shooterOffset = 0;
 
 	public DigitalInput limitSwitch;
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
 	public SpeedController rotator;
-	private SpeedController ringLight;
+	
+	private Relay ringLight;
+	
 	public Servo pusher;
+	
 	public boolean grabberSet = false;
 	private double previousRPM = 0;
 	private boolean grabbed = false;
-	private double grabSpeed = 0.5;
-	private double rpmDrop = 400;
 
 	public static ShooterAndGrabber getInstance()
 	{
@@ -57,7 +60,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		right = new CANTalon(ControlsManager.SHOOTER_RIGHT);
 		rotator = new BadCAN(ControlsManager.SHOOTER_ROTATE, ControlsManager.ARTICULATOR_ENCODER_A, ControlsManager.ARTICULATOR_ENCODER_B);
 
-		ringLight = new Talon(ControlsManager.RING_LIGHT);
+		ringLight = new Relay(ControlsManager.RING_LIGHT);
 		pusher = new Servo(ControlsManager.PUSHER);
 		pusher.set(0);
 		limitSwitch = new DigitalInput(ControlsManager.LIMIT_SWITCH);
@@ -80,7 +83,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void setSpeeds(double speed)
 	{
-		if(previousRPM - rpmDrop < ((BadCAN) left).getRpm() && grabberSet == true)
+		if(previousRPM - CUT_POWER_RPM_DROP < ((BadCAN) left).getRpm() && grabberSet == true)
 		{
 			grabbed = true;
 			left.set(0);
@@ -123,12 +126,11 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void grabBall()
 	{
 		grabberSet = true;
-		if(previousRPM - rpmDrop > ((BadCAN) left).getRpm())
+		if(previousRPM - CUT_POWER_RPM_DROP > ((BadCAN) left).getRpm())
 		{
 			grabbed = true;
 			for(int i = 0; i < 1000; i++)
 			{
-				Logger.logThis("cutting power");
 				left.set(0);
 				right.set(0);
 			}
@@ -145,7 +147,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		}
 		else
 		{
-			shoot(grabSpeed);
+			shoot(DEFAULT_GRAB_SPEED);
 		}
 		previousRPM = ((BadCAN) left).getRpm();
 
@@ -172,10 +174,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		if(limitSwitch.get() && speed > 0)
 		{
 			rotator.set(0);
-		}
-		else if(((BadCAN) rotator).encoder.getDistance() >= getLowestPosWithOffset() && speed < 0)
-		{
-			rotator.set(0);
 			((BadCAN) rotator).encoder.reset();
 		}
 		else
@@ -186,12 +184,14 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	public void rotateTo(double position)
 	{
-		double difference = position - ((BadCAN) rotator).encoder.getDistance();
+		double difference = ((BadCAN) rotator).getDistance() - position;
 		double rotateSpeed = .5;
 
+		Logger.logThis("Rotating difference: " + difference);
+		
 		if(Math.abs(difference) > 1)
 		{
-			rotateSpeed = -PID.trigScale(difference, getLowestPosWithOffset(), getHighestPosWithOffset(), .6);
+			rotateSpeed = PID.trigScale(difference, SHOOTER_HIGHEST_POS, SHOOTER_LOWEST_POS, .6);
 
 			if(Math.abs(rotateSpeed) > 1)
 				rotateSpeed = 1 * rotateSpeed / Math.abs(rotateSpeed);
@@ -204,8 +204,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	public void resetEncoders()
 	{
-		((BadCAN) left).encoder.reset();
-		((BadCAN) right).encoder.reset();
 		((BadCAN) rotator).encoder.reset();
 	}
 
@@ -253,7 +251,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void ringLightOn()
 	{
-		ringLight.set(RING_LIGHT_ON_VALUE);
+		ringLight.set(Relay.Value.kForward);
 	}
 
 	/**
@@ -262,7 +260,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void ringLightOff()
 	{
-		ringLight.set(0);
+		ringLight.set(Relay.Value.kOff);
 	}
 
 	/**

@@ -1,11 +1,6 @@
-Things that Need to be Tested 3/7/2016:
+Things that Need to be Tested 3/13/2016:
 
-	1. Driving using encoders
-	2. PID cosine thing
-		a. Shooting motor encoders (Grab ball)
-		b. Shooter goes to preset heights DONE
-	4. Layouts for the controllers DONE
-	5. Sally Port arm in auto and tele DONE
-	6. Autonomous defenses
-	7. Getting values from Smart Dashboard
-	8. Making sure BadAutonomous works
+	1. Rotating to positions in auto and tele DONE
+	2. driving using encoders perfectly DONE
+	3. vision tracking to some extent
+	4. bad autonomous working 

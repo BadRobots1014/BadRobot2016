@@ -39,4 +39,9 @@ public class BadCAN extends CANTalon
 	{
 		return encoder.getRate() * 60;
 	}
+	
+	public double getDistance()
+	{
+		return encoder.getDistance();
+	}
 }

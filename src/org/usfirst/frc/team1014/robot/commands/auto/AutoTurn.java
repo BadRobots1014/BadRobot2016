@@ -63,7 +63,6 @@ public class AutoTurn extends CommandBase
 		{
 			driveTrain.tankDrive(-rotation(), (rotation()));
 		}
-		Logger.logThis("MXP Angle: " + driveTrain.getAngle360());
 	}
 
 	@Override

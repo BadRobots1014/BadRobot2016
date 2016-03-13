@@ -41,8 +41,8 @@ public class BadTalon extends Talon
 		return encoder.getRate() * 60;
 	}
 
-	public double get()
+	public double getDistance()
 	{
-		return encoder.get();
+		return encoder.getDistance();
 	}
 }
