@@ -1,8 +1,9 @@
 package org.usfirst.frc.team1014.robot.controls;
 
-import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import java.lang.reflect.InvocationTargetException;
+
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
+import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,12 +11,15 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * A class that adds the {@link TeleopGroup} to the {@link Scheduler}.
+ * 
+ * @author Subash C. & Manu S.
  */
 public class BadScheduler
 {
 	private Scheduler scheduler = Scheduler.getInstance();
 	private Command teleopCommandInstance;
 	private Class<? extends Command> mainTeleopClass;
+	private Command nowRunning;
 
 	/**
 	 * Sets the {@code mainTeleopClass} to a Java {@link Class} object so when {@code initTeleop()}
@@ -39,6 +43,7 @@ public class BadScheduler
 		{
 			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
 			scheduler.add(teleopCommandInstance);
+			nowRunning = teleopCommandInstance;
 		} catch(InstantiationException e)
 		{
 			System.out.println("instance issue with " + mainTeleopClass.getName());
@@ -59,28 +64,81 @@ public class BadScheduler
 	 * @param nextCommandInput
 	 *            an instance to add to scheduler
 	 */
-	public void changeCommand(boolean button, Command nextCommandInput)
+	public void changeCommand(boolean button, Class<? extends Command> nextCommandInput)
 	{
 		try
 		{
 			// If Y is pressed clear out scheduler and adds a new instance of the mainTeleopClass
 			// after emptying the scheduler
-			if(ControlsManager.primaryXboxController.isYButtonPressed())
+			if(ControlsManager.primaryXboxController.isStartButtonPressedPrimaryLayout())
 			{
-				Logger.logThis("STOPPING");
 				resetTeleopCommandToInitial();
 			}
 			else
 			{
 				if(button) // Assumes Y is pressed
 				{
-					scheduler.add(nextCommandInput);
+					if(!nowRunning.getName().equals(nextCommandInput.getName()))
+					{
+						Command newCommand;
+						String newCommandString = nextCommandInput.getName().substring(45);
+						switch(newCommandString)
+						{
+							case "AutoRotate":
+								try
+								{
+									Logger.logThis("rotate");
+									newCommand = nextCommandInput.getConstructor(Double.class).newInstance(new Double(ShooterAndGrabber.SHOOTER_DEFAULT_SHOOTING_POS));
+									break;
+								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
+								{
+									e1.printStackTrace();
+								}
+							case "AutoShoot":
+								try
+								{
+									Logger.logThis("shoot");
+									newCommand = nextCommandInput.getConstructor(Double.class).newInstance(new Double(2));
+									break;
+								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
+								{
+									e1.printStackTrace();
+								}
+							case "AutoTurn":
+								try
+								{
+									Logger.logThis("turn");
+									newCommand = nextCommandInput.getConstructor(Double.class).newInstance(new Double(0));
+									break;
+								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
+								{
+									e1.printStackTrace();
+								}
+							case "AutoSallyPortArm":
+								try
+								{
+									Logger.logThis("sally port");
+									newCommand = nextCommandInput.getConstructor(Double.class, Boolean.class).newInstance(new Double(1), new Boolean(true));
+									break;
+								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
+								{
+									e1.printStackTrace();
+								}
+							default:
+								Logger.logThis("defeault");
+								newCommand = nextCommandInput.newInstance();
+						}
+						scheduler.removeAll();
+						scheduler.add(newCommand);
+						nowRunning = newCommand;
+					}
 				}
 				else
 				{
 					// If command is no longer running replace it with a new instance
-					Logger.logThis("Find Target Running: " + nextCommandInput.isRunning());
-					if(!nextCommandInput.isRunning())
+					Logger.logThis("------------------- " + nowRunning.getName());
+					Logger.logThis("Things: " + nowRunning.isRunning());
+					if(!nowRunning.isRunning())
 						resetCommandIfStopped();
 				}
 			}
@@ -93,9 +151,8 @@ public class BadScheduler
 			System.out.println("illegal acces exception 2");
 			e.printStackTrace();
 		}
-
 	}
-	
+
 	/**
 	 * If {@code teleopCommandInstance.isRunning()} returns false the scheduler is cleared and a new
 	 * instance.
@@ -112,6 +169,7 @@ public class BadScheduler
 			scheduler.removeAll();
 			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
 			scheduler.add(teleopCommandInstance);
+			nowRunning = teleopCommandInstance;
 		}
 	}
 
@@ -132,6 +190,7 @@ public class BadScheduler
 			scheduler.removeAll();
 			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
 			scheduler.add(teleopCommandInstance);
+			nowRunning = teleopCommandInstance;
 		}
 	}
 }

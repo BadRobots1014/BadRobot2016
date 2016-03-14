@@ -13,7 +13,7 @@ public class GoOverAndComeBack extends CommandGroup
 	public GoOverAndComeBack()
 	{
 
-		this.addSequential(new DriveForwardDistance(1, 132));
+		this.addSequential(new AutoDriveDistanceUltrasonic(1, 132));
 		this.addSequential(new AutoDrive(2, 1));
 
 	}

@@ -26,9 +26,14 @@ public class BadTalon extends Talon
 	 */
 	public BadTalon(int talonPWM, int aChannel, int bChannel)
 	{
+		this(talonPWM, aChannel, bChannel, .05);
+	}
+	
+	public BadTalon(int talonPWM, int aChannel, int bChannel, double distancePerPulse)
+	{
 		super(talonPWM);
 		encoder = new Encoder(aChannel, bChannel);
-		this.encoder.setDistancePerPulse(.05); // encoder is 20 pulses per revolution
+		this.encoder.setDistancePerPulse(distancePerPulse); // encoder is 20 pulses per revolution
 	}
 
 	public double getRpm()
@@ -36,8 +41,8 @@ public class BadTalon extends Talon
 		return encoder.getRate() * 60;
 	}
 
-	public double get()
+	public double getDistance()
 	{
-		return encoder.get();
+		return encoder.getDistance();
 	}
 }

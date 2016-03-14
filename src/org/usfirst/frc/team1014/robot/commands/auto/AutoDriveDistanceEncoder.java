@@ -1,19 +1,22 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * 
- * @author Tze Hei T.
+ * @author Manu S.
  * 
  */
-public class DriveForwardDistance extends CommandBase
+public class AutoDriveDistanceEncoder extends CommandBase
 {
 
-	public double speed, distance, ultraDistance;
+	public double speed, currentRotations;
 	public double zeroAngle;
+	public double targetRotations;
+	public double difference;
 
 	/**
 	 * Constructor
@@ -23,9 +26,9 @@ public class DriveForwardDistance extends CommandBase
 	 * @param distance
 	 *            - the distance from something it will stop at
 	 */
-	public DriveForwardDistance(double speed, double distance)
+	public AutoDriveDistanceEncoder(double speed, double numRotations)
 	{
-		this.distance = distance;
+		this.targetRotations = driveTrain.getDriveEncoderDistance() - (Math.abs(speed) / speed) * numRotations;
 		this.speed = speed;
 		requires((Subsystem) driveTrain);
 	}
@@ -35,6 +38,7 @@ public class DriveForwardDistance extends CommandBase
 	{
 		driveTrain.tankDrive(0, 0);
 		zeroAngle = driveTrain.getAngle();
+		currentRotations = driveTrain.getDriveEncoderDistance();
 	}
 
 	@Override
@@ -53,24 +57,31 @@ public class DriveForwardDistance extends CommandBase
 	@Override
 	protected void execute()
 	{
-		ultraDistance = driveTrain.getMaxbotixDistance(); // Gets the ultrasonic distance in inches
-		driveTrain.driveStraight(speed, zeroAngle);
+		currentRotations = driveTrain.getDriveEncoderDistance(); // Gets the rotations
+		difference = currentRotations - targetRotations;
+		
+		if(Math.abs(difference) < .4)
+			driveTrain.driveStraight(.4, zeroAngle);
+		else
+			driveTrain.driveStraight(speed, zeroAngle);
+
+		Logger.logThis("difference: " + difference);
 	}
 
 	@Override
 	protected void interrupted()
 	{
-		System.out.println("DriveForwardDistance was interrupted");
+		System.out.println("DriveForwardDistanceEncoder was interrupted!");
 
 	}
-	
+
 	/**
 	 * stops when distance is less than desired distance
 	 */
 	@Override
 	protected boolean isFinished()
 	{
-		if(ultraDistance < distance)
+		if(Math.abs(difference) < .01)
 		{
 			return true;
 		}

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -50,22 +51,26 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void execute()
 	{
-
-		if(ControlsManager.primaryXboxController.isLBButtonPressed())
+		if(ControlsManager.primaryXboxController.isLBButtonPressedPrimaryLayout())
 		{
 			if(!gyroSet)
 			{
 				targetGyro = driveTrain.getAngle();
 				gyroSet = true;
 			}
-			driveTrain.driveStraight(ControlsManager.primaryXboxController.getLeftStickY(), targetGyro);
+			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout(), targetGyro);
 		}
 		else
 		{
-			driveTrain.tankDrive(ControlsManager.primaryXboxController.getRightStickY(), ControlsManager.primaryXboxController.getLeftStickY());
+			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getRightStickYPrimaryLayout(), -ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout());
 
 			gyroSet = false;
 		}
+		Logger.logThis("Drive encoders " + ((BadTalon) driveTrain.backRight).encoder.getDistance());
+
+		if(ControlsManager.primaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.primaryXboxController.getLeftTriggerSecondaryLayout() > .5)
+			ControlsManager.changeToSecondaryLayout(1);
+		else ControlsManager.changeToPrimaryLayout(1);
 	}
 
 	/**
@@ -87,12 +92,8 @@ public class TeleDrive extends CommandBase
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Called when another command requires the same subsystem or {@code cancel()} is called.
-	 * Cleans up dependencies and logs the interrupt.
-=======
-	 * Not sure what this is used for.
->>>>>>> 8a7b4162529917dec92a80113a0bd3fcd55c5440
+	 * Called when another command requires the same subsystem or {@code cancel()} is called. Cleans
+	 * up dependencies and logs the interrupt.
 	 */
 	@Override
 	protected void interrupted()
