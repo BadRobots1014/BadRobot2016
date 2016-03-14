@@ -173,15 +173,15 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void rotate(double speed)
 	{
-		if(limitSwitch.get() && speed > 0)
-		{
-			rotator.set(0);
-			((BadCAN) rotator).encoder.reset();
-		}
-		else
-		{
+//		if(limitSwitch.get() && speed > 0)
+//		{
+//			rotator.set(0);
+//			((BadCAN) rotator).encoder.reset();
+//		}
+//		else
+//		{
 			rotator.set(speed);
-		}
+//		}
 	}
 
 	public boolean rotateTo(double position)

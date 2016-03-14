@@ -7,6 +7,7 @@ import org.usfirst.frc.team1014.robot.commands.auto.defenses.LowBar;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Portcullis;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.SallyPort;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -175,30 +176,35 @@ public class BadAutonomous extends CommandGroup
 		}
 
 		// adds some of the commands to the Scheduler
-		this.addSequential(crossDefense, waitTime);
-		this.addParallel(moveToTurnSpot);
-		this.addParallel(moveShooter);
+		this.addSequential(crossDefense);
+		this.addSequential(moveToTurnSpot);
+		this.addSequential(moveShooter);
 		this.addSequential(turnToGoal);
 
+//		Logger.logThis("Crossing-----------------" + crossDefense.getName());
+//		Logger.logThis("Move To Turn Spot-----------------" + moveToTurnSpot.getName());
+//		Logger.logThis("Move Shooter-----------------" + moveShooter.getName());
+//		Logger.logThis("Turn to Goal-----------------" + turnToGoal.getName());
+		
 		/*
 		 * If scoring low, add some more commands to get robot to the right spot
 		 */
-		if(goingForLow)
-		{
-			if(defenseToCross == 3 && goingForLow)
-			{
-				this.addSequential(new AutoDriveDistanceEncoder(.5, 3.638));
-				this.addSequential(new AutoTurn(new Double(90)));
-			}
-			else if(defenseToCross == 4 && goingForLow)
-			{
-				this.addSequential(new AutoDriveDistanceEncoder(.5, 4.192));
-				this.addSequential(new AutoTurn(new Double(-90)));
-			}
-			else
-			{
-			}
-		}
+//		if(goingForLow)
+//		{
+//			if(defenseToCross == 3 && goingForLow)
+//			{
+//				this.addSequential(new AutoDriveDistanceEncoder(.5, 3.638));
+//				this.addSequential(new AutoTurn(new Double(90)));
+//			}
+//			else if(defenseToCross == 4 && goingForLow)
+//			{
+//				this.addSequential(new AutoDriveDistanceEncoder(.5, 4.192));
+//				this.addSequential(new AutoTurn(new Double(-90)));
+//			}
+//			else
+//			{
+//			}
+//		}
 
 		/*
 		 * Creates the command to shoot
@@ -216,6 +222,8 @@ public class BadAutonomous extends CommandGroup
 		{
 			shootBall = new AutoShoot(new Double(0));
 		}
+		
+//		Logger.logThis("Shoot Ball-----------------" + shootBall.getName());
 
 		// add the final part
 		this.addSequential(shootBall);

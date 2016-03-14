@@ -25,7 +25,6 @@ public class AutoShoot extends CommandBase
 	 */
 	public AutoShoot(Double time)
 	{
-		Logger.logThis("starting");
 		this.runTime = time * 1000000;
 		endingTime = Utility.getFPGATime() + runTime;
 		requires((Subsystem) shooter);

@@ -50,11 +50,11 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		if(shooter.limitSwitch.get())
-		{
-			// ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
-			shooter.resetEncoders();
-		}
+//		if(shooter.limitSwitch.get())
+//		{
+//			// ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
+//			shooter.resetEncoders();
+//		}
 
 		// servo control
 		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
@@ -65,7 +65,7 @@ public class UseShooter extends CommandBase
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
 		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
 
-		Logger.logThis("Rotator Encoder: " + ((BadCAN) shooter.rotator).encoder.getDistance());
+		Logger.logThis("Rotator Encoder: " + ((BadCAN) shooter.rotator).getDistance());
 
 		// grabbing balls with speed moderation
 		if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())

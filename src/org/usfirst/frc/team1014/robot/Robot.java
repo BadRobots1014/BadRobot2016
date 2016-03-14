@@ -6,7 +6,7 @@ import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveDistanceEncoder;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoRotate;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoSallyPortArm;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
-import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
+import org.usfirst.frc.team1014.robot.commands.auto.BadAutonomous;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
@@ -47,7 +47,8 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
-		autonomousCommand = new AutoSallyPortArm(new Double(1), false);
+//		autonomousCommand = new AutoTurn(30.0);
+		autonomousCommand = new BadAutonomous(true, true, 1, "L");
 	}
 
 	/**
