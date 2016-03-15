@@ -19,10 +19,10 @@ public class ControlsManager
 
 	// DIO
 	
-	// public static final int FRONT_RIGHT_ENCODER_A = 6;
-	// public static final int FRONT_RIGHT_ENCODER_B = 7;
-	// public static final int FRONT_LEFT_ENCODER_A = 4;
-	// public static final int FRONT_LEFT_ENCODER_B = 5;
+	 public static final int FRONT_RIGHT_ENCODER_A = 10;
+	 public static final int FRONT_RIGHT_ENCODER_B = 11;
+	 public static final int FRONT_LEFT_ENCODER_A = 4;
+	 public static final int FRONT_LEFT_ENCODER_B = 5;
 	public static final int BACK_RIGHT_ENCODER_A = 2;
 	public static final int BACK_RIGHT_ENCODER_B = 3;
 	public static final int BACK_LEFT_ENCODER_A = 0;
@@ -33,7 +33,7 @@ public class ControlsManager
 	public static final int ARTICULATOR_ENCODER_A = 6;
 	public static final int ARTICULATOR_ENCODER_B = 7;
 
-	public static final int LIMIT_SWITCH = 4;
+	public static final int LIMIT_SWITCH = 12;
 
 	// Analog In
 	public static final int MAXBOTIX_ULTRASONIC = 0;

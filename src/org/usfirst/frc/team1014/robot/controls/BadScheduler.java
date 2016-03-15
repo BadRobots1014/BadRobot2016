@@ -185,7 +185,7 @@ public class BadScheduler
 	 */
 	private void resetTeleopCommandToInitial() throws InstantiationException, IllegalAccessException
 	{
-		if(teleopCommandInstance.getName() != mainTeleopClass.getName())
+		if(!teleopCommandInstance.getName().equals(mainTeleopClass.getName()))
 		{
 			scheduler.removeAll();
 			teleopCommandInstance = (Command) mainTeleopClass.newInstance();

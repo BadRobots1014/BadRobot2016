@@ -39,6 +39,7 @@ public class Robot extends IterativeRobot
 
 		CommandBase.init();
 		dashboard = new SmartDashboard();
+		autonomousCommand = new BadAutonomous(true, true, 1, "L");
 	}
 
 	/**
@@ -48,7 +49,6 @@ public class Robot extends IterativeRobot
 	{
 		Scheduler.getInstance().run();
 //		autonomousCommand = new AutoTurn(30.0);
-		autonomousCommand = new BadAutonomous(true, true, 1, "L");
 	}
 
 	/**
