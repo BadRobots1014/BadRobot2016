@@ -50,11 +50,11 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		if(shooter.limitSwitch.get())
-		{
-			// ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
-			shooter.resetEncoders();
-		}
+		// if(shooter.limitSwitch.get())
+		// {
+		// // ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
+		// shooter.resetEncoders();
+		// }
 
 		// servo control
 		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())

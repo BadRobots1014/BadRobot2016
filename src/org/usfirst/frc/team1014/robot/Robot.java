@@ -2,13 +2,7 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveDistanceEncoder;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoRotate;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoSallyPortArm;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
-import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
-import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -47,7 +41,7 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
-		autonomousCommand = new AutoSallyPortArm(new Double(1), false);
+		// autonomousCommand = new AutoSallyPortArm(new Double(1), false);
 	}
 
 	/**
@@ -100,11 +94,9 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		dashboard.update();
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressedSecondaryLayout(), AutoSallyPortArm.class);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressedSecondaryLayout(), AutoShoot.class);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isXButtonPressedSecondaryLayout(), AutoRotate.class);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isBButtonPressedSecondaryLayout(), AutoDriveDistanceEncoder.class);
+		badScheduler.changeCommand();
 		Scheduler.getInstance().run();
+
 	}
 
 	/**

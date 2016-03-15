@@ -24,7 +24,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	private static final double SERVO_STANDARD_POS = 0.9;
 	private static final double SERVO_EXTENDED_POS = 0.1;
-	//private static final double RING_LIGHT_ON_VALUE = .5;
+	// private static final double RING_LIGHT_ON_VALUE = .5;
 	public static final double SHOOTER_LOWEST_POS = 60;
 	public static final double SHOOTER_HIGHEST_POS = 2;
 	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 16;
@@ -36,11 +36,11 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
 	public SpeedController rotator;
-	
+
 	private Relay ringLight;
-	
+
 	public Servo pusher;
-	
+
 	public boolean grabberSet = false;
 	private double previousRPM = 0;
 	private boolean grabbed = false;
@@ -84,7 +84,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Deprecated
 	public void setSpeeds(double speed)
 	{
-		
+
 		if(previousRPM - CUT_POWER_RPM_DROP < ((BadCAN) left).getRpm() && grabberSet == true)
 		{
 			grabbed = true;
@@ -173,15 +173,16 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void rotate(double speed)
 	{
-		if(limitSwitch.get() && speed > 0)
-		{
-			rotator.set(0);
-			((BadCAN) rotator).encoder.reset();
-		}
-		else
-		{
-			rotator.set(speed);
-		}
+		rotator.set(speed);
+		// if(limitSwitch.get() && speed > 0)
+		// {
+		// rotator.set(0);
+		// ((BadCAN) rotator).encoder.reset();
+		// }
+		// else
+		// {
+		// rotator.set(speed);
+		// }
 	}
 
 	public boolean rotateTo(double position)
@@ -190,7 +191,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		double rotateSpeed = 0;
 
 		Logger.logThis("Rotating difference: " + difference);
-		
+
 		if(Math.abs(difference) > 1)
 		{
 			rotateSpeed = PID.trigScale(difference, SHOOTER_HIGHEST_POS, SHOOTER_LOWEST_POS, .6);
