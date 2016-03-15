@@ -1,8 +1,11 @@
 package org.usfirst.frc.team1014.robot.controls;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
@@ -17,9 +20,15 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class BadScheduler
 {
 	private Scheduler scheduler = Scheduler.getInstance();
-	private Command teleopCommandInstance;
 	private Class<? extends Command> mainTeleopClass;
 	private Command nowRunning;
+	private HashMap<Class<? extends Command>, Method> autos = new HashMap<Class<? extends Command>, Method>();
+
+	interface Method
+	{
+
+		boolean runMethod();
+	}
 
 	/**
 	 * Sets the {@code mainTeleopClass} to a Java {@link Class} object so when {@code initTeleop()}
@@ -41,9 +50,8 @@ public class BadScheduler
 	{
 		try
 		{
-			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
-			scheduler.add(teleopCommandInstance);
-			nowRunning = teleopCommandInstance;
+			nowRunning = (Command) mainTeleopClass.newInstance();
+			scheduler.add(nowRunning);
 		} catch(InstantiationException e)
 		{
 			System.out.println("instance issue with " + mainTeleopClass.getName());
@@ -53,7 +61,25 @@ public class BadScheduler
 			System.out.println("illegal access exception 1");
 			e.printStackTrace();
 		}
+		autos.put(AutoShoot.class, new Method()
+		{
+			@Override
+			public boolean runMethod()
+			{
+				return ControlsManager.secondaryXboxController.isAButtonPressedSecondaryLayout();
+			};
+		});
 
+		autos.put(AutoTurn.class, new Method()
+		{
+
+			@Override
+			public boolean runMethod()
+			{
+				return ControlsManager.secondaryXboxController.isYButtonPressedSecondaryLayout();
+			};
+
+		});
 	}
 
 	/**
@@ -64,7 +90,7 @@ public class BadScheduler
 	 * @param nextCommandInput
 	 *            an instance to add to scheduler
 	 */
-	public void changeCommand(boolean button, Class<? extends Command> nextCommandInput)
+	public void changeCommand()
 	{
 		try
 		{
@@ -72,65 +98,75 @@ public class BadScheduler
 			// after emptying the scheduler
 			if(ControlsManager.primaryXboxController.isStartButtonPressedPrimaryLayout())
 			{
-				resetTeleopCommandToInitial();
+				resetTeleopCommand();
 			}
 			else
 			{
-				if(button) // Assumes Y is pressed
+				Class<? extends Command> commandClass = null;
+				for(Class<? extends Command> com : autos.keySet())
 				{
-					if(!nowRunning.getName().equals(nextCommandInput.getName()))
+					if(autos.get(com).runMethod())
 					{
-						Command newCommand;
-						String newCommandString = nextCommandInput.getName().substring(45);
+						commandClass = com;
+						break;
+					}
+				}
+
+				if(commandClass != null) // Assumes Y is pressed
+				{
+					String newCommandString = commandClass.getName().substring(45);
+					if(!nowRunning.getName().equals(newCommandString))
+					{
+						Logger.logThis("nowRunning name  = " + nowRunning.getName());
+						Logger.logThis("nextCommandInput  = " + newCommandString);
 						switch(newCommandString)
 						{
 							case "AutoRotate":
 								try
 								{
 									Logger.logThis("rotate");
-									newCommand = nextCommandInput.getConstructor(Double.class).newInstance(new Double(ShooterAndGrabber.SHOOTER_DEFAULT_SHOOTING_POS));
-									break;
+									nowRunning = commandClass.getConstructor(Double.class).newInstance(new Double(ShooterAndGrabber.SHOOTER_DEFAULT_SHOOTING_POS));
 								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
 								{
 									e1.printStackTrace();
 								}
+								break;
 							case "AutoShoot":
 								try
 								{
 									Logger.logThis("shoot");
-									newCommand = nextCommandInput.getConstructor(Double.class).newInstance(new Double(2));
-									break;
+									nowRunning = commandClass.getConstructor(Double.class).newInstance(new Double(5));
 								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
 								{
 									e1.printStackTrace();
 								}
+								break;
 							case "AutoTurn":
 								try
 								{
 									Logger.logThis("turn");
-									newCommand = nextCommandInput.getConstructor(Double.class).newInstance(new Double(0));
-									break;
+									nowRunning = commandClass.getConstructor(Double.class).newInstance(new Double(90));
 								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
 								{
 									e1.printStackTrace();
 								}
+								break;
 							case "AutoSallyPortArm":
 								try
 								{
 									Logger.logThis("sally port");
-									newCommand = nextCommandInput.getConstructor(Double.class, Boolean.class).newInstance(new Double(1), new Boolean(true));
-									break;
+									nowRunning = commandClass.getConstructor(Double.class, Boolean.class).newInstance(new Double(1), new Boolean(true));
 								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
 								{
 									e1.printStackTrace();
 								}
+								break;
 							default:
-								Logger.logThis("defeault");
-								newCommand = nextCommandInput.newInstance();
+								Logger.logThis("default");
+								nowRunning = commandClass.newInstance();
 						}
 						scheduler.removeAll();
-						scheduler.add(newCommand);
-						nowRunning = newCommand;
+						scheduler.add(nowRunning);
 					}
 				}
 				else
@@ -139,7 +175,7 @@ public class BadScheduler
 					Logger.logThis("------------------- " + nowRunning.getName());
 					Logger.logThis("Things: " + nowRunning.isRunning());
 					if(!nowRunning.isRunning())
-						resetCommandIfStopped();
+						resetTeleopCommand();
 				}
 			}
 		} catch(InstantiationException e)
@@ -162,15 +198,19 @@ public class BadScheduler
 	 * @throws IllegalAccessException
 	 *             if the class constructor can't be accessed
 	 */
-	private void resetCommandIfStopped() throws InstantiationException, IllegalAccessException
+	/*
+	 * private void resetCommandIfStopped() throws InstantiationException, IllegalAccessException {
+	 * if(!teleopCommandInstance.isRunning()) { scheduler.removeAll(); teleopCommandInstance =
+	 * (Command) mainTeleopClass.newInstance(); scheduler.add(teleopCommandInstance); nowRunning =
+	 * teleopCommandInstance; } }
+	 */
+
+	private void resetTeleopCommand() throws InstantiationException, IllegalAccessException
 	{
-		if(!teleopCommandInstance.isRunning())
-		{
-			scheduler.removeAll();
-			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
-			scheduler.add(teleopCommandInstance);
-			nowRunning = teleopCommandInstance;
-		}
+		scheduler.removeAll();
+		nowRunning = mainTeleopClass.newInstance();
+		scheduler.add(nowRunning);
+		Logger.logThis("TeleOp has Been Reset!");
 	}
 
 	/**
@@ -183,14 +223,14 @@ public class BadScheduler
 	 * @throws IllegalAccessException
 	 *             if the class constructor can't be accessed
 	 */
-	private void resetTeleopCommandToInitial() throws InstantiationException, IllegalAccessException
-	{
-		if(!teleopCommandInstance.getName().equals(mainTeleopClass.getName()))
-		{
-			scheduler.removeAll();
-			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
-			scheduler.add(teleopCommandInstance);
-			nowRunning = teleopCommandInstance;
-		}
-	}
+//	private void resetTeleopCommandToInitial() throws InstantiationException, IllegalAccessException
+//	{
+//		if(!teleopCommandInstance.getName().equals(mainTeleopClass.getName()))
+//		{
+//			scheduler.removeAll();
+//			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
+//			scheduler.add(teleopCommandInstance);
+//			nowRunning = teleopCommandInstance;
+//		}
+//	}
 }

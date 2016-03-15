@@ -2,19 +2,15 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveDistanceEncoder;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoRotate;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoSallyPortArm;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
 import org.usfirst.frc.team1014.robot.commands.auto.BadAutonomous;
-import org.usfirst.frc.team1014.robot.controls.BadScheduler;
-import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+//github.com/BadRobots1014/BadRobot2016.git
+import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -48,7 +44,6 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
-//		autonomousCommand = new AutoTurn(30.0);
 	}
 
 	/**
@@ -101,11 +96,9 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		dashboard.update();
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressedSecondaryLayout(), AutoSallyPortArm.class);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressedSecondaryLayout(), AutoShoot.class);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isXButtonPressedSecondaryLayout(), AutoRotate.class);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isBButtonPressedSecondaryLayout(), AutoDriveDistanceEncoder.class);
+		badScheduler.changeCommand();
 		Scheduler.getInstance().run();
+
 	}
 
 	/**
