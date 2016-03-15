@@ -2,13 +2,15 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.controls.BadScheduler;
+import org.usfirst.frc.team1014.robot.commands.auto.BadAutonomous;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+//github.com/BadRobots1014/BadRobot2016.git
+import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -33,6 +35,7 @@ public class Robot extends IterativeRobot
 
 		CommandBase.init();
 		dashboard = new SmartDashboard();
+		autonomousCommand = new BadAutonomous(true, true, 1, "L");
 	}
 
 	/**
@@ -41,7 +44,6 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
-		// autonomousCommand = new AutoSallyPortArm(new Double(1), false);
 	}
 
 	/**

@@ -2,6 +2,7 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -53,15 +54,19 @@ public class AutoTurn extends CommandBase
 	@Override
 	protected void execute()
 	{
-		difference = driveTrain.getAngle360() - degree;
+		difference = driveTrain.getAngle() - degree;
+		
+		Logger.logThis("Difference ------------------- " + difference);
 
 		if(sign < 0)
 		{
-			driveTrain.tankDrive((rotation()), -rotation());
+			Logger.logThis("Turning left? ... " + rotation());
+			driveTrain.tankDrive((-rotation()), rotation());
 		}
-		if(sign > 0)
+		else if(sign > 0)
 		{
-			driveTrain.tankDrive(-rotation(), (rotation()));
+			Logger.logThis("Turning right? ... " + rotation());
+			driveTrain.tankDrive(rotation(), -(rotation()));
 		}
 	}
 
@@ -79,7 +84,7 @@ public class AutoTurn extends CommandBase
 	 */
 	public double rotation()
 	{
-		return(difference / rotationCoefficient);
+		return difference / 10;//PID.turnSpeedScale(difference, -Math.PI, Math.PI);
 	}
 
 	@Override

@@ -59,12 +59,13 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	{
 		currentRotations = driveTrain.getDriveEncoderDistance(); // Gets the rotations
 		difference = currentRotations - targetRotations;
+		
+		if(Math.abs(difference) < .4)
+			driveTrain.driveStraight(.4, zeroAngle);
+		else
+			driveTrain.driveStraight(speed, zeroAngle);
 
-		driveTrain.driveStraight(speed, zeroAngle);
-
-		Logger.logThis("currentRotations: " + currentRotations);
 		Logger.logThis("difference: " + difference);
-		Logger.logThis("target: " + targetRotations);
 	}
 
 	@Override

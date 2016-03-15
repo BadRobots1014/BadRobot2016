@@ -7,6 +7,7 @@ import org.usfirst.frc.team1014.robot.commands.auto.defenses.LowBar;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Portcullis;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.SallyPort;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -76,6 +77,7 @@ public class BadAutonomous extends CommandGroup
 	 */
 	public BadAutonomous(boolean willShoot, boolean lowScore, int crossingDefense, String defense, double waitTime)
 	{
+		Logger.logThis("Auto Start");
 		isShooting = willShoot;
 		goingForLow = lowScore;
 		defenseToCross = crossingDefense;
@@ -96,8 +98,10 @@ public class BadAutonomous extends CommandGroup
 			case "L":
 				crossDefense = new LowBar(); break;
 			default:
-				crossDefense = new GenericCrossDefense();
+				crossDefense = new GenericCrossDefense();  Logger.log(Logger.Level.Error, "Cross Defense", "Default Triggered");
 		}
+		
+		Logger.logThis("Crossed Defense");
 
 		/*
 		 * Make sure people aren't stupid since low bar is always in the first position
@@ -105,6 +109,8 @@ public class BadAutonomous extends CommandGroup
 		if(crossingDefense == 1)
 			crossDefense = new LowBar();
 
+		Logger.logThis("Cross Lowbar");
+		
 		/*
 		 * Makes the robot move the turn spot if it isn't already there
 		 */
@@ -115,8 +121,10 @@ public class BadAutonomous extends CommandGroup
 			case 5:
 				moveToTurnSpot = new AutoDriveDistanceEncoder(.5, 3.690); break;
 			default:
-				moveToTurnSpot = new AutoDriveDistanceEncoder(.5, 0);
+				moveToTurnSpot = new AutoDriveDistanceEncoder(.5, 0);  Logger.log(Logger.Level.Error, "Move to Turn", "Default Triggered"); break;
 		}
+		
+		Logger.logThis("Went to turn spot");
 
 		/*
 		 * Sets the turn amount based on if the robot is shooting high or low
@@ -136,8 +144,9 @@ public class BadAutonomous extends CommandGroup
 				case 5:
 					turnToGoal = new AutoTurn(new Double(-60)); break;
 				default:
-					turnToGoal = new AutoTurn(new Double(0)); break;
+					turnToGoal = new AutoTurn(new Double(0));  Logger.log(Logger.Level.Error, "AutoTurn", "Default Triggered"); break;
 			}
+			Logger.logThis("Turned");
 		}
 		else
 		{
@@ -154,8 +163,9 @@ public class BadAutonomous extends CommandGroup
 				case 5:
 					turnToGoal = new AutoTurn(new Double(-60)); break;
 				default:
-					turnToGoal = new AutoTurn(new Double(0)); break;
+					turnToGoal = new AutoTurn(new Double(0)); Logger.log(Logger.Level.Error, "AutoTurn", "Default Triggered"); break;
 			}
+			Logger.logThis("Turned 2");
 		}
 
 		/*
@@ -171,34 +181,44 @@ public class BadAutonomous extends CommandGroup
 		}
 		else
 		{
+			Logger.log(Logger.Level.Error, "HELP", "here");
 			moveShooter = new AutoRotate(ShooterAndGrabber.SHOOTER_HIGHEST_POS);
 		}
+		
+		Logger.logThis("Moved the shooter");
 
 		// adds some of the commands to the Scheduler
-		this.addSequential(crossDefense, waitTime);
-		this.addParallel(moveToTurnSpot);
-		this.addParallel(moveShooter);
+		Logger.logThis("Adding commands to sequence");
+		this.addSequential(crossDefense);
+		this.addSequential(moveToTurnSpot);
+		this.addSequential(moveShooter);
 		this.addSequential(turnToGoal);
+		Logger.logThis("Added Commands to sequence");
 
+//		Logger.logThis("Crossing-----------------" + crossDefense.getName());
+//		Logger.logThis("Move To Turn Spot-----------------" + moveToTurnSpot.getName());
+//		Logger.logThis("Move Shooter-----------------" + moveShooter.getName());
+//		Logger.logThis("Turn to Goal-----------------" + turnToGoal.getName());
+		
 		/*
 		 * If scoring low, add some more commands to get robot to the right spot
 		 */
-		if(goingForLow)
-		{
-			if(defenseToCross == 3 && goingForLow)
-			{
-				this.addSequential(new AutoDriveDistanceEncoder(.5, 3.638));
-				this.addSequential(new AutoTurn(new Double(90)));
-			}
-			else if(defenseToCross == 4 && goingForLow)
-			{
-				this.addSequential(new AutoDriveDistanceEncoder(.5, 4.192));
-				this.addSequential(new AutoTurn(new Double(-90)));
-			}
-			else
-			{
-			}
-		}
+//		if(goingForLow)
+//		{
+//			if(defenseToCross == 3 && goingForLow)
+//			{
+//				this.addSequential(new AutoDriveDistanceEncoder(.5, 3.638));
+//				this.addSequential(new AutoTurn(new Double(90)));
+//			}
+//			else if(defenseToCross == 4 && goingForLow)
+//			{
+//				this.addSequential(new AutoDriveDistanceEncoder(.5, 4.192));
+//				this.addSequential(new AutoTurn(new Double(-90)));
+//			}
+//			else
+//			{
+//			}
+//		}
 
 		/*
 		 * Creates the command to shoot
@@ -216,6 +236,8 @@ public class BadAutonomous extends CommandGroup
 		{
 			shootBall = new AutoShoot(new Double(0));
 		}
+		
+//		Logger.logThis("Shoot Ball-----------------" + shootBall.getName());
 
 		// add the final part
 		this.addSequential(shootBall);
