@@ -1,4 +1,4 @@
-<head><version>2.79.14</version></head>
+<head><version>2.79.26</version></head>
 <Axis_Internet_Camera>
   <auto_back_light>TRUE</auto_back_light>
   <auto_exposure>FALSE</auto_exposure>
@@ -18,7 +18,7 @@
   <username>FRC</username>
 </Axis_Internet_Camera>
 <RGB_Filter>
-  <channel>4</channel>
+  <channel>64</channel>
   <hue_value>110</hue_value>
   <hysteresis>0</hysteresis>
   <min_value>140</min_value>

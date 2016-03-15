@@ -22,7 +22,7 @@ public class AutoTurn extends CommandBase
 	 * @param degree
 	 *            - how far the robot needs to turn. Positive values turn right. Negative values turn left	 *      
 	 */
-	public AutoTurn(double degree)
+	public AutoTurn(Double degree)
 	{
 		this.degree = degree;
 		requires((Subsystem) driveTrain);
@@ -63,7 +63,6 @@ public class AutoTurn extends CommandBase
 		{
 			driveTrain.tankDrive(-rotation(), (rotation()));
 		}
-		Logger.logThis("MXP Angle: " + driveTrain.getAngle360());
 	}
 
 	@Override

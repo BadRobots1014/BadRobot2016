@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadCAN;
+import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,7 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class UseShooter extends CommandBase
 {
 	// Value to multiply rotation value by to decrease sensitivity
-	private static final double ROTATION_SPEED_MULTIPLIER = 1d / 4d;
+	private static final double ROTATION_SPEED_MULTIPLIER = 1d / 3d;
 	private static final double SHOOTER_SPEED_ADJUST_INTERVAL = .1;
 	private static final double MAX_SHOOTER_SPEED = 1.0;
 	private static final double MIN_SHOOTER_SPEED = .5;
@@ -48,45 +50,63 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		 if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
-		 {
-			 shooter.grabBall();
-		 }
-		 else {
-			 shooter.setSpeeds(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout()); 
-		 }
-		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
+		// if(shooter.limitSwitch.get())
+		// {
+		// // ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
+		// shooter.resetEncoders();
+		// }
 
+		// servo control
 		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
 			isServoOut = true;
-		else
-			isServoOut = false;
+		else isServoOut = false;
 		shooter.driveServo(isServoOut);
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
 		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
-		
-		if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())
+
+		Logger.logThis("Rotator Encoder: " + ((BadCAN) shooter.rotator).encoder.getDistance());
+
+		// grabbing balls with speed moderation
+		if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
 		{
-			shooter.rotateTo(-300);
+			if(shooter.rotateTo(ShooterAndGrabber.SHOOTER_LOWEST_POS))
+				shooter.grabBall(ShooterAndGrabber.DEFAULT_GRAB_SPEED);
 		}
-		else if(ControlsManager.secondaryXboxController.isBButtonPressedPrimaryLayout())
+		else if(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout() > 0)
 		{
-			shooter.rotateTo(750);
+			shooter.grabBall(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
+		}
+		else
+		{
+			shooter.shoot(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
 		}
 
+		// move to preset heights
+		if(ControlsManager.secondaryXboxController.isBButtonPressedPrimaryLayout())
+		{
+			shooter.rotateTo(ShooterAndGrabber.SHOOTER_LOWEST_POS);
+		}
+		else if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())
+		{
+			shooter.rotateTo(ShooterAndGrabber.SHOOTER_HIGHEST_POS);
+		}
+		else if(ControlsManager.secondaryXboxController.isYButtonPressedPrimaryLayout())
+		{
+			shooter.rotateTo(ShooterAndGrabber.SHOOTER_DEFAULT_SHOOTING_POS);
+		}
+
+		// switch layouts
 		if(ControlsManager.secondaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.secondaryXboxController.getLeftTriggerSecondaryLayout() > .5)
 			ControlsManager.changeToSecondaryLayout(2);
-		else
-			ControlsManager.changeToPrimaryLayout(2);
-		
+		else ControlsManager.changeToPrimaryLayout(2);
+
 		// Direct control of ring light
 		if(ControlsManager.secondaryXboxController.isStartButtonPressedPrimaryLayout() && !this.ringLightButtonPressed)
 		{
 			if(!this.ringLightOn)
 				shooter.ringLightOn();
-			else
-				shooter.ringLightOff();
+			else shooter.ringLightOff();
 			this.ringLightOn = !this.ringLightOn;
 			this.ringLightButtonPressed = true;
 		}
@@ -94,6 +114,8 @@ public class UseShooter extends CommandBase
 		{
 			this.ringLightButtonPressed = false;
 		}
+		Logger.logThis("LIMIT_SWITCH: ------------------------- " + shooter.limitSwitch.get());
+
 	}
 
 	@Override

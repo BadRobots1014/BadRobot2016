@@ -27,6 +27,9 @@ Secondary XBox Controller:
 		Y - grabs or shoots the ball, based on polarity
 	* Right Stick - 
 		Y - moves the shooter up and down
+	* A -
+		Hold - keeps servo out (in shooting position)
+		Release - servo goes back to retracted position
 	* B -
 		Press - moves the rotator to the up position
 	* X - 

@@ -27,7 +27,7 @@ public class UseSallyPortArm extends CommandBase
 		else
 			ControlsManager.changeToPrimaryLayout(2);
 		
-		arm.useIt(ControlsManager.secondaryXboxController.getRightStickYSecondaryLayout() * .5);
+		arm.useIt(-ControlsManager.secondaryXboxController.getRightStickYSecondaryLayout() * .5);
 	}
 
 	@Override

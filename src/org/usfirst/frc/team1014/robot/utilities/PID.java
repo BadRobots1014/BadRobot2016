@@ -33,10 +33,10 @@ public class PID extends PIDController
 	 */
 	public static double turnSpeedScale(double difference, double min, double max)
 	{
-		double range = (max - min);
+		double range = Math.abs(max - min);
 		if(difference < 0)
-			return Math.cos((range / (2 * Math.PI)) * difference - Math.PI / 2) - .5;
-		else return -Math.cos((range / (2 * Math.PI)) * difference + Math.PI / 2) + .5;
+			return .5*Math.cos(((2 * Math.PI)/range) * difference) - .5;
+		else return -.5*Math.cos(((2 * Math.PI)/range) * difference) + .5;
 	}
 	
 	public static double trigScale(double difference, double min, double max, double fullSpeed)

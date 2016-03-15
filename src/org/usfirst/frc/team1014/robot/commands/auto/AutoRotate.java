@@ -1,7 +1,8 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.sensors.BadTalon;
+import org.usfirst.frc.team1014.robot.sensors.BadCAN;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -17,19 +18,15 @@ public class AutoRotate extends CommandBase
 	double revolutions;
 	double currentRevolutions;
 	double difference;
-	boolean direction;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param revolutions
 	 *            - amount of revolutions you want to turn
-	 * @param direction
-	 *            - false for down, true for up
 	 */
-	public AutoRotate(double revolutions, boolean direction)
+	public AutoRotate(Double revolutions)
 	{
-		this.direction = direction;
 		this.revolutions = revolutions;
 		requires((Subsystem) shooter);
 	}
@@ -38,7 +35,6 @@ public class AutoRotate extends CommandBase
 	protected void initialize()
 	{
 		shooter.rotate(0);
-
 	}
 
 	@Override
@@ -58,31 +54,23 @@ public class AutoRotate extends CommandBase
 	@Override
 	protected void execute()
 	{
-		currentRevolutions = ((BadTalon) shooter.rotator).get();
-		difference = currentRevolutions - revolutions;
+		currentRevolutions = ((BadCAN) shooter.rotator).encoder.getDistance();
+		difference = revolutions - currentRevolutions;
 
-		if(direction == true)
-		{
-			shooter.rotate(1);
-		}
-		if(direction == false)
-		{
-			shooter.rotate(-1);
-		}
-
+		shooter.rotateTo(revolutions);
 	}
 
 	@Override
 	protected void interrupted()
 	{
-		System.out.println("AutoRotate was interrupted");
+		System.out.println("AutoRotate was interrupted!");
 
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		if(Math.abs(difference) <= 0)
+		if(Math.abs(difference) <= 3)
 		{
 			return true;
 		}

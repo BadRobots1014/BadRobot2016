@@ -63,7 +63,7 @@ public abstract class CommandBase extends Command
 	}
 
 	/**
-	 * Creates an instance of each command used in autonumus and adds it to the {@code commandClasses} {@link ArrayList}.
+	 * Creates an instance of each command used in autonomous and adds it to the {@code commandClasses} {@link ArrayList}.
 	 */
 	public static void addAuto()
 	{

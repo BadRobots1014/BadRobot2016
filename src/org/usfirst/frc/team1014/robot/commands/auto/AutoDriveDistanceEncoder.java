@@ -1,12 +1,13 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * 
- * @author Manu S. 
+ * @author Manu S.
  * 
  */
 public class AutoDriveDistanceEncoder extends CommandBase
@@ -15,6 +16,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	public double speed, currentRotations;
 	public double zeroAngle;
 	public double targetRotations;
+	public double difference;
 
 	/**
 	 * Constructor
@@ -26,7 +28,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	 */
 	public AutoDriveDistanceEncoder(double speed, double numRotations)
 	{
-		this.targetRotations = numRotations;
+		this.targetRotations = driveTrain.getDriveEncoderDistance() - (Math.abs(speed) / speed) * numRotations;
 		this.speed = speed;
 		requires((Subsystem) driveTrain);
 	}
@@ -56,23 +58,29 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	protected void execute()
 	{
 		currentRotations = driveTrain.getDriveEncoderDistance(); // Gets the rotations
+		difference = currentRotations - targetRotations;
+
 		driveTrain.driveStraight(speed, zeroAngle);
+
+		Logger.logThis("currentRotations: " + currentRotations);
+		Logger.logThis("difference: " + difference);
+		Logger.logThis("target: " + targetRotations);
 	}
 
 	@Override
 	protected void interrupted()
 	{
-		System.out.println("DriveForwardDistanceEncoder was interrupted");
+		System.out.println("DriveForwardDistanceEncoder was interrupted!");
 
 	}
-	
+
 	/**
 	 * stops when distance is less than desired distance
 	 */
 	@Override
 	protected boolean isFinished()
 	{
-		if(currentRotations < targetRotations)
+		if(Math.abs(difference) < .01)
 		{
 			return true;
 		}
