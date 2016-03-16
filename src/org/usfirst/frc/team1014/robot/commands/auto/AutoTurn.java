@@ -2,7 +2,6 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
-import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -21,7 +20,8 @@ public class AutoTurn extends CommandBase
 	 * Constructor
 	 * 
 	 * @param degree
-	 *            - how far the robot needs to turn. Positive values turn right. Negative values turn left	 *      
+	 *            - how far the robot needs to turn. Positive values turn right. Negative values
+	 *            turn left *
 	 */
 	public AutoTurn(Double degree)
 	{
@@ -55,7 +55,7 @@ public class AutoTurn extends CommandBase
 	protected void execute()
 	{
 		difference = driveTrain.getAngle() - degree;
-		
+
 		Logger.logThis("Difference ------------------- " + difference);
 
 		if(sign < 0)
@@ -77,14 +77,13 @@ public class AutoTurn extends CommandBase
 
 	}
 
-
 	/**
 	 * 
 	 * @return - scales the speed for the drivetrain
 	 */
 	public double rotation()
 	{
-		return difference / 10;//PID.turnSpeedScale(difference, -Math.PI, Math.PI);
+		return difference / 10;// PID.turnSpeedScale(difference, -Math.PI, Math.PI);
 	}
 
 	@Override
