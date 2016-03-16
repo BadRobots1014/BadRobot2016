@@ -26,7 +26,6 @@ public class AutoShoot extends CommandBase
 	public AutoShoot(Double time)
 	{
 		this.runTime = time * 1000000;
-		endingTime = Utility.getFPGATime() + runTime;
 		requires((Subsystem) shooter);
 	}
 
@@ -36,6 +35,7 @@ public class AutoShoot extends CommandBase
 	@Override
 	protected void initialize()
 	{
+		endingTime = Utility.getFPGATime() + runTime;
 		shooter.shoot(0);
 	}
 
@@ -60,7 +60,8 @@ public class AutoShoot extends CommandBase
 
 		if(currentTime >= endingTime - 1 * 1000000)
 			shooter.driveServo(true);
-		else shooter.driveServo(false);
+		else
+			shooter.driveServo(false);
 	}
 
 	@Override
