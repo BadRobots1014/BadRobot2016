@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot
 		// SmartDashboard.initDashboard();
 
 		CommandBase.init();
-		dashboard = new SmartDashboard();
+		dashboard = SmartDashboard.getInstance();
 	}
 
 	/**
@@ -50,9 +50,9 @@ public class Robot extends IterativeRobot
 	public void autonomousInit()
 	{
 		// schedule the autonomous command (example)
-		if(autonomousCommand != null)
-			autonomousCommand.start();
-		// dashboard.poll();
+		// if(autonomousCommand != null)
+		// autonomousCommand.start();
+		dashboard.poll();
 	}
 
 	/**
