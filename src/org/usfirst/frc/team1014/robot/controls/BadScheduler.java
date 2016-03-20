@@ -223,10 +223,14 @@ public class BadScheduler
 	 * @throws IllegalAccessException
 	 *             if the class constructor can't be accessed
 	 */
-	/*
-	 * private void resetTeleopCommandToInitial() throws InstantiationException,
-	 * IllegalAccessException { if(teleopCommandInstance.getName() != mainTeleopClass.getName()) {
-	 * scheduler.removeAll(); teleopCommandInstance = (Command) mainTeleopClass.newInstance();
-	 * scheduler.add(teleopCommandInstance); nowRunning = teleopCommandInstance; } }
-	 */
+//	private void resetTeleopCommandToInitial() throws InstantiationException, IllegalAccessException
+//	{
+//		if(!teleopCommandInstance.getName().equals(mainTeleopClass.getName()))
+//		{
+//			scheduler.removeAll();
+//			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
+//			scheduler.add(teleopCommandInstance);
+//			nowRunning = teleopCommandInstance;
+//		}
+//	}
 }

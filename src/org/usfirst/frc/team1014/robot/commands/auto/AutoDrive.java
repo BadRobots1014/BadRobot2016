@@ -51,7 +51,8 @@ public class AutoDrive extends CommandBase
 	protected void execute()
 	{
 		passedTime = Utility.getFPGATime() - startTime;
-		driveTrain.driveStraight(speed, targetAngle);
+		driveTrain.tankDrive(speed, speed);
+		// driveTrain.driveStraight(speed, targetAngle);
 	}
 
 	@Override
@@ -74,6 +75,7 @@ public class AutoDrive extends CommandBase
 		}
 	}
 
+	// This isn't used. Don't use this.
 	public static double rotation()
 	{
 		return -(driveTrain.getAngle() / 45);

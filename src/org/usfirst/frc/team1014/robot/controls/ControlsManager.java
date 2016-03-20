@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class ControlsManager
 {
 	// PWM
-	
+
 	public static final int BACK_LEFT_SPEED_CONTROLLER = 1;
 	public static final int FRONT_LEFT_SPEED_CONTROLLER = 5;
 	public static final int BACK_RIGHT_SPEED_CONTROLLER = 2;
@@ -18,9 +18,9 @@ public class ControlsManager
 	public static final int PUSHER = 8;
 
 	// DIO
-	
-	// public static final int FRONT_RIGHT_ENCODER_A = 6;
-	// public static final int FRONT_RIGHT_ENCODER_B = 7;
+
+	// public static final int FRONT_RIGHT_ENCODER_A = 10;
+	// public static final int FRONT_RIGHT_ENCODER_B = 11;
 	// public static final int FRONT_LEFT_ENCODER_A = 4;
 	// public static final int FRONT_LEFT_ENCODER_B = 5;
 	public static final int BACK_RIGHT_ENCODER_A = 2;
@@ -35,6 +35,10 @@ public class ControlsManager
 
 	public static final int LIMIT_SWITCH = 4;
 
+	// LED Lights
+	public static final int LED_BIT1 = 4;
+	public static final int LED_BIT2 = 5;
+
 	// Analog In
 	public static final int MAXBOTIX_ULTRASONIC = 0;
 
@@ -47,7 +51,7 @@ public class ControlsManager
 	// Relay
 
 	public static final int RING_LIGHT = 0;
-	
+
 	public static DriverStation driverStation;
 	public static XboxController primaryXboxController, secondaryXboxController;
 

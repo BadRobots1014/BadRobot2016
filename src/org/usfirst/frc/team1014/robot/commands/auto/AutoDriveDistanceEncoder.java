@@ -17,6 +17,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	public double zeroAngle;
 	public double targetRotations;
 	public double difference;
+	public double numRotations;
 
 	/**
 	 * Constructor
@@ -28,7 +29,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	 */
 	public AutoDriveDistanceEncoder(double speed, double numRotations)
 	{
-		this.targetRotations = driveTrain.getDriveEncoderDistance() - (Math.abs(speed) / speed) * numRotations;
+		this.numRotations = numRotations;
 		this.speed = speed;
 		requires((Subsystem) driveTrain);
 	}
@@ -39,6 +40,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 		driveTrain.tankDrive(0, 0);
 		zeroAngle = driveTrain.getAngle();
 		currentRotations = driveTrain.getDriveEncoderDistance();
+		this.targetRotations = driveTrain.getDriveEncoderDistance() - (Math.abs(speed) / speed) * numRotations;
 	}
 
 	@Override
@@ -60,11 +62,11 @@ public class AutoDriveDistanceEncoder extends CommandBase
 		currentRotations = driveTrain.getDriveEncoderDistance(); // Gets the rotations
 		difference = currentRotations - targetRotations;
 
-		driveTrain.driveStraight(speed, zeroAngle);
+		if(Math.abs(difference) < .4)
+			driveTrain.driveStraight(.4, zeroAngle);
+		else driveTrain.driveStraight(speed, zeroAngle);
 
-		Logger.logThis("currentRotations: " + currentRotations);
 		Logger.logThis("difference: " + difference);
-		Logger.logThis("target: " + targetRotations);
 	}
 
 	@Override
@@ -77,6 +79,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	/**
 	 * stops when distance is less than desired distance
 	 */
+
 	@Override
 	protected boolean isFinished()
 	{
@@ -90,4 +93,8 @@ public class AutoDriveDistanceEncoder extends CommandBase
 		}
 	}
 
+	/*
+	 * @Override protected boolean isFinished() { if(speed > 0) { if(difference < 0) { return true;
+	 * } } else { if(difference > 0) { return true; } } return false; }
+	 */
 }

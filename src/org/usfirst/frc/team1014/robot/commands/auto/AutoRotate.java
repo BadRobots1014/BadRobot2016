@@ -2,7 +2,6 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.sensors.BadCAN;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -56,7 +55,7 @@ public class AutoRotate extends CommandBase
 	{
 		currentRevolutions = ((BadCAN) shooter.rotator).encoder.getDistance();
 		difference = revolutions - currentRevolutions;
-
+		// Logger.logThis("Encoder Position : " + ((BadCAN) shooter.rotator).encoder.getDistance());
 		shooter.rotateTo(revolutions);
 	}
 
