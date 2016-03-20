@@ -64,8 +64,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 
 		if(Math.abs(difference) < .4)
 			driveTrain.driveStraight(.4, zeroAngle);
-		else
-			driveTrain.driveStraight(speed, zeroAngle);
+		else driveTrain.driveStraight(speed, zeroAngle);
 
 		Logger.logThis("difference: " + difference);
 	}
@@ -80,6 +79,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	/**
 	 * stops when distance is less than desired distance
 	 */
+
 	@Override
 	protected boolean isFinished()
 	{
@@ -93,4 +93,8 @@ public class AutoDriveDistanceEncoder extends CommandBase
 		}
 	}
 
+	/*
+	 * @Override protected boolean isFinished() { if(speed > 0) { if(difference < 0) { return true;
+	 * } } else { if(difference > 0) { return true; } } return false; }
+	 */
 }
