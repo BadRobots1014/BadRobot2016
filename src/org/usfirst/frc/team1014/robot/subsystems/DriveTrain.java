@@ -116,8 +116,8 @@ public class DriveTrain extends BadSubsystem
 		{
 			turnSpeed = PID.turnSpeedScale(Math.toRadians(difference180), -Math.PI, Math.PI);
 
-			Logger.logThis("turning Speed " + turnSpeed);
-			
+			Logger.log("turning Speed", "" + turnSpeed);
+
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);
 
@@ -171,7 +171,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else return ultrasonic.getRangeMM();
+		else
+			return ultrasonic.getRangeMM();
 	}
 
 	/**
@@ -189,7 +190,8 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;
-		else return mxp.getYaw();
+		else
+			return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()
@@ -205,7 +207,7 @@ public class DriveTrain extends BadSubsystem
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "DriveTrain";
+		return "Drive_Train";
 	}
 
 	public float getRoll()

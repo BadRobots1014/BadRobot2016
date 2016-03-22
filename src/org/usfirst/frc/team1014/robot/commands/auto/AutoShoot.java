@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -42,7 +41,7 @@ public class AutoShoot extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "Auto Shoot";
+		return "Auto_Shoot";
 	}
 
 	@Override
@@ -64,25 +63,12 @@ public class AutoShoot extends CommandBase
 			shooter.driveServo(false);
 	}
 
-	@Override
-	protected void interrupted()
-	{
-		Logger.logThis("Shooter was interrupted");
-	}
-
 	/**
 	 * when timer is greater than time entered, it stops
 	 */
 	@Override
 	protected boolean isFinished()
 	{
-		if(currentTime >= endingTime)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return currentTime >= endingTime;
 	}
 }

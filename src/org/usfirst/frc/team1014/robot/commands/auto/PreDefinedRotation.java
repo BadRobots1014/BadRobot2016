@@ -28,8 +28,7 @@ public class PreDefinedRotation extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
-		return "PreDefinedRotation";
+		return "Predefined_Rotation";
 	}
 
 	@Override
@@ -37,10 +36,9 @@ public class PreDefinedRotation extends CommandBase
 	{
 		shooter.rotate(0);
 		if(goingDown)
-		{
 			shooter.isLow = true;
-		}
-		else shooter.isLow = false;
+		else
+			shooter.isLow = false;
 
 	}
 
@@ -48,24 +46,14 @@ public class PreDefinedRotation extends CommandBase
 	protected void execute()
 	{
 		if(goingDown)
-		{
 			shooter.rotate(-speed);
-		}
 		else
-		{
 			shooter.rotate(speed);
-		}
-
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		if(Utility.getFPGATime() > timer)
-		{
-			return true;
-		}
-		return false;
+		return Utility.getFPGATime() > timer;
 	}
-
 }

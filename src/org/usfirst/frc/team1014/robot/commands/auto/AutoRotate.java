@@ -40,7 +40,7 @@ public class AutoRotate extends CommandBase
 	public String getConsoleIdentity()
 	{
 
-		return "AutoRotate";
+		return "Auto_Rotate";
 	}
 
 	@Override
@@ -55,28 +55,12 @@ public class AutoRotate extends CommandBase
 	{
 		currentRevolutions = ((BadCAN) shooter.rotator).encoder.getDistance();
 		difference = revolutions - currentRevolutions;
-		// Logger.logThis("Encoder Position : " + ((BadCAN) shooter.rotator).encoder.getDistance());
 		shooter.rotateTo(revolutions);
-	}
-
-	@Override
-	protected void interrupted()
-	{
-		System.out.println("AutoRotate was interrupted!");
-
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		if(Math.abs(difference) <= 3)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return Math.abs(difference) <= 3;
 	}
-
 }

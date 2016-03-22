@@ -23,31 +23,25 @@ public class WaitTime extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
-		return "Wait Time Command";
+		return "Wait_Time_Command";
 	}
 
 	@Override
 	protected void end()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void execute()
 	{
-		if(Utility.getFPGATime() < timeToWait)
-		{
-
-		}
-		else isFinished = true;
+		if(Utility.getFPGATime() >= timeToWait)
+			isFinished = true;
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		// TODO Auto-generated method stub
 		return isFinished;
 	}
 

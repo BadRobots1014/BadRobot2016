@@ -3,7 +3,6 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.Utility;
 
@@ -81,7 +80,7 @@ public class FindTarget extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "FindTarget";
+		return "Find_Target";
 	}
 
 	@Override
@@ -96,7 +95,7 @@ public class FindTarget extends CommandBase
 	{
 		// how fast the robot will move
 		double moveSpeed;
-		
+
 		shooter.ringLightOn();
 
 		// allows the driver to shoot the ball at any time
@@ -105,7 +104,8 @@ public class FindTarget extends CommandBase
 		// moves the cam servo at any time
 		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
 			isServoOut = true;
-		else isServoOut = false;
+		else
+			isServoOut = false;
 
 		shooter.driveServo(isServoOut);
 
@@ -130,7 +130,8 @@ public class FindTarget extends CommandBase
 				// make sure the robot is actually moving
 				if(previousCamX == cam.getX())
 					counter++;
-				else counter = 0;
+				else
+					counter = 0;
 
 				// if the robot isn't moving ...
 				if(counter > 50)
@@ -213,12 +214,6 @@ public class FindTarget extends CommandBase
 				stopTimeSet = false;
 			}
 		}
-	}
-
-	@Override
-	protected void interrupted()
-	{
-		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!!!");
 	}
 
 	@Override

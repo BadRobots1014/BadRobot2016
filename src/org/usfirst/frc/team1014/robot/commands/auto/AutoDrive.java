@@ -56,41 +56,16 @@ public class AutoDrive extends CommandBase
 	}
 
 	@Override
-	protected void interrupted()
-	{
-
-	}
-
-	@Override
 	protected boolean isFinished()
 	{
-		if((passedTime / 1000000) > driveTime)
-		{
-			System.out.println("DriveForward is done");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	// This isn't used. Don't use this.
-	public static double rotation()
-	{
-		return -(driveTrain.getAngle() / 45);
+		return (passedTime / 1000000) > driveTime;
 	}
 
 	public static double deadzone(double d)
 	{
-		if(Math.abs(d) < .1)
-		{
+		if(Math.abs(d) < .1 || d == 0)
 			return 0;
-		}
-		if(d == 0)
-		{
-			return 0;
-		}
+
 		return (d / Math.abs(d)) * ((Math.abs(d) - .1) / (1 - .1));
 	}
 

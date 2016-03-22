@@ -62,7 +62,7 @@ public class LEDLights extends BadSubsystem
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "LEDLights";
+		return "LED_Lights";
 	}
 
 	@Override
