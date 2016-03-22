@@ -36,20 +36,14 @@ public class JoyStickController extends Joystick
 		// whenever the controller moves LESS than the magic number, the
 		// joystick is in the loose position so return zero - as if the
 		// joystick was not moved
-		if(Math.abs(d) < DEADZONE_MAGIC_NUMBER)
-		{
+		if(Math.abs(d) < DEADZONE_MAGIC_NUMBER || d == 0)
 			return 0;
-		}
 
-		if(d == 0)
-		{
-			return 0;
-		}
 		// When the joystick is used for a purpose (passes the if statements,
 		// hence not just being loose), do math
 		return (d / Math.abs(d)) // gets the sign of d, negative or positive
-		* ((Math.abs(d) - DEADZONE_MAGIC_NUMBER) / (1 - DEADZONE_MAGIC_NUMBER)); // scales
-																					// it
+				* ((Math.abs(d) - DEADZONE_MAGIC_NUMBER) / (1 - DEADZONE_MAGIC_NUMBER)); // scales
+																							// it
 	}
 
 	/**

@@ -1,9 +1,13 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
-import org.usfirst.frc.team1014.robot.commands.DummyCommand;
+import java.util.HashMap;
+
+import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
+import org.usfirst.frc.team1014.robot.commands.DummyCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.ChevalDeFrise;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Drawbridge;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.GenericCrossDefense;
+import org.usfirst.frc.team1014.robot.commands.auto.defenses.LowBar;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Portcullis;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.SallyPort;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
@@ -18,8 +22,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * @author Manu S.
  * 
  */
-public class BadAutonomous extends CommandGroup
+public class AutonomousManager extends CommandGroup
 {
+	private static AutonomousManager instance;
+	public HashMap<String, BadCommandGroup> autonomousCommands = new HashMap<String, BadCommandGroup>();
+
 	public boolean isShooting = false;
 	public boolean goingForLow = true;
 	public int defensePos = 1;
@@ -52,61 +59,27 @@ public class BadAutonomous extends CommandGroup
 		}
 	}
 
-	/**
-	 * Creates a simple autonomous that goes through the low bar and doesn't shoot.
-	 */
-	public BadAutonomous()
+	public void loadAutonoumsCommands()
 	{
-		setVariables(false, true, 1, Defense.NONE, 0, true);
-
+		registerAutonomousCommand("Generic_Cross", new BadCommandGroup(new AutoDrive(4, .9)));
+		registerAutonomousCommand("Shoot_And_Come_Back", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132), new AutoTurn(90.0), new AutoDrive(.5, 1), new AutoTurn(-90.0), new AutoShoot(1.0), new AutoTurn(-90.0), new AutoDrive(.5, 1), new AutoTurn(-90.0), new AutoDrive(2, 1)));
+		registerAutonomousCommand("Shoot_And_Stay", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132), new AutoTurn(90.0), new AutoDrive(.5, 1), new AutoTurn(-90.0), new AutoShoot(1.0)));
+		registerAutonomousCommand("Lowbar_Stay", new BadCommandGroup(new AutoDriveServo(true), new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0)));
+		registerAutonomousCommand("Lowbar_Shoot", new BadCommandGroup(new AutoDriveServo(true), new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0), new AutoShoot(3.0)));
+		registerAutonomousCommand("Go_Over", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132)));
+		registerAutonomousCommand("Go_Over_And_Come_Back", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132), new AutoDrive(2, 1)));
 	}
 
-	/**
-	 * Creates a specialized autonomous based on the parameters fed into it.
-	 * 
-	 * @param willShoot
-	 *            - whether or not the robot will shoot the ball at the end, true for yes, false for
-	 *            no
-	 * @param lowScore
-	 *            - whether or not the robot will score in the low goal, true for yes, false for no
-	 * @param crossingDefense
-	 *            - the placement of the defense the robot will cross (1, 2, 3, 4 or 5)
-	 * @param defense
-	 *            - the name of the defense it's crossing (spelled correctly) (e.g. Portcullis,
-	 *            Drawbridge, Rough Terrain etc)
-	 */
-	public BadAutonomous(boolean willShoot, boolean lowScore, int crossingDefense, Defense defense, double waitTime, boolean justCross)
+	public void registerAutonomousCommand(String name, BadCommandGroup command)
 	{
-		setVariables(willShoot, lowScore, crossingDefense, defense, waitTime, justCross);
+		autonomousCommands.put(name, command);
 	}
 
-	public void setVariables(boolean willShoot, boolean lowScore, int crossingDefense, Defense defense, double waitTime, boolean justCross)
+	public BadCommandGroup getAutnomouscommand(String name)
 	{
-		this.isShooting = willShoot;
-		this.goingForLow = lowScore;
-		this.defensePos = crossingDefense;
-		this.defense = defense;
-		this.waitTime = waitTime;
-		this.justCross = justCross;
-		setup();
+		return autonomousCommands.get(name);
 	}
 
-	/**
-	 * Creates a specialized autonomous based on the parameters fed into it.
-	 * 
-	 * @param willShoot
-	 *            - whether or not the robot will shoot the ball at the end, true for yes, false for
-	 *            no
-	 * @param lowScore
-	 *            - whether or not the robot will score in the low goal, true for yes, false for no
-	 * @param crossingDefense
-	 *            - the placement of the defense the robot will cross (1, 2, 3, 4 or 5)
-	 * @param defense
-	 *            - the name of the defense it's crossing (spelled correctly) (e.g. Portcullis,
-	 *            Drawbridge, Rough Terrain etc)
-	 * @param waitTime
-	 *            - the time to wait before carrying out the autonomous
-	 */
 	public void setup()
 	{
 
@@ -227,81 +200,37 @@ public class BadAutonomous extends CommandGroup
 		}
 		else if(isShooting && goingForLow)
 		{
-			moveShooter = new DummyCommand();
-			findTargetCommand = new DummyCommand();
+			moveShooter = new DummyCommandGroup();
+			findTargetCommand = new DummyCommandGroup();
 			shootBall = new AutoShoot(new Double(3));
-			Logger.logThis("Shooting Low");
 
 		}
 		else
 		{
 			Logger.log(Logger.Level.Error, "Move Shooter", "Default Triggered");
-			moveShooter = new DummyCommand();
-			findTargetCommand = new DummyCommand();
-			shootBall = new DummyCommand();
+			moveShooter = new DummyCommandGroup();
+			findTargetCommand = new DummyCommandGroup();
+			shootBall = new DummyCommandGroup();
 		}
 
 		if(justCross)
 		{
-			moveShooter = new DummyCommand();
-			turnToGoal = new DummyCommand();
-			findTargetCommand = new DummyCommand();
-			shootBall = new DummyCommand();
+			moveShooter = new DummyCommandGroup();
+			turnToGoal = new DummyCommandGroup();
+			findTargetCommand = new DummyCommandGroup();
+			shootBall = new DummyCommandGroup();
 		}
 
 		if(defense.equals(Defense.NONE))
 		{
-			waitTimeCommand = new DummyCommand();
-			crossDefense = new DummyCommand();
-			moveToTurnSpot = new DummyCommand();
-			moveShooter = new DummyCommand();
-			turnToGoal = new DummyCommand();
-			findTargetCommand = new DummyCommand();
-			shootBall = new DummyCommand();
+			waitTimeCommand = new DummyCommandGroup();
+			crossDefense = new DummyCommandGroup();
+			moveToTurnSpot = new DummyCommandGroup();
+			moveShooter = new DummyCommandGroup();
+			turnToGoal = new DummyCommandGroup();
+			findTargetCommand = new DummyCommandGroup();
+			shootBall = new DummyCommandGroup();
 		}
-
-		// adds some of the commands to the Scheduler
-
-		// Logger.logThis("Crossing-----------------" + crossDefense.getName());
-		// Logger.logThis("Move To Turn Spot-----------------" + moveToTurnSpot.getName());
-		// Logger.logThis("Move Shooter-----------------" + moveShooter.getName());
-		// Logger.logThis("Turn to Goal-----------------" + turnToGoal.getName());
-
-		/*
-		 * If scoring low, add some more commands to get robot to the right spot
-		 */
-		// if(goingForLow)
-		// {
-		// if(defenseToCross == 3 && goingForLow)
-		// {
-		// this.addSequential(new AutoDriveDistanceEncoder(.5, 3.638));
-		// this.addSequential(new AutoTurn(new Double(90)));
-		// }
-		// else if(defenseToCross == 4 && goingForLow)
-		// {
-		// this.addSequential(new AutoDriveDistanceEncoder(.5, 4.192));
-		// this.addSequential(new AutoTurn(new Double(-90)));
-		// }
-		// else
-		// {
-		// }
-		// }
-
-		/*
-		 * Creates the command to shoot
-		 */
-		/*
-		 * findTargetCommand = new DummyCommand(); if(isShooting && !goingForLow) {
-		 * findTargetCommand = new FindTarget(); shootBall = new AutoShoot(new Double(3)); } else
-		 * if(isShooting && goingForLow) { shootBall = new AutoShoot(new Double(3)); Logger.logThis(
-		 * "Shooting Low"); } else { shootBall = new AutoShoot(new Double(0));
-		 * Logger.log(Level.Error, "AutoShoot", "NOT SHOOTING BALL"); }
-		 */
-
-		// Logger.logThis("Shoot Ball-----------------" + shootBall.getName());
-
-		// add the final part
-
 	}
 
 	public void queue()
@@ -315,4 +244,68 @@ public class BadAutonomous extends CommandGroup
 		this.addSequential(shootBall);
 	}
 
+	public boolean isShooting()
+	{
+		return isShooting;
+	}
+
+	public void setShooting(boolean isShooting)
+	{
+		this.isShooting = isShooting;
+	}
+
+	public boolean isGoingForLow()
+	{
+		return goingForLow;
+	}
+
+	public void setGoingForLow(boolean goingForLow)
+	{
+		this.goingForLow = goingForLow;
+	}
+
+	public int getDefensePos()
+	{
+		return defensePos;
+	}
+
+	public void setDefensePos(int defensePos)
+	{
+		this.defensePos = defensePos;
+	}
+
+	public Defense getDefense()
+	{
+		return defense;
+	}
+
+	public void setDefense(Defense defense)
+	{
+		this.defense = defense;
+	}
+
+	public double getWaitTime()
+	{
+		return waitTime;
+	}
+
+	public void setWaitTime(double waitTime)
+	{
+		this.waitTime = waitTime;
+	}
+
+	public boolean isJustCross()
+	{
+		return justCross;
+	}
+
+	public void setJustCross(boolean justCross)
+	{
+		this.justCross = justCross;
+	}
+
+	public static AutonomousManager getInstance()
+	{
+		return instance == null ? (instance = new AutonomousManager()) : instance;
+	}
 }

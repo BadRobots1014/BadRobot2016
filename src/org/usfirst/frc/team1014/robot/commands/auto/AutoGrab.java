@@ -45,7 +45,7 @@ public class AutoGrab extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "Auto Grab";
+		return "Auto_Grab";
 	}
 
 	@Override
@@ -62,26 +62,12 @@ public class AutoGrab extends CommandBase
 		currentTime = Utility.getFPGATime();
 	}
 
-	@Override
-	protected void interrupted()
-	{
-		System.out.print("Grabber was interrupted");
-	}
-
 	/**
 	 * when timer is greater than time entered, it stops
 	 */
 	@Override
 	protected boolean isFinished()
 	{
-		if(currentTime >= endingTime)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-
+		return currentTime >= endingTime;
 	}
 }

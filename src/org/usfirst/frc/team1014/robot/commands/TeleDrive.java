@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -40,7 +39,7 @@ public class TeleDrive extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "TeleDrive";
+		return "Tele-Drive";
 	}
 
 	/**
@@ -65,15 +64,11 @@ public class TeleDrive extends CommandBase
 
 			gyroSet = false;
 		}
-		// Logger.logThis("back right encoders " + ((BadTalon)
-		// driveTrain.backRight).encoder.getDistance());
-		// Logger.logThis("back left encoders" + ((BadTalon)
-		// driveTrain.backLeft).encoder.getDistance());
-		// Logger.logThis("GyroCalue: " + driveTrain.getAngle());
 
 		if(ControlsManager.primaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.primaryXboxController.getLeftTriggerSecondaryLayout() > .5)
 			ControlsManager.changeToSecondaryLayout(1);
-		else ControlsManager.changeToPrimaryLayout(1);
+		else
+			ControlsManager.changeToPrimaryLayout(1);
 
 	}
 
@@ -93,16 +88,5 @@ public class TeleDrive extends CommandBase
 	protected void end()
 	{
 		driveTrain.tankDrive(0, 0);
-	}
-
-	/**
-	 * Called when another command requires the same subsystem or {@code cancel()} is called. Cleans
-	 * up dependencies and logs the interrupt.
-	 */
-	@Override
-	protected void interrupted()
-	{
-		Logger.logThis(getConsoleIdentity() + " I've been interrupted!");
-		end();
 	}
 }
