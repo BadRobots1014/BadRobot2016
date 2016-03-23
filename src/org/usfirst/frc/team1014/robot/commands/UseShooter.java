@@ -3,8 +3,10 @@ package org.usfirst.frc.team1014.robot.commands;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadCAN;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
+import org.usfirst.frc.team1014.robot.subsystems.LEDLights.ColorState;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -27,6 +29,7 @@ public class UseShooter extends CommandBase
 	public UseShooter()
 	{
 		requires((Subsystem) shooter);
+		requires((Subsystem) lights);
 	}
 
 	protected void initialize()
@@ -50,11 +53,11 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-//		if(shooter.limitSwitch.get())
-//		{
-//			// ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
-//			shooter.resetEncoders();
-//		}
+		// if(shooter.limitSwitch.get())
+		// {
+		// // ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
+		// shooter.resetEncoders();
+		// }
 
 		// servo control
 		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
@@ -66,20 +69,47 @@ public class UseShooter extends CommandBase
 		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
 
 		Logger.logThis("Rotator Encoder: " + ((BadCAN) shooter.rotator).getDistance());
+//		Logger.logThis("spin speed: " + shooter.getShootingRPM());
+//		Logger.logThis("LIMITSWITCH : " + shooter.limitSwitch.get());
 
 		// grabbing balls with speed moderation
+		// if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
+		// {
+		// // if(shooter.rotateTo(ShooterAndGrabber.SHOOTER_LOWEST_POS))
+		// shooter.grabBall(ShooterAndGrabber.DEFAULT_GRAB_SPEED);
+		// }
+		// else if(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout() > 0)
+		// {
+		// shooter.grabBall(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
+		// }
+		// else
+		// {
+		// shooter.shoot(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
+		// }
+
 		if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
 		{
-			if(shooter.rotateTo(ShooterAndGrabber.SHOOTER_LOWEST_POS))
-				shooter.grabBall(ShooterAndGrabber.DEFAULT_GRAB_SPEED);
+			shooter.shoot(ShooterAndGrabber.DEFAULT_GRAB_SPEED);
+			if(CommandBase.lights != null)
+			{
+				CommandBase.lights.setLights(ColorState.kGATHER);
+			}
 		}
-		else if(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout() > 0)
+		else if(Math.abs(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout()) > 0)
 		{
-			shooter.grabBall(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
+			shooter.shoot(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
+			if(CommandBase.lights != null)
+			{
+				CommandBase.lights.setLights(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout() > 0 ? ColorState.kGATHER : ColorState.kSHOOT);
+			}
 		}
 		else
 		{
-			shooter.shoot(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
+			shooter.shoot(0);
+			if(CommandBase.lights != null)
+			{
+				CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? ColorState.kBLUE : ColorState.kRED);
+			}
 		}
 
 		// move to preset heights

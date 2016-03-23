@@ -3,11 +3,9 @@ package org.usfirst.frc.team1014.robot.utilities;
 import java.util.ArrayList;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.commands.auto.BadAutonomous;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
@@ -20,6 +18,11 @@ public class SmartDashboard
 	private ArrayList<Command> commandClasses = CommandBase.commandClasses;
 	private static String commandToRun;
 	private static final String commandRunKey = "Command running: ";
+	private String[] crossDefense = { "L", "P", "C", "S", "D" };
+	private double[] defensePos = { 1.0, 2.0, 3.0, 4.0, 5.0 };
+	private boolean[] goingForLow = { true, false };
+	private boolean[] willShoot = { true, false };
+	private double waitTimeInSec = 0;
 
 	public SmartDashboard()
 	{
@@ -45,14 +48,17 @@ public class SmartDashboard
 	private void setup()
 	{
 		table.putString(commandRunKey, "");
-		table.putBoolean("Shooting in Auto", false);
-		table.putBoolean("Going for High Goal", false);
-		table.putNumber("Defense Number", 1);
-		table.putString("Which Defense to Cross", "ROUGH TERRAIN");
-		table.putNumber("Waiting Time", 0);
-		
-//		for(Command command : commandClasses)
-//			table.putBoolean(command.getName(), false);
+		table.putValue("WillShoot", willShoot);
+		table.putValue("LowScore", goingForLow);
+		table.putValue("Position", defensePos);
+		table.putValue("CrossDefense", crossDefense);
+		table.putValue("waitTimeInSec", waitTimeInSec);
+
+		table.putBoolean("Low Bar Auto", false);
+		table.putBoolean("Generic Auto", false);
+
+		// for(Command command : commandClasses)
+		// table.putBoolean(command.getName(), false);
 	}
 
 	/**
@@ -60,28 +66,27 @@ public class SmartDashboard
 	 */
 	public void poll()
 	{
-//		for(Command command : commandClasses)
-//		{
-//			if(table.getBoolean(command.getName(), false))
-//			{
-//				Scheduler.getInstance().add(command);
-//				commandToRun = command.getName();
-//				table.putString(commandRunKey, commandToRun);
-//				break;
-//			}
-//		}
-		
+		// for(Command command : commandClasses)
+		// {
+		// if(table.getBoolean(command.getName(), false))eckout test
+		// {
+		// Scheduler.getInstance().add(command);
+		// commandToRun = command.getName();
+		// table.putString(commandRunKey, commandToRun);
+		// break;
+		// }
+		// }
+
 		// Gets values from the Smart Dashboard for autonomous
-		Scheduler.getInstance().add(new BadAutonomous(table.getBoolean("Shooting in Auto", false), 
-				table.getBoolean("Going for High Goal", false), (int) table.getNumber("Defense Number", 1), 
-				table.getString("Which Defense to Cross", "ROUGH TERRAIN"), table.getNumber("Waiting Time", 0)));
-		
+		boolean willShootValue = (boolean) table.getValue("WillShoot", true);
+		boolean lowScoreValue = (boolean) table.getValue("LowScore", true);
+		int position = (int) table.getValue("Position", 1.0);
+		String defense = (String) table.getValue("CrossDefense", "L");
+		double waitTime = (double) table.getValue("waitTimeInSec", 0);
+//		Robot.autonomousCommand.setVariables(willShootValue, lowScoreValue, position, defense, waitTime);
 		// Puts the autonomous string on the Dashboard so the human can see
-		commandToRun = "BadAutonomous: Shooting In Auto " + table.getBoolean("Shooting in Auto", false) + 
-				", Going for High Goal " + table.getBoolean("Going for High Goal", false) + ", Over Defense " + table.getNumber("Defense Number", 1) + 
-				", Which Defense To Cross " + table.getString("Which Defense to Cross", "ROUGH TERRAIN") + ", with a wait of " + 
-				table.getNumber("Waiting Time", 0);
-		
+		commandToRun = "BadAutonomous: Shooting In Auto " + willShootValue + ", Going for High Goal " + lowScoreValue + ", Over Defense " + position + ", Which Defense To Cross " + defense + ", with a wait of " + waitTime;
+
 		table.putString(commandRunKey, commandToRun);
 	}
 

@@ -2,15 +2,17 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.BadAutonomous;
+import org.usfirst.frc.team1014.robot.commands.auto.LowBarShoot;
+//github.com/BadRobots1014/BadRobot2016.git
+import org.usfirst.frc.team1014.robot.controls.BadScheduler;
+import org.usfirst.frc.team1014.robot.subsystems.LEDLights.ColorState;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-//github.com/BadRobots1014/BadRobot2016.git
-import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -20,10 +22,9 @@ import org.usfirst.frc.team1014.robot.controls.BadScheduler;
  */
 public class Robot extends IterativeRobot
 {
-
-	public Command autonomousCommand;
+	public static Command autonomousCommand;
 	public static SmartDashboard dashboard;
-	public static BadScheduler badScheduler = new BadScheduler(TeleopGroup.class);
+	public static BadScheduler badScheduler;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -31,11 +32,16 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
-		// SmartDashboard.initDashboard();
-
 		CommandBase.init();
-		dashboard = new SmartDashboard();
-		autonomousCommand = new BadAutonomous(true, true, 1, "L");
+		dashboard = SmartDashboard.getInstance();
+		if(CommandBase.lights != null)
+		{
+			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? ColorState.kBLUE : ColorState.kRED);
+		}
+		// autonomousCommand = new AutoDrive(4, .9);
+		// autonomousCommand = new BadAutonomous();
+		autonomousCommand = new LowBarShoot();
+		badScheduler = new BadScheduler(TeleopGroup.class);
 	}
 
 	/**
@@ -43,6 +49,8 @@ public class Robot extends IterativeRobot
 	 */
 	public void disabledPeriodic()
 	{
+		// dashboard.poll();
+
 		Scheduler.getInstance().run();
 	}
 
@@ -52,9 +60,11 @@ public class Robot extends IterativeRobot
 	public void autonomousInit()
 	{
 		// schedule the autonomous command (example)
-		if(autonomousCommand != null)
-			autonomousCommand.start();
 		// dashboard.poll();
+		// autonomousCommand = new AutoDrive(4, .9);
+		Scheduler.getInstance().add(autonomousCommand);
+		autonomousCommand.start();
+		// autonomousCommand.start();
 	}
 
 	/**
@@ -62,7 +72,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void autonomousPeriodic()
 	{
-		dashboard.update();
+		// dashboard.update();
 		Scheduler.getInstance().run();
 	}
 
@@ -75,6 +85,11 @@ public class Robot extends IterativeRobot
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		if(CommandBase.lights != null)
+		{
+			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? ColorState.kBLUE : ColorState.kRED);
+		}
+		
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
 		badScheduler.initTeleop();
@@ -95,7 +110,7 @@ public class Robot extends IterativeRobot
 
 	public void teleopPeriodic()
 	{
-		dashboard.update();
+		// dashboard.update();
 		badScheduler.changeCommand();
 		Scheduler.getInstance().run();
 

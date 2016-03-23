@@ -66,11 +66,14 @@ public class TeleDrive extends CommandBase
 
 			gyroSet = false;
 		}
-		Logger.logThis("Drive encoders " + ((BadTalon) driveTrain.backRight).encoder.getDistance());
+		Logger.logThis("back right encoders " + ((BadTalon) driveTrain.backRight).encoder.getDistance());
+		Logger.logThis("back left encoders" + ((BadTalon) driveTrain.backLeft).encoder.getDistance());
+		Logger.logThis("GyroCalue: " + driveTrain.getAngle());
 
 		if(ControlsManager.primaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.primaryXboxController.getLeftTriggerSecondaryLayout() > .5)
 			ControlsManager.changeToSecondaryLayout(1);
 		else ControlsManager.changeToPrimaryLayout(1);
+
 	}
 
 	/**

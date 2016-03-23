@@ -61,12 +61,12 @@ public class AutoTurn extends CommandBase
 		if(sign < 0)
 		{
 			Logger.logThis("Turning left? ... " + rotation());
-			driveTrain.tankDrive((-rotation()), rotation());
+			driveTrain.tankDrive(.4, -.4);
 		}
 		else if(sign > 0)
 		{
 			Logger.logThis("Turning right? ... " + rotation());
-			driveTrain.tankDrive(rotation(), -(rotation()));
+			driveTrain.tankDrive(-.4, .4);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class AutoTurn extends CommandBase
 	 */
 	public double rotation()
 	{
-		return difference / 10;// PID.turnSpeedScale(difference, -Math.PI, Math.PI);
+		return difference / 120;// PID.turnSpeedScale(difference, -Math.PI, Math.PI);
 	}
 
 	@Override

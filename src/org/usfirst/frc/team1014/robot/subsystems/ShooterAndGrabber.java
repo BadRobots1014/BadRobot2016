@@ -63,7 +63,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		ringLight = new Relay(ControlsManager.RING_LIGHT);
 		pusher = new Servo(ControlsManager.PUSHER);
 		pusher.set(0);
-		limitSwitch = new DigitalInput(ControlsManager.LIMIT_SWITCH);
+//		limitSwitch = new DigitalInput(ControlsManager.LIMIT_SWITCH);
 	}
 
 	/**
@@ -121,6 +121,11 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		previousRPM = ((BadCAN) left).getRpm();
 	}
 
+	public boolean returnLimitValue()
+	{
+		return !limitSwitch.get();
+	}
+
 	/**
 	 * Sets grabberSet to true and continues the ball grabbing protocol detailed in {@code setSpeed}
 	 * . Uses {@code grabSpeed} as the speed.
@@ -173,15 +178,15 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void rotate(double speed)
 	{
-//		if(limitSwitch.get() && speed > 0)
-//		{
-//			rotator.set(0);
-//			((BadCAN) rotator).encoder.reset();
-//		}
-//		else
-//		{
+		if(returnLimitValue() && speed > 0)
+		{
+			rotator.set(0);
+			((BadCAN) rotator).encoder.reset();
+		}
+		else
+		{
 			rotator.set(speed);
-//		}
+		}
 	}
 
 	public boolean rotateTo(double position)

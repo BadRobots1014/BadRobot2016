@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
+import org.usfirst.frc.team1014.robot.commands.DummyCommand;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.ChevalDeFrise;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Drawbridge;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.GenericCrossDefense;
@@ -22,9 +23,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class BadAutonomous extends CommandGroup
 {
-	public boolean isShooting;
-	public boolean goingForLow;
-	public int defenseToCross;
+	public boolean isShooting = true;
+	public boolean goingForLow = true;
+	public int defensePos = 1;
+	private String defense = "L";
+	private double waitTime = 0;
 
 	public Command crossDefense;
 	public Command moveToTurnSpot;
@@ -32,13 +35,16 @@ public class BadAutonomous extends CommandGroup
 	public Command turnToGoal;
 	public Command visionTracking;
 	public Command shootBall;
+	public Command findTargetCommand;
 
 	/**
 	 * Creates a simple autonomous that goes through the low bar and doesn't shoot.
 	 */
 	public BadAutonomous()
 	{
-		this(false, false, 1, "ROUGH TERRAIN", 0);
+//		setVariables(true, true, 1, "L", 0);
+		setup();
+
 	}
 
 	/**
@@ -55,9 +61,19 @@ public class BadAutonomous extends CommandGroup
 	 *            - the name of the defense it's crossing (spelled correctly) (e.g. Portcullis,
 	 *            Drawbridge, Rough Terrain etc)
 	 */
-	public BadAutonomous(boolean willShoot, boolean lowScore, int crossingDefense, String defense)
+	public BadAutonomous(boolean willShoot, boolean lowScore, int crossingDefense, String defense, double waiTime)
 	{
-		this(willShoot, lowScore, crossingDefense, defense, 0);
+		setVariables(willShoot, lowScore, crossingDefense, defense, waitTime);
+	}
+
+	public void setVariables(boolean willShoot, boolean lowScore, int crossingDefense, String defense, double waitTime)
+	{
+		this.isShooting = willShoot;
+		this.goingForLow = lowScore;
+		this.defensePos = crossingDefense;
+		this.defense = defense;
+		this.waitTime = waitTime;
+		setup();
 	}
 
 	/**
@@ -76,11 +92,8 @@ public class BadAutonomous extends CommandGroup
 	 * @param waitTime
 	 *            - the time to wait before carrying out the autonomous
 	 */
-	public BadAutonomous(boolean willShoot, boolean lowScore, int crossingDefense, String defense, double waitTime)
+	public void setup()
 	{
-		isShooting = true;
-		goingForLow = true;
-		defenseToCross = crossingDefense;
 
 		/*
 		 * Picks the defense that the robot will be crossing
@@ -110,13 +123,13 @@ public class BadAutonomous extends CommandGroup
 		/*
 		 * Make sure people aren't stupid since low bar is always in the first position
 		 */
-		if(crossingDefense == 1)
+		if(defensePos == 1)
 			crossDefense = new LowBar();
 
 		/*
 		 * Makes the robot move the turn spot if it isn't already there
 		 */
-		switch(defenseToCross)
+		switch(defensePos)
 		{
 			case 2:
 				moveToTurnSpot = new AutoDriveDistanceEncoder(.5, 3.046);
@@ -135,7 +148,7 @@ public class BadAutonomous extends CommandGroup
 		 */
 		if(goingForLow)
 		{
-			switch(defenseToCross)
+			switch(defensePos)
 			{
 				case 1:
 					turnToGoal = new AutoTurn(new Double(60));
@@ -160,7 +173,7 @@ public class BadAutonomous extends CommandGroup
 		}
 		else
 		{
-			switch(defenseToCross)
+			switch(defensePos)
 			{
 				case 1:
 					turnToGoal = new AutoTurn(new Double(60));
@@ -202,10 +215,6 @@ public class BadAutonomous extends CommandGroup
 		}
 
 		// adds some of the commands to the Scheduler
-		this.addSequential(crossDefense);
-		this.addSequential(moveToTurnSpot);
-		this.addSequential(moveShooter);
-		this.addSequential(turnToGoal);
 
 		// Logger.logThis("Crossing-----------------" + crossDefense.getName());
 		// Logger.logThis("Move To Turn Spot-----------------" + moveToTurnSpot.getName());
@@ -235,9 +244,10 @@ public class BadAutonomous extends CommandGroup
 		/*
 		 * Creates the command to shoot
 		 */
+		findTargetCommand = new DummyCommand();
 		if(isShooting && !goingForLow)
 		{
-			this.addSequential(new FindTarget());
+			findTargetCommand = new FindTarget();
 			shootBall = new AutoShoot(new Double(3));
 		}
 		else if(isShooting && goingForLow)
@@ -254,6 +264,15 @@ public class BadAutonomous extends CommandGroup
 		// Logger.logThis("Shoot Ball-----------------" + shootBall.getName());
 
 		// add the final part
+	}
+
+	public void start()
+	{
+		this.addSequential(crossDefense);
+		this.addSequential(moveToTurnSpot);
+		this.addSequential(moveShooter);
+		this.addSequential(turnToGoal);
+		this.addSequential(findTargetCommand);
 		this.addSequential(shootBall);
 	}
 
