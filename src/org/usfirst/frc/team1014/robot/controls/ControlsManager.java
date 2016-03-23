@@ -3,8 +3,9 @@ package org.usfirst.frc.team1014.robot.controls;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
- * This class is the glue that binds the controls on the physical operator interface to the commands
- * and command groups that allow control of the robot.
+ * This class is the glue that binds the controls on the physical operator interface to the
+ * commands and command groups that allow control of the robot.
+ * @author Ryan T.
  */
 public class ControlsManager
 {
@@ -33,8 +34,9 @@ public class ControlsManager
 	public static final int ARTICULATOR_ENCODER_A = 6;
 	public static final int ARTICULATOR_ENCODER_B = 7;
 
-//	public static final int LIMIT_SWITCH = 4;
-	
+	public static final int LIMIT_SWITCH = 4;
+
+	// LED Lights
 	public static final int LED_BIT1 = 4;
 	public static final int LED_BIT2 = 5;
 

@@ -53,7 +53,7 @@ public class AutoRotateDown extends CommandBase
 	protected void interrupted()
 	{
 		// TODO Auto-generated method stub
-		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
+		Logger.logOnce(getConsoleIdentity() + ": I've been interrupted!");
 	}
 
 	@Override

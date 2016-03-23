@@ -1,11 +1,10 @@
 package org.usfirst.frc.team1014.robot.utilities;
 
-import java.util.ArrayList;
-
-import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import org.usfirst.frc.team1014.robot.Robot;
+import org.usfirst.frc.team1014.robot.commands.DummyCommandGroup;
+import org.usfirst.frc.team1014.robot.commands.auto.AutonomousManager;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
@@ -15,18 +14,25 @@ public class SmartDashboard
 {
 	public static SmartDashboard smartDashboard;
 	public static NetworkTable table;
-	private ArrayList<Command> commandClasses = CommandBase.commandClasses;
-	private static String commandToRun;
+	public static NetworkTable console;
+	// private ArrayList<Command> commandClasses = CommandBase.commandClasses;
+	private static String commandToRun = "";
 	private static final String commandRunKey = "Command running: ";
-	private String[] crossDefense = { "L", "P", "C", "S", "D" };
-	private double[] defensePos = { 1.0, 2.0, 3.0, 4.0, 5.0 };
-	private boolean[] goingForLow = { true, false };
-	private boolean[] willShoot = { true, false };
-	private double waitTimeInSec = 0;
+
+	// private Defense[] defenseToCross = Defense.values();
+	// private boolean willShoot = false;
+	// private boolean lowScore = true;
+	// private double[] defensePos = { 1.0, 2.0, 3.0, 4.0, 5.0 };
+	// private double waitTime = 0.0;
+	// private boolean justCross = true;
+	private boolean genericCross = false;
+	private boolean lowBarStay = false;
+	private boolean lowBarShoot = false;
 
 	public SmartDashboard()
 	{
 		table = NetworkTable.getTable("SmartDashboard");
+		console = NetworkTable.getTable("ConsoleLog");
 		setup();
 	}
 
@@ -48,15 +54,15 @@ public class SmartDashboard
 	private void setup()
 	{
 		table.putString(commandRunKey, "");
-		table.putValue("WillShoot", willShoot);
-		table.putValue("LowScore", goingForLow);
-		table.putValue("Position", defensePos);
-		table.putValue("CrossDefense", crossDefense);
-		table.putValue("waitTimeInSec", waitTimeInSec);
-
-		table.putBoolean("Low Bar Auto", false);
-		table.putBoolean("Generic Auto", false);
-
+		// table.putValue("defenseToCross", defenseToCross);
+		// table.putValue("willShoot", willShoot);
+		// table.putValue("lowScore", lowScore);
+		// table.putValue("waitTime", waitTime);
+		// table.putValue("defensePos", defensePos);
+		// table.putValue("justCross", justCross);
+		table.putValue("Generic_Cross", genericCross);
+		table.putValue("Lowbar_Stay", lowBarStay);
+		table.putValue("Lowbar_Shoot", lowBarShoot);
 		// for(Command command : commandClasses)
 		// table.putBoolean(command.getName(), false);
 	}
@@ -66,26 +72,28 @@ public class SmartDashboard
 	 */
 	public void poll()
 	{
-		// for(Command command : commandClasses)
-		// {
-		// if(table.getBoolean(command.getName(), false))eckout test
-		// {
-		// Scheduler.getInstance().add(command);
-		// commandToRun = command.getName();
-		// table.putString(commandRunKey, commandToRun);
-		// break;
-		// }
-		// }
-
-		// Gets values from the Smart Dashboard for autonomous
-		boolean willShootValue = (boolean) table.getValue("WillShoot", true);
-		boolean lowScoreValue = (boolean) table.getValue("LowScore", true);
-		int position = (int) table.getValue("Position", 1.0);
-		String defense = (String) table.getValue("CrossDefense", "L");
-		double waitTime = (double) table.getValue("waitTimeInSec", 0);
-//		Robot.autonomousCommand.setVariables(willShootValue, lowScoreValue, position, defense, waitTime);
 		// Puts the autonomous string on the Dashboard so the human can see
-		commandToRun = "BadAutonomous: Shooting In Auto " + willShootValue + ", Going for High Goal " + lowScoreValue + ", Over Defense " + position + ", Which Defense To Cross " + defense + ", with a wait of " + waitTime;
+
+		if((Boolean) table.getValue("genericCross", true))
+		{
+			Robot.autonomousCommand = AutonomousManager.getInstance().getAutnomouscommand("Generic_Cross");
+			commandToRun = "genericCross";
+		}
+		else if((Boolean) table.getValue("Lowbar_Stay", true))
+		{
+			Robot.autonomousCommand = AutonomousManager.getInstance().getAutnomouscommand("Lowbar_Stay");
+			commandToRun = "lowBarStay";
+		}
+		else if((Boolean) table.getValue("Lowbar_Shoot", true))
+		{
+			Robot.autonomousCommand = AutonomousManager.getInstance().getAutnomouscommand("Lowbar_Shoot");
+			commandToRun = "lowBarShoot";
+		}
+		else
+		{
+			Robot.autonomousCommand = new DummyCommandGroup();
+			commandToRun = "DummyCommand";
+		}
 
 		table.putString(commandRunKey, commandToRun);
 	}
@@ -100,5 +108,10 @@ public class SmartDashboard
 		ProcessedCam.getInstance().setX(table.getNumber("OBJECT_TRACKING_X", 0.0));
 		ProcessedCam.getInstance().setY(table.getNumber("OBJECT_TRACKING_Y", 0.0));
 		ProcessedCam.getInstance().setTrackingScore(table.getNumber("OBJECT_TRACKING_SCORE", 0.0));
+	}
+
+	public void log(String key, String value)
+	{
+		console.putString(key, value);
 	}
 }

@@ -1,7 +1,9 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
+import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadCAN;
+import org.usfirst.frc.team1014.robot.subsystems.LEDLights.LEDState;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.PID;
 
@@ -25,12 +27,13 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	private static final double SERVO_STANDARD_POS = 0.9;
 	private static final double SERVO_EXTENDED_POS = 0.1;
 	// private static final double RING_LIGHT_ON_VALUE = .5;
-	public static final double SHOOTER_LOWEST_POS = 60;
+	public static final double SHOOTER_LOWEST_POS = 30;
 	public static final double SHOOTER_HIGHEST_POS = 2;
 	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 16;
 	private static final double CUT_POWER_RPM_DROP = 400;
 	public static final double DEFAULT_GRAB_SPEED = -0.5;
 	public static double shooterOffset = 0;
+	public boolean isLow = false;
 
 	public DigitalInput limitSwitch;
 	public static ShooterAndGrabber instance;
@@ -58,12 +61,12 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	{
 		left = new BadCAN(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_LEFT_ENCODER_A, ControlsManager.SHOOTER_LEFT_ENCODER_B);
 		right = new CANTalon(ControlsManager.SHOOTER_RIGHT);
-		rotator = new BadCAN(ControlsManager.SHOOTER_ROTATE, ControlsManager.ARTICULATOR_ENCODER_A, ControlsManager.ARTICULATOR_ENCODER_B);
+		rotator = new CANTalon(ControlsManager.SHOOTER_ROTATE);
 
 		ringLight = new Relay(ControlsManager.RING_LIGHT);
 		pusher = new Servo(ControlsManager.PUSHER);
 		pusher.set(0);
-//		limitSwitch = new DigitalInput(ControlsManager.LIMIT_SWITCH);
+		// limitSwitch = new DigitalInput(ControlsManager.LIMIT_SWITCH);
 	}
 
 	/**
@@ -121,15 +124,16 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		previousRPM = ((BadCAN) left).getRpm();
 	}
 
-	public boolean returnLimitValue()
-	{
-		return !limitSwitch.get();
-	}
+	// public boolean returnLimitValue()
+	// {
+	// return !limitSwitch.get();
+	// }
 
 	/**
 	 * Sets grabberSet to true and continues the ball grabbing protocol detailed in {@code setSpeed}
 	 * . Uses {@code grabSpeed} as the speed.
 	 */
+	@Deprecated
 	public void grabBall(double speed)
 	{
 		grabberSet = true;
@@ -170,6 +174,12 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		return -((BadCAN) left).getRpm();
 	}
 
+	public double getRotatingRPM()
+	{
+		return 0;
+		// return ((BadCAN) rotator).getRpm();
+	}
+
 	/**
 	 * Sets the speed of the articulator and allows the shooter to rotate back and forth.
 	 * 
@@ -178,15 +188,16 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void rotate(double speed)
 	{
-		if(returnLimitValue() && speed > 0)
-		{
-			rotator.set(0);
-			((BadCAN) rotator).encoder.reset();
-		}
-		else
-		{
-			rotator.set(speed);
-		}
+		// if(returnLimitValue() && speed > 0)
+		// {
+		// rotator.set(0);
+		// ((BadCAN) rotator).encoder.reset();
+		// }
+		// else
+		// {
+		// rotator.set(speed);
+		// }
+		rotator.set(speed);
 	}
 
 	public boolean rotateTo(double position)
@@ -194,7 +205,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		double difference = ((BadCAN) rotator).getDistance() - position;
 		double rotateSpeed = 0;
 
-		Logger.logThis("Rotating difference: " + difference);
+		Logger.log("Rotating difference:", "" + difference);
 
 		if(Math.abs(difference) > 1)
 		{
@@ -245,6 +256,15 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	{
 		left.set(-speed);
 		right.set(speed);
+
+		// set lights to gather or shoot mode
+		if(CommandBase.lights != null)
+		{
+			if(speed < 0)
+				CommandBase.lights.setLights(LEDState.kGATHER);
+			else
+				CommandBase.lights.setLights(LEDState.kSHOOT);
+		}
 	}
 
 	/**
@@ -255,6 +275,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public void grab(double speed)
 	{
 		shoot(-speed); // Reusing methods to prevent code repetition
+
 	}
 
 	/**
@@ -286,13 +307,14 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	{
 		if(servoPos)
 			pusher.set(SERVO_EXTENDED_POS);
-		else pusher.set(SERVO_STANDARD_POS);
+		else
+			pusher.set(SERVO_STANDARD_POS);
 	}
 
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "ShooterAndGrabber";
+		return "Shooter_And_Grabber";
 	}
 
 	@Override

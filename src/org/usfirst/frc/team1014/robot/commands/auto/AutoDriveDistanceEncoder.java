@@ -46,7 +46,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "DriveForwardDistance";
+		return "Drive_Forward_Distance";
 	}
 
 	@Override
@@ -67,14 +67,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 		else
 			driveTrain.driveStraight(speed, zeroAngle);
 
-		Logger.logThis("difference: " + difference);
-	}
-
-	@Override
-	protected void interrupted()
-	{
-		System.out.println("DriveForwardDistanceEncoder was interrupted!");
-
+		Logger.log("difference", "" + difference);
 	}
 
 	/**
@@ -83,14 +76,6 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-		if(Math.abs(difference) < .01)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return Math.abs(difference) < .01;
 	}
-
 }

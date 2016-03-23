@@ -253,7 +253,7 @@ public class BadAutonomous extends CommandGroup
 		else if(isShooting && goingForLow)
 		{
 			shootBall = new AutoShoot(new Double(3));
-			Logger.logThis("Shooting Low");
+			Logger.logOnce("Shooting Low");
 		}
 		else
 		{

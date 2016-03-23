@@ -40,7 +40,7 @@ public class AutoDriveDistanceUltrasonic extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "DriveForwardDistance";
+		return "Drive_Forward_Distance";
 	}
 
 	@Override
@@ -57,27 +57,13 @@ public class AutoDriveDistanceUltrasonic extends CommandBase
 		driveTrain.driveStraight(speed, zeroAngle);
 	}
 
-	@Override
-	protected void interrupted()
-	{
-		System.out.println("DriveForwardDistance was interrupted");
-
-	}
-	
 	/**
 	 * stops when distance is less than desired distance
 	 */
 	@Override
 	protected boolean isFinished()
 	{
-		if(ultraDistance < distance)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return ultraDistance < distance;
 	}
 
 }

@@ -1,18 +1,21 @@
 package org.usfirst.frc.team1014.robot;
 
+import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.LowBarShoot;
+import org.usfirst.frc.team1014.robot.commands.auto.AutonomousManager;
 //github.com/BadRobots1014/BadRobot2016.git
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
-import org.usfirst.frc.team1014.robot.subsystems.LEDLights.ColorState;
+import org.usfirst.frc.team1014.robot.subsystems.LEDLights.LEDState;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
+//github.com/BadRobots1014/BadRobot2016.git
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+//github.com/BadRobots1014/BadRobot2016.git
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,7 +25,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot
 {
-	public static Command autonomousCommand;
+
+	public static BadCommandGroup autonomousCommand;
 	public static SmartDashboard dashboard;
 	public static BadScheduler badScheduler;
 
@@ -33,15 +37,19 @@ public class Robot extends IterativeRobot
 	public void robotInit()
 	{
 		CommandBase.init();
+		AutonomousManager.getInstance().loadAutonoumsCommands();
 		dashboard = SmartDashboard.getInstance();
+		// autonomousCommand = new LowBarStay();
+		badScheduler = new BadScheduler(TeleopGroup.class);
+		Logger.logOnce("working till here");
+
+		// set lights to alliance color (probably)
 		if(CommandBase.lights != null)
 		{
-			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? ColorState.kBLUE : ColorState.kRED);
+			// CommandBase.lights.SetLights(DriverStation.getInstance().getAlliance() ==
+			// DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
+			CommandBase.lights.setLights(LEDState.kGATHER);
 		}
-		// autonomousCommand = new AutoDrive(4, .9);
-		// autonomousCommand = new BadAutonomous();
-		autonomousCommand = new LowBarShoot();
-		badScheduler = new BadScheduler(TeleopGroup.class);
 	}
 
 	/**
@@ -49,8 +57,6 @@ public class Robot extends IterativeRobot
 	 */
 	public void disabledPeriodic()
 	{
-		// dashboard.poll();
-
 		Scheduler.getInstance().run();
 	}
 
@@ -60,11 +66,15 @@ public class Robot extends IterativeRobot
 	public void autonomousInit()
 	{
 		// schedule the autonomous command (example)
-		// dashboard.poll();
-		// autonomousCommand = new AutoDrive(4, .9);
+		dashboard.poll();
+
+		// build the autonomous to run
+		autonomousCommand.build();
 		Scheduler.getInstance().add(autonomousCommand);
-		autonomousCommand.start();
-		// autonomousCommand.start();
+
+		// set lights to alliance color (definitely?)
+		if(CommandBase.lights != null)
+			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 	}
 
 	/**
@@ -72,7 +82,6 @@ public class Robot extends IterativeRobot
 	 */
 	public void autonomousPeriodic()
 	{
-		// dashboard.update();
 		Scheduler.getInstance().run();
 	}
 
@@ -87,12 +96,16 @@ public class Robot extends IterativeRobot
 		// this line or comment it out.
 		if(CommandBase.lights != null)
 		{
-			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? ColorState.kBLUE : ColorState.kRED);
+			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 		}
 		
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
 		badScheduler.initTeleop();
+
+		// set lights to alliance color (definitely?)
+		if(CommandBase.lights != null)
+			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 	}
 
 	/**
@@ -110,10 +123,8 @@ public class Robot extends IterativeRobot
 
 	public void teleopPeriodic()
 	{
-		// dashboard.update();
 		badScheduler.changeCommand();
 		Scheduler.getInstance().run();
-
 	}
 
 	/**

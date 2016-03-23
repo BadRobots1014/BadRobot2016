@@ -8,6 +8,7 @@ import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
+import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -54,11 +55,11 @@ public class BadScheduler
 			scheduler.add(nowRunning);
 		} catch(InstantiationException e)
 		{
-			System.out.println("instance issue with " + mainTeleopClass.getName());
+			Logger.log(Level.Error, "TeleopInit", "instance issue with " + mainTeleopClass.getName());
 			e.printStackTrace();
 		} catch(IllegalAccessException e)
 		{
-			System.out.println("illegal access exception 1");
+			Logger.log(Level.Error, "TeleopInit", "illegal access exception 1");
 			e.printStackTrace();
 		}
 		autos.put(AutoShoot.class, new Method()
@@ -117,53 +118,29 @@ public class BadScheduler
 					String newCommandString = commandClass.getName().substring(45);
 					if(!nowRunning.getName().equals(newCommandString))
 					{
-						Logger.logThis("nowRunning name  = " + nowRunning.getName());
-						Logger.logThis("nextCommandInput  = " + newCommandString);
-						switch(newCommandString)
+						try
 						{
-							case "AutoRotate":
-								try
-								{
-									Logger.logThis("rotate");
+
+							switch(newCommandString)
+							{
+								case "AutoRotate":
 									nowRunning = commandClass.getConstructor(Double.class).newInstance(new Double(ShooterAndGrabber.SHOOTER_DEFAULT_SHOOTING_POS));
-								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
-								{
-									e1.printStackTrace();
-								}
-								break;
-							case "AutoShoot":
-								try
-								{
-									Logger.logThis("shoot");
+									break;
+								case "AutoShoot":
 									nowRunning = commandClass.getConstructor(Double.class).newInstance(new Double(5));
-								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
-								{
-									e1.printStackTrace();
-								}
-								break;
-							case "AutoTurn":
-								try
-								{
-									Logger.logThis("turn");
+									break;
+								case "AutoTurn":
 									nowRunning = commandClass.getConstructor(Double.class).newInstance(new Double(90));
-								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
-								{
-									e1.printStackTrace();
-								}
-								break;
-							case "AutoSallyPortArm":
-								try
-								{
-									Logger.logThis("sally port");
+									break;
+								case "AutoSallyPortArm":
 									nowRunning = commandClass.getConstructor(Double.class, Boolean.class).newInstance(new Double(1), new Boolean(true));
-								} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
-								{
-									e1.printStackTrace();
-								}
-								break;
-							default:
-								Logger.logThis("default");
-								nowRunning = commandClass.newInstance();
+									break;
+								default:
+									nowRunning = commandClass.newInstance();
+							}
+						} catch(IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
+						{
+							e1.printStackTrace();
 						}
 						scheduler.removeAll();
 						scheduler.add(nowRunning);
@@ -172,65 +149,29 @@ public class BadScheduler
 				else
 				{
 					// If command is no longer running replace it with a new instance
-					Logger.logThis("------------------- " + nowRunning.getName());
-					Logger.logThis("Things: " + nowRunning.isRunning());
+
+					Logger.log("Running", nowRunning.getName());
+					Logger.log("Things", "" + nowRunning.isRunning());
 					if(!nowRunning.isRunning())
 						resetTeleopCommand();
 				}
 			}
 		} catch(InstantiationException e)
 		{
-			System.out.println("can't instantiate stuffs");
+			Logger.log(Level.Error, "Change_Command", "Can't instantiate stuffs");
 			e.printStackTrace();
 		} catch(IllegalAccessException e)
 		{
-			System.out.println("illegal acces exception 2");
+			Logger.log(Level.Error, "Change_Command", "Illegal acces exception 2");
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * If {@code teleopCommandInstance.isRunning()} returns false the scheduler is cleared and a new
-	 * instance.
-	 * 
-	 * @throws InstantiationException
-	 *             if the class can't be created
-	 * @throws IllegalAccessException
-	 *             if the class constructor can't be accessed
-	 */
-	/*
-	 * private void resetCommandIfStopped() throws InstantiationException, IllegalAccessException {
-	 * if(!teleopCommandInstance.isRunning()) { scheduler.removeAll(); teleopCommandInstance =
-	 * (Command) mainTeleopClass.newInstance(); scheduler.add(teleopCommandInstance); nowRunning =
-	 * teleopCommandInstance; } }
-	 */
 
 	private void resetTeleopCommand() throws InstantiationException, IllegalAccessException
 	{
 		scheduler.removeAll();
 		nowRunning = mainTeleopClass.newInstance();
 		scheduler.add(nowRunning);
-		Logger.logThis("TeleOp has Been Reset!");
+		Logger.logOnce("TeleOp has Been Reset!");
 	}
-
-	/**
-	 * If the name of the {@code teleopCommandInstance} is not the same as the name of
-	 * {@code mainTeleopClass} it will empty the scheduler and add a new instance of the
-	 * {@code mainTeleopClass}.
-	 * 
-	 * @throws InstantiationException
-	 *             if the class can't be created
-	 * @throws IllegalAccessException
-	 *             if the class constructor can't be accessed
-	 */
-//	private void resetTeleopCommandToInitial() throws InstantiationException, IllegalAccessException
-//	{
-//		if(!teleopCommandInstance.getName().equals(mainTeleopClass.getName()))
-//		{
-//			scheduler.removeAll();
-//			teleopCommandInstance = (Command) mainTeleopClass.newInstance();
-//			scheduler.add(teleopCommandInstance);
-//			nowRunning = teleopCommandInstance;
-//		}
-//	}
 }

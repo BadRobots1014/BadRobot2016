@@ -51,44 +51,21 @@ public class AutoDrive extends CommandBase
 	protected void execute()
 	{
 		passedTime = Utility.getFPGATime() - startTime;
-		driveTrain.driveStraight(speed, targetAngle);
-	}
-
-	@Override
-	protected void interrupted()
-	{
-
+		driveTrain.tankDrive(speed, speed);
+		// driveTrain.driveStraight(speed, targetAngle);
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		if((passedTime / 1000000) > driveTime)
-		{
-			System.out.println("DriveForward is done");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	public static double rotation()
-	{
-		return -(driveTrain.getAngle() / 45);
+		return (passedTime / 1000000) > driveTime;
 	}
 
 	public static double deadzone(double d)
 	{
-		if(Math.abs(d) < .1)
-		{
+		if(Math.abs(d) < .1 || d == 0)
 			return 0;
-		}
-		if(d == 0)
-		{
-			return 0;
-		}
+
 		return (d / Math.abs(d)) * ((Math.abs(d) - .1) / (1 - .1));
 	}
 

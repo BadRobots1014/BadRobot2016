@@ -23,7 +23,7 @@ public class AutoTurn extends CommandBase
 	 *            - how far the robot needs to turn. Positive values turn right. Negative values
 	 *            turn left *
 	 */
-	public AutoTurn(Double degree)
+	public AutoTurn(double degree)
 	{
 		this.degree = degree;
 		requires((Subsystem) driveTrain);
@@ -41,7 +41,7 @@ public class AutoTurn extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "AutoTurn";
+		return "Auto_Turn";
 	}
 
 	@Override
@@ -56,25 +56,18 @@ public class AutoTurn extends CommandBase
 	{
 		difference = driveTrain.getAngle() - degree;
 
-		Logger.logThis("Difference ------------------- " + difference);
+		Logger.log("Difference", "" + difference);
 
 		if(sign < 0)
 		{
-			Logger.logThis("Turning left? ... " + rotation());
+			Logger.log("Turning left", "" + rotation());
 			driveTrain.tankDrive(.4, -.4);
 		}
 		else if(sign > 0)
 		{
-			Logger.logThis("Turning right? ... " + rotation());
+			Logger.log("Turning right", "" + rotation());
 			driveTrain.tankDrive(-.4, .4);
 		}
-	}
-
-	@Override
-	protected void interrupted()
-	{
-		System.out.println("AutoTurn was interrupted");
-
 	}
 
 	/**
@@ -89,15 +82,8 @@ public class AutoTurn extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-		// Stops if the difference is in the range0
-		if(Math.abs(difference) < 5)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		// Stops if the difference is in the range 0
+		return Math.abs(difference) < 5;
 	}
 
 }

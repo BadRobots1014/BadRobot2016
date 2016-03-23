@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -43,7 +42,7 @@ public class AutoSallyPortArm extends CommandBase
 			arm.useIt(-.4);
 		else
 			arm.useIt(.4);
-		
+
 		currentTime = Utility.getFPGATime();
 	}
 
@@ -54,25 +53,15 @@ public class AutoSallyPortArm extends CommandBase
 	}
 
 	@Override
-	protected void interrupted()
-	{
-		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
-	}
-
-	@Override
 	protected boolean isFinished()
 	{
-		if(currentTime > endTime)
-		{
-			return true;
-		}else
-			return false;
+		return currentTime > endTime;
 	}
 
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "AutoSallyPortArm";
+		return "Auto_Sally_Port_Arm";
 	}
 
 }
