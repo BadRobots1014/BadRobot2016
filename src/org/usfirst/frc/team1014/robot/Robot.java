@@ -4,7 +4,6 @@ import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.AutonomousManager;
-//github.com/BadRobots1014/BadRobot2016.git
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 import org.usfirst.frc.team1014.robot.subsystems.LEDLights.LEDState;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
@@ -12,10 +11,8 @@ import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-//github.com/BadRobots1014/BadRobot2016.git
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-//github.com/BadRobots1014/BadRobot2016.git
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -98,7 +95,7 @@ public class Robot extends IterativeRobot
 		{
 			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 		}
-		
+
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
 		badScheduler.initTeleop();

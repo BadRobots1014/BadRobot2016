@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
@@ -26,6 +27,7 @@ public class AutonomousManager extends CommandGroup
 {
 	private static AutonomousManager instance;
 	public HashMap<String, BadCommandGroup> autonomousCommands = new HashMap<String, BadCommandGroup>();
+	public ArrayList<Command> commandsToAdd = new ArrayList<Command>();
 
 	public boolean isShooting = false;
 	public boolean goingForLow = true;
@@ -118,6 +120,8 @@ public class AutonomousManager extends CommandGroup
 		if(defensePos == 1)
 			crossDefense = new LowBar();
 
+		commandsToAdd.add(crossDefense);
+		
 		/*
 		 * Makes the robot move the turn spot if it isn't already there
 		 */
@@ -134,6 +138,8 @@ public class AutonomousManager extends CommandGroup
 				Logger.log(Logger.Level.Error, "Move to Turn", "Default Triggered");
 				break;
 		}
+		
+		commandsToAdd.add(moveToTurnSpot);
 
 		/*
 		 * Sets the turn amount based on if the robot is shooting high or low
@@ -188,6 +194,8 @@ public class AutonomousManager extends CommandGroup
 					break;
 			}
 		}
+		
+		commandsToAdd.add(turnToGoal);
 
 		/*
 		 * Moves the shooter
@@ -197,12 +205,18 @@ public class AutonomousManager extends CommandGroup
 			moveShooter = new PreDefinedRotation(false);
 			findTargetCommand = new FindTarget();
 			shootBall = new AutoShoot(new Double(3));
+			
+			commandsToAdd.add(new PreDefinedRotation(false));
+			commandsToAdd.add(new FindTarget());
+			commandsToAdd.add(new AutoShoot(3.0));
 		}
 		else if(isShooting && goingForLow)
 		{
 			moveShooter = new DummyCommandGroup();
 			findTargetCommand = new DummyCommandGroup();
 			shootBall = new AutoShoot(new Double(3));
+			
+			commandsToAdd.add(new AutoShoot(3.0));
 
 		}
 		else
@@ -242,6 +256,9 @@ public class AutonomousManager extends CommandGroup
 		this.addSequential(turnToGoal);
 		this.addSequential(findTargetCommand);
 		this.addSequential(shootBall);
+		
+//		for(Command c : commandsToAdd)
+//			this.addSequential(c);
 	}
 
 	public boolean isShooting()
