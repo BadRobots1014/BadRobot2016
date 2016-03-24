@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoRotate extends CommandBase
 {
 
-	double revolutions;
-	double currentRevolutions;
-	double difference;
+	private double revolutions;
+	private double currentRevolutions;
+	private double difference;
 
 	/**
 	 * Constructor

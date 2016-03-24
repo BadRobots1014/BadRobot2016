@@ -8,7 +8,6 @@ import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -35,7 +34,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public static double shooterOffset = 0;
 	public boolean isLow = false;
 
-	public DigitalInput limitSwitch;
+	// public DigitalInput limitSwitch;
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
 	public SpeedController rotator;

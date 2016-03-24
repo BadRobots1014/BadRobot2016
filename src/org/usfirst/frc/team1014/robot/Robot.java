@@ -37,15 +37,12 @@ public class Robot extends IterativeRobot
 		CommandBase.init();
 		AutonomousManager.getInstance().loadAutonoumsCommands();
 		dashboard = SmartDashboard.getInstance();
-		// autonomousCommand = new LowBarStay();
 		badScheduler = new BadScheduler(TeleopGroup.class);
 		Logger.logOnce("working till here");
 
 		// set lights to alliance color (probably)
 		if(CommandBase.lights != null)
 		{
-			// CommandBase.lights.SetLights(DriverStation.getInstance().getAlliance() ==
-			// DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 			CommandBase.lights.SetLights(LEDState.kGATHER);
 		}
 	}

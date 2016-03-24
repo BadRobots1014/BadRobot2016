@@ -35,8 +35,7 @@ public class WaitTime extends CommandBase
 	@Override
 	protected void execute()
 	{
-		if(Utility.getFPGATime() >= timeToWait)
-			isFinished = true;
+		isFinished = Utility.getFPGATime() >= timeToWait;
 	}
 
 	@Override

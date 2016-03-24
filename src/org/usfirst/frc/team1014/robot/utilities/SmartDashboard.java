@@ -42,9 +42,7 @@ public class SmartDashboard
 	public static SmartDashboard getInstance()
 	{
 		if(smartDashboard == null)
-		{
 			smartDashboard = new SmartDashboard();
-		}
 		return smartDashboard;
 	}
 
@@ -76,20 +74,26 @@ public class SmartDashboard
 		// Gets values from the Smart Dashboard for autonomous
 		// Puts the autonomous string on the Dashboard so the human can see
 
-		if((Boolean) table.getValue("genericCross", true))
+		if((Boolean) table.getValue("genericCross", true) && commandToRun != "genericCross")
 		{
 			Robot.autonomousCommand = AutonomousManager.getInstance().getAutnomouscommand("Generic_Cross");
 			commandToRun = "genericCross";
+			table.putBoolean("Lowbar_Stay", false);
+			table.putBoolean("Lowbar_Shoot", false);
 		}
-		else if((Boolean) table.getValue("Lowbar_Stay", true))
+		else if((Boolean) table.getValue("Lowbar_Stay", true) && commandToRun != "lowBarStay")
 		{
 			Robot.autonomousCommand = AutonomousManager.getInstance().getAutnomouscommand("Lowbar_Stay");
 			commandToRun = "lowBarStay";
+			table.putBoolean("genericCross", false);
+			table.putBoolean("Lowbar_Shoot", false);
 		}
-		else if((Boolean) table.getValue("Lowbar_Shoot", true))
+		else if((Boolean) table.getValue("Lowbar_Shoot", true) && commandToRun != "lowBarShoot")
 		{
 			Robot.autonomousCommand = AutonomousManager.getInstance().getAutnomouscommand("Lowbar_Shoot");
 			commandToRun = "lowBarShoot";
+			table.putBoolean("genericCross", false);
+			table.putBoolean("Lowbar_Stay", false);
 		}
 		else
 		{

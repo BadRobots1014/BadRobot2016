@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoTurn extends CommandBase
 {
 
-	public double degree, difference, proportion, sign;
-	public static int rotationCoefficient = 60;
+	private double degree, difference, sign;
+	// private static int rotationCoefficient = 60;
 
 	/**
 	 * Constructor
@@ -58,16 +58,8 @@ public class AutoTurn extends CommandBase
 
 		Logger.log("Difference", "" + difference);
 
-		if(sign < 0)
-		{
-			Logger.log("Turning left", "" + rotation());
-			driveTrain.tankDrive(.4, -.4);
-		}
-		else if(sign > 0)
-		{
-			Logger.log("Turning right", "" + rotation());
-			driveTrain.tankDrive(-.4, .4);
-		}
+		driveTrain.tankDrive(sign * -0.4, sign * 0.4);
+		Logger.log("Turning " + (sign < 0 ? "Left" : "Right"), "" + rotation());
 	}
 
 	/**

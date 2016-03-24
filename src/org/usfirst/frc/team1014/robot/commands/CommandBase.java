@@ -1,13 +1,5 @@
 package org.usfirst.frc.team1014.robot.commands;
 
-import java.util.ArrayList;
-
-import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveDistanceUltrasonic;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoGrab;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoTurn;
-import org.usfirst.frc.team1014.robot.commands.auto.FindTarget;
 // The imports for the final subsystems
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
@@ -32,8 +24,6 @@ public abstract class CommandBase extends Command
 	public static SallyPortArm arm;
 	public static LEDLights lights;
 
-	public static ArrayList<Command> commandClasses = new ArrayList<Command>();
-
 	// The subsystems on the final robot go here
 
 	/**
@@ -51,21 +41,6 @@ public abstract class CommandBase extends Command
 		// camera = new AxisCamera("axis-camera.local");
 
 		ControlsManager.init();
-		addAuto();
-	}
-
-	/**
-	 * Creates an instance of each command used in autonomous and adds it to the
-	 * {@code commandClasses} {@link ArrayList}.
-	 */
-	public static void addAuto()
-	{
-		commandClasses.add(new AutoGrab(0.0));
-		commandClasses.add(new AutoShoot(0.0));
-		commandClasses.add(new AutoTurn(90.0));
-		commandClasses.add(new AutoDrive(0.0, 0.0));
-		commandClasses.add(new AutoDriveDistanceUltrasonic(0.0, 0.0));
-		commandClasses.add(new FindTarget());
 	}
 
 	public CommandBase(String name)
