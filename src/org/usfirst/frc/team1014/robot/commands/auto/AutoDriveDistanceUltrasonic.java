@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoDriveDistanceUltrasonic extends CommandBase
 {
 
-	public double speed, distance, ultraDistance;
-	public double zeroAngle;
+	private double speed, distance, ultraDistance;
+	private double zeroAngle;
 
 	/**
 	 * Constructor

@@ -14,8 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class AutoShoot extends CommandBase
 {
-	// Initialize variables
-	double currentTime, endingTime, runTime;
+	private double currentTime, endingTime, runTime;
 
 	/**
 	 * 
@@ -57,10 +56,7 @@ public class AutoShoot extends CommandBase
 		shooter.shoot(1);
 		currentTime = Utility.getFPGATime();
 
-		if(currentTime >= endingTime - 1 * 1000000)
-			shooter.driveServo(true);
-		else
-			shooter.driveServo(false);
+		shooter.driveServo(currentTime >= endingTime - 1 * 1000000);
 	}
 
 	/**

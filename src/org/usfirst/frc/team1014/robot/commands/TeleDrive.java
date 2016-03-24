@@ -56,6 +56,7 @@ public class TeleDrive extends CommandBase
 				targetGyro = driveTrain.getAngle();
 				gyroSet = true;
 			}
+			// TODO: Change so we are not inverting
 			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout(), targetGyro);
 		}
 		else

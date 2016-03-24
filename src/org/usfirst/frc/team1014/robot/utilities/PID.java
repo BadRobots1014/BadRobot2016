@@ -35,20 +35,21 @@ public class PID extends PIDController
 	{
 		double range = Math.abs(max - min);
 		if(difference < 0)
-			return .5*Math.cos(((2 * Math.PI)/range) * difference) - .5;
-		else return -.5*Math.cos(((2 * Math.PI)/range) * difference) + .5;
+			return .5 * Math.cos(((2 * Math.PI) / range) * difference) - .5;
+		else
+			return -.5 * Math.cos(((2 * Math.PI) / range) * difference) + .5;
 	}
-	
+
 	public static double trigScale(double difference, double min, double max, double fullSpeed)
 	{
 		double range = (max - min);
 		if(difference < 0)
 		{
-			return fullSpeed*Math.cos((2*Math.PI / range)*difference) - fullSpeed;
+			return fullSpeed * Math.cos((2 * Math.PI / range) * difference) - fullSpeed;
 		}
 		else
 		{
-			return -fullSpeed*Math.cos((2*Math.PI / range)*difference) + fullSpeed;
+			return -fullSpeed * Math.cos((2 * Math.PI / range) * difference) + fullSpeed;
 		}
 	}
 }

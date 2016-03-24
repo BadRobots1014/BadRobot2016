@@ -15,7 +15,7 @@ public class UseSallyPortArm extends CommandBase
 	@Override
 	protected void end()
 	{
-		arm.useIt(0);
+		arm.setPower(0);
 	}
 
 	@Override
@@ -26,13 +26,13 @@ public class UseSallyPortArm extends CommandBase
 		else
 			ControlsManager.changeToPrimaryLayout(2);
 
-		arm.useIt(-ControlsManager.secondaryXboxController.getRightStickYSecondaryLayout() * .5);
+		arm.setPower(-ControlsManager.secondaryXboxController.getRightStickYSecondaryLayout() * .5);
 	}
 
 	@Override
 	protected void initialize()
 	{
-		arm.useIt(0);
+		arm.setPower(0);
 	}
 
 	@Override

@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoDriveDistanceEncoder extends CommandBase
 {
 
-	public double speed, currentRotations;
-	public double zeroAngle;
-	public double targetRotations;
-	public double difference;
-	public double numRotations;
+	private double speed, currentRotations;
+	private double zeroAngle;
+	private double targetRotations;
+	private double difference;
+	private double numRotations;
 
 	/**
 	 * Constructor
