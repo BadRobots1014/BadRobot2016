@@ -92,6 +92,7 @@ public class UseShooter extends CommandBase
 		// shooter.shoot(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
 		// }
 
+		// Auto grabber, Auto shooter and manual shooter
 		if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
 		{
 			startShootTime = 0;
@@ -115,6 +116,7 @@ public class UseShooter extends CommandBase
 				shooter.shoot(0);
 		}
 
+		// Update Auto shooting
 		if(isAutoShooting)
 		{
 			shooter.shoot(1.0);
