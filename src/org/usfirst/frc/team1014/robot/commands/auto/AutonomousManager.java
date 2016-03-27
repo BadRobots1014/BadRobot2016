@@ -70,6 +70,8 @@ public class AutonomousManager extends CommandGroup
 		registerAutonomousCommand("Lowbar_Shoot", new BadCommandGroup(new AutoDriveServo(true), new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0), new AutoShoot(3.0)));
 		registerAutonomousCommand("Go_Over", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132)));
 		registerAutonomousCommand("Go_Over_And_Come_Back", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132), new AutoDrive(2, 1)));
+		registerAutonomousCommand("Spy_Bot_Shoot", new BadCommandGroup(new AutoDriveServo(true), new AutoRotateTime(.5, true), new AutoShoot(2.0), new AutoDrive(.5, .5)));
+		registerAutonomousCommand("Reach_Defense", new BadCommandGroup(new AutoDrive(.5, .5)));
 	}
 
 	public void registerAutonomousCommand(String name, BadCommandGroup command)
@@ -77,7 +79,7 @@ public class AutonomousManager extends CommandGroup
 		autonomousCommands.put(name, command);
 	}
 
-	public BadCommandGroup getAutnomouscommand(String name)
+	public BadCommandGroup getAutonomousCommand(String name)
 	{
 		return autonomousCommands.get(name);
 	}

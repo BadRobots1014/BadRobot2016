@@ -21,7 +21,6 @@ public class PreDefinedRotation extends CommandBase
 	@Override
 	protected void initialize()
 	{
-
 		timer = Utility.getFPGATime() + 2000000;
 	}
 

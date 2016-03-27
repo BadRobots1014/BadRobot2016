@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.utilities;
 
 import org.usfirst.frc.team1014.robot.Robot;
-import org.usfirst.frc.team1014.robot.commands.DummyCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.AutonomousManager;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 
@@ -28,6 +27,7 @@ public class SmartDashboard
 	private boolean genericCross = false;
 	private boolean lowBarStay = false;
 	private boolean lowBarShoot = false;
+	private boolean spyBotShoot = false;
 
 	public SmartDashboard()
 	{
@@ -63,6 +63,7 @@ public class SmartDashboard
 		table.putValue("Generic_Cross", genericCross);
 		table.putValue("Lowbar_Stay", lowBarStay);
 		table.putValue("Lowbar_Shoot", lowBarShoot);
+		table.putValue("Spy_Bot_Shoot", spyBotShoot);
 		// for(Command command : commandClasses)
 		// table.putBoolean(command.getName(), false);
 	}
@@ -76,23 +77,28 @@ public class SmartDashboard
 
 		if((Boolean) table.getValue("genericCross", true))
 		{
-			Robot.autonomousCommand = AutonomousManager.getInstance().getAutnomouscommand("Generic_Cross");
+			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Generic_Cross");
 			commandToRun = "genericCross";
 		}
 		else if((Boolean) table.getValue("Lowbar_Stay", true))
 		{
-			Robot.autonomousCommand = AutonomousManager.getInstance().getAutnomouscommand("Lowbar_Stay");
+			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Lowbar_Stay");
 			commandToRun = "lowBarStay";
 		}
 		else if((Boolean) table.getValue("Lowbar_Shoot", true))
 		{
-			Robot.autonomousCommand = AutonomousManager.getInstance().getAutnomouscommand("Lowbar_Shoot");
+			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Lowbar_Shoot");
 			commandToRun = "lowBarShoot";
+		}
+		else if((Boolean) table.getValue("Spy_Bot_Shoot", true))
+		{
+			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Spy_Bot_Shoot");
+			commandToRun = "spyBotShoot";
 		}
 		else
 		{
-			Robot.autonomousCommand = new DummyCommandGroup();
-			commandToRun = "DummyCommand";
+			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Reach_Defense");
+			commandToRun = "Reach_Defense";
 		}
 
 		table.putString(commandRunKey, commandToRun);

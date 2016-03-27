@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot
 {
-
 	public static BadCommandGroup autonomousCommand;
 	public static SmartDashboard dashboard;
 	public static BadScheduler badScheduler;

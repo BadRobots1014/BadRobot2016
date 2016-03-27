@@ -22,7 +22,7 @@ public class AutoShoot extends CommandBase
 	 * @param time
 	 *            - amount of time that you want it to run for
 	 */
-	public AutoShoot(Double time)
+	public AutoShoot(double time)
 	{
 		this.runTime = time * 1000000;
 		requires((Subsystem) shooter);
