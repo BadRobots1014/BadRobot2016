@@ -37,7 +37,7 @@ public class AutoGrab extends CommandBase
 	@Override
 	protected void initialize()
 	{
-		shooter.grab(0);
+		shooter.shoot(0);
 		currentTime = Utility.getFPGATime();
 		endingTime = currentTime + time;
 	}
@@ -51,14 +51,14 @@ public class AutoGrab extends CommandBase
 	@Override
 	protected void end()
 	{
-		shooter.grab(0);
+		shooter.shoot(0);
 
 	}
 
 	@Override
 	protected void execute()
 	{
-		shooter.grab(0.7);
+		shooter.shoot(-0.7);
 		currentTime = Utility.getFPGATime();
 	}
 

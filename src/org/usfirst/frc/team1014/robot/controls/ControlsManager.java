@@ -29,14 +29,16 @@ public class ControlsManager
 	public static final int BACK_LEFT_ENCODER_A = 0;
 	public static final int BACK_LEFT_ENCODER_B = 1;
 
-	public static final int SHOOTER_LEFT_ENCODER_A = 8;
-	public static final int SHOOTER_LEFT_ENCODER_B = 9;
+//	public static final int SHOOTER_LEFT_ENCODER_A = 8;
+//	public static final int SHOOTER_LEFT_ENCODER_B = 9;
 	public static final int ARTICULATOR_ENCODER_A = 6;
 	public static final int ARTICULATOR_ENCODER_B = 7;
 
-	public static final int LIMIT_SWITCH = 4;
-
-	// LED Lights
+//	public static final int LIMIT_SWITCH = 4;
+	
+	public static final int OPTICAL_SENSOR_PING = 8;
+	public static final int OPTICAL_SENSOR_CATCH = 9;
+			
 	public static final int LED_BIT1 = 4;
 	public static final int LED_BIT2 = 5;
 

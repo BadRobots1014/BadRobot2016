@@ -42,6 +42,9 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	private Relay ringLight;
 
+	public DigitalInput opticalSensor;
+	public boolean lastOpticalValue = false;
+
 	public Servo pusher;
 
 	public boolean grabberSet = false;
@@ -59,9 +62,10 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	@Override
 	protected void initialize()
 	{
-		left = new BadCAN(ControlsManager.SHOOTER_LEFT, ControlsManager.SHOOTER_LEFT_ENCODER_A, ControlsManager.SHOOTER_LEFT_ENCODER_B);
+		left = new CANTalon(ControlsManager.SHOOTER_LEFT);
 		right = new CANTalon(ControlsManager.SHOOTER_RIGHT);
 		rotator = new CANTalon(ControlsManager.SHOOTER_ROTATE);
+		opticalSensor = new DigitalInput(ControlsManager.OPTICAL_SENSOR_PING);
 
 		ringLight = new Relay(ControlsManager.RING_LIGHT);
 		pusher = new Servo(ControlsManager.PUSHER);
@@ -225,9 +229,93 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		return false;
 	}
 
+	/**
+	 * This method moves the shooter to the nearest level below its current position.
+	 */
+	public void moveToLowerRetroTape()
+	{
+		if(lastOpticalValue)
+		{
+			if(pingOpticalSensor())
+			{
+				// rotate down quickly if the sensor still sees the tape
+				rotate(-.6);
+			}
+			else
+			{
+				if(pingOpticalSensor())
+				{
+					// kill it
+					rotate(0);
+				}
+				else
+				{
+					// keep rotating because it isn't there yet
+					rotate(-.4);
+				}
+			}
+		}
+		else
+		{
+			if(pingOpticalSensor())
+			{
+				rotate(0);
+			}
+			else
+			{
+				rotate(-.4);
+			}
+		}
+	}
+	
+	/**
+	 * This is the same thing as above, but goes up.
+	 */
+	public void moveToHigherRetroTape()
+	{
+		if(lastOpticalValue)
+		{
+			if(pingOpticalSensor())
+			{
+				// rotate up quickly if the sensor still sees the tape
+				rotate(.6);
+			}
+			else
+			{
+				if(pingOpticalSensor())
+				{
+					// kill it because we found it
+					rotate(0);
+				}
+				else
+				{
+					// keep rotating because it isn't there yet
+					rotate(.4);
+				}
+			}
+		}
+		else
+		{
+			if(pingOpticalSensor())
+			{
+				rotate(0);
+			}
+			else
+			{
+				rotate(.4);
+			}
+		}
+	}
+
 	public void resetEncoders()
 	{
 		((BadCAN) rotator).encoder.reset();
+	}
+
+	public boolean pingOpticalSensor()
+	{
+		Logger.logOnce("Optical Sensor: " + opticalSensor.get());
+		return opticalSensor.get();
 	}
 
 	public double getHighestPosWithOffset()
@@ -262,15 +350,16 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		{
 			if(speed < 0)
 				CommandBase.lights.setLights(LEDState.kGATHER);
-			else
-				CommandBase.lights.setLights(LEDState.kSHOOT);
+			else CommandBase.lights.setLights(LEDState.kSHOOT);
 		}
 	}
 
 	/**
-	 * Sets the grabber speed, the exact opposite of {@code} shoot()}.
+	 * Sets the grabber speed, the exact opposite of {@code shoot()}.
+	 * Deprecated, use {@code shoot()} instead with a negative number.
 	 * 
-	 * @param speed
+	 * @param speed - the speed at which to grab the ball
+	 * @deprecated
 	 */
 	public void grab(double speed)
 	{
@@ -307,8 +396,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	{
 		if(servoPos)
 			pusher.set(SERVO_EXTENDED_POS);
-		else
-			pusher.set(SERVO_STANDARD_POS);
+		else pusher.set(SERVO_STANDARD_POS);
 	}
 
 	@Override
