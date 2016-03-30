@@ -43,8 +43,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	private Relay ringLight;
 
 	public DigitalInput opticalSensor;
-	public boolean lastOpticalValue = false;
-
+	private boolean detectedTape = false;
+	
 	public Servo pusher;
 
 	public boolean grabberSet = false;
@@ -202,6 +202,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		// rotator.set(speed);
 		// }
 		rotator.set(speed);
+		this.detectedTape = this.pingOpticalSensor();
 	}
 
 	public boolean rotateTo(double position)
@@ -234,38 +235,50 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void moveToLowerRetroTape()
 	{
-		if(lastOpticalValue)
+		if(this.pingOpticalSensor() && this.detectedTape)
 		{
-			if(pingOpticalSensor())
-			{
-				// rotate down quickly if the sensor still sees the tape
-				rotate(-.6);
-			}
-			else
-			{
-				if(pingOpticalSensor())
-				{
-					// kill it
-					rotate(0);
-				}
-				else
-				{
-					// keep rotating because it isn't there yet
-					rotate(-.4);
-				}
-			}
+			this.rotate(-0.5);
+		}
+		else if(this.pingOpticalSensor() && !this.detectedTape)
+		{
+			this.rotate(0.0);
 		}
 		else
 		{
-			if(pingOpticalSensor())
-			{
-				rotate(0);
-			}
-			else
-			{
-				rotate(-.4);
-			}
+			this.rotate(-0.5);
 		}
+//		if(lastOpticalValue)
+//		{
+//			if(pingOpticalSensor())
+//			{
+//				// rotate down quickly if the sensor still sees the tape
+//				rotate(-.4);
+//			}
+//			else
+//			{
+//				if(pingOpticalSensor())
+//				{
+//					// kill it
+//					rotate(0);
+//				}
+//				else
+//				{
+//					// keep rotating because it isn't there yet
+//					rotate(-.6);
+//				}
+//			}
+//		}
+//		else
+//		{
+//			if(pingOpticalSensor())
+//			{
+//				rotate(0);
+//			}
+//			else
+//			{
+//				rotate(-.4);
+//			}
+//		}
 	}
 	
 	/**
@@ -273,38 +286,53 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void moveToHigherRetroTape()
 	{
-		if(lastOpticalValue)
+		if(this.pingOpticalSensor() && this.detectedTape)
 		{
-			if(pingOpticalSensor())
-			{
-				// rotate up quickly if the sensor still sees the tape
-				rotate(.6);
-			}
-			else
-			{
-				if(pingOpticalSensor())
-				{
-					// kill it because we found it
-					rotate(0);
-				}
-				else
-				{
-					// keep rotating because it isn't there yet
-					rotate(.4);
-				}
-			}
+			this.rotate(-0.5);
+		}
+		else if(this.pingOpticalSensor() && !this.detectedTape)
+		{
+			this.rotate(0.0);
 		}
 		else
 		{
-			if(pingOpticalSensor())
-			{
-				rotate(0);
-			}
-			else
-			{
-				rotate(.4);
-			}
+			this.rotate(-0.5);
 		}
+		
+//		if(lastOpticalValue)
+//		{
+//			if(pingOpticalSensor())
+//			{
+//				// rotate up quickly if the sensor still sees the tape
+//				rotate(.6);
+//			}
+//			else
+//			{
+//				if(pingOpticalSensor())
+//				{
+//					// kill it because we found it
+//					rotate(0);
+//				}
+//				else
+//				{
+//					// keep rotating because it isn't there yet
+//					rotate(.4);
+//				}
+//			}
+//		}
+//		else
+//		{
+//			if(pingOpticalSensor())
+//			{
+//				rotate(0);
+//			}
+//			else
+//			{
+//				rotate(.4);
+//			}
+//		}
+//		
+//		lastOpticalValue = pingOpticalSensor();
 	}
 
 	public void resetEncoders()
@@ -314,8 +342,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	public boolean pingOpticalSensor()
 	{
-		Logger.logOnce("Optical Sensor: " + opticalSensor.get());
-		return opticalSensor.get();
+		//Logger.logOnce("Optical Sensor: " + opticalSensor.get());
+		return !opticalSensor.get();
 	}
 
 	public double getHighestPosWithOffset()

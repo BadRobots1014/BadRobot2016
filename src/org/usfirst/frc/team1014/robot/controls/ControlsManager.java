@@ -37,7 +37,6 @@ public class ControlsManager
 //	public static final int LIMIT_SWITCH = 4;
 	
 	public static final int OPTICAL_SENSOR_PING = 8;
-	public static final int OPTICAL_SENSOR_CATCH = 9;
 			
 	public static final int LED_BIT1 = 4;
 	public static final int LED_BIT2 = 5;

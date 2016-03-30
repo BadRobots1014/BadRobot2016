@@ -13,7 +13,6 @@ public class SmartDashboard
 {
 	public static SmartDashboard smartDashboard;
 	public static NetworkTable table;
-	public static NetworkTable console;
 	// private ArrayList<Command> commandClasses = CommandBase.commandClasses;
 	private static String commandToRun = "";
 	private static final String commandRunKey = "Command running: ";
@@ -32,7 +31,6 @@ public class SmartDashboard
 	public SmartDashboard()
 	{
 		table = NetworkTable.getTable("SmartDashboard");
-		console = NetworkTable.getTable("ConsoleLog");
 		setup();
 	}
 
@@ -118,6 +116,6 @@ public class SmartDashboard
 
 	public void log(String key, String value)
 	{
-		console.putString(key, value);
+		table.putString(key, value);
 	}
 }
