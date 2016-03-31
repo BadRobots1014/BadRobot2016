@@ -60,8 +60,27 @@ public class TeleDrive extends CommandBase
 		}
 		else
 		{
-			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getRightStickYPrimaryLayout(), -ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout());
-
+			if(ControlsManager.primaryXboxController.isAButtonPressedPrimaryLayout())
+			{
+				driveTrain.tankDrive(.5, .5);
+			}
+			else if(ControlsManager.primaryXboxController.isYButtonPressedPrimaryLayout())
+			{
+				driveTrain.tankDrive(-.5, -.5);
+			}
+			else if(ControlsManager.primaryXboxController.isXButtonPressedPrimaryLayout())
+			{
+				driveTrain.tankDrive(-.5, .5);
+			}
+			else if(ControlsManager.primaryXboxController.isBButtonPressedPrimaryLayout())
+			{
+				driveTrain.tankDrive(.5, -.5);
+			}
+			else
+			{
+				driveTrain.tankDrive(-ControlsManager.primaryXboxController.getRightStickYPrimaryLayout(), -ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout());
+			}
+			
 			gyroSet = false;
 		}
 
