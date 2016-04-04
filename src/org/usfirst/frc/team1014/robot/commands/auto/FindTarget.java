@@ -3,7 +3,6 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.Utility;
 
@@ -87,7 +86,7 @@ public class FindTarget extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "FindTarget";
+		return "Find_Target";
 	}
 
 	@Override
@@ -103,16 +102,14 @@ public class FindTarget extends CommandBase
 	{
 		// how fast the robot will move
 		double moveSpeed;
-		
+
 		shooter.ringLightOn();
 
 		// allows the driver to shoot the ball at any time
 		shooter.shoot(-ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout());
 
 		// moves the cam servo at any time
-		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
-			isServoOut = true;
-		else isServoOut = false;
+		isServoOut = ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout();
 
 		shooter.driveServo(isServoOut);
 
@@ -128,9 +125,7 @@ public class FindTarget extends CommandBase
 
 				// if the move speed is not the same as the ideal turning speed
 				if(Math.abs(moveSpeed) != TURN_SPEED)
-				{
 					moveSpeed = TURN_SPEED; // ... set it equal to it
-				}
 
 				// make move speed negative or position based on the target's location
 				moveSpeed = cam.getX() > 0 ? moveSpeed : -moveSpeed;
@@ -138,7 +133,8 @@ public class FindTarget extends CommandBase
 				// make sure the robot is actually moving
 				if(previousCamX == cam.getX())
 					countsNotMoving++;
-				else countsNotMoving = 0;
+				else
+					countsNotMoving = 0;
 
 				// if the robot isn't moving ...
 				if(countsNotMoving > 50)
@@ -222,12 +218,6 @@ public class FindTarget extends CommandBase
 				lostTarget = false;
 			}
 		}
-	}
-
-	@Override
-	protected void interrupted()
-	{
-		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!!!");
 	}
 
 	@Override

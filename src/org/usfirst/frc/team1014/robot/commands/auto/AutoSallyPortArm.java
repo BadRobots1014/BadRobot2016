@@ -1,17 +1,16 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class AutoSallyPortArm extends CommandBase
 {
-	public double endTime;
-	public double runTime;
-	public double currentTime;
-	public boolean goingOut;
+	private double endTime;
+	private double runTime;
+	private double currentTime;
+	private boolean goingOut;
 
 	/**
 	 * Constructor. {@code time} is how long the arm should move and {@code out} determines which
@@ -33,46 +32,36 @@ public class AutoSallyPortArm extends CommandBase
 	@Override
 	protected void end()
 	{
-		arm.useIt(0);
+		arm.setPower(0);
 	}
 
 	@Override
 	protected void execute()
 	{
-		if(!goingOut)
-			arm.useIt(-.4);
+		if(goingOut)
+			arm.setPower(.4);
 		else
-			arm.useIt(.4);
-		
+			arm.setPower(-.4);
+
 		currentTime = Utility.getFPGATime();
 	}
 
 	@Override
 	protected void initialize()
 	{
-		arm.useIt(0);
-	}
-
-	@Override
-	protected void interrupted()
-	{
-		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
+		arm.setPower(0);
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		if(currentTime > endTime)
-		{
-			return true;
-		}else
-			return false;
+		return currentTime > endTime;
 	}
 
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "AutoSallyPortArm";
+		return "Auto_Sally_Port_Arm";
 	}
 
 }

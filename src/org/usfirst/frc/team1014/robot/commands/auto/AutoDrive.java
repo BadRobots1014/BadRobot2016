@@ -13,26 +13,26 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoDrive extends CommandBase
 {
 
-	public double driveTime;
-	public double speed;
-	public double startTime;
-	public double passedTime;
-	public double targetAngle;
+	private double driveTime;
+	private double speed;
+	private double startTime;
+	private double passedTime;
+	// private double targetAngle;
 
 	public AutoDrive(double driveTime, double speed)
 	{
 		this.driveTime = driveTime;
 		this.speed = speed;
 		requires((Subsystem) driveTrain);
-		startTime = Utility.getFPGATime();
 		passedTime = 0;
 	}
 
 	@Override
 	protected void initialize()
 	{
+		startTime = Utility.getFPGATime();
 		driveTrain.tankDrive(0, 0);
-		targetAngle = driveTrain.getAngle();
+		// targetAngle = driveTrain.getAngle();
 	}
 
 	@Override
@@ -51,44 +51,21 @@ public class AutoDrive extends CommandBase
 	protected void execute()
 	{
 		passedTime = Utility.getFPGATime() - startTime;
-		driveTrain.driveStraight(speed, targetAngle);
-	}
-
-	@Override
-	protected void interrupted()
-	{
-
+		driveTrain.tankDrive(speed, speed);
+		// driveTrain.driveStraight(speed, targetAngle);
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		if((passedTime / 1000000) > driveTime)
-		{
-			System.out.println("DriveForward is done");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	public static double rotation()
-	{
-		return -(driveTrain.getAngle() / 45);
+		return (passedTime / 1000000) > driveTime;
 	}
 
 	public static double deadzone(double d)
 	{
-		if(Math.abs(d) < .1)
-		{
+		if(Math.abs(d) < .1 || d == 0)
 			return 0;
-		}
-		if(d == 0)
-		{
-			return 0;
-		}
+
 		return (d / Math.abs(d)) * ((Math.abs(d) - .1) / (1 - .1));
 	}
 

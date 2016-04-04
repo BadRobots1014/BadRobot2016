@@ -1,20 +1,30 @@
 package org.usfirst.frc.team1014.robot.utilities;
 
+/**
+ * 
+ * @author Ryan T.
+ *
+ */
 public class Logger
 {
 	// is logging enabled
 	private static boolean CONSOLE_OUTPUT_ENABLED = true;
 	// is logging debug mode enabled
-	private static boolean DEBUG_ENABLED = true;
+	private static boolean DEBUG_ENABLED = false;
+
+	public static void logOnce(String toLog)
+	{
+		Logger.log(Level.Info, "Simple Log", toLog);
+	}
 
 	/**
 	 * quick log method that can be used anywhere.
 	 * 
 	 * @param stringToLog
 	 */
-	public static void logThis(String stringToLog)
+	public static void log(String id, String stringToLog)
 	{
-		Logger.log(Level.Debug, "Quick Log", stringToLog);
+		Logger.log(Level.Debug, id, stringToLog);
 	}
 
 	/**
@@ -37,7 +47,7 @@ public class Logger
 		if(CONSOLE_OUTPUT_ENABLED)
 		{
 			if(level.equals(Level.Debug) && DEBUG_ENABLED)
-				System.out.println("[" + level.getDisplayText() + ":" + id + "] " + out);
+				SmartDashboard.getInstance().log(id, out);
 			else if(!level.equals(Level.Debug))
 				System.out.println("[" + level.getDisplayText() + ":" + id + "] " + out);
 		}

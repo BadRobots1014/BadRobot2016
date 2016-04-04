@@ -53,9 +53,9 @@ public class DriveTrain extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
-		backLeft = new BadTalon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER, ControlsManager.BACK_LEFT_ENCODER_A, ControlsManager.BACK_LEFT_ENCODER_B, 1.0 / 250);
+		backLeft = new Talon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER);
 		frontLeft = new Talon(ControlsManager.FRONT_LEFT_SPEED_CONTROLLER);
-		backRight = new BadTalon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER, ControlsManager.BACK_RIGHT_ENCODER_A, ControlsManager.BACK_RIGHT_ENCODER_B, 1.0 / 250);
+		backRight = new Talon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER);
 		frontRight = new Talon(ControlsManager.FRONT_RIGHT_SPEED_CONTROLLER);
 
 		backLeft.setInverted(true);
@@ -109,21 +109,23 @@ public class DriveTrain extends BadSubsystem
 	public void driveStraight(double moveSpeed, double targetGyro)
 	{
 		double difference180 = getAngle() - targetGyro;
+
 		double turnSpeed = 0;
 		
 		if(Math.abs(difference180) > 3)
 		{
 			turnSpeed = PID.turnSpeedScale(Math.toRadians(difference180), -Math.PI, Math.PI);
 
-			Logger.logThis("turning Speed " + turnSpeed);
-			
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);
 
 			if(Math.abs(turnSpeed) < .45)
 				turnSpeed = .45 * turnSpeed / Math.abs(turnSpeed);
 
-			tankDrive(turnSpeed, -turnSpeed);
+			Logger.log("turning Speed", "" + turnSpeed);
+
+			// tankDrive(turnSpeed, -turnSpeed);
+			// tankDrive(moveSpeed + turnSpeed, moveSpeed - turnSpeed);
 		}
 		else
 		{
@@ -204,7 +206,7 @@ public class DriveTrain extends BadSubsystem
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "DriveTrain";
+		return "Drive_Train";
 	}
 
 	public float getRoll()
