@@ -2,15 +2,13 @@ package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveDistanceEncoder;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoRotate;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoSallyPortArm;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
-import org.usfirst.frc.team1014.robot.commands.auto.BadAutonomous;
+import org.usfirst.frc.team1014.robot.commands.auto.AutonomousManager;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
-import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.subsystems.LEDLights.LEDState;
+import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -24,10 +22,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot
 {
-
-	public Command autonomousCommand;
+	public static Command autonomousCommand;
 	public static SmartDashboard dashboard;
-	public static BadScheduler badScheduler = new BadScheduler(TeleopGroup.class);
+	public static BadScheduler badScheduler;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -35,10 +32,19 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
-		// SmartDashboard.initDashboard();
-
 		CommandBase.init();
-		dashboard = new SmartDashboard();
+		// AutonomousManager.getInstance().loadAutonoumsCommands();
+		dashboard = SmartDashboard.getInstance();
+		badScheduler = new BadScheduler(TeleopGroup.class);
+		Logger.logOnce("working till here");
+
+		// set lights to alliance color (probably)
+		if(CommandBase.lights != null)
+		{
+			// CommandBase.lights.SetLights(DriverStation.getInstance().getAlliance() ==
+			// DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
+			CommandBase.lights.setLights(LEDState.kGATHER);
+		}
 	}
 
 	/**
@@ -47,8 +53,6 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
-//		autonomousCommand = new AutoTurn(30.0);
-		autonomousCommand = new BadAutonomous(true, true, 1, "L");
 	}
 
 	/**
@@ -57,9 +61,17 @@ public class Robot extends IterativeRobot
 	public void autonomousInit()
 	{
 		// schedule the autonomous command (example)
-		if(autonomousCommand != null)
-			autonomousCommand.start();
-		// dashboard.poll();
+		autonomousCommand = dashboard.poll();
+
+		// build the autonomous to run
+		// autonomousCommand.build();
+
+		// System.out.println(AutonomousManager.pollSwitches());
+		Scheduler.getInstance().add(autonomousCommand);
+
+		// set lights to alliance color (definitely?)
+		if(CommandBase.lights != null)
+			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 	}
 
 	/**
@@ -67,7 +79,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void autonomousPeriodic()
 	{
-		dashboard.update();
+		AutonomousManager.pollSwitches();
 		Scheduler.getInstance().run();
 	}
 
@@ -80,9 +92,18 @@ public class Robot extends IterativeRobot
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		if(CommandBase.lights != null)
+		{
+			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
+		}
+
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
 		badScheduler.initTeleop();
+
+		// set lights to alliance color (definitely?)
+		if(CommandBase.lights != null)
+			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 	}
 
 	/**
@@ -97,14 +118,9 @@ public class Robot extends IterativeRobot
 	/**
 	 * This function is called periodically during operator control
 	 */
-
 	public void teleopPeriodic()
 	{
-		dashboard.update();
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isYButtonPressedSecondaryLayout(), AutoSallyPortArm.class);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isAButtonPressedSecondaryLayout(), AutoShoot.class);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isXButtonPressedSecondaryLayout(), AutoRotate.class);
-		badScheduler.changeCommand(ControlsManager.secondaryXboxController.isBButtonPressedSecondaryLayout(), AutoDriveDistanceEncoder.class);
+		badScheduler.changeCommand();
 		Scheduler.getInstance().run();
 	}
 

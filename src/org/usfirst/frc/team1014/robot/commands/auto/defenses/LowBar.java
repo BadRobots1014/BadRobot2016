@@ -1,18 +1,21 @@
 package org.usfirst.frc.team1014.robot.commands.auto.defenses;
 
+import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveDistanceEncoder;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoRotate;
-import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveServo;
+import org.usfirst.frc.team1014.robot.commands.auto.PreDefinedRotation;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-
-public class LowBar extends CommandGroup
+public class LowBar extends BadCommandGroup
 {
 	public LowBar()
 	{
-		this.addSequential(new AutoRotate(ShooterAndGrabber.SHOOTER_LOWEST_POS));
-		this.addSequential(new AutoDriveDistanceEncoder(.6, 8.409));
-		this.addSequential(new AutoRotate(ShooterAndGrabber.SHOOTER_HIGHEST_POS));
 	}
 
+	public void build()
+	{
+		this.addSequential(new AutoDriveServo(true));
+		this.addSequential(new PreDefinedRotation(true));
+		this.addSequential(new AutoDriveDistanceEncoder(.6, 8.409));
+		// this.addSequential(new AutoRotate(ShooterAndGrabber.SHOOTER_HIGHEST_POS));
+	}
 }

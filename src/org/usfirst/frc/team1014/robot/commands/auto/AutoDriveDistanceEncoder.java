@@ -13,10 +13,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoDriveDistanceEncoder extends CommandBase
 {
 
-	public double speed, currentRotations;
-	public double zeroAngle;
-	public double targetRotations;
-	public double difference;
+	private double speed, currentRotations;
+	private double zeroAngle;
+	private double targetRotations;
+	private double difference;
+	private double numRotations;
 
 	/**
 	 * Constructor
@@ -28,7 +29,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	 */
 	public AutoDriveDistanceEncoder(double speed, double numRotations)
 	{
-		this.targetRotations = driveTrain.getDriveEncoderDistance() - (Math.abs(speed) / speed) * numRotations;
+		this.numRotations = numRotations;
 		this.speed = speed;
 		requires((Subsystem) driveTrain);
 	}
@@ -39,12 +40,13 @@ public class AutoDriveDistanceEncoder extends CommandBase
 		driveTrain.tankDrive(0, 0);
 		zeroAngle = driveTrain.getAngle();
 		currentRotations = driveTrain.getDriveEncoderDistance();
+		this.targetRotations = driveTrain.getDriveEncoderDistance() - (Math.abs(speed) / speed) * numRotations;
 	}
 
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "DriveForwardDistance";
+		return "Drive_Forward_Distance";
 	}
 
 	@Override
@@ -59,20 +61,13 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	{
 		currentRotations = driveTrain.getDriveEncoderDistance(); // Gets the rotations
 		difference = currentRotations - targetRotations;
-		
+
 		if(Math.abs(difference) < .4)
 			driveTrain.driveStraight(.4, zeroAngle);
 		else
 			driveTrain.driveStraight(speed, zeroAngle);
 
-		Logger.logThis("difference: " + difference);
-	}
-
-	@Override
-	protected void interrupted()
-	{
-		System.out.println("DriveForwardDistanceEncoder was interrupted!");
-
+		Logger.log("difference", "" + difference);
 	}
 
 	/**
@@ -81,14 +76,6 @@ public class AutoDriveDistanceEncoder extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-		if(Math.abs(difference) < .01)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return Math.abs(difference) < .01;
 	}
-
 }

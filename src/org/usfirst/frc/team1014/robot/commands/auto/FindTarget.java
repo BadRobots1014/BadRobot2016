@@ -3,7 +3,6 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.Utility;
 
@@ -33,15 +32,21 @@ public class FindTarget extends CommandBase
 
 	// has the target out of view too long
 	private boolean stopTimeSet = false;
+	
+	// has the shooting time been set yet
+	private boolean shootingTimeSet = false;
 
 	// the counter for the jerking bit
-	private double counter = 0;
+	private double countsNotMoving = 0;
 
 	// the position the target is at
 	private double previousCamX = 0;
 
 	// the current time
 	private double time = Utility.getFPGATime();
+	
+	// is the target lost from the view of the camera
+	private boolean lostTarget = false;
 
 	// the speed at which the robot turns
 	private final double TURN_SPEED = 0.335;
@@ -81,14 +86,15 @@ public class FindTarget extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "FindTarget";
+		return "Find_Target";
 	}
 
 	@Override
 	protected void end()
 	{
 		driveTrain.tankDrive(0.0f, 0.0f);
-
+		shooter.shoot(0);
+		shooter.rotate(0);
 	}
 
 	@Override
@@ -96,22 +102,21 @@ public class FindTarget extends CommandBase
 	{
 		// how fast the robot will move
 		double moveSpeed;
-		
+
 		shooter.ringLightOn();
 
 		// allows the driver to shoot the ball at any time
 		shooter.shoot(-ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout());
 
 		// moves the cam servo at any time
-		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
-			isServoOut = true;
-		else isServoOut = false;
+		isServoOut = ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout();
 
 		shooter.driveServo(isServoOut);
 
 		// if the robot can see the object and track it ...
 		if(Math.abs(cam.getTrackingScore()) >= MIN_TRACKING_SCORE)
 		{
+			lostTarget = false;
 			stopTimeSet = false;
 			// if the target is not in the acceptable range ...
 			if(Math.abs(cam.getX()) > DEADZONE_X)
@@ -120,23 +125,22 @@ public class FindTarget extends CommandBase
 
 				// if the move speed is not the same as the ideal turning speed
 				if(Math.abs(moveSpeed) != TURN_SPEED)
-				{
 					moveSpeed = TURN_SPEED; // ... set it equal to it
-				}
 
 				// make move speed negative or position based on the target's location
 				moveSpeed = cam.getX() > 0 ? moveSpeed : -moveSpeed;
 
 				// make sure the robot is actually moving
 				if(previousCamX == cam.getX())
-					counter++;
-				else counter = 0;
+					countsNotMoving++;
+				else
+					countsNotMoving = 0;
 
 				// if the robot isn't moving ...
-				if(counter > 50)
+				if(countsNotMoving > 50)
 				{
 					// .. make it
-					counter = 0;
+					countsNotMoving = 0;
 					moveSpeed += moveSpeed < 0 ? -JERK_SPEED : JERK_SPEED;
 				}
 
@@ -185,8 +189,8 @@ public class FindTarget extends CommandBase
 				isFinishedRotate = true;
 			}
 		}
-		else
 		// if the robot lost the object ...
+		else
 		{
 			// kill the driving
 			driveTrain.tankDrive(0.0f, 0.0f);
@@ -204,47 +208,74 @@ public class FindTarget extends CommandBase
 			if(Utility.getFPGATime() > time && stopTimeSet)
 			{
 				// ... we're done here
-				this.end();
+				lostTarget = true;
 			}
 			else
 			// otherwise ...
 			{
 				// ... keep going
 				stopTimeSet = false;
+				lostTarget = false;
 			}
 		}
-	}
-
-	@Override
-	protected void interrupted()
-	{
-		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!!!");
 	}
 
 	@Override
 	public boolean isFinished()
 	{
-		// if the time has been set...
-		if(isFinishedDrive && isFinishedRotate && timeSet)
+		if(lostTarget)
 		{
-			// check it and if the time has expired...
-			if(Utility.getFPGATime() > time)
-			{
-				// ...we're done here
-				isFinished = true;
-				return true;
-			}
-			return false;
+			return true;
 		}
 		else
 		{
-			if(!timeSet)
+			// if the time has been set...
+			if(isFinishedDrive && isFinishedRotate && timeSet)
 			{
-				// set it
-				time = Utility.getFPGATime() + WAIT_TIME;
-				timeSet = true;
+				// check it and if the time has expired...
+				if(Utility.getFPGATime() > time)
+				{
+					double startShootingTime = 0;
+					
+					// if shooting time hasn't been set ...
+					if(!shootingTimeSet)
+					{
+						// set it
+						startShootingTime = Utility.getFPGATime();
+						shootingTimeSet = true;
+					}
+					else
+					{
+						// if time isn't up ...
+						if(Utility.getFPGATime() < startShootingTime + WAIT_TIME)
+						{
+							// rev up the shooter
+							shooter.shoot(1.0);
+						}
+						// otherwise ...
+						else
+						{
+							// shoot that ball
+							shooter.driveServo(true);
+						}
+					}
+					
+					// ...we're done here
+					isFinished = true;
+					return true;
+				}
+				return false;
 			}
-			return false;
+			else
+			{
+				if(!timeSet)
+				{
+					// set it
+					time = Utility.getFPGATime() + WAIT_TIME;
+					timeSet = true;
+				}
+				return false;
+			}
 		}
 	}
 

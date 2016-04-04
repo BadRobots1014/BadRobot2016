@@ -2,7 +2,6 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
-import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -14,16 +13,17 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoTurn extends CommandBase
 {
 
-	public double degree, difference, proportion, sign;
-	public static int rotationCoefficient = 60;
+	private double degree, difference, sign;
+	// private static int rotationCoefficient = 60;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param degree
-	 *            - how far the robot needs to turn. Positive values turn right. Negative values turn left	 *      
+	 *            - how far the robot needs to turn. Positive values turn right. Negative values
+	 *            turn left *
 	 */
-	public AutoTurn(Double degree)
+	public AutoTurn(double degree)
 	{
 		this.degree = degree;
 		requires((Subsystem) driveTrain);
@@ -41,7 +41,7 @@ public class AutoTurn extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		return "AutoTurn";
+		return "Auto_Turn";
 	}
 
 	@Override
@@ -55,28 +55,12 @@ public class AutoTurn extends CommandBase
 	protected void execute()
 	{
 		difference = driveTrain.getAngle() - degree;
-		
-		Logger.logThis("Difference ------------------- " + difference);
 
-		if(sign < 0)
-		{
-			Logger.logThis("Turning left? ... " + rotation());
-			driveTrain.tankDrive((-rotation()), rotation());
-		}
-		else if(sign > 0)
-		{
-			Logger.logThis("Turning right? ... " + rotation());
-			driveTrain.tankDrive(rotation(), -(rotation()));
-		}
+		Logger.log("Difference", "" + difference);
+
+		driveTrain.tankDrive(sign * -0.4, sign * 0.4);
+		Logger.log("Turning " + (sign < 0 ? "Left" : "Right"), "" + rotation());
 	}
-
-	@Override
-	protected void interrupted()
-	{
-		System.out.println("AutoTurn was interrupted");
-
-	}
-
 
 	/**
 	 * 
@@ -84,21 +68,14 @@ public class AutoTurn extends CommandBase
 	 */
 	public double rotation()
 	{
-		return difference / 10;//PID.turnSpeedScale(difference, -Math.PI, Math.PI);
+		return difference / 120;// PID.turnSpeedScale(difference, -Math.PI, Math.PI);
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		// Stops if the difference is in the range0
-		if(Math.abs(difference) < 5)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		// Stops if the difference is in the range 0
+		return Math.abs(difference) < 5;
 	}
 
 }

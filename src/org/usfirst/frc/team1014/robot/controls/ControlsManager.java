@@ -5,11 +5,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands
  * and command groups that allow control of the robot.
+ * 
+ * @author Ryan T.
  */
 public class ControlsManager
 {
 	// PWM
-	
 	public static final int BACK_LEFT_SPEED_CONTROLLER = 1;
 	public static final int FRONT_LEFT_SPEED_CONTROLLER = 5;
 	public static final int BACK_RIGHT_SPEED_CONTROLLER = 2;
@@ -18,23 +19,24 @@ public class ControlsManager
 	public static final int PUSHER = 8;
 
 	// DIO
-	
-	// public static final int FRONT_RIGHT_ENCODER_A = 6;
-	// public static final int FRONT_RIGHT_ENCODER_B = 7;
+	// public static final int FRONT_RIGHT_ENCODER_A = 10;
+	// public static final int FRONT_RIGHT_ENCODER_B = 11;
 	// public static final int FRONT_LEFT_ENCODER_A = 4;
 	// public static final int FRONT_LEFT_ENCODER_B = 5;
-	public static final int BACK_RIGHT_ENCODER_A = 2;
-	public static final int BACK_RIGHT_ENCODER_B = 3;
-	public static final int BACK_LEFT_ENCODER_A = 0;
-	public static final int BACK_LEFT_ENCODER_B = 1;
+	// public static final int BACK_RIGHT_ENCODER_A = 2;
+	// public static final int BACK_RIGHT_ENCODER_B = 3;
+	// public static final int BACK_LEFT_ENCODER_A = 0;
+	// public static final int BACK_LEFT_ENCODER_B = 1;
 
-	public static final int SHOOTER_LEFT_ENCODER_A = 8;
-	public static final int SHOOTER_LEFT_ENCODER_B = 9;
-	public static final int ARTICULATOR_ENCODER_A = 6;
-	public static final int ARTICULATOR_ENCODER_B = 7;
+	public static final int OPTICAL_SENSOR_PING = 8;
 
-	public static final int LIMIT_SWITCH = 4;
-
+	public static final int LED_BIT1 = 4;
+	public static final int LED_BIT2 = 5;
+	
+	public static final int A1SWITCH = 1;
+	public static final int A2SWITCH = 2;
+	public static final int A3SWITCH = 3;
+	
 	// Analog In
 	public static final int MAXBOTIX_ULTRASONIC = 0;
 
@@ -45,9 +47,8 @@ public class ControlsManager
 	public static final int SALLY_PORT_ARM = 4;
 
 	// Relay
-
 	public static final int RING_LIGHT = 0;
-	
+
 	public static DriverStation driverStation;
 	public static XboxController primaryXboxController, secondaryXboxController;
 
