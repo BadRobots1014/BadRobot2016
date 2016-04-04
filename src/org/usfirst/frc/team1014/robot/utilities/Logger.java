@@ -1,5 +1,10 @@
 package org.usfirst.frc.team1014.robot.utilities;
 
+/**
+ * 
+ * @author Ryan T.
+ *
+ */
 public class Logger
 {
 	// is logging enabled

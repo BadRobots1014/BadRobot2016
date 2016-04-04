@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * various variables as inputs and creates its own autonomous program to carry it out.
  * 
  * @author Manu S.
- * 
+ * @edit Ryan T. and Subash C.
  */
 public class AutonomousManager
 {

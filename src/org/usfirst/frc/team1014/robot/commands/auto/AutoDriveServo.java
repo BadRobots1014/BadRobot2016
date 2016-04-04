@@ -4,6 +4,11 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * 
+ * @author Manu S.
+ *
+ */
 public class AutoDriveServo extends CommandBase
 {
 	private boolean servoIn;

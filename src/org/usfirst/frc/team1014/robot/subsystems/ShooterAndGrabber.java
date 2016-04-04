@@ -27,16 +27,16 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	private static final double SERVO_STANDARD_POS = 0.9;
 	private static final double SERVO_EXTENDED_POS = 0.1;
-	// private static final double RING_LIGHT_ON_VALUE = .5;
+	
 	public static final double SHOOTER_LOWEST_POS = 30;
 	public static final double SHOOTER_HIGHEST_POS = 2;
 	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 16;
+	
 	private static final double CUT_POWER_RPM_DROP = 400;
 	public static final double DEFAULT_GRAB_SPEED = -0.5;
 	public static double shooterOffset = 0;
 	public boolean isLow = false;
 
-	// public DigitalInput limitSwitch;
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
 	public SpeedController rotator;
@@ -71,7 +71,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		ringLight = new Relay(ControlsManager.RING_LIGHT);
 		pusher = new Servo(ControlsManager.PUSHER);
 		pusher.set(0);
-		// limitSwitch = new DigitalInput(ControlsManager.LIMIT_SWITCH);
 	}
 
 	/**
@@ -129,11 +128,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		previousRPM = ((BadCAN) left).getRpm();
 	}
 
-	// public boolean returnLimitValue()
-	// {
-	// return !limitSwitch.get();
-	// }
-
 	/**
 	 * Sets grabberSet to true and continues the ball grabbing protocol detailed in {@code setSpeed}
 	 * . Uses {@code grabSpeed} as the speed.
@@ -182,7 +176,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public double getRotatingRPM()
 	{
 		return 0;
-		// return ((BadCAN) rotator).getRpm();
 	}
 
 	/**
@@ -193,15 +186,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void rotate(double speed)
 	{
-		// if(returnLimitValue() && speed > 0)
-		// {
-		// rotator.set(0);
-		// ((BadCAN) rotator).encoder.reset();
-		// }
-		// else
-		// {
-		// rotator.set(speed);
-		// }
 		rotator.set(speed);
 	}
 
@@ -245,38 +229,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			this.rotate(-0.7);
 		}
 		return false;
-		// if(lastOpticalValue)
-		// {
-		// if(pingOpticalSensor())
-		// {
-		// // rotate down quickly if the sensor still sees the tape
-		// rotate(-.4);
-		// }
-		// else
-		// {
-		// if(pingOpticalSensor())
-		// {
-		// // kill it
-		// rotate(0);
-		// }
-		// else
-		// {
-		// // keep rotating because it isn't there yet
-		// rotate(-.6);
-		// }
-		// }
-		// }
-		// else
-		// {
-		// if(pingOpticalSensor())
-		// {
-		// rotate(0);
-		// }
-		// else
-		// {
-		// rotate(-.4);
-		// }
-		// }
 	}
 
 	/**
@@ -294,41 +246,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			this.rotate(0.7);
 		}
 		return false;
-
-		// if(lastOpticalValue)
-		// {
-		// if(pingOpticalSensor())
-		// {
-		// // rotate up quickly if the sensor still sees the tape
-		// rotate(.6);
-		// }
-		// else
-		// {
-		// if(pingOpticalSensor())
-		// {
-		// // kill it because we found it
-		// rotate(0);
-		// }
-		// else
-		// {
-		// // keep rotating because it isn't there yet
-		// rotate(.4);
-		// }
-		// }
-		// }
-		// else
-		// {
-		// if(pingOpticalSensor())
-		// {
-		// rotate(0);
-		// }
-		// else
-		// {
-		// rotate(.4);
-		// }
-		// }
-		//
-		// lastOpticalValue = pingOpticalSensor();
 	}
 
 	public void resetEncoders()
