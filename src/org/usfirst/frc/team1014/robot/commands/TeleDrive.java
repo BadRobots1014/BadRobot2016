@@ -62,7 +62,26 @@ public class TeleDrive extends CommandBase
 		}
 		else
 		{
-			driveTrain.tankDrive(-ControlsManager.primaryXboxController.getRightStickYPrimaryLayout(), -ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout());
+			if(ControlsManager.primaryXboxController.isAButtonPressedPrimaryLayout())
+			{
+				driveTrain.tankDrive(.6, .6);
+			}
+			else if(ControlsManager.primaryXboxController.isYButtonPressedPrimaryLayout())
+			{
+				driveTrain.tankDrive(-.6, -.6);
+			}
+			else if(ControlsManager.primaryXboxController.isXButtonPressedPrimaryLayout())
+			{
+				driveTrain.tankDrive(.6, -.6);
+			}
+			else if(ControlsManager.primaryXboxController.isBButtonPressedPrimaryLayout())
+			{
+				driveTrain.tankDrive(-.6, .6);
+			}
+			else
+			{
+				driveTrain.tankDrive(-ControlsManager.primaryXboxController.getRightStickYPrimaryLayout(), -ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout());
+			}
 
 			gyroSet = false;
 		}
@@ -70,8 +89,7 @@ public class TeleDrive extends CommandBase
 		// Switch between primary and secondary layouts;
 		if(ControlsManager.primaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.primaryXboxController.getLeftTriggerSecondaryLayout() > .5)
 			ControlsManager.changeToSecondaryLayout(1);
-		else
-			ControlsManager.changeToPrimaryLayout(1);
+		else ControlsManager.changeToPrimaryLayout(1);
 
 	}
 

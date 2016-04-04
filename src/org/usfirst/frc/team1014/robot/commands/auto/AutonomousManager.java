@@ -1,8 +1,10 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
+import org.usfirst.frc.team1014.robot.commands.DummyCommand;
 import org.usfirst.frc.team1014.robot.commands.DummyCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.ChevalDeFrise;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Drawbridge;
@@ -10,8 +12,10 @@ import org.usfirst.frc.team1014.robot.commands.auto.defenses.GenericCrossDefense
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.LowBar;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Portcullis;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.SallyPort;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -25,6 +29,7 @@ public class AutonomousManager
 {
 	private static AutonomousManager instance;
 	public HashMap<String, BadCommandGroup> autonomousCommands = new HashMap<String, BadCommandGroup>();
+	public ArrayList<Command> commandsToAdd = new ArrayList<Command>();
 
 	public boolean isShooting = false;
 	public boolean goingForLow = true;
@@ -32,6 +37,31 @@ public class AutonomousManager
 	private Defense defense = Defense.NONE;
 	private double waitTime = 0;
 	private boolean justCross = true;
+
+	public Command waitTimeCommand;
+	public Command crossDefense;
+	public Command moveToTurnSpot;
+	public Command moveShooter;
+	public Command turnToGoal;
+	public Command shootBall;
+	public Command findTargetCommand;
+	private static DigitalInput A1 = new DigitalInput(ControlsManager.A1SWITCH);
+	private static DigitalInput A2 = new DigitalInput(ControlsManager.A2SWITCH);
+	private static DigitalInput A3 = new DigitalInput(ControlsManager.A3SWITCH);
+
+	public static byte pollSwitches()
+	{
+		Logger.logOnce("switchOne " + !A1.get() + " | switchTwo " + !A2.get() + " | " + "switchThree " + !A3.get());
+
+		byte autoToRun = 0;
+		if(!A1.get())
+			autoToRun += 1;
+		if(!A2.get())
+			autoToRun += 2;
+		if(!A3.get())
+			autoToRun += 4;
+		return autoToRun;
+	}
 
 	public enum Defense
 	{
@@ -59,6 +89,8 @@ public class AutonomousManager
 		registerAutonomousCommand("Lowbar_Shoot", new BadCommandGroup(new AutoDriveServo(true), new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0), new AutoShoot(3.0)));
 		registerAutonomousCommand("Go_Over", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132)));
 		registerAutonomousCommand("Go_Over_And_Come_Back", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132), new AutoDrive(2, 1)));
+		registerAutonomousCommand("Spy_Bot_Shoot", new BadCommandGroup(new AutoDriveServo(true), new AutoRotateTime(.5, true), new AutoShoot(2.0), new AutoDrive(.5, .5)));
+		registerAutonomousCommand("Reach_Defense", new BadCommandGroup(new AutoDrive(.5, .5)));
 	}
 
 	public void registerAutonomousCommand(String name, BadCommandGroup command)
@@ -66,7 +98,7 @@ public class AutonomousManager
 		autonomousCommands.put(name, command);
 	}
 
-	public BadCommandGroup getAutnomouscommand(String name)
+	public BadCommandGroup getAutonomousCommand(String name)
 	{
 		return autonomousCommands.get(name);
 	}
@@ -79,7 +111,7 @@ public class AutonomousManager
 		Command moveShooter;
 		Command turnToGoal;
 		Command shootBall;
-		Command findTargetCommand;
+		Command findTargetCommand = new DummyCommand();
 
 		/*
 		 * Picks the defense that the robot will be crossing
@@ -116,6 +148,8 @@ public class AutonomousManager
 		if(defensePos == 1)
 			crossDefense = new LowBar();
 
+		commandsToAdd.add(crossDefense);
+
 		/*
 		 * Makes the robot move the turn spot if it isn't already there
 		 */
@@ -132,6 +166,8 @@ public class AutonomousManager
 				Logger.log(Logger.Level.Error, "Move to Turn", "Default Triggered");
 				break;
 		}
+
+		commandsToAdd.add(moveToTurnSpot);
 
 		/*
 		 * Sets the turn amount based on if the robot is shooting high or low
@@ -187,13 +223,18 @@ public class AutonomousManager
 			}
 		}
 
+		commandsToAdd.add(turnToGoal);
+
 		/*
 		 * Moves the shooter
 		 */
 		if(isShooting && !goingForLow)
 		{
 			moveShooter = new PreDefinedRotation(false);
-			findTargetCommand = new FindTarget();
+
+			commandsToAdd.add(new PreDefinedRotation(false));
+			commandsToAdd.add(new FindTarget());
+			commandsToAdd.add(new AutoShoot(3.0));
 			shootBall = new AutoShoot(3.0);
 		}
 		else if(isShooting && goingForLow)
@@ -201,6 +242,8 @@ public class AutonomousManager
 			moveShooter = new DummyCommandGroup();
 			findTargetCommand = new DummyCommandGroup();
 			shootBall = new AutoShoot(3.0);
+
+			commandsToAdd.add(new AutoShoot(3.0));
 
 		}
 		else

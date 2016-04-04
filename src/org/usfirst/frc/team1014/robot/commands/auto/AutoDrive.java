@@ -24,13 +24,13 @@ public class AutoDrive extends CommandBase
 		this.driveTime = driveTime;
 		this.speed = speed;
 		requires((Subsystem) driveTrain);
-		startTime = Utility.getFPGATime();
 		passedTime = 0;
 	}
 
 	@Override
 	protected void initialize()
 	{
+		startTime = Utility.getFPGATime();
 		driveTrain.tankDrive(0, 0);
 		// targetAngle = driveTrain.getAngle();
 	}

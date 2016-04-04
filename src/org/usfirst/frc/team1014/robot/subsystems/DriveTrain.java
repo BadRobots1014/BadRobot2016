@@ -53,9 +53,9 @@ public class DriveTrain extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
-		backLeft = new BadTalon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER, ControlsManager.BACK_LEFT_ENCODER_A, ControlsManager.BACK_LEFT_ENCODER_B, 1.0 / 250);
+		backLeft = new Talon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER);
 		frontLeft = new Talon(ControlsManager.FRONT_LEFT_SPEED_CONTROLLER);
-		backRight = new BadTalon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER, ControlsManager.BACK_RIGHT_ENCODER_A, ControlsManager.BACK_RIGHT_ENCODER_B, 1.0 / 250);
+		backRight = new Talon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER);
 		frontRight = new Talon(ControlsManager.FRONT_RIGHT_SPEED_CONTROLLER);
 
 		backLeft.setInverted(true);
@@ -173,8 +173,7 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else
-			return ultrasonic.getRangeMM();
+		else return ultrasonic.getRangeMM();
 	}
 
 	/**
@@ -192,8 +191,7 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;
-		else
-			return mxp.getYaw();
+		else return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()

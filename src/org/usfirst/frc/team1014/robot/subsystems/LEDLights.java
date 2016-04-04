@@ -32,7 +32,7 @@ public class LEDLights extends BadSubsystem
 		bit2 = new DigitalOutput(ControlsManager.LED_BIT2);
 	}
 
-	public void SetLights(LEDState state)
+	public void setLights(LEDState state)
 	{
 		switch(state)
 		{
