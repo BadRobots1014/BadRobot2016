@@ -5,7 +5,7 @@ public class Logger
 	// is logging enabled
 	private static boolean CONSOLE_OUTPUT_ENABLED = true;
 	// is logging debug mode enabled
-	private static boolean DEBUG_ENABLED = true;
+	private static boolean DEBUG_ENABLED = false;
 
 	public static void logOnce(String toLog)
 	{

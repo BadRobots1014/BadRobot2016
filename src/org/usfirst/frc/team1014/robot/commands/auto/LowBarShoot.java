@@ -8,8 +8,8 @@ public class LowBarShoot extends CommandGroup
 	{
 		this.addSequential(new AutoDriveServo(true));
 		this.addSequential(new PreDefinedRotation(true));
-		this.addSequential(new AutoDriveDistanceEncoder(.7, 8.409));
+		this.addSequential(new AutoDrive(4, .6));
 		this.addSequential(new AutoTurn(60.0));
-		this.addSequential(new AutoShoot(1.0));
+		this.addSequential(new AutoShoot(3.0));
 	}
 }

@@ -8,7 +8,7 @@ public class LowBarStay extends CommandGroup
 	{
 		this.addSequential(new AutoDriveServo(true));
 		this.addSequential(new PreDefinedRotation(true));
-		this.addSequential(new AutoDriveDistanceEncoder(.6, 8.409));
+		this.addSequential(new AutoDrive(4, .6));
 		this.addSequential(new AutoTurn(60.0));
 	}
 }

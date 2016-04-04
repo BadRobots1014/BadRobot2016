@@ -36,7 +36,7 @@ public class AutoShoot extends CommandBase
 	{
 		endingTime = Utility.getFPGATime() + runTime;
 		currentTime = Utility.getFPGATime();
-		servoActiveTime = currentTime + .5*1000000;
+		servoActiveTime = currentTime + .5 * 1000000;
 		shooter.shoot(0);
 		shooter.driveServo(false);
 	}
@@ -57,13 +57,13 @@ public class AutoShoot extends CommandBase
 	@Override
 	protected void execute()
 	{
-		shooter.shoot(1);
+
+		shooter.shoot(.85);
 		currentTime = Utility.getFPGATime();
 
 		if(currentTime >= servoActiveTime)
 			shooter.driveServo(true);
-		else
-			shooter.driveServo(false);
+		else shooter.driveServo(false);
 	}
 
 	/**

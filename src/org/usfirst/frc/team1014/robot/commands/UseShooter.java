@@ -2,8 +2,6 @@ package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
-import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
 
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class UseShooter extends CommandBase
 {
 	// Value to multiply rotation value by to decrease sensitivity
-	private static final double ROTATION_SPEED_MULTIPLIER = .5;
+	private static final double ROTATION_SPEED_MULTIPLIER = .7;
 	// private static final double SHOOTER_SPEED_ADJUST_INTERVAL = .1;
 	// private static final double MAX_SHOOTER_SPEED = 1.0;
 	// private static final double MIN_SHOOTER_SPEED = .5;
@@ -78,22 +76,20 @@ public class UseShooter extends CommandBase
 		shooter.driveServo(isServoOut);
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
-		Logger.log(Level.Info, "Stick Y1", "" + ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout());
 		if(Math.abs(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER) > .15)
 		{
 			shooterUp = false;
 			shooterDown = false;
-			Logger.log(Level.Info, "Stick Y2", "" + ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout());
 			shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
 		}
 		else
 		{
-			if(ControlsManager.secondaryXboxController.isYButtonPressedPrimaryLayout())
+			if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
 			{
 				shooterUp = true;
 				shooterDown = false;
 			}
-			else if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
+			else if(ControlsManager.secondaryXboxController.isYButtonPressedPrimaryLayout())
 			{
 				shooterDown = true;
 				shooterUp = false;
@@ -149,16 +145,16 @@ public class UseShooter extends CommandBase
 
 		if(shooterUp)
 		{
-			shooter.moveToHigherRetroTape();
+			shooterUp = !shooter.moveToHigherRetroTape();
 		}
 		else if(shooterDown)
 		{
-			shooter.moveToLowerRetroTape();
+			shooterDown = !shooter.moveToLowerRetroTape();
 		}
 
 		if(isAutoShooting)
 		{
-			shooter.shoot(1.0);
+			shooter.shoot(0.85);
 			if(Utility.getFPGATime() - startShootTime > 3 * 1000000)
 			{
 				shooter.shoot(0);
@@ -190,8 +186,7 @@ public class UseShooter extends CommandBase
 			this.ringLightButtonPressed = false;
 		}
 
-		shooter.pingOpticalSensor();
-
+		shooter.detectedTape = shooter.pingOpticalSensor();
 	}
 
 	@Override

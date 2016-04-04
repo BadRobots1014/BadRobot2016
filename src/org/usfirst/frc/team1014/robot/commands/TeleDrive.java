@@ -62,32 +62,31 @@ public class TeleDrive extends CommandBase
 		{
 			if(ControlsManager.primaryXboxController.isAButtonPressedPrimaryLayout())
 			{
-				driveTrain.tankDrive(.5, .5);
+				driveTrain.tankDrive(.6, .6);
 			}
 			else if(ControlsManager.primaryXboxController.isYButtonPressedPrimaryLayout())
 			{
-				driveTrain.tankDrive(-.5, -.5);
+				driveTrain.tankDrive(-.6, -.6);
 			}
 			else if(ControlsManager.primaryXboxController.isXButtonPressedPrimaryLayout())
 			{
-				driveTrain.tankDrive(-.5, .5);
+				driveTrain.tankDrive(.6, -.6);
 			}
 			else if(ControlsManager.primaryXboxController.isBButtonPressedPrimaryLayout())
 			{
-				driveTrain.tankDrive(.5, -.5);
+				driveTrain.tankDrive(-.6, .6);
 			}
 			else
 			{
 				driveTrain.tankDrive(-ControlsManager.primaryXboxController.getRightStickYPrimaryLayout(), -ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout());
 			}
-			
+
 			gyroSet = false;
 		}
 
 		if(ControlsManager.primaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.primaryXboxController.getLeftTriggerSecondaryLayout() > .5)
 			ControlsManager.changeToSecondaryLayout(1);
-		else
-			ControlsManager.changeToPrimaryLayout(1);
+		else ControlsManager.changeToPrimaryLayout(1);
 
 	}
 

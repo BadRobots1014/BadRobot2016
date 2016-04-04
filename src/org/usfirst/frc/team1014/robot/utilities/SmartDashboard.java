@@ -1,10 +1,20 @@
 package org.usfirst.frc.team1014.robot.utilities;
 
-import org.usfirst.frc.team1014.robot.Robot;
+import java.util.HashMap;
+
+import org.usfirst.frc.team1014.robot.commands.DummyCommand;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
 import org.usfirst.frc.team1014.robot.commands.auto.AutonomousManager;
+import org.usfirst.frc.team1014.robot.commands.auto.LowBarShoot;
+import org.usfirst.frc.team1014.robot.commands.auto.LowBarStay;
+import org.usfirst.frc.team1014.robot.commands.auto.SpyBotShootHigh;
+import org.usfirst.frc.team1014.robot.commands.auto.SpyBotShootHighAndMove;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * Class that setups and manages the smart dashboard.
@@ -16,6 +26,8 @@ public class SmartDashboard
 	// private ArrayList<Command> commandClasses = CommandBase.commandClasses;
 	private static String commandToRun = "";
 	private static final String commandRunKey = "Command running: ";
+	private static HashMap<String, Command> autoCommands = new HashMap<String, Command>();
+	private USBCamera camera;
 
 	// private Defense[] defenseToCross = Defense.values();
 	// private boolean willShoot = false;
@@ -23,14 +35,17 @@ public class SmartDashboard
 	// private double[] defensePos = { 1.0, 2.0, 3.0, 4.0, 5.0 };
 	// private double waitTime = 0.0;
 	// private boolean justCross = true;
-	private boolean genericCross = false;
-	private boolean lowBarStay = false;
-	private boolean lowBarShoot = false;
-	private boolean spyBotShoot = false;
 
 	public SmartDashboard()
 	{
+		camera = new USBCamera("cam2");
+		camera.openCamera();
+		CameraServer.getInstance().startAutomaticCapture(camera);
 		table = NetworkTable.getTable("SmartDashboard");
+		// autoCommands.put("SpyBotShootHigh", new SpyBotShootHigh());
+		// autoCommands.put("LowBarStay", new LowBarStay());
+		// autoCommands.put("LowBarShoot", new LowBarShoot());
+		// autoCommands.put("GenericCross", new AutoDrive(2, .9));
 		setup();
 	}
 
@@ -58,10 +73,12 @@ public class SmartDashboard
 		// table.putValue("waitTime", waitTime);
 		// table.putValue("defensePos", defensePos);
 		// table.putValue("justCross", justCross);
-		table.putValue("Generic_Cross", genericCross);
-		table.putValue("Lowbar_Stay", lowBarStay);
-		table.putValue("Lowbar_Shoot", lowBarShoot);
-		table.putValue("Spy_Bot_Shoot", spyBotShoot);
+		for(String key : table.getKeys())
+			table.delete(key);
+		for(String str : autoCommands.keySet())
+		{
+			table.putValue(str, false);
+		}
 		// for(Command command : commandClasses)
 		// table.putBoolean(command.getName(), false);
 	}
@@ -69,37 +86,81 @@ public class SmartDashboard
 	/**
 	 * Goes through the {@link NetworkTable} and adds commands to the scheduler.
 	 */
-	public void poll()
+	public Command poll()
 	{
 		// Puts the autonomous string on the Dashboard so the human can see
 
-		if((Boolean) table.getValue("genericCross", true))
+		for(String str : autoCommands.keySet())
 		{
-			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Generic_Cross");
-			commandToRun = "genericCross";
+			if(table.getBoolean(str, false))
+			{
+				table.putString(commandRunKey, str);
+				return autoCommands.get(str);
+			}
 		}
-		else if((Boolean) table.getValue("Lowbar_Stay", true))
+		byte switchState = AutonomousManager.pollSwitches();
+		commandToRun = "DummyCommand";
+		Command defaultCommand = new DummyCommand();
+		// Add the A1 and A2 and A3 pins in ControlsManager and make sure to fill the CommandToRun
+		// and
+		// defaultCommand variables underneath.
+		// Logger.logOnce("" + switchState);
+		switch(switchState)
 		{
-			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Lowbar_Stay");
-			commandToRun = "lowBarStay";
+			case 0:
+				commandToRun = "GenericCross";
+				defaultCommand = new AutoDrive(2, .9);
+				break;
+			case 1:
+				commandToRun = "LowBarStay";
+				defaultCommand = new LowBarStay();
+				break;
+			case 2:
+				commandToRun = "LowBarShoot";
+				defaultCommand = new LowBarShoot();
+				break;
+			case 3:
+				commandToRun = "SpyBotShootHigh";
+				defaultCommand = new SpyBotShootHigh();
+				break;
+			case 4:
+				commandToRun = "ReachDefense";
+				defaultCommand = new SpyBotShootHighAndMove();
+				break;
+			case 5:
+				commandToRun = "ReachDefense";
+				defaultCommand = new AutoDrive(.5, .5);
+				break;
+			case 6:
+				commandToRun = "ReachDefense";
+				defaultCommand = new AutoDrive(.5, .5);
+				break;
+			case 7:
+				commandToRun = "ReachDefense";
+				defaultCommand = new AutoDrive(.5, .5);
+				break;
 		}
-		else if((Boolean) table.getValue("Lowbar_Shoot", true))
-		{
-			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Lowbar_Shoot");
-			commandToRun = "lowBarShoot";
-		}
-		else if((Boolean) table.getValue("Spy_Bot_Shoot", true))
-		{
-			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Spy_Bot_Shoot");
-			commandToRun = "spyBotShoot";
-		}
-		else
-		{
-			Robot.autonomousCommand = AutonomousManager.getInstance().getAutonomousCommand("Reach_Defense");
-			commandToRun = "Reach_Defense";
-		}
-
 		table.putString(commandRunKey, commandToRun);
+		return defaultCommand;
+		/*
+		 * if((Boolean) table.getValue("genericCross", true)) { Robot.autonomousCommand =
+		 * AutonomousManager.getInstance().getAutonomousCommand("Generic_Cross"); commandToRun =
+		 * "genericCross"; } else if((Boolean) table.getValue("Lowbar_Stay", true)) {
+		 * Robot.autonomousCommand =
+		 * AutonomousManager.getInstance().getAutonomousCommand("Lowbar_Stay"); commandToRun =
+		 * "lowBarStay"; } else if((Boolean) table.getValue("Lowbar_Shoot", true)) {
+		 * Robot.autonomousCommand =
+		 * AutonomousManager.getInstance().getAutonomousCommand("Lowbar_Shoot"); commandToRun =
+		 * "lowBarShoot"; } else if((Boolean) table.getValue("Spy_Bot_Shoot", true)) {
+		 * Robot.autonomousCommand =
+		 * AutonomousManager.getInstance().getAutonomousCommand("Spy_Bot_Shoot"); commandToRun =
+		 * "spyBotShoot"; } else { Robot.autonomousCommand =
+		 * AutonomousManager.getInstance().getAutonomousCommand("Reach_Defense"); commandToRun =
+		 * "Reach_Defense"; }
+		 * 
+		 * table.putString(commandRunKey, commandToRun);
+		 */
+
 	}
 
 	/**

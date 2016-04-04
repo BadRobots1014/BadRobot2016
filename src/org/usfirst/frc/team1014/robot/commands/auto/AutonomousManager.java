@@ -11,8 +11,10 @@ import org.usfirst.frc.team1014.robot.commands.auto.defenses.GenericCrossDefense
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.LowBar;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Portcullis;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.SallyPort;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -43,6 +45,23 @@ public class AutonomousManager extends CommandGroup
 	public Command turnToGoal;
 	public Command shootBall;
 	public Command findTargetCommand;
+	private static DigitalInput A1 = new DigitalInput(ControlsManager.A1SWITCH);
+	private static DigitalInput A2 = new DigitalInput(ControlsManager.A2SWITCH);
+	private static DigitalInput A3 = new DigitalInput(ControlsManager.A3SWITCH);
+
+	public static byte pollSwitches()
+	{
+		Logger.logOnce("switchOne " + !A1.get() + " | switchTwo " + !A2.get() + " | " + "switchThree " + !A3.get());
+
+		byte autoToRun = 0;
+		if(!A1.get())
+			autoToRun += 1;
+		if(!A2.get())
+			autoToRun += 2;
+		if(!A3.get())
+			autoToRun += 4;
+		return autoToRun;
+	}
 
 	public enum Defense
 	{
@@ -123,7 +142,7 @@ public class AutonomousManager extends CommandGroup
 			crossDefense = new LowBar();
 
 		commandsToAdd.add(crossDefense);
-		
+
 		/*
 		 * Makes the robot move the turn spot if it isn't already there
 		 */
@@ -140,7 +159,7 @@ public class AutonomousManager extends CommandGroup
 				Logger.log(Logger.Level.Error, "Move to Turn", "Default Triggered");
 				break;
 		}
-		
+
 		commandsToAdd.add(moveToTurnSpot);
 
 		/*
@@ -196,7 +215,7 @@ public class AutonomousManager extends CommandGroup
 					break;
 			}
 		}
-		
+
 		commandsToAdd.add(turnToGoal);
 
 		/*
@@ -207,7 +226,7 @@ public class AutonomousManager extends CommandGroup
 			moveShooter = new PreDefinedRotation(false);
 			findTargetCommand = new FindTarget();
 			shootBall = new AutoShoot(new Double(3));
-			
+
 			commandsToAdd.add(new PreDefinedRotation(false));
 			commandsToAdd.add(new FindTarget());
 			commandsToAdd.add(new AutoShoot(3.0));
@@ -217,7 +236,7 @@ public class AutonomousManager extends CommandGroup
 			moveShooter = new DummyCommandGroup();
 			findTargetCommand = new DummyCommandGroup();
 			shootBall = new AutoShoot(new Double(3));
-			
+
 			commandsToAdd.add(new AutoShoot(3.0));
 
 		}
@@ -258,9 +277,9 @@ public class AutonomousManager extends CommandGroup
 		this.addSequential(turnToGoal);
 		this.addSequential(findTargetCommand);
 		this.addSequential(shootBall);
-		
-//		for(Command c : commandsToAdd)
-//			this.addSequential(c);
+
+		// for(Command c : commandsToAdd)
+		// this.addSequential(c);
 	}
 
 	public boolean isShooting()
