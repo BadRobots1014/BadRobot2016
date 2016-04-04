@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 import org.usfirst.frc.team1014.robot.sensors.BadUltrasonic;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
@@ -26,7 +27,7 @@ public class DriveTrain extends BadSubsystem
 	private RobotDrive train;
 
 	private static DriveTrain instance;
-	private SpeedController backLeft, frontLeft, backRight, frontRight;
+	public SpeedController backLeft, frontLeft, backRight, frontRight;
 	private LIDAR lidar;
 	private Ultrasonic ultrasonic;
 	private BadUltrasonic maxbotix;
@@ -34,7 +35,8 @@ public class DriveTrain extends BadSubsystem
 	private SerialPort serialPort;
 
 	public DriveTrain()
-	{ }
+	{
+	}
 
 	/**
 	 * returns the current instance of drive train. If none exists, then it creates a new instance.
@@ -51,10 +53,15 @@ public class DriveTrain extends BadSubsystem
 	@Override
 	protected void initialize()
 	{
-		backLeft = new Talon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER);
+		backLeft = new BadTalon(ControlsManager.BACK_LEFT_SPEED_CONTROLLER, ControlsManager.BACK_LEFT_ENCODER_A, ControlsManager.BACK_LEFT_ENCODER_B, 1.0 / 250);
 		frontLeft = new Talon(ControlsManager.FRONT_LEFT_SPEED_CONTROLLER);
-		backRight = new Talon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER);
+		backRight = new BadTalon(ControlsManager.BACK_RIGHT_SPEED_CONTROLLER, ControlsManager.BACK_RIGHT_ENCODER_A, ControlsManager.BACK_RIGHT_ENCODER_B, 1.0 / 250);
 		frontRight = new Talon(ControlsManager.FRONT_RIGHT_SPEED_CONTROLLER);
+
+		backLeft.setInverted(true);
+		frontLeft.setInverted(true);
+		backRight.setInverted(true);
+		frontRight.setInverted(true);
 
 		lidar = new LIDAR(Port.kMXP);
 
@@ -76,14 +83,16 @@ public class DriveTrain extends BadSubsystem
 
 	/**
 	 * Drives the robot in tank mode
-	 * @param leftStickY forward speed of left motors
-	 * @param rightStickY forward speed of right motors
+	 * 
+	 * @param leftStickY
+	 *            forward speed of left motors
+	 * @param rightStickY
+	 *            forward speed of right motors
 	 */
 	public void tankDrive(double leftStickY, double rightStickY)
 	{
 		train.tankDrive(leftStickY, rightStickY);
 	}
-
 
 	/**
 	 * This method allows the robot to go straight with just two parameters. The robot first
@@ -98,23 +107,22 @@ public class DriveTrain extends BadSubsystem
 	 *            - the angle the robot wants to correct to
 	 */
 	public void driveStraight(double moveSpeed, double targetGyro)
-  	{
-		double difference180 = targetGyro - getAngle();
-		
-		Logger.logThis("" + difference180);
-		
+	{
+		double difference180 = getAngle() - targetGyro;
 		double turnSpeed = 0;
 		
-		if(Math.abs(difference180) > 5)
+		if(Math.abs(difference180) > 3)
 		{
-			turnSpeed = moveSpeed * PID.trigScale(-Math.PI, Math.PI, Math.toRadians(difference180));
+			turnSpeed = PID.turnSpeedScale(Math.toRadians(difference180), -Math.PI, Math.PI);
+
+			Logger.logThis("turning Speed " + turnSpeed);
 			
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);
-			
-			if(Math.abs(turnSpeed) < .4)
-				turnSpeed = .4 * turnSpeed / Math.abs(turnSpeed);
-			
+
+			if(Math.abs(turnSpeed) < .45)
+				turnSpeed = .45 * turnSpeed / Math.abs(turnSpeed);
+
 			tankDrive(turnSpeed, -turnSpeed);
 		}
 		else
@@ -123,9 +131,14 @@ public class DriveTrain extends BadSubsystem
 		}
 	}
 
+	public double getDriveEncoderDistance()
+	{
+		return ((BadTalon) backLeft).encoder.getDistance();
+	}
+
 	/**
-	 * Updates the lidar distance and returns it.
-	 * Unit not specified.
+	 * Updates the lidar distance and returns it. Unit not specified.
+	 * 
 	 * @return distance
 	 */
 	public double getLIDARDistance()
@@ -133,7 +146,6 @@ public class DriveTrain extends BadSubsystem
 		lidar.updateDistance();
 		return lidar.getDistance();
 	}
-
 
 	/**
 	 * This method returns the distance to the nearest object in inches from the Maxbotix sensor.
@@ -146,10 +158,11 @@ public class DriveTrain extends BadSubsystem
 	}
 
 	/**
-	 * Returns the distance from the ultrasonic sensor.
-	 * <br /><br />
-	 * If {@code inInches} is true the distance is returned in inches.
-	 * If {@code inInches} is false the distance is returned in millimeters.
+	 * Returns the distance from the ultrasonic sensor. <br />
+	 * <br />
+	 * If {@code inInches} is true the distance is returned in inches. If {@code inInches} is false
+	 * the distance is returned in millimeters.
+	 * 
 	 * @param inInches
 	 * @return the distance
 	 */
@@ -157,8 +170,7 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else
-			return ultrasonic.getRangeMM();
+		else return ultrasonic.getRangeMM();
 	}
 
 	/**
@@ -176,8 +188,7 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;
-		else
-			return mxp.getYaw();
+		else return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()
@@ -196,11 +207,11 @@ public class DriveTrain extends BadSubsystem
 		return "DriveTrain";
 	}
 
-	public float getRoll() {
+	public float getRoll()
+	{
 		return mxp.getRoll();
 	}
-	
-	
+
 	@Override
 	protected void initDefaultCommand()
 	{

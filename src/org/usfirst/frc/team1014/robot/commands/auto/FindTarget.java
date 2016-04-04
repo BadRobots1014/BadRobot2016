@@ -103,12 +103,14 @@ public class FindTarget extends CommandBase
 	{
 		// how fast the robot will move
 		double moveSpeed;
+		
+		shooter.ringLightOn();
 
 		// allows the driver to shoot the ball at any time
-		shooter.setSpeeds(ControlsManager.secondaryXboxController.getRightStickY());
+		shooter.shoot(-ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout());
 
 		// moves the cam servo at any time
-		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
 			isServoOut = true;
 		else isServoOut = false;
 
@@ -171,7 +173,6 @@ public class FindTarget extends CommandBase
 			{
 				// set the direction of the shooter's movement
 				moveSpeed = cam.getY() > 0 ? ROTATE_SPEED : -ROTATE_SPEED;
-				Logger.logThis("Rotating Speed: " + moveSpeed);
 
 				// move it at that speed
 				shooter.rotate(moveSpeed);
@@ -259,7 +260,7 @@ public class FindTarget extends CommandBase
 						if(Utility.getFPGATime() < startShootingTime + WAIT_TIME)
 						{
 							// rev up the shooter
-							shooter.shootAt(1);
+							shooter.shoot(1.0);
 						}
 						// otherwise ...
 						else
