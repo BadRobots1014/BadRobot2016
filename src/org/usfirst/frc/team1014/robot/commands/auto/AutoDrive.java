@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AutoDrive extends CommandBase
 {
 
-	public double driveTime;
-	public double speed;
-	public double startTime;
-	public double passedTime;
-	public double targetAngle;
+	private double driveTime;
+	private double speed;
+	private double startTime;
+	private double passedTime;
+	// private double targetAngle;
 
 	public AutoDrive(double driveTime, double speed)
 	{
@@ -32,7 +32,7 @@ public class AutoDrive extends CommandBase
 	{
 		startTime = Utility.getFPGATime();
 		driveTrain.tankDrive(0, 0);
-		targetAngle = driveTrain.getAngle();
+		// targetAngle = driveTrain.getAngle();
 	}
 
 	@Override

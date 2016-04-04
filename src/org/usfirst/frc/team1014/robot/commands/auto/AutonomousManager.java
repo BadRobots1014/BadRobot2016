@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
+import org.usfirst.frc.team1014.robot.commands.DummyCommand;
 import org.usfirst.frc.team1014.robot.commands.DummyCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.ChevalDeFrise;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Drawbridge;
@@ -16,7 +17,6 @@ import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * This {@code CommandGroup} is how we will run our autonomous programs. The constructor takes
@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * @author Manu S.
  * 
  */
-public class AutonomousManager extends CommandGroup
+public class AutonomousManager
 {
 	private static AutonomousManager instance;
 	public HashMap<String, BadCommandGroup> autonomousCommands = new HashMap<String, BadCommandGroup>();
@@ -105,6 +105,13 @@ public class AutonomousManager extends CommandGroup
 
 	public void setup()
 	{
+		Command waitTimeCommand;
+		BadCommandGroup crossDefense;
+		Command moveToTurnSpot;
+		Command moveShooter;
+		Command turnToGoal;
+		Command shootBall;
+		Command findTargetCommand = new DummyCommand();
 
 		/*
 		 * Picks the defense that the robot will be crossing
@@ -170,22 +177,22 @@ public class AutonomousManager extends CommandGroup
 			switch(defensePos)
 			{
 				case 1:
-					turnToGoal = new AutoTurn(new Double(60));
+					turnToGoal = new AutoTurn(60.0);
 					break;
 				case 2:
-					turnToGoal = new AutoTurn(new Double(60));
+					turnToGoal = new AutoTurn(60.0);
 					break;
 				case 3:
-					turnToGoal = new AutoTurn(new Double(-30));
+					turnToGoal = new AutoTurn(-30.0);
 					break;
 				case 4:
-					turnToGoal = new AutoTurn(new Double(30));
+					turnToGoal = new AutoTurn(30.0);
 					break;
 				case 5:
-					turnToGoal = new AutoTurn(new Double(-60));
+					turnToGoal = new AutoTurn(-60.0);
 					break;
 				default:
-					turnToGoal = new AutoTurn(new Double(0));
+					turnToGoal = new AutoTurn(0.0);
 					Logger.log(Logger.Level.Error, "AutoTurn", "Default Triggered");
 					break;
 			}
@@ -195,22 +202,22 @@ public class AutonomousManager extends CommandGroup
 			switch(defensePos)
 			{
 				case 1:
-					turnToGoal = new AutoTurn(new Double(60));
+					turnToGoal = new AutoTurn(60.0);
 					break;
 				case 2:
-					turnToGoal = new AutoTurn(new Double(60));
+					turnToGoal = new AutoTurn(60.0);
 					break;
 				case 3:
-					turnToGoal = new AutoTurn(new Double(22));
+					turnToGoal = new AutoTurn(22.0);
 					break;
 				case 4:
-					turnToGoal = new AutoTurn(new Double(-8));
+					turnToGoal = new AutoTurn(-8.0);
 					break;
 				case 5:
-					turnToGoal = new AutoTurn(new Double(-60));
+					turnToGoal = new AutoTurn(-60.0);
 					break;
 				default:
-					turnToGoal = new AutoTurn(new Double(0));
+					turnToGoal = new AutoTurn(0.0);
 					Logger.log(Logger.Level.Error, "AutoTurn", "Default Triggered");
 					break;
 			}
@@ -224,18 +231,17 @@ public class AutonomousManager extends CommandGroup
 		if(isShooting && !goingForLow)
 		{
 			moveShooter = new PreDefinedRotation(false);
-			findTargetCommand = new FindTarget();
-			shootBall = new AutoShoot(new Double(3));
 
 			commandsToAdd.add(new PreDefinedRotation(false));
 			commandsToAdd.add(new FindTarget());
 			commandsToAdd.add(new AutoShoot(3.0));
+			shootBall = new AutoShoot(3.0);
 		}
 		else if(isShooting && goingForLow)
 		{
 			moveShooter = new DummyCommandGroup();
 			findTargetCommand = new DummyCommandGroup();
-			shootBall = new AutoShoot(new Double(3));
+			shootBall = new AutoShoot(3.0);
 
 			commandsToAdd.add(new AutoShoot(3.0));
 
@@ -266,20 +272,9 @@ public class AutonomousManager extends CommandGroup
 			findTargetCommand = new DummyCommandGroup();
 			shootBall = new DummyCommandGroup();
 		}
-	}
 
-	public void queue()
-	{
-		this.addSequential(waitTimeCommand);
-		this.addSequential(crossDefense);
-		this.addSequential(moveToTurnSpot);
-		this.addSequential(moveShooter);
-		this.addSequential(turnToGoal);
-		this.addSequential(findTargetCommand);
-		this.addSequential(shootBall);
-
-		// for(Command c : commandsToAdd)
-		// this.addSequential(c);
+		crossDefense.build();
+		this.registerAutonomousCommand("Custom_Defense_Cross", new BadCommandGroup(waitTimeCommand, crossDefense, moveToTurnSpot, moveShooter, turnToGoal, findTargetCommand, shootBall));
 	}
 
 	public boolean isShooting()

@@ -36,7 +36,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	public static double shooterOffset = 0;
 	public boolean isLow = false;
 
-	public DigitalInput limitSwitch;
+	// public DigitalInput limitSwitch;
 	public static ShooterAndGrabber instance;
 	private SpeedController left, right;
 	public SpeedController rotator;

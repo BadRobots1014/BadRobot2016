@@ -14,8 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class AutoGrab extends CommandBase
 {
-	// Initialize variables
-	double currentTime, endingTime, time;
+	private double currentTime, endingTime, time;
 
 	/**
 	 * basic constructor

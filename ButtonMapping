@@ -18,7 +18,7 @@ Primary XBox Controller:
 	
 	Second Layout:
 	* LT - 
-		Hold - changes to second layout
+		Hold - changes to first layout
 	
 Secondary XBox Controller: 
 
@@ -28,14 +28,14 @@ Secondary XBox Controller:
 	* Right Stick - 
 		Y - moves the shooter up and down
 	* A -
+	
+	* B -
+		Press - Auto shoots the ball
+	* X - 
 		Hold - keeps servo out (in shooting position)
 		Release - servo goes back to retracted position
-	* B -
-		Press - moves the rotator to the up position
-	* X - 
-		Press - moves the rotator to the down position
 	* Y - 
-		Press - activates the vision tracking
+	
 	* RB - 
 		Hold - grabs the ball, making sure to stop
 	* Start - 
@@ -47,4 +47,4 @@ Secondary XBox Controller:
 	* Right Stick - 
 		Y - moves the Sally Port arm up and down
 	* LT - 
-		Hold - changes to second layout
+		Hold - changes to first layout

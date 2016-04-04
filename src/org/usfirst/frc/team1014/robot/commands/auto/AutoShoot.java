@@ -60,7 +60,6 @@ public class AutoShoot extends CommandBase
 
 		shooter.shoot(.85);
 		currentTime = Utility.getFPGATime();
-
 		if(currentTime >= servoActiveTime)
 			shooter.driveServo(true);
 		else shooter.driveServo(false);

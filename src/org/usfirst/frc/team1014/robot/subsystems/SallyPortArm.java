@@ -30,7 +30,7 @@ public class SallyPortArm extends BadSubsystem
 		actuator = new CANTalon(ControlsManager.SALLY_PORT_ARM);
 	}
 
-	public void useIt(double power)
+	public void setPower(double power)
 	{
 		actuator.set(power);
 	}

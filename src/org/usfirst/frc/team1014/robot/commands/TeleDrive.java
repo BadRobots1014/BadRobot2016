@@ -49,6 +49,7 @@ public class TeleDrive extends CommandBase
 	@Override
 	protected void execute()
 	{
+		// Normal drive and drive straight
 		if(ControlsManager.primaryXboxController.isLBButtonPressedPrimaryLayout())
 		{
 			if(!gyroSet)
@@ -56,6 +57,7 @@ public class TeleDrive extends CommandBase
 				targetGyro = driveTrain.getAngle();
 				gyroSet = true;
 			}
+			// TODO: Change so we are not inverting
 			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout(), targetGyro);
 		}
 		else
@@ -84,6 +86,7 @@ public class TeleDrive extends CommandBase
 			gyroSet = false;
 		}
 
+		// Switch between primary and secondary layouts;
 		if(ControlsManager.primaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.primaryXboxController.getLeftTriggerSecondaryLayout() > .5)
 			ControlsManager.changeToSecondaryLayout(1);
 		else ControlsManager.changeToPrimaryLayout(1);

@@ -42,10 +42,6 @@ public class SmartDashboard
 		camera.openCamera();
 		CameraServer.getInstance().startAutomaticCapture(camera);
 		table = NetworkTable.getTable("SmartDashboard");
-		// autoCommands.put("SpyBotShootHigh", new SpyBotShootHigh());
-		// autoCommands.put("LowBarStay", new LowBarStay());
-		// autoCommands.put("LowBarShoot", new LowBarShoot());
-		// autoCommands.put("GenericCross", new AutoDrive(2, .9));
 		setup();
 	}
 
@@ -55,9 +51,7 @@ public class SmartDashboard
 	public static SmartDashboard getInstance()
 	{
 		if(smartDashboard == null)
-		{
 			smartDashboard = new SmartDashboard();
-		}
 		return smartDashboard;
 	}
 

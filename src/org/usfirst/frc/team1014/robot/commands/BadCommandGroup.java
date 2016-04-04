@@ -3,6 +3,11 @@ package org.usfirst.frc.team1014.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * 
+ * @author Ryan T.
+ *
+ */
 public class BadCommandGroup extends CommandGroup
 {
 	private Command[] commands;

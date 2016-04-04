@@ -35,7 +35,6 @@ public class Robot extends IterativeRobot
 		CommandBase.init();
 		// AutonomousManager.getInstance().loadAutonoumsCommands();
 		dashboard = SmartDashboard.getInstance();
-		// autonomousCommand = new LowBarStay();
 		badScheduler = new BadScheduler(TeleopGroup.class);
 		Logger.logOnce("working till here");
 

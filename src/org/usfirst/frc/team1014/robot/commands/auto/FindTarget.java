@@ -102,10 +102,7 @@ public class FindTarget extends CommandBase
 		shooter.shoot(-ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout());
 
 		// moves the cam servo at any time
-		if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
-			isServoOut = true;
-		else
-			isServoOut = false;
+		isServoOut = ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout();
 
 		shooter.driveServo(isServoOut);
 
@@ -120,9 +117,7 @@ public class FindTarget extends CommandBase
 
 				// if the move speed is not the same as the ideal turning speed
 				if(Math.abs(moveSpeed) != TURN_SPEED)
-				{
 					moveSpeed = TURN_SPEED; // ... set it equal to it
-				}
 
 				// make move speed negative or position based on the target's location
 				moveSpeed = cam.getX() > 0 ? moveSpeed : -moveSpeed;

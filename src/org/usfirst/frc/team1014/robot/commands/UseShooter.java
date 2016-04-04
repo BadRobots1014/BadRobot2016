@@ -70,9 +70,7 @@ public class UseShooter extends CommandBase
 		// }
 
 		// servo control
-		if(ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout())
-			isServoOut = true;
-		else isServoOut = false;
+		isServoOut = ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout();
 		shooter.driveServo(isServoOut);
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
@@ -120,6 +118,7 @@ public class UseShooter extends CommandBase
 		// shooter.shoot(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
 		// }
 
+		// Auto grabber, Auto shooter and manual shooter
 		if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
 		{
 			startShootTime = 0;

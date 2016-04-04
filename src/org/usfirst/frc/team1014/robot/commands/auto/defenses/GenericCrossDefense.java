@@ -1,15 +1,17 @@
 package org.usfirst.frc.team1014.robot.commands.auto.defenses;
 
+import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveDistanceEncoder;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveServo;
 import org.usfirst.frc.team1014.robot.commands.auto.PreDefinedRotation;
 
-//github.com/BadRobots1014/BadRobot2016.git
-import edu.wpi.first.wpilibj.command.CommandGroup;
-
-public class GenericCrossDefense extends CommandGroup
+public class GenericCrossDefense extends BadCommandGroup
 {
 	public GenericCrossDefense()
+	{
+	}
+
+	public void build()
 	{
 		this.addSequential(new AutoDriveServo(true));
 		this.addSequential(new AutoDriveDistanceEncoder(1, 4.3));

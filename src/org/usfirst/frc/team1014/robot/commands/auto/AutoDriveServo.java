@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class AutoDriveServo extends CommandBase
 {
-	boolean servoIn;
-	boolean isServoIn;
+	private boolean servoIn;
+	private boolean isServoIn;
 
 	public AutoDriveServo(boolean servoIn)
 	{
@@ -24,16 +24,8 @@ public class AutoDriveServo extends CommandBase
 	@Override
 	protected void execute()
 	{
-		if(servoIn)
-		{
-			shooter.driveServo(false);
-			isServoIn = true;
-		}
-		else
-		{
-			shooter.driveServo(true);
-			isServoIn = false;
-		}
+		shooter.driveServo(!servoIn);
+		isServoIn = servoIn;
 	}
 
 	@Override

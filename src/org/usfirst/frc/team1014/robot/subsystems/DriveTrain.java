@@ -108,6 +108,7 @@ public class DriveTrain extends BadSubsystem
 	 */
 	public void driveStraight(double moveSpeed, double targetGyro)
 	{
+		// TODO: Change so that it doesnt stop the robot?
 		double difference180 = getAngle() - targetGyro;
 
 		double turnSpeed = 0;
@@ -116,15 +117,16 @@ public class DriveTrain extends BadSubsystem
 		{
 			turnSpeed = PID.turnSpeedScale(Math.toRadians(difference180), -Math.PI, Math.PI);
 
-			Logger.log("turning Speed", "" + turnSpeed);
-
 			if(Math.abs(turnSpeed) > 1)
 				turnSpeed = 1 * turnSpeed / Math.abs(turnSpeed);
 
 			if(Math.abs(turnSpeed) < .45)
 				turnSpeed = .45 * turnSpeed / Math.abs(turnSpeed);
 
-			tankDrive(turnSpeed, -turnSpeed);
+			Logger.log("turning Speed", "" + turnSpeed);
+
+			// tankDrive(turnSpeed, -turnSpeed);
+			// tankDrive(moveSpeed + turnSpeed, moveSpeed - turnSpeed);
 		}
 		else
 		{

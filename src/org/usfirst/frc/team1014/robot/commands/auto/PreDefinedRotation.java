@@ -34,10 +34,7 @@ public class PreDefinedRotation extends CommandBase
 	protected void end()
 	{
 		shooter.rotate(0);
-		if(goingDown)
-			shooter.isLow = true;
-		else
-			shooter.isLow = false;
+		shooter.isLow = goingDown;
 
 	}
 
