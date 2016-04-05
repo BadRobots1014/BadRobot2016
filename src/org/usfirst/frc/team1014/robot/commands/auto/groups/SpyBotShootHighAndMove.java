@@ -1,4 +1,9 @@
-package org.usfirst.frc.team1014.robot.commands.auto;
+package org.usfirst.frc.team1014.robot.commands.auto.groups;
+
+import org.usfirst.frc.team1014.robot.commands.auto.AutoDriveServo;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoShoot;
+import org.usfirst.frc.team1014.robot.commands.auto.MoveToLowerRetroTape;
+import org.usfirst.frc.team1014.robot.commands.auto.TankDriveTime;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

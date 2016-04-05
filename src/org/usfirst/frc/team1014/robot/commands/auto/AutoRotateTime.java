@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class AutoRotateTime extends CommandBase
 {
-	public double time;
-	public boolean down;
-	
-	public double currentTime;
-	public double endTime;
-	
+	private double time;
+	private boolean down;
+
+	private double currentTime;
+	private double endTime;
+
 	public AutoRotateTime(double rotateTime, boolean goingDown)
 	{
 		requires((Subsystem) shooter);
@@ -30,31 +30,26 @@ public class AutoRotateTime extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
 		return "AutoRotateTime";
 	}
 
 	@Override
 	protected void end()
 	{
-		// TODO Auto-generated method stub
 		shooter.rotate(0.0);
 	}
 
 	@Override
 	protected void execute()
 	{
-		// TODO Auto-generated method stub
 		shooter.rotate(down ? -.35 : .35);
-		
+
 		currentTime = Utility.getFPGATime();
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		// TODO Auto-generated method stub
-		return (currentTime > endTime);
+		return currentTime > endTime;
 	}
-
 }

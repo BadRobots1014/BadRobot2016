@@ -51,23 +51,14 @@ public class MoveToLowerRetroTape extends CommandBase
 	}
 
 	@Override
-	protected void interrupted()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected boolean isFinished()
 	{
-		// TODO Auto-generated method stub
 		return isFinished;
 	}
 
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
 		return "MoveToLowerRetroTape";
 	}
 

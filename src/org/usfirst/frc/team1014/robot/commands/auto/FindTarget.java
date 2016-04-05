@@ -32,7 +32,7 @@ public class FindTarget extends CommandBase
 
 	// has the target out of view too long
 	private boolean stopTimeSet = false;
-	
+
 	// has the shooting time been set yet
 	private boolean shootingTimeSet = false;
 
@@ -44,7 +44,7 @@ public class FindTarget extends CommandBase
 
 	// the current time
 	private double time = Utility.getFPGATime();
-	
+
 	// is the target lost from the view of the camera
 	private boolean lostTarget = false;
 
@@ -131,9 +131,8 @@ public class FindTarget extends CommandBase
 				moveSpeed = cam.getX() > 0 ? moveSpeed : -moveSpeed;
 
 				// make sure the robot is actually moving
-				if(previousCamX == cam.getX())
-					countsNotMoving++;
-				else
+				countsNotMoving++;
+				if(previousCamX != cam.getX())
 					countsNotMoving = 0;
 
 				// if the robot isn't moving ...
@@ -224,58 +223,54 @@ public class FindTarget extends CommandBase
 	public boolean isFinished()
 	{
 		if(lostTarget)
-		{
 			return true;
+
+		// if the time has been set...
+		if(isFinishedDrive && isFinishedRotate && timeSet)
+		{
+			// check it and if the time has expired...
+			if(Utility.getFPGATime() > time)
+			{
+				double startShootingTime = 0;
+
+				// if shooting time hasn't been set ...
+				if(!shootingTimeSet)
+				{
+					// set it
+					startShootingTime = Utility.getFPGATime();
+					shootingTimeSet = true;
+				}
+				else
+				{
+					// if time isn't up ...
+					if(Utility.getFPGATime() < startShootingTime + WAIT_TIME)
+					{
+						// rev up the shooter
+						shooter.shoot(1.0);
+					}
+					// otherwise ...
+					else
+					{
+						// shoot that ball
+						shooter.driveServo(true);
+					}
+				}
+
+				// ...we're done here
+				isFinished = true;
+				return true;
+			}
+			return false;
 		}
 		else
 		{
-			// if the time has been set...
-			if(isFinishedDrive && isFinishedRotate && timeSet)
+			if(!timeSet)
 			{
-				// check it and if the time has expired...
-				if(Utility.getFPGATime() > time)
-				{
-					double startShootingTime = 0;
-					
-					// if shooting time hasn't been set ...
-					if(!shootingTimeSet)
-					{
-						// set it
-						startShootingTime = Utility.getFPGATime();
-						shootingTimeSet = true;
-					}
-					else
-					{
-						// if time isn't up ...
-						if(Utility.getFPGATime() < startShootingTime + WAIT_TIME)
-						{
-							// rev up the shooter
-							shooter.shoot(1.0);
-						}
-						// otherwise ...
-						else
-						{
-							// shoot that ball
-							shooter.driveServo(true);
-						}
-					}
-					
-					// ...we're done here
-					isFinished = true;
-					return true;
-				}
-				return false;
+				// set it
+				time = Utility.getFPGATime() + WAIT_TIME;
+				timeSet = true;
 			}
-			else
-			{
-				if(!timeSet)
-				{
-					// set it
-					time = Utility.getFPGATime() + WAIT_TIME;
-					timeSet = true;
-				}
-				return false;
-			}
+			return false;
 		}
 	}
 

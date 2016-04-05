@@ -51,8 +51,6 @@ public class AutonomousManager
 
 	public static byte pollSwitches()
 	{
-		Logger.logOnce("switchOne " + !A1.get() + " | switchTwo " + !A2.get() + " | " + "switchThree " + !A3.get());
-
 		byte autoToRun = 0;
 		if(!A1.get())
 			autoToRun += 1;
@@ -82,15 +80,26 @@ public class AutonomousManager
 
 	public void loadAutonoumsCommands()
 	{
-		registerAutonomousCommand("Generic_Cross", new BadCommandGroup(new AutoDrive(4, .9)));
-		registerAutonomousCommand("Shoot_And_Come_Back", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132), new AutoTurn(90.0), new AutoDrive(.5, 1), new AutoTurn(-90.0), new AutoShoot(1.0), new AutoTurn(-90.0), new AutoDrive(.5, 1), new AutoTurn(-90.0), new AutoDrive(2, 1)));
-		registerAutonomousCommand("Shoot_And_Stay", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132), new AutoTurn(90.0), new AutoDrive(.5, 1), new AutoTurn(-90.0), new AutoShoot(1.0)));
-		registerAutonomousCommand("Lowbar_Stay", new BadCommandGroup(new AutoDriveServo(true), new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0)));
-		registerAutonomousCommand("Lowbar_Shoot", new BadCommandGroup(new AutoDriveServo(true), new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0), new AutoShoot(3.0)));
-		registerAutonomousCommand("Go_Over", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132)));
-		registerAutonomousCommand("Go_Over_And_Come_Back", new BadCommandGroup(new AutoDriveDistanceUltrasonic(1, 132), new AutoDrive(2, 1)));
-		registerAutonomousCommand("Spy_Bot_Shoot", new BadCommandGroup(new AutoDriveServo(true), new AutoRotateTime(.5, true), new AutoShoot(2.0), new AutoDrive(.5, .5)));
-		registerAutonomousCommand("Reach_Defense", new BadCommandGroup(new AutoDrive(.5, .5)));
+		// registerAutonomousCommand("Generic_Cross", new BadCommandGroup(new AutoDrive(4, .9)));
+		// registerAutonomousCommand("Shoot_And_Come_Back", new BadCommandGroup(new
+		// AutoDriveDistanceUltrasonic(1, 132), new AutoTurn(90.0), new AutoDrive(.5, 1), new
+		// AutoTurn(-90.0), new AutoShoot(1.0), new AutoTurn(-90.0), new AutoDrive(.5, 1), new
+		// AutoTurn(-90.0), new AutoDrive(2, 1)));
+		// registerAutonomousCommand("Shoot_And_Stay", new BadCommandGroup(new
+		// AutoDriveDistanceUltrasonic(1, 132), new AutoTurn(90.0), new AutoDrive(.5, 1), new
+		// AutoTurn(-90.0), new AutoShoot(1.0)));
+		// registerAutonomousCommand("Lowbar_Stay", new BadCommandGroup(new AutoDriveServo(true),
+		// new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0)));
+		// registerAutonomousCommand("Lowbar_Shoot", new BadCommandGroup(new AutoDriveServo(true),
+		// new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0), new
+		// AutoShoot(3.0)));
+		// registerAutonomousCommand("Go_Over", new BadCommandGroup(new
+		// AutoDriveDistanceUltrasonic(1, 132)));
+		// registerAutonomousCommand("Go_Over_And_Come_Back", new BadCommandGroup(new
+		// AutoDriveDistanceUltrasonic(1, 132), new AutoDrive(2, 1)));
+		// registerAutonomousCommand("Spy_Bot_Shoot", new BadCommandGroup(new AutoDriveServo(true),
+		// new AutoRotateTime(.5, true), new AutoShoot(2.0), new AutoDrive(.5, .5)));
+		// registerAutonomousCommand("Reach_Defense", new BadCommandGroup(new AutoDrive(.5, .5)));
 	}
 
 	public void registerAutonomousCommand(String name, BadCommandGroup command)
