@@ -6,35 +6,30 @@ public class DummyCommand extends CommandBase
 	@Override
 	protected void initialize()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return "Dummy_Command";
 	}
 
 	@Override
 	protected void end()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void execute()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
-		// TODO Auto-generated method stub
 		return true;
 	}
 

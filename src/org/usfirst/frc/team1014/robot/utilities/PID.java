@@ -44,12 +44,8 @@ public class PID extends PIDController
 	{
 		double range = (max - min);
 		if(difference < 0)
-		{
 			return fullSpeed * Math.cos((2 * Math.PI / range) * difference) - fullSpeed;
-		}
 		else
-		{
 			return -fullSpeed * Math.cos((2 * Math.PI / range) * difference) + fullSpeed;
-		}
 	}
 }

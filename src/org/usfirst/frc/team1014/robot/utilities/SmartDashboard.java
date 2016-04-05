@@ -5,10 +5,10 @@ import java.util.HashMap;
 import org.usfirst.frc.team1014.robot.commands.DummyCommand;
 import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
 import org.usfirst.frc.team1014.robot.commands.auto.AutonomousManager;
-import org.usfirst.frc.team1014.robot.commands.auto.LowBarShoot;
-import org.usfirst.frc.team1014.robot.commands.auto.LowBarStay;
-import org.usfirst.frc.team1014.robot.commands.auto.SpyBotShootHigh;
-import org.usfirst.frc.team1014.robot.commands.auto.SpyBotShootHighAndMove;
+import org.usfirst.frc.team1014.robot.commands.auto.groups.LowBarShoot;
+import org.usfirst.frc.team1014.robot.commands.auto.groups.LowBarStay;
+import org.usfirst.frc.team1014.robot.commands.auto.groups.SpyBotShootHigh;
+import org.usfirst.frc.team1014.robot.commands.auto.groups.SpyBotShootHighAndMove;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 
 import edu.wpi.first.wpilibj.CameraServer;

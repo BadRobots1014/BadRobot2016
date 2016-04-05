@@ -63,12 +63,6 @@ public class UseShooter extends CommandBase
 	@Override
 	protected void execute()
 	{
-		// if(shooter.limitSwitch.get())
-		// {
-		// // ShooterAndGrabber.shooterOffset = ((BadCAN) shooter.rotator).encoder.getDistance();
-		// shooter.resetEncoders();
-		// }
-
 		// servo control
 		isServoOut = ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout();
 		shooter.driveServo(isServoOut);
@@ -98,26 +92,6 @@ public class UseShooter extends CommandBase
 			}
 		}
 
-		//
-		// Logger.logThis("Rotator Encoder: " + ((BadCAN) shooter.rotator).getDistance());
-		// Logger.logThis("spin speed: " + shooter.getShootingRPM());
-		// Logger.logThis("LIMITSWITCH : " + shooter.limitSwitch.get());
-
-		// grabbing balls with speed moderation
-		// if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
-		// {
-		// // if(shooter.rotateTo(ShooterAndGrabber.SHOOTER_LOWEST_POS))
-		// shooter.grabBall(ShooterAndGrabber.DEFAULT_GRAB_SPEED);
-		// }
-		// else if(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout() > 0)
-		// {
-		// shooter.grabBall(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
-		// }
-		// else
-		// {
-		// shooter.shoot(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
-		// }
-
 		// Auto grabber, Auto shooter and manual shooter
 		if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
 		{
@@ -143,13 +117,9 @@ public class UseShooter extends CommandBase
 		}
 
 		if(shooterUp)
-		{
 			shooterUp = !shooter.moveToHigherRetroTape();
-		}
 		else if(shooterDown)
-		{
 			shooterDown = !shooter.moveToLowerRetroTape();
-		}
 
 		if(isAutoShooting)
 		{
@@ -169,14 +139,16 @@ public class UseShooter extends CommandBase
 		// switch layouts
 		if(ControlsManager.secondaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.secondaryXboxController.getLeftTriggerSecondaryLayout() > .5)
 			ControlsManager.changeToSecondaryLayout(2);
-		else ControlsManager.changeToPrimaryLayout(2);
+		else
+			ControlsManager.changeToPrimaryLayout(2);
 
 		// Direct control of ring light
 		if(ControlsManager.secondaryXboxController.isStartButtonPressedPrimaryLayout() && !this.ringLightButtonPressed)
 		{
 			if(!this.ringLightOn)
 				shooter.ringLightOn();
-			else shooter.ringLightOff();
+			else
+				shooter.ringLightOff();
 			this.ringLightOn = !this.ringLightOn;
 			this.ringLightButtonPressed = true;
 		}

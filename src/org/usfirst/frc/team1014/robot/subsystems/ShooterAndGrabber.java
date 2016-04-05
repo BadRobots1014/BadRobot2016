@@ -27,11 +27,11 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 
 	private static final double SERVO_STANDARD_POS = 0.9;
 	private static final double SERVO_EXTENDED_POS = 0.1;
-	
+
 	public static final double SHOOTER_LOWEST_POS = 30;
 	public static final double SHOOTER_HIGHEST_POS = 2;
 	public static final double SHOOTER_DEFAULT_SHOOTING_POS = 16;
-	
+
 	private static final double CUT_POWER_RPM_DROP = 400;
 	public static final double DEFAULT_GRAB_SPEED = -0.5;
 	public static double shooterOffset = 0;
@@ -116,14 +116,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			shoot(speed);
 
 			// If grabber starts moving the grabberSet is enabled
-			if(speed <= 0)
-			{
-				grabberSet = false;
-			}
-			else
-			{
-				grabberSet = true;
-			}
+			grabberSet = speed > 0;
 		}
 		previousRPM = ((BadCAN) left).getRpm();
 	}
@@ -162,7 +155,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		previousRPM = ((BadCAN) left).getRpm();
 
 	}
-	
+
 	/**
 	 * Easy way to access the shooting RPM.
 	 * 
@@ -224,10 +217,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			this.rotate(0.0);
 			return true;
 		}
-		else
-		{
-			this.rotate(-0.7);
-		}
+		this.rotate(-0.7);
 		return false;
 	}
 
@@ -241,10 +231,7 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 			this.rotate(0.0);
 			return true;
 		}
-		else
-		{
-			this.rotate(0.7);
-		}
+		this.rotate(0.7);
 		return false;
 	}
 
@@ -293,7 +280,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 				CommandBase.lights.setLights(LEDState.kGATHER);
 			else if(speed > 0)
 				CommandBase.lights.setLights(LEDState.kSHOOT);
-			else CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
+			else
+				CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 		}
 	}
 
@@ -340,7 +328,8 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	{
 		if(servoPos)
 			pusher.set(SERVO_EXTENDED_POS);
-		else pusher.set(SERVO_STANDARD_POS);
+		else
+			pusher.set(SERVO_STANDARD_POS);
 	}
 
 	@Override

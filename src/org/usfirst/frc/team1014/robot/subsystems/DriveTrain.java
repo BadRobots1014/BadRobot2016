@@ -111,7 +111,7 @@ public class DriveTrain extends BadSubsystem
 		double difference180 = getAngle() - targetGyro;
 
 		double turnSpeed = 0;
-		
+
 		if(Math.abs(difference180) > 3)
 		{
 			turnSpeed = PID.turnSpeedScale(Math.toRadians(difference180), -Math.PI, Math.PI);
@@ -172,7 +172,7 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(inInches)
 			return ultrasonic.getRangeInches();
-		else return ultrasonic.getRangeMM();
+		return ultrasonic.getRangeMM();
 	}
 
 	/**
@@ -190,7 +190,7 @@ public class DriveTrain extends BadSubsystem
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;
-		else return mxp.getYaw();
+		return mxp.getYaw();
 	}
 
 	public void resetMXPAngle()

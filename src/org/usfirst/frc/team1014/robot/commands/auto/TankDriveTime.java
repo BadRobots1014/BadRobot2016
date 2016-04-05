@@ -6,10 +6,10 @@ import edu.wpi.first.wpilibj.Utility;
 
 public class TankDriveTime extends CommandBase
 {
-	double speedRight = 0;
-	double speedLeft = 0;
-	double time = 0;
-	double timeEnd = Utility.getFPGATime();
+	private double speedRight = 0;
+	private double speedLeft = 0;
+	private double time = 0;
+	private double timeEnd = Utility.getFPGATime();
 
 	public TankDriveTime(double speedRight, double speedLeft, double time)
 	{
@@ -28,7 +28,6 @@ public class TankDriveTime extends CommandBase
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
 		return "TankDriveTime";
 	}
 
@@ -42,16 +41,13 @@ public class TankDriveTime extends CommandBase
 	@Override
 	protected boolean isFinished()
 	{
-		if(Utility.getFPGATime() > timeEnd)
-			return true;
-		return false;
+		return Utility.getFPGATime() > timeEnd;
 	}
 
 	@Override
 	protected void end()
 	{
 		driveTrain.tankDrive(0, 0);
-
 	}
 
 }
