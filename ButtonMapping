@@ -9,10 +9,16 @@ Primary XBox Controller:
 		Y + RB - drives straight
 	* Right Stick - 
 		Y - drives right side of the robot forward
+	* A -
+		Hold - drives the robot forwards to line up for high goal
+	* B - 
+		Hold - turns the robot right to line up for high goal
+	* X - 
+		Hold - turns the robot left to line up for high goal
+	* Y -
+		Hold - drives the robot backwards to line up for high goal
 	* RB - 
 		Hold - activates drive straight
-	* LB - 
-		Hold - precision drive (half-speed)
 	* LT - 
 		Hold - changes to second layout
 	
@@ -28,16 +34,16 @@ Secondary XBox Controller:
 	* Right Stick - 
 		Y - moves the shooter up and down
 	* A -
-	
+		Press - moves shooter up a level
+		Hold - drives shooter to the top limit
 	* B -
 		Press - Auto shoots the ball
 	* X - 
 		Hold - keeps servo out (in shooting position)
 		Release - servo goes back to retracted position
 	* Y - 
-	
-	* RB - 
-		Hold - grabs the ball, making sure to stop
+		Press - moves shooter down a level
+		Hold - drives shooter to the lower limit
 	* Start - 
 		Toggle - turns on and off ring light
 	* LT - 
