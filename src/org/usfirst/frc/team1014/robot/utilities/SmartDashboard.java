@@ -2,13 +2,7 @@ package org.usfirst.frc.team1014.robot.utilities;
 
 import java.util.HashMap;
 
-import org.usfirst.frc.team1014.robot.commands.DummyCommand;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoDrive;
 import org.usfirst.frc.team1014.robot.commands.auto.AutonomousManager;
-import org.usfirst.frc.team1014.robot.commands.auto.groups.LowBarShoot;
-import org.usfirst.frc.team1014.robot.commands.auto.groups.LowBarStay;
-import org.usfirst.frc.team1014.robot.commands.auto.groups.SpyBotShootHigh;
-import org.usfirst.frc.team1014.robot.commands.auto.groups.SpyBotShootHighAndMove;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -93,47 +87,24 @@ public class SmartDashboard
 			}
 		}
 		byte switchState = AutonomousManager.pollSwitches();
-		commandToRun = "DummyCommand";
-		Command defaultCommand = new DummyCommand();
+		CustomEntry<String, Command> command = AutonomousManager.getInstance().getAutonomousCommand(switchState);
+		Command defaultCommand = command.getValue();
+		commandToRun = command.getKey();
 		// Add the A1 and A2 and A3 pins in ControlsManager and make sure to fill the CommandToRun
 		// and
 		// defaultCommand variables underneath.
 		// Logger.logOnce("" + switchState);
-		switch(switchState)
-		{
-			case 0:
-				commandToRun = "GenericCross";
-				defaultCommand = new AutoDrive(2, .9);
-				break;
-			case 1:
-				commandToRun = "LowBarStay";
-				defaultCommand = new LowBarStay();
-				break;
-			case 2:
-				commandToRun = "LowBarShoot";
-				defaultCommand = new LowBarShoot();
-				break;
-			case 3:
-				commandToRun = "SpyBotShootHigh";
-				defaultCommand = new SpyBotShootHigh();
-				break;
-			case 4:
-				commandToRun = "ReachDefense";
-				defaultCommand = new SpyBotShootHighAndMove();
-				break;
-			case 5:
-				commandToRun = "ReachDefense";
-				defaultCommand = new AutoDrive(.5, .5);
-				break;
-			case 6:
-				commandToRun = "ReachDefense";
-				defaultCommand = new AutoDrive(.5, .5);
-				break;
-			case 7:
-				commandToRun = "ReachDefense";
-				defaultCommand = new AutoDrive(.5, .5);
-				break;
-		}
+		/*
+		 * switch(switchState) { case 0: commandToRun = "GenericCross"; defaultCommand = new
+		 * AutoDrive(2, .9); break; case 1: commandToRun = "LowBarStay"; defaultCommand = new
+		 * LowBarStay(); break; case 2: commandToRun = "LowBarShoot"; defaultCommand = new
+		 * LowBarShoot(); break; case 3: commandToRun = "SpyBotShootHigh"; defaultCommand = new
+		 * SpyBotShootHigh(); break; case 4: commandToRun = "SpyBotShootHighAndMove"; defaultCommand
+		 * = new SpyBotShootHighAndMove(); break; case 5: commandToRun = "ReachDefense";
+		 * defaultCommand = new AutoDrive(.5, .5); break; case 6: commandToRun = "ReachDefense";
+		 * defaultCommand = new AutoDrive(.5, .5); break; case 7: commandToRun = "ReachDefense";
+		 * defaultCommand = new AutoDrive(.5, .5); break; }
+		 */
 		table.putString(commandRunKey, commandToRun);
 		return defaultCommand;
 		/*
