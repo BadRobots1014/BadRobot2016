@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
-import org.usfirst.frc.team1014.robot.commands.DummyCommand;
 import org.usfirst.frc.team1014.robot.commands.DummyCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.ChevalDeFrise;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Drawbridge;
@@ -128,7 +127,7 @@ public class AutonomousManager
 		Command moveShooter;
 		Command turnToGoal;
 		Command shootBall;
-		Command findTargetCommand = new DummyCommand();
+		Command findTargetCommand = new DummyCommand(0);
 
 		/*
 		 * Picks the defense that the robot will be crossing

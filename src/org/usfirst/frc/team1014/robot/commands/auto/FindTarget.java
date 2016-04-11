@@ -106,10 +106,10 @@ public class FindTarget extends CommandBase
 		shooter.ringLightOn();
 
 		// allows the driver to shoot the ball at any time
-		shooter.shoot(-ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout());
+		shooter.shoot(-ControlsManager.shooter.getLeftDrive_Shooter(1));
 
 		// moves the cam servo at any time
-		isServoOut = ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout();
+		isServoOut = ControlsManager.shooter.getAdjustLeft_Servo(1);
 
 		shooter.driveServo(isServoOut);
 

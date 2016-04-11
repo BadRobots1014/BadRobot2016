@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1014.robot.commands;
 
-// The imports for the final subsystems
-import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1014.robot.subsystems.LEDLights;
 import org.usfirst.frc.team1014.robot.subsystems.SallyPortArm;
@@ -39,8 +37,6 @@ public abstract class CommandBase extends Command
 		arm = SallyPortArm.getInstance();
 		lights = LEDLights.getInstance();
 		// camera = new AxisCamera("axis-camera.local");
-
-		ControlsManager.init();
 	}
 
 	public CommandBase(String name)

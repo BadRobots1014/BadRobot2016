@@ -54,15 +54,16 @@ public class SmartDashboard
 	 */
 	private void setup()
 	{
+		NetworkTable.globalDeleteAll();
 		table.putString(commandRunKey, "");
+		table.putString("Driver Controller", "Default");
+		table.putString("Shooter Controller", "Default");
 		// table.putValue("defenseToCross", defenseToCross);
 		// table.putValue("willShoot", willShoot);
 		// table.putValue("lowScore", lowScore);
 		// table.putValue("waitTime", waitTime);
 		// table.putValue("defensePos", defensePos);
 		// table.putValue("justCross", justCross);
-		for(String key : table.getKeys())
-			table.delete(key);
 		for(String str : autoCommands.keySet())
 		{
 			table.putValue(str, false);

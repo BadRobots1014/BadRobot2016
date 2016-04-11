@@ -20,5 +20,6 @@ public class SpyBotShootHighAndMove extends CommandGroup
 		this.addSequential(new MoveToLowerRetroTape());
 		this.addSequential(new AutoShoot(1.5));
 		this.addSequential(new TankDriveTime(.9, .8, 1.5));
+		this.addSequential(new AutoDriveServo(true));
 	}
 }

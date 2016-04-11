@@ -50,7 +50,7 @@ public class TeleDrive extends CommandBase
 	protected void execute()
 	{
 		// Normal drive and drive straight
-		if(ControlsManager.primaryXboxController.isLBButtonPressedPrimaryLayout())
+		if(ControlsManager.driver.getDriveStraight_(1))
 		{
 			if(!gyroSet)
 			{
@@ -58,26 +58,26 @@ public class TeleDrive extends CommandBase
 				gyroSet = true;
 			}
 			// TODO: Change so we are not inverting
-			driveTrain.driveStraight(-ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout(), targetGyro);
+			driveTrain.driveStraight(-ControlsManager.driver.getLeftDrive_Shooter(1), targetGyro);
 		}
 		else
 		{
-			if(ControlsManager.primaryXboxController.isAButtonPressedPrimaryLayout())
+			if(ControlsManager.driver.getAdjustBackward_ArticulatorDown(1))
 				driveTrain.tankDrive(.6, .6);
-			else if(ControlsManager.primaryXboxController.isYButtonPressedPrimaryLayout())
+			else if(ControlsManager.driver.getAdjustBackward_ArticulatorDown(1))
 				driveTrain.tankDrive(-.6, -.6);
-			else if(ControlsManager.primaryXboxController.isXButtonPressedPrimaryLayout())
+			else if(ControlsManager.driver.getAdjustLeft_Servo(1))
 				driveTrain.tankDrive(.6, -.6);
-			else if(ControlsManager.primaryXboxController.isBButtonPressedPrimaryLayout())
+			else if(ControlsManager.driver.getAdjustRight_AutoShoot(1))
 				driveTrain.tankDrive(-.6, .6);
 			else
-				driveTrain.tankDrive(-ControlsManager.primaryXboxController.getRightStickYPrimaryLayout(), -ControlsManager.primaryXboxController.getLeftStickYPrimaryLayout());
+				driveTrain.tankDrive(-ControlsManager.driver.getLeftDrive_Shooter(1), -ControlsManager.driver.getRightDrive_Articulator(1));
 
 			gyroSet = false;
 		}
 
 		// Switch between primary and secondary layouts;
-		if(ControlsManager.primaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.primaryXboxController.getLeftTriggerSecondaryLayout() > .5)
+		if(ControlsManager.driver.getLayoutChange())
 			ControlsManager.changeToSecondaryLayout(1);
 		else
 			ControlsManager.changeToPrimaryLayout(1);
