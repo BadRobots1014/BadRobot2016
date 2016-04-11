@@ -4,7 +4,6 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.BadCAN;
 import org.usfirst.frc.team1014.robot.subsystems.LEDLights.LEDState;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -187,8 +186,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 		double difference = ((BadCAN) rotator).getDistance() - position;
 		double rotateSpeed = 0;
 
-		Logger.log("Rotating difference:", "" + difference);
-
 		if(Math.abs(difference) > 1)
 		{
 			rotateSpeed = PID.trigScale(difference, SHOOTER_HIGHEST_POS, SHOOTER_LOWEST_POS, .6);
@@ -269,7 +266,6 @@ public class ShooterAndGrabber extends BadSubsystem implements PIDSource, PIDOut
 	 */
 	public void shoot(double speed)
 	{
-		Logger.logOnce("shootSpeed = " + speed);
 		left.set(-speed);
 		right.set(speed);
 

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -66,8 +65,6 @@ public class AutoDriveDistanceEncoder extends CommandBase
 			driveTrain.driveStraight(.4, zeroAngle);
 		else
 			driveTrain.driveStraight(speed, zeroAngle);
-
-		Logger.log("difference", "" + difference);
 	}
 
 	/**

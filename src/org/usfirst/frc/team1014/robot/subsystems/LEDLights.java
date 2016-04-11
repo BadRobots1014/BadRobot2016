@@ -4,13 +4,15 @@ import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 
-public class LEDLights extends BadSubsystem
+public class LEDLights
 {
 	private static LEDLights instance;
 	private DigitalOutput bit1, bit2;
 
 	public LEDLights()
 	{
+		bit1 = new DigitalOutput(ControlsManager.LED_BIT1);
+		bit2 = new DigitalOutput(ControlsManager.LED_BIT2);
 	}
 
 	/**
@@ -23,13 +25,6 @@ public class LEDLights extends BadSubsystem
 		if(instance == null)
 			instance = new LEDLights();
 		return instance;
-	}
-
-	@Override
-	protected void initialize()
-	{
-		bit1 = new DigitalOutput(ControlsManager.LED_BIT1);
-		bit2 = new DigitalOutput(ControlsManager.LED_BIT2);
 	}
 
 	public void setLights(LEDState state)
@@ -57,18 +52,6 @@ public class LEDLights extends BadSubsystem
 				bit2.set(false);
 				break;
 		}
-	}
-
-	@Override
-	public String getConsoleIdentity()
-	{
-		return "LED_Lights";
-	}
-
-	@Override
-	protected void initDefaultCommand()
-	{
-		// don't worry about this
 	}
 
 	public enum LEDState

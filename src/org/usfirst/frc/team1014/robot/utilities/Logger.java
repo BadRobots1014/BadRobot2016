@@ -10,21 +10,11 @@ public class Logger
 	// is logging enabled
 	private static boolean CONSOLE_OUTPUT_ENABLED = true;
 	// is logging debug mode enabled
-	private static boolean DEBUG_ENABLED = false;
+	private static boolean DEBUG_ENABLED = true;
 
 	public static void logOnce(String toLog)
 	{
 		Logger.log(Level.Info, "Simple Log", toLog);
-	}
-
-	/**
-	 * quick log method that can be used anywhere.
-	 * 
-	 * @param stringToLog
-	 */
-	public static void log(String id, String stringToLog)
-	{
-		Logger.log(Level.Debug, id, stringToLog);
 	}
 
 	/**
@@ -59,7 +49,7 @@ public class Logger
 	 */
 	public enum Level
 	{
-		Debug("Debug"), Info("Info"), Error("Error");
+		Debug("Debug"), Info("Info"), Error("Error"), Warning("Warning");
 
 		private String displayText;
 

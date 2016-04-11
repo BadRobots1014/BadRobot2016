@@ -5,7 +5,6 @@ import org.usfirst.frc.team1014.robot.sensors.BadTalon;
 import org.usfirst.frc.team1014.robot.sensors.BadUltrasonic;
 import org.usfirst.frc.team1014.robot.sensors.IMU;
 import org.usfirst.frc.team1014.robot.sensors.LIDAR;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -121,8 +120,6 @@ public class DriveTrain extends BadSubsystem
 
 			if(Math.abs(turnSpeed) < .45)
 				turnSpeed = .45 * turnSpeed / Math.abs(turnSpeed);
-
-			Logger.log("turning Speed", "" + turnSpeed);
 
 			// tankDrive(turnSpeed, -turnSpeed);
 			// tankDrive(moveSpeed + turnSpeed, moveSpeed - turnSpeed);

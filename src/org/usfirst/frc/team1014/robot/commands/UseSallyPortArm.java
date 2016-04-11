@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1014.robot.commands;
 
-import org.usfirst.frc.team1014.robot.controls.ControlsManager;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class UseSallyPortArm extends CommandBase
@@ -21,7 +19,8 @@ public class UseSallyPortArm extends CommandBase
 	@Override
 	protected void execute()
 	{
-		arm.setPower(-ControlsManager.secondaryXboxController.getRightStickYSecondaryLayout() * .5);
+		// arm.setPower(-ControlsManager.secondaryXboxController.getRightStickYSecondaryLayout() *
+		// .5);
 	}
 
 	@Override
