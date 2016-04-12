@@ -62,9 +62,9 @@ public class TeleDrive extends CommandBase
 		}
 		else
 		{
-			if(ControlsManager.driver.getAdjustBackward_ArticulatorDown(1))
+			if(ControlsManager.driver.getAdjustBackward_ArticulatorUp(1))
 				driveTrain.tankDrive(.6, .6);
-			else if(ControlsManager.driver.getAdjustBackward_ArticulatorDown(1))
+			else if(ControlsManager.driver.getAdjustForward_ArticulatorDown(1))
 				driveTrain.tankDrive(-.6, -.6);
 			else if(ControlsManager.driver.getAdjustLeft_Servo(1))
 				driveTrain.tankDrive(.6, -.6);

@@ -57,7 +57,7 @@ public class BadScheduler
 			@Override
 			public boolean runMethod()
 			{
-				return ControlsManager.shooter.getAdjustBackward_ArticulatorDown(2);
+				return ControlsManager.shooter.getAdjustForward_ArticulatorDown(2);
 			};
 		});
 
@@ -67,7 +67,7 @@ public class BadScheduler
 			@Override
 			public boolean runMethod()
 			{
-				return ControlsManager.shooter.getAdjustForward_ArticulatorUp(2);
+				return ControlsManager.shooter.getAdjustBackward_ArticulatorUp(2);
 			};
 
 		});

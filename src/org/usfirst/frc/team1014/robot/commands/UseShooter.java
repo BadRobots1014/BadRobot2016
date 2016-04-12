@@ -75,12 +75,12 @@ public class UseShooter extends CommandBase
 		}
 		else
 		{
-			if(ControlsManager.shooter.getAdjustForward_ArticulatorUp(1))
+			if(ControlsManager.shooter.getAdjustBackward_ArticulatorUp(1))
 			{
 				shooterUp = true;
 				shooterDown = false;
 			}
-			else if(ControlsManager.shooter.getAdjustBackward_ArticulatorDown(1))
+			else if(ControlsManager.shooter.getAdjustForward_ArticulatorDown(1))
 			{
 				shooterDown = true;
 				shooterUp = false;
