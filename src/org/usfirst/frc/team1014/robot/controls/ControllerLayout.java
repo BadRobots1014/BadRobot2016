@@ -12,10 +12,10 @@ public class ControllerLayout
 {
 	protected int leftDrive_shooter = XboxController.LEFT_STICK_Y,
 			rightDrive_articulator = XboxController.RIGHT_STICK_Y;
-	protected int adjustForward_articulatorUp = XboxController.A_BUTTON,
+	protected int adjustBackward_articulatorUp = XboxController.A_BUTTON,
 			adjustRight_autoShoot = XboxController.B_BUTTON,
 			adjustLeft_servo = XboxController.X_BUTTON,
-			adjustBackwawrd_articulatorDown = XboxController.Y_BUTTON,
+			adjustForward_articulatorDown = XboxController.Y_BUTTON,
 			driveStraight_ = XboxController.LB, _autoGrab = XboxController.RB,
 			select = XboxController.SELECT, _rightLight = XboxController.START,
 			left_joy_click = XboxController.LEFT_JOY_CLICK,
@@ -72,9 +72,9 @@ public class ControllerLayout
 		return this.getButtonValue(layout, adjustRight_autoShoot);
 	}
 
-	public boolean getAdjustForward_ArticulatorUp(int layout)
+	public boolean getAdjustBackward_ArticulatorUp(int layout)
 	{
-		return this.getButtonValue(layout, adjustForward_articulatorUp);
+		return this.getButtonValue(layout, adjustBackward_articulatorUp);
 	}
 
 	public boolean getAdjustLeft_Servo(int layout)
@@ -82,9 +82,9 @@ public class ControllerLayout
 		return this.getButtonValue(layout, adjustLeft_servo);
 	}
 
-	public boolean getAdjustBackward_ArticulatorDown(int layout)
+	public boolean getAdjustForward_ArticulatorDown(int layout)
 	{
-		return this.getButtonValue(layout, adjustBackwawrd_articulatorDown);
+		return this.getButtonValue(layout, adjustForward_articulatorDown);
 	}
 
 	public boolean getDriveStraight_(int layout)

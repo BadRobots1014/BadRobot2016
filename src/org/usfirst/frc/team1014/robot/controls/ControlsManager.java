@@ -3,6 +3,7 @@ package org.usfirst.frc.team1014.robot.controls;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.usfirst.frc.team1014.robot.controls.layouts.DriveButtonInvertLayout;
 import org.usfirst.frc.team1014.robot.controls.layouts.LayoutTurk;
 import org.usfirst.frc.team1014.robot.utilities.CustomEntry;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
@@ -72,6 +73,7 @@ public class ControlsManager
 	public static void init()
 	{
 		driverLayouts.add(new CustomEntry<String, ControllerLayout>("Default", new ControllerLayout(0)));
+		driverLayouts.add(new CustomEntry<String, ControllerLayout>("ButtonsInverse", new DriveButtonInvertLayout(0)));
 
 		shooterLayouts.add(new CustomEntry<String, ControllerLayout>("Default", new ControllerLayout(1)));
 		shooterLayouts.add(new CustomEntry<String, ControllerLayout>("Turk", new LayoutTurk(1)));
