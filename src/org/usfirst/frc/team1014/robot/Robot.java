@@ -5,6 +5,7 @@ import org.usfirst.frc.team1014.robot.commands.TeleopGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.AutonomousManager;
 import org.usfirst.frc.team1014.robot.controls.BadScheduler;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.subsystems.LEDLights;
 import org.usfirst.frc.team1014.robot.subsystems.LEDLights.LEDState;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 import org.usfirst.frc.team1014.robot.utilities.Logger.Level;
@@ -28,6 +29,8 @@ public class Robot extends IterativeRobot
 	public static Command autonomousCommand;
 	public static SmartDashboard dashboard;
 	public static BadScheduler badScheduler;
+
+	public static boolean lowVoltage = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -58,7 +61,7 @@ public class Robot extends IterativeRobot
 		Scheduler.getInstance().run();
 		if(PowerJNI.getVinVoltage() < 12f)
 		{
-			// TODO: Add led warning
+			LEDLights.getInstance().setLights(LEDState.kBATTERY);
 			Logger.log(Level.Warning, "Battery", "Battery voltage under 12 while disabled!");
 		}
 	}
@@ -101,10 +104,6 @@ public class Robot extends IterativeRobot
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if(CommandBase.lights != null)
-		{
-			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
-		}
 
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
@@ -121,7 +120,7 @@ public class Robot extends IterativeRobot
 	 */
 	public void disabledInit()
 	{
-
+		Robot.lowVoltage = false;
 	}
 
 	/**
@@ -132,9 +131,10 @@ public class Robot extends IterativeRobot
 		badScheduler.changeCommand();
 		Scheduler.getInstance().run();
 		// TODO: Chance volatge lower bound
-		if(PowerJNI.getVinVoltage() < 12f)
+		if(PowerJNI.getVinVoltage() < 10f)
 		{
-			// TODO: Add led warning
+			lowVoltage = true;
+			LEDLights.getInstance().setLights(LEDState.kBATTERY);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.Robot;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 
@@ -145,6 +146,7 @@ public class UseShooter extends CommandBase
 		if(ControlsManager.shooter.get_RingLight(1) && !this.ringLightButtonPressed)
 		{
 			if(!this.ringLightOn)
+				// LEDLights.getInstance().pulse();
 				shooter.ringLightOn();
 			else
 				shooter.ringLightOff();
@@ -157,6 +159,9 @@ public class UseShooter extends CommandBase
 		}
 
 		shooter.detectedTape = shooter.pingOpticalSensor();
+
+		if(ControlsManager.shooter.getUnderVoltClear(1) || ControlsManager.shooter.getUnderVoltClear(2))
+			Robot.lowVoltage = false;
 	}
 
 	@Override
