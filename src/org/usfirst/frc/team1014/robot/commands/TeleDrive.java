@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.Robot;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -81,6 +82,9 @@ public class TeleDrive extends CommandBase
 			ControlsManager.changeToSecondaryLayout(1);
 		else
 			ControlsManager.changeToPrimaryLayout(1);
+
+		if(ControlsManager.driver.getUnderVoltClear(1) || ControlsManager.driver.getUnderVoltClear(2))
+			Robot.lowVoltage = false;
 
 	}
 

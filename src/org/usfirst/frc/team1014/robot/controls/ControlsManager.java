@@ -41,7 +41,6 @@ public class ControlsManager
 	public static final int OPTICAL_SENSOR_PING = 8;
 
 	public static final int LED_BIT1 = 4;
-	public static final int LED_BIT2 = 5;
 
 	public static final int A1SWITCH = 1;
 	public static final int A2SWITCH = 2;

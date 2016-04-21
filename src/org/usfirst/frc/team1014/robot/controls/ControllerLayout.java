@@ -17,7 +17,8 @@ public class ControllerLayout
 			adjustLeft_servo = XboxController.X_BUTTON,
 			adjustForward_articulatorDown = XboxController.Y_BUTTON,
 			driveStraight_ = XboxController.LB, _autoGrab = XboxController.RB,
-			select = XboxController.SELECT, _rightLight = XboxController.START,
+			underVoltClear = XboxController.SELECT,
+			_rightLight = XboxController.START,
 			left_joy_click = XboxController.LEFT_JOY_CLICK,
 			right_joy_click = XboxController.RIGHT_JOY_CLICK;
 	protected int layoutchange = XboxController.LEFT_TRIGGER,
@@ -100,6 +101,11 @@ public class ControllerLayout
 	public boolean get_RingLight(int layout)
 	{
 		return this.getButtonValue(layout, _rightLight);
+	}
+
+	public boolean getUnderVoltClear(int layout)
+	{
+		return this.getButtonValue(layout, this.underVoltClear);
 	}
 
 	public boolean getLayoutChange()
