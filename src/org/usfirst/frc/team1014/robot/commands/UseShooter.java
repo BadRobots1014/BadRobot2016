@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.Robot;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 
@@ -39,7 +40,6 @@ public class UseShooter extends CommandBase
 	public UseShooter()
 	{
 		requires((Subsystem) shooter);
-		requires((Subsystem) lights);
 	}
 
 	protected void initialize()
@@ -64,24 +64,24 @@ public class UseShooter extends CommandBase
 	protected void execute()
 	{
 		// servo control
-		isServoOut = ControlsManager.secondaryXboxController.isXButtonPressedPrimaryLayout();
+		isServoOut = ControlsManager.shooter.getAdjustLeft_Servo(1);
 		shooter.driveServo(isServoOut);
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
-		if(Math.abs(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER) > .15)
+		if(Math.abs(ControlsManager.shooter.getRightDrive_Articulator(1) * ROTATION_SPEED_MULTIPLIER) > .15)
 		{
 			shooterUp = false;
 			shooterDown = false;
-			shooter.rotate(ControlsManager.secondaryXboxController.getRightStickYPrimaryLayout() * ROTATION_SPEED_MULTIPLIER);
+			shooter.rotate(ControlsManager.shooter.getRightDrive_Articulator(1) * ROTATION_SPEED_MULTIPLIER);
 		}
 		else
 		{
-			if(ControlsManager.secondaryXboxController.isAButtonPressedPrimaryLayout())
+			if(ControlsManager.shooter.getAdjustBackward_ArticulatorUp(1))
 			{
 				shooterUp = true;
 				shooterDown = false;
 			}
-			else if(ControlsManager.secondaryXboxController.isYButtonPressedPrimaryLayout())
+			else if(ControlsManager.shooter.getAdjustForward_ArticulatorDown(1))
 			{
 				shooterDown = true;
 				shooterUp = false;
@@ -93,22 +93,22 @@ public class UseShooter extends CommandBase
 		}
 
 		// Auto grabber, Auto shooter and manual shooter
-		if(ControlsManager.secondaryXboxController.isRBButtonPressedPrimaryLayout())
+		if(ControlsManager.shooter.get_AutoGrab(1))
 		{
 			startShootTime = 0;
 			isAutoShooting = false;
 			shooter.shoot(ShooterAndGrabber.DEFAULT_GRAB_SPEED);
 		}
-		else if(ControlsManager.secondaryXboxController.isBButtonPressedPrimaryLayout())
+		else if(ControlsManager.shooter.getAdjustRight_AutoShoot(1))
 		{
 			startShootTime = Utility.getFPGATime();
 			isAutoShooting = true;
 		}
-		else if(Math.abs(ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout()) > 0)
+		else if(Math.abs(ControlsManager.shooter.getLeftDrive_Shooter(1)) > 0)
 		{
 			startShootTime = 0;
 			isAutoShooting = false;
-			shooter.shoot(-ControlsManager.secondaryXboxController.getLeftStickYPrimaryLayout());
+			shooter.shoot(-ControlsManager.shooter.getLeftDrive_Shooter(1));
 		}
 		else
 		{
@@ -137,27 +137,31 @@ public class UseShooter extends CommandBase
 		}
 
 		// switch layouts
-		if(ControlsManager.secondaryXboxController.getLeftTriggerPrimaryLayout() > .5 || ControlsManager.secondaryXboxController.getLeftTriggerSecondaryLayout() > .5)
+		if(ControlsManager.shooter.getLayoutChange())
 			ControlsManager.changeToSecondaryLayout(2);
 		else
 			ControlsManager.changeToPrimaryLayout(2);
 
 		// Direct control of ring light
-		if(ControlsManager.secondaryXboxController.isStartButtonPressedPrimaryLayout() && !this.ringLightButtonPressed)
+		if(ControlsManager.shooter.get_RingLight(1) && !this.ringLightButtonPressed)
 		{
 			if(!this.ringLightOn)
+				// LEDLights.getInstance().pulse();
 				shooter.ringLightOn();
 			else
 				shooter.ringLightOff();
 			this.ringLightOn = !this.ringLightOn;
 			this.ringLightButtonPressed = true;
 		}
-		else if(!ControlsManager.secondaryXboxController.isStartButtonPressedPrimaryLayout())
+		else if(!ControlsManager.shooter.get_RingLight(1))
 		{
 			this.ringLightButtonPressed = false;
 		}
 
 		shooter.detectedTape = shooter.pingOpticalSensor();
+
+		if(ControlsManager.shooter.getUnderVoltClear(1) || ControlsManager.shooter.getUnderVoltClear(2))
+			Robot.lowVoltage = false;
 	}
 
 	@Override

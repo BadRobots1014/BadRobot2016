@@ -57,7 +57,7 @@ public class BadScheduler
 			@Override
 			public boolean runMethod()
 			{
-				return ControlsManager.secondaryXboxController.isAButtonPressedSecondaryLayout();
+				return ControlsManager.shooter.getAdjustForward_ArticulatorDown(2);
 			};
 		});
 
@@ -67,7 +67,7 @@ public class BadScheduler
 			@Override
 			public boolean runMethod()
 			{
-				return ControlsManager.secondaryXboxController.isYButtonPressedSecondaryLayout();
+				return ControlsManager.shooter.getAdjustBackward_ArticulatorUp(2);
 			};
 
 		});
@@ -87,7 +87,7 @@ public class BadScheduler
 		{
 			// If Y is pressed clear out scheduler and adds a new instance of the mainTeleopClass
 			// after emptying the scheduler
-			if(ControlsManager.primaryXboxController.isStartButtonPressedPrimaryLayout())
+			if(ControlsManager.driver.get_RingLight(1))
 			{
 				resetTeleopCommand();
 			}
@@ -140,8 +140,8 @@ public class BadScheduler
 				{
 					// If command is no longer running replace it with a new instance
 
-					Logger.log("Running", nowRunning.getName());
-					Logger.log("Things", "" + nowRunning.isRunning());
+					Logger.log(Level.Debug, "Running", nowRunning.getName());
+					Logger.log(Level.Debug, "Things", "" + nowRunning.isRunning());
 					if(!nowRunning.isRunning())
 						resetTeleopCommand();
 				}

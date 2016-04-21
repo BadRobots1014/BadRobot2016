@@ -1,10 +1,9 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import org.usfirst.frc.team1014.robot.commands.BadCommandGroup;
-import org.usfirst.frc.team1014.robot.commands.DummyCommand;
 import org.usfirst.frc.team1014.robot.commands.DummyCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.ChevalDeFrise;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Drawbridge;
@@ -12,7 +11,12 @@ import org.usfirst.frc.team1014.robot.commands.auto.defenses.GenericCrossDefense
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.LowBar;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.Portcullis;
 import org.usfirst.frc.team1014.robot.commands.auto.defenses.SallyPort;
+import org.usfirst.frc.team1014.robot.commands.auto.groups.LowBarShoot;
+import org.usfirst.frc.team1014.robot.commands.auto.groups.LowBarStay;
+import org.usfirst.frc.team1014.robot.commands.auto.groups.SpyBotShootHigh;
+import org.usfirst.frc.team1014.robot.commands.auto.groups.SpyBotShootHighAndMove;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+import org.usfirst.frc.team1014.robot.utilities.CustomEntry;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -28,7 +32,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AutonomousManager
 {
 	private static AutonomousManager instance;
-	public HashMap<String, BadCommandGroup> autonomousCommands = new HashMap<String, BadCommandGroup>();
+	private List<CustomEntry<String, Command>> autonomousCommands = new ArrayList<CustomEntry<String, Command>>();
+	public static final CustomEntry<String, Command> DEFAULT_AUTO = new CustomEntry<String, Command>("ReachDefense", new AutoDrive(.5, .5));
 	public ArrayList<Command> commandsToAdd = new ArrayList<Command>();
 
 	public boolean isShooting = false;
@@ -80,36 +85,38 @@ public class AutonomousManager
 
 	public void loadAutonoumsCommands()
 	{
-		// registerAutonomousCommand("Generic_Cross", new BadCommandGroup(new AutoDrive(4, .9)));
-		// registerAutonomousCommand("Shoot_And_Come_Back", new BadCommandGroup(new
-		// AutoDriveDistanceUltrasonic(1, 132), new AutoTurn(90.0), new AutoDrive(.5, 1), new
-		// AutoTurn(-90.0), new AutoShoot(1.0), new AutoTurn(-90.0), new AutoDrive(.5, 1), new
-		// AutoTurn(-90.0), new AutoDrive(2, 1)));
-		// registerAutonomousCommand("Shoot_And_Stay", new BadCommandGroup(new
-		// AutoDriveDistanceUltrasonic(1, 132), new AutoTurn(90.0), new AutoDrive(.5, 1), new
-		// AutoTurn(-90.0), new AutoShoot(1.0)));
-		// registerAutonomousCommand("Lowbar_Stay", new BadCommandGroup(new AutoDriveServo(true),
-		// new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0)));
-		// registerAutonomousCommand("Lowbar_Shoot", new BadCommandGroup(new AutoDriveServo(true),
-		// new PreDefinedRotation(true), new AutoDrive(6, .6), new AutoTurn(60.0), new
-		// AutoShoot(3.0)));
-		// registerAutonomousCommand("Go_Over", new BadCommandGroup(new
-		// AutoDriveDistanceUltrasonic(1, 132)));
-		// registerAutonomousCommand("Go_Over_And_Come_Back", new BadCommandGroup(new
-		// AutoDriveDistanceUltrasonic(1, 132), new AutoDrive(2, 1)));
-		// registerAutonomousCommand("Spy_Bot_Shoot", new BadCommandGroup(new AutoDriveServo(true),
-		// new AutoRotateTime(.5, true), new AutoShoot(2.0), new AutoDrive(.5, .5)));
-		// registerAutonomousCommand("Reach_Defense", new BadCommandGroup(new AutoDrive(.5, .5)));
+		// 0
+		this.registerAutonomousCommand("GenericCross", new AutoDrive(2, .9));
+		// 1
+		this.registerAutonomousCommand("LowBarStay", new LowBarStay());
+		// 2
+		this.registerAutonomousCommand("LowBarShoot", new LowBarShoot());
+		// 3
+		this.registerAutonomousCommand("SpyBotShootHigh", new SpyBotShootHigh());
+		// 4
+		this.registerAutonomousCommand("SpyBotShootHighAndMove", new SpyBotShootHighAndMove());
+		// 5
+		this.registerAutonomousCommand("ReachDefense", new AutoDrive(.5, .5));
 	}
 
-	public void registerAutonomousCommand(String name, BadCommandGroup command)
+	public void registerAutonomousCommand(String name, Command command)
 	{
-		autonomousCommands.put(name, command);
+		autonomousCommands.add(new CustomEntry<String, Command>(name, command));
 	}
 
-	public BadCommandGroup getAutonomousCommand(String name)
+	public Command getAutonomousCommand(String name)
 	{
-		return autonomousCommands.get(name);
+		for(CustomEntry<String, Command> entry : autonomousCommands)
+			if(entry.getKey().equals(name))
+				return entry.getValue();
+		return DEFAULT_AUTO.getValue();
+	}
+
+	public CustomEntry<String, Command> getAutonomousCommand(int id)
+	{
+		if(id >= this.autonomousCommands.size() || id < 0)
+			return DEFAULT_AUTO;
+		return this.autonomousCommands.get(id);
 	}
 
 	public void setup()
@@ -120,7 +127,7 @@ public class AutonomousManager
 		Command moveShooter;
 		Command turnToGoal;
 		Command shootBall;
-		Command findTargetCommand = new DummyCommand();
+		Command findTargetCommand = new DummyCommand(0);
 
 		/*
 		 * Picks the defense that the robot will be crossing

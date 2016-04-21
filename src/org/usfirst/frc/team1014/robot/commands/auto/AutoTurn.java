@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
-import org.usfirst.frc.team1014.robot.utilities.Logger;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -56,10 +55,7 @@ public class AutoTurn extends CommandBase
 	{
 		difference = driveTrain.getAngle() - degree;
 
-		Logger.log("Difference", "" + difference);
-
 		driveTrain.tankDrive(sign * -0.4, sign * 0.4);
-		Logger.log("Turning " + (sign < 0 ? "Left" : "Right"), "" + rotation());
 	}
 
 	/**
