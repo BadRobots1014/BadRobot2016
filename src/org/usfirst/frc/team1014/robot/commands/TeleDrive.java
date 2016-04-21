@@ -72,7 +72,7 @@ public class TeleDrive extends CommandBase
 			else if(ControlsManager.driver.getAdjustRight_AutoShoot(1))
 				driveTrain.tankDrive(-.6, .6);
 			else
-				driveTrain.tankDrive(-ControlsManager.driver.getLeftDrive_Shooter(1), -ControlsManager.driver.getRightDrive_Articulator(1));
+				driveTrain.tankDrive(-ControlsManager.driver.getRightDrive_Articulator(1), -ControlsManager.driver.getLeftDrive_Shooter(1));
 
 			gyroSet = false;
 		}

@@ -37,19 +37,19 @@ public class LEDLights
 		{
 			// Channel number is irrelevant here
 			case kRED:
-				bit1.pulse(ControlsManager.LED_BIT1, 0.00001f);
-				break;
-			case kBLUE:
 				bit1.pulse(ControlsManager.LED_BIT1, 0.00002f);
 				break;
-			case kSHOOT:
-				bit1.pulse(ControlsManager.LED_BIT1, 0.00003f);
-				break;
-			case kGATHER:
+			case kBLUE:
 				bit1.pulse(ControlsManager.LED_BIT1, 0.00004f);
 				break;
+			case kSHOOT:
+				bit1.pulse(ControlsManager.LED_BIT1, 0.00006f);
+				break;
+			case kGATHER:
+				bit1.pulse(ControlsManager.LED_BIT1, 0.00008f);
+				break;
 			case kBATTERY:
-				bit1.pulse(ControlsManager.LED_BIT1, 0.00005f);
+				bit1.pulse(ControlsManager.LED_BIT1, 0.00010f);
 				break;
 			default:
 				bit1.pulse(ControlsManager.LED_BIT1, 0.00f);

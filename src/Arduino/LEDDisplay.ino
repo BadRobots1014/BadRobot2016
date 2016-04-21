@@ -32,7 +32,7 @@ unsigned long duration;
 
 void setup()
 {
-  //Serial.begin(9600);
+  Serial.begin(9600);
   strip.begin(); // Initialize pins for output
   strip.show();  // Turn all LEDs off ASAP
   pinMode(pin, INPUT);
@@ -50,8 +50,8 @@ void loop()
 {
   duration = pulseIn(pin, HIGH);
 
-  boolean newID =  displayID == duration/10;
-  displayID = round(duration/10.0);
+  boolean newID =  displayID == round(duration/20.0);
+  displayID = round(duration/20.0);
   
   if(displayID == 0 && newID)
   {
@@ -87,7 +87,7 @@ void loop()
           strip.setPixelColor(i, color);
       else if(i > 31 && i % 10 == nextState)
           strip.setPixelColor(i, color);
-      else
+      else if(i >= 20 && i <= 31)
          strip.setPixelColor(i, color);
     }
     scrollState = scrollState + 1;
@@ -107,7 +107,7 @@ void loop()
           strip.setPixelColor(i, color);
       else if(i > 31 && i % 10 == nextState)
           strip.setPixelColor(i, color);
-      else
+      else if(i >= 20 && i <= 31)
           strip.setPixelColor(i, color);
     }
     
