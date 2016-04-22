@@ -131,7 +131,7 @@ public class Robot extends IterativeRobot
 		badScheduler.changeCommand();
 		Scheduler.getInstance().run();
 		// TODO: Chance volatge lower bound
-		if(PowerJNI.getVinVoltage() < 8.5f)
+		if(PowerJNI.getVinVoltage() < 7f)
 		{
 			lowVoltage = true;
 			LEDLights.getInstance().setLights(LEDState.kBATTERY);
