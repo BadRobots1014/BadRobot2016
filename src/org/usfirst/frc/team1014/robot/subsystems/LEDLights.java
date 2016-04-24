@@ -6,6 +6,13 @@ import org.usfirst.frc.team1014.robot.utilities.SmartDashboard;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 
+/**
+ * This subsystem controls the LED lights on the top shield through a pulsing bit.
+ * 
+ * @author Manu S.
+ * @edit Ryan T.
+ *
+ */
 public class LEDLights
 {
 	private static LEDLights instance;
@@ -31,11 +38,11 @@ public class LEDLights
 	public void setLights(LEDState state)
 	{
 		if(Robot.lowVoltage)
-			state = LEDState.kBATTERY;
+			state = LEDState.kLOW_BATTERY;
 
 		switch(state)
 		{
-			// Channel number is irrelevant here
+			// sets the colors based on the length of the pulse
 			case kRED:
 				bit1.pulse(ControlsManager.LED_BIT1, 0.00002f);
 				break;
@@ -48,7 +55,7 @@ public class LEDLights
 			case kGATHER:
 				bit1.pulse(ControlsManager.LED_BIT1, 0.00008f);
 				break;
-			case kBATTERY:
+			case kLOW_BATTERY:
 				bit1.pulse(ControlsManager.LED_BIT1, 0.00010f);
 				break;
 			default:
@@ -66,7 +73,7 @@ public class LEDLights
 
 	public enum LEDState
 	{
-		kRED, kBLUE, kSHOOT, kGATHER, kBATTERY
+		kRED, kBLUE, kSHOOT, kGATHER, kLOW_BATTERY
 	}
 
 }

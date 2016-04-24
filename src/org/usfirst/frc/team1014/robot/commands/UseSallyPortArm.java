@@ -1,10 +1,17 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * This class outlines the use of the Sally Port Arm that we never actually used.
+ * 
+ * @author Manu S.
+ *
+ */
 public class UseSallyPortArm extends CommandBase
 {
-
 	public UseSallyPortArm()
 	{
 		requires((Subsystem) arm);
@@ -19,8 +26,8 @@ public class UseSallyPortArm extends CommandBase
 	@Override
 	protected void execute()
 	{
-		// arm.setPower(-ControlsManager.secondaryXboxController.getRightStickYSecondaryLayout() *
-		// .5);
+		// moves the Sally Port Arm
+		arm.setPower(-ControlsManager.shooter.getRightDrive_Articulator(2));
 	}
 
 	@Override

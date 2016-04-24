@@ -11,16 +11,18 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
- * Class that setups and manages the smart dashboard.
+ * Class that setups and manages the smart dashboard. It also contains methods to set autonomous
+ * commands as well as manage camera feed and vision tracking values.
  */
 public class SmartDashboard
 {
-	public static SmartDashboard smartDashboard;
-	public static NetworkTable table;
-	// private ArrayList<Command> commandClasses = CommandBase.commandClasses;
-	private static String commandToRun = "";
-	private static final String commandRunKey = "Command running: ";
-	private static HashMap<String, Command> autoCommands = new HashMap<String, Command>();
+	public static SmartDashboard smartDashboard; // the instance of the Smart Dashboard
+	public static NetworkTable table; // the NetworkTable object 
+	private static String commandToRun = ""; // the current running command
+	private static final String commandRunKey = "Command running: "; // a header to make things look nicer
+	
+	// all of the autonomous commands sorted by the number assigned to them in AutonomousManager
+	private static HashMap<String, Command> autoCommands = new HashMap<String, Command>(); 
 	private USBCamera camera;
 
 	// private Defense[] defenseToCross = Defense.values();
@@ -32,9 +34,11 @@ public class SmartDashboard
 
 	public SmartDashboard()
 	{
+		// this is to set up the USB camera on the Java dashboard
 		camera = new USBCamera("cam2");
 		camera.openCamera();
 		CameraServer.getInstance().startAutomaticCapture(camera);
+
 		table = NetworkTable.getTable("SmartDashboard");
 		setup();
 	}
@@ -50,7 +54,8 @@ public class SmartDashboard
 	}
 
 	/**
-	 * Initializes the smart dashboard.
+	 * Initializes the smart dashboard by putting all the strings and other inputs on it for the
+	 * humans to input.
 	 */
 	private void setup()
 	{
@@ -73,12 +78,15 @@ public class SmartDashboard
 	}
 
 	/**
-	 * Goes through the {@link NetworkTable} and adds commands to the scheduler.
+	 * Looks through the booleans added to the dashboard and if none of them are true, gets the
+	 * values from the autonomous switches and uses that to select autonomous.
 	 */
 	public Command poll()
 	{
-		// Puts the autonomous string on the Dashboard so the human can see
-
+		/*
+		 * Runs through the various selectable autonomous commands on the dashboard, if any are
+		 * enabled, then priority is given to that one over the autonomous panel switches
+		 */
 		for(String str : autoCommands.keySet())
 		{
 			if(table.getBoolean(str, false))
@@ -87,52 +95,23 @@ public class SmartDashboard
 				return autoCommands.get(str);
 			}
 		}
+
+		// gets the sum of the switches
 		byte switchState = AutonomousManager.pollSwitches();
+
+		// pulls the appropriate Command from the list and returns it
 		CustomEntry<String, Command> command = AutonomousManager.getInstance().getAutonomousCommand(switchState);
 		Command defaultCommand = command.getValue();
 		commandToRun = command.getKey();
-		// Add the A1 and A2 and A3 pins in ControlsManager and make sure to fill the CommandToRun
-		// and
-		// defaultCommand variables underneath.
-		// Logger.logOnce("" + switchState);
-		/*
-		 * switch(switchState) { case 0: commandToRun = "GenericCross"; defaultCommand = new
-		 * AutoDrive(2, .9); break; case 1: commandToRun = "LowBarStay"; defaultCommand = new
-		 * LowBarStay(); break; case 2: commandToRun = "LowBarShoot"; defaultCommand = new
-		 * LowBarShoot(); break; case 3: commandToRun = "SpyBotShootHigh"; defaultCommand = new
-		 * SpyBotShootHigh(); break; case 4: commandToRun = "SpyBotShootHighAndMove"; defaultCommand
-		 * = new SpyBotShootHighAndMove(); break; case 5: commandToRun = "ReachDefense";
-		 * defaultCommand = new AutoDrive(.5, .5); break; case 6: commandToRun = "ReachDefense";
-		 * defaultCommand = new AutoDrive(.5, .5); break; case 7: commandToRun = "ReachDefense";
-		 * defaultCommand = new AutoDrive(.5, .5); break; }
-		 */
 		table.putString(commandRunKey, commandToRun);
 		return defaultCommand;
-		/*
-		 * if((Boolean) table.getValue("genericCross", true)) { Robot.autonomousCommand =
-		 * AutonomousManager.getInstance().getAutonomousCommand("Generic_Cross"); commandToRun =
-		 * "genericCross"; } else if((Boolean) table.getValue("Lowbar_Stay", true)) {
-		 * Robot.autonomousCommand =
-		 * AutonomousManager.getInstance().getAutonomousCommand("Lowbar_Stay"); commandToRun =
-		 * "lowBarStay"; } else if((Boolean) table.getValue("Lowbar_Shoot", true)) {
-		 * Robot.autonomousCommand =
-		 * AutonomousManager.getInstance().getAutonomousCommand("Lowbar_Shoot"); commandToRun =
-		 * "lowBarShoot"; } else if((Boolean) table.getValue("Spy_Bot_Shoot", true)) {
-		 * Robot.autonomousCommand =
-		 * AutonomousManager.getInstance().getAutonomousCommand("Spy_Bot_Shoot"); commandToRun =
-		 * "spyBotShoot"; } else { Robot.autonomousCommand =
-		 * AutonomousManager.getInstance().getAutonomousCommand("Reach_Defense"); commandToRun =
-		 * "Reach_Defense"; }
-		 * 
-		 * table.putString(commandRunKey, commandToRun);
-		 */
-
 	}
 
 	/**
-	 * Updates the smart dashboard and displays object tracking information.
+	 * Updates the smart dashboard and displays object tracking information. These values are placed
+	 * on the dashboard from RoboRealm.
 	 */
-	public void update()
+	public void updateVisionTracking()
 	{
 		ProcessedCam.getInstance().setHalfHeight(table.getNumber("IMAGE_HEIGHT", 240) / 2);
 		ProcessedCam.getInstance().setHalfWidth(table.getNumber("IMAGE_WIDTH", 320) / 2);
@@ -141,6 +120,14 @@ public class SmartDashboard
 		ProcessedCam.getInstance().setTrackingScore(table.getNumber("OBJECT_TRACKING_SCORE", 0.0));
 	}
 
+	/**
+	 * An experimental thing Turk was trying.
+	 * 
+	 * @param key
+	 *            - the label of the message
+	 * @param value
+	 *            - the actual message you want
+	 */
 	public void log(String key, String value)
 	{
 		table.putString(key, value);

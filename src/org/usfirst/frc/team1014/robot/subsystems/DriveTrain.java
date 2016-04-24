@@ -183,7 +183,7 @@ public class DriveTrain extends BadSubsystem
 	/**
 	 * @return the angle of the drive train from {@literal 0} to {@literal 360}.
 	 */
-	public double getAngle360() // returns 0 -360
+	public double getAngle360() // returns 0-360
 	{
 		if(mxp.getYaw() < 0)
 			return mxp.getYaw() + 360;

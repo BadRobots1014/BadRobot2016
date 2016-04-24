@@ -5,6 +5,7 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
+ * Drives the robot forward at a certain speed for a certain distance.
  * 
  * @author Manu S.
  * 
@@ -63,7 +64,7 @@ public class AutoDriveDistanceEncoder extends CommandBase
 
 		if(Math.abs(difference) < .4)
 			driveTrain.driveStraight(.4, zeroAngle);
-		else
+		else 
 			driveTrain.driveStraight(speed, zeroAngle);
 	}
 

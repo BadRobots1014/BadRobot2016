@@ -63,6 +63,7 @@ public class TeleDrive extends CommandBase
 		}
 		else
 		{
+			// A, B, X, Y buttons for fine adjustments
 			if(ControlsManager.driver.getAdjustBackward_ArticulatorUp(1))
 				driveTrain.tankDrive(.6, .6);
 			else if(ControlsManager.driver.getAdjustForward_ArticulatorDown(1))
@@ -71,7 +72,7 @@ public class TeleDrive extends CommandBase
 				driveTrain.tankDrive(.6, -.6);
 			else if(ControlsManager.driver.getAdjustRight_AutoShoot(1))
 				driveTrain.tankDrive(-.6, .6);
-			else
+			else 
 				driveTrain.tankDrive(-ControlsManager.driver.getRightDrive_Articulator(1), -ControlsManager.driver.getLeftDrive_Shooter(1));
 
 			gyroSet = false;
@@ -80,7 +81,7 @@ public class TeleDrive extends CommandBase
 		// Switch between primary and secondary layouts;
 		if(ControlsManager.driver.getLayoutChange())
 			ControlsManager.changeToSecondaryLayout(1);
-		else
+		else 
 			ControlsManager.changeToPrimaryLayout(1);
 
 		if(ControlsManager.driver.getUnderVoltClear(1) || ControlsManager.driver.getUnderVoltClear(2))

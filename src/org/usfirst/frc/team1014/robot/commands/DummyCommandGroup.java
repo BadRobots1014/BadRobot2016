@@ -2,6 +2,12 @@ package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.commands.auto.DummyCommand;
 
+/**
+ * A {@code CommandGroup} that does nothing.
+ * 
+ * @author Ryan T.
+ *
+ */
 public class DummyCommandGroup extends BadCommandGroup
 {
 	@Override

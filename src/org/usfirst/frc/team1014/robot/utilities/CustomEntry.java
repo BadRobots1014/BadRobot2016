@@ -2,6 +2,11 @@ package org.usfirst.frc.team1014.robot.utilities;
 
 import java.util.Map;
 
+/**
+ * This class is used to make maps between a key and a value, especially in autonomous.
+ * 
+ * @author Ryan T.
+ */
 public class CustomEntry<K, V> implements Map.Entry<K, V>
 {
 	private final K key;
