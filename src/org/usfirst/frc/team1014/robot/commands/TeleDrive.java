@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.Robot;
+import org.usfirst.frc.team1014.robot.controls.ControllerLayout;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -51,7 +52,7 @@ public class TeleDrive extends CommandBase
 	protected void execute()
 	{
 		// Normal drive and drive straight
-		if(ControlsManager.driver.getDriveStraight_(1))
+		if(ControlsManager.driver.getButtonValue(1, ControllerLayout.driveStraight))
 		{
 			if(!gyroSet)
 			{
@@ -59,20 +60,20 @@ public class TeleDrive extends CommandBase
 				gyroSet = true;
 			}
 			// TODO: Change so we are not inverting
-			driveTrain.driveStraight(-ControlsManager.driver.getLeftDrive_Shooter(1), targetGyro);
+			driveTrain.driveStraight(-ControlsManager.driver.getStickValue(1, ControllerLayout.leftDrive), targetGyro);
 		}
 		else
 		{
-			if(ControlsManager.driver.getAdjustBackward_ArticulatorUp(1))
+			if(ControlsManager.driver.getButtonValue(1, ControllerLayout.adjustBackward))
 				driveTrain.tankDrive(.6, .6);
-			else if(ControlsManager.driver.getAdjustForward_ArticulatorDown(1))
+			else if(ControlsManager.driver.getButtonValue(1, ControllerLayout.adjustForward))
 				driveTrain.tankDrive(-.6, -.6);
-			else if(ControlsManager.driver.getAdjustLeft_Servo(1))
+			else if(ControlsManager.driver.getButtonValue(1, ControllerLayout.adjustLeft))
 				driveTrain.tankDrive(.6, -.6);
-			else if(ControlsManager.driver.getAdjustRight_AutoShoot(1))
+			else if(ControlsManager.driver.getButtonValue(1, ControllerLayout.adjustRight))
 				driveTrain.tankDrive(-.6, .6);
 			else
-				driveTrain.tankDrive(-ControlsManager.driver.getRightDrive_Articulator(1), -ControlsManager.driver.getLeftDrive_Shooter(1));
+				driveTrain.tankDrive(-ControlsManager.driver.getStickValue(1, ControllerLayout.rightDrive), -ControlsManager.driver.getStickValue(1, ControllerLayout.leftDrive));
 
 			gyroSet = false;
 		}
@@ -83,7 +84,7 @@ public class TeleDrive extends CommandBase
 		else
 			ControlsManager.changeToPrimaryLayout(1);
 
-		if(ControlsManager.driver.getUnderVoltClear(1) || ControlsManager.driver.getUnderVoltClear(2))
+		if(ControlsManager.driver.getButtonValue(1, ControllerLayout.underVoltClear) || ControlsManager.driver.getButtonValue(2, ControllerLayout.underVoltClear))
 			Robot.lowVoltage = false;
 
 	}
