@@ -57,7 +57,7 @@ public class BadScheduler
 			@Override
 			public boolean runMethod()
 			{
-				return ControlsManager.shooter.getAdjustForward_ArticulatorDown(2);
+				return ControlsManager.shooter.getButtonValue(2, ControllerLayout.autoShoot);
 			};
 		});
 
@@ -67,7 +67,7 @@ public class BadScheduler
 			@Override
 			public boolean runMethod()
 			{
-				return ControlsManager.shooter.getAdjustBackward_ArticulatorUp(2);
+				return ControlsManager.shooter.getButtonValue(2, ControllerLayout.adjustBackward);
 			};
 
 		});
@@ -87,7 +87,7 @@ public class BadScheduler
 		{
 			// If Y is pressed clear out scheduler and adds a new instance of the mainTeleopClass
 			// after emptying the scheduler
-			if(ControlsManager.driver.get_RingLight(1))
+			if(ControlsManager.driver.getButtonValue(2, ControllerLayout.ringLight))
 			{
 				resetTeleopCommand();
 			}

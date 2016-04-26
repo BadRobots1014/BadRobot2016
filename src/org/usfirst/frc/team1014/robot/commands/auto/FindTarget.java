@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
 import org.usfirst.frc.team1014.robot.commands.CommandBase;
+import org.usfirst.frc.team1014.robot.controls.ControllerLayout;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.sensors.ProcessedCam;
 
@@ -106,10 +107,10 @@ public class FindTarget extends CommandBase
 		shooter.ringLightOn();
 
 		// allows the driver to shoot the ball at any time
-		shooter.shoot(-ControlsManager.shooter.getLeftDrive_Shooter(1));
+		shooter.shoot(-ControlsManager.shooter.getStickValue(1, ControllerLayout.shooter));
 
 		// moves the cam servo at any time
-		isServoOut = ControlsManager.shooter.getAdjustLeft_Servo(1);
+		isServoOut = ControlsManager.shooter.getButtonValue(1, ControllerLayout.servo);
 
 		shooter.driveServo(isServoOut);
 

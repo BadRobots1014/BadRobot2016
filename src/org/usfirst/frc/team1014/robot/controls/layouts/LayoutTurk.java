@@ -8,8 +8,8 @@ public class LayoutTurk extends ControllerLayout
 	public LayoutTurk(int controllerPort)
 	{
 		super(controllerPort);
-		super.rightDrive_articulator = -XboxController.RIGHT_STICK_Y;
-		super.adjustBackward_articulatorUp = XboxController.Y_BUTTON;
-		super.adjustForward_articulatorDown = XboxController.A_BUTTON;
+		super.assignFunctionStick(articulator, -XboxController.RIGHT_STICK_Y);
+		super.assignFunctionButton(articulatorUp, XboxController.Y_BUTTON);
+		super.assignFunctionButton(articulatorDown, XboxController.A_BUTTON);
 	}
 }

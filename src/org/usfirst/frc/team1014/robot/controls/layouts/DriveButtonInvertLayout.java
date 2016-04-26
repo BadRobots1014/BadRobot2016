@@ -9,8 +9,8 @@ public class DriveButtonInvertLayout extends ControllerLayout
 	public DriveButtonInvertLayout(int controllerPort)
 	{
 		super(controllerPort);
-		super.adjustForward_articulatorDown = XboxController.A_BUTTON;
-		super.adjustBackward_articulatorUp = XboxController.Y_BUTTON;
+		super.assignFunctionButton(ControllerLayout.adjustForward, XboxController.A_BUTTON);
+		super.assignFunctionButton(ControllerLayout.adjustBackward, XboxController.Y_BUTTON);
 	}
 
 }

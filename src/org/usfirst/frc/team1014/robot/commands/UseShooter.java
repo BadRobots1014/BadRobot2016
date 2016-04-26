@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.Robot;
+import org.usfirst.frc.team1014.robot.controls.ControllerLayout;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 
@@ -64,24 +65,24 @@ public class UseShooter extends CommandBase
 	protected void execute()
 	{
 		// servo control
-		isServoOut = ControlsManager.shooter.getAdjustLeft_Servo(1);
+		isServoOut = ControlsManager.shooter.getButtonValue(1, ControllerLayout.servo);
 		shooter.driveServo(isServoOut);
 
 		// Rotate shooter with left joystick Y & Divide by double to prevent truncating value to 0
-		if(Math.abs(ControlsManager.shooter.getRightDrive_Articulator(1) * ROTATION_SPEED_MULTIPLIER) > .15)
+		if(Math.abs(ControlsManager.shooter.getStickValue(1, ControllerLayout.articulator) * ROTATION_SPEED_MULTIPLIER) > .15)
 		{
 			shooterUp = false;
 			shooterDown = false;
-			shooter.rotate(ControlsManager.shooter.getRightDrive_Articulator(1) * ROTATION_SPEED_MULTIPLIER);
+			shooter.rotate(ControlsManager.shooter.getStickValue(1, ControllerLayout.articulator) * ROTATION_SPEED_MULTIPLIER);
 		}
 		else
 		{
-			if(ControlsManager.shooter.getAdjustBackward_ArticulatorUp(1))
+			if(ControlsManager.shooter.getButtonValue(1, ControllerLayout.articulatorUp))
 			{
 				shooterUp = true;
 				shooterDown = false;
 			}
-			else if(ControlsManager.shooter.getAdjustForward_ArticulatorDown(1))
+			else if(ControlsManager.shooter.getButtonValue(1, ControllerLayout.articulatorDown))
 			{
 				shooterDown = true;
 				shooterUp = false;
@@ -93,22 +94,22 @@ public class UseShooter extends CommandBase
 		}
 
 		// Auto grabber, Auto shooter and manual shooter
-		if(ControlsManager.shooter.get_AutoGrab(1))
+		if(ControlsManager.shooter.getButtonValue(1, ControllerLayout.autoGrab))
 		{
 			startShootTime = 0;
 			isAutoShooting = false;
 			shooter.shoot(ShooterAndGrabber.DEFAULT_GRAB_SPEED);
 		}
-		else if(ControlsManager.shooter.getAdjustRight_AutoShoot(1))
+		else if(ControlsManager.shooter.getButtonValue(1, ControllerLayout.autoShoot))
 		{
 			startShootTime = Utility.getFPGATime();
 			isAutoShooting = true;
 		}
-		else if(Math.abs(ControlsManager.shooter.getLeftDrive_Shooter(1)) > 0)
+		else if(Math.abs(ControlsManager.shooter.getStickValue(1, ControllerLayout.shooter)) > 0)
 		{
 			startShootTime = 0;
 			isAutoShooting = false;
-			shooter.shoot(-ControlsManager.shooter.getLeftDrive_Shooter(1));
+			shooter.shoot(-ControlsManager.shooter.getStickValue(1, ControllerLayout.shooter));
 		}
 		else
 		{
@@ -143,7 +144,7 @@ public class UseShooter extends CommandBase
 			ControlsManager.changeToPrimaryLayout(2);
 
 		// Direct control of ring light
-		if(ControlsManager.shooter.get_RingLight(1) && !this.ringLightButtonPressed)
+		if(ControlsManager.shooter.getButtonValue(1, ControllerLayout.ringLight) && !this.ringLightButtonPressed)
 		{
 			if(!this.ringLightOn)
 				// LEDLights.getInstance().pulse();
@@ -153,14 +154,14 @@ public class UseShooter extends CommandBase
 			this.ringLightOn = !this.ringLightOn;
 			this.ringLightButtonPressed = true;
 		}
-		else if(!ControlsManager.shooter.get_RingLight(1))
+		else if(!ControlsManager.shooter.getButtonValue(1, ControllerLayout.ringLight))
 		{
 			this.ringLightButtonPressed = false;
 		}
 
 		shooter.detectedTape = shooter.pingOpticalSensor();
 
-		if(ControlsManager.shooter.getUnderVoltClear(1) || ControlsManager.shooter.getUnderVoltClear(2))
+		if(ControlsManager.shooter.getButtonValue(1, ControllerLayout.underVoltClear) || ControlsManager.shooter.getButtonValue(2, ControllerLayout.underVoltClear))
 			Robot.lowVoltage = false;
 	}
 
