@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
+ * Drives forward/backwards at a certain speed for a given amount of time.
  * 
  * @author Sam G.
  * 
@@ -17,6 +18,7 @@ public class AutoDrive extends CommandBase
 	private double speed;
 	private double startTime;
 	private double passedTime;
+
 	// private double targetAngle;
 
 	public AutoDrive(double driveTime, double speed)
@@ -59,14 +61,6 @@ public class AutoDrive extends CommandBase
 	protected boolean isFinished()
 	{
 		return (passedTime / 1000000) > driveTime;
-	}
-
-	public static double deadzone(double d)
-	{
-		if(Math.abs(d) < .1 || d == 0)
-			return 0;
-
-		return (d / Math.abs(d)) * ((Math.abs(d) - .1) / (1 - .1));
 	}
 
 }

@@ -23,17 +23,22 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * This {@code CommandGroup} is how we will run our autonomous programs. The constructor takes
- * various variables as inputs and creates its own autonomous program to carry it out.
+ * This class manages all of the autonomous code we write. It contains 3 switches that can be used
+ * to select an autonomous program and can also create one based on various parameters.
  * 
  * @author Manu S.
  * @edit Ryan T. and Subash C.
  */
 public class AutonomousManager
 {
-	private static AutonomousManager instance;
+	private static AutonomousManager instance; // the instance of AutonomousManager
+
+	// the list of autonomous commands to run
 	private List<CustomEntry<String, Command>> autonomousCommands = new ArrayList<CustomEntry<String, Command>>();
+	// the default autonomous command, if all else fails
 	public static final CustomEntry<String, Command> DEFAULT_AUTO = new CustomEntry<String, Command>("ReachDefense", new AutoDrive(.5, .5));
+
+	// for the custom autonomous creater, the list of commands in autonomous in order
 	public ArrayList<Command> commandsToAdd = new ArrayList<Command>();
 
 	public boolean isShooting = false;
@@ -50,10 +55,17 @@ public class AutonomousManager
 	public Command turnToGoal;
 	public Command shootBall;
 	public Command findTargetCommand;
+
+	// switches
 	private static DigitalInput A1 = new DigitalInput(ControlsManager.A1SWITCH);
 	private static DigitalInput A2 = new DigitalInput(ControlsManager.A2SWITCH);
 	private static DigitalInput A3 = new DigitalInput(ControlsManager.A3SWITCH);
 
+	/**
+	 * Gets the values from the switches of the autonomous panels.
+	 * 
+	 * @return autoToRun - the sum of the switches, which uniquely map to an autonomous
+	 */
 	public static byte pollSwitches()
 	{
 		byte autoToRun = 0;
@@ -66,6 +78,11 @@ public class AutonomousManager
 		return autoToRun;
 	}
 
+	/**
+	 * A useful (not really) enum for the AutonomousManager.
+	 * 
+	 * @author Ryan T.
+	 */
 	public enum Defense
 	{
 		PORTCULLIS("Portcullis"), SALLYPORT("SallyPort"), DRAWBRIDGE("Drawbridge"), CHEVALDEFRISE("ChevalDeFrise"), LOWBAR("LowBar"), GENERIC("Generic"), NONE("None");
@@ -83,6 +100,9 @@ public class AutonomousManager
 		}
 	}
 
+	/**
+	 * Sets the autonomous list, where the index is the identifier for each program.
+	 */
 	public void loadAutonoumsCommands()
 	{
 		// 0
@@ -99,11 +119,26 @@ public class AutonomousManager
 		this.registerAutonomousCommand("ReachDefense", new AutoDrive(.5, .5));
 	}
 
+	/**
+	 * Adds a command to the list.
+	 * 
+	 * @param name
+	 *            - the name of the command
+	 * @param command
+	 *            - the command itself
+	 */
 	public void registerAutonomousCommand(String name, Command command)
 	{
 		autonomousCommands.add(new CustomEntry<String, Command>(name, command));
 	}
 
+	/**
+	 * Returns an autonomous command based on the name (the unique identifier) of it.
+	 * 
+	 * @param name
+	 *            - the name of the autonomous command to look for
+	 * @return - the command we are looking for, or the default autonomous if it can't be found
+	 */
 	public Command getAutonomousCommand(String name)
 	{
 		for(CustomEntry<String, Command> entry : autonomousCommands)
@@ -112,6 +147,13 @@ public class AutonomousManager
 		return DEFAULT_AUTO.getValue();
 	}
 
+	/**
+	 * Gets a command based on its assigned number.
+	 * 
+	 * @param id
+	 *            - the number of the command
+	 * @return the command in that specific index
+	 */
 	public CustomEntry<String, Command> getAutonomousCommand(int id)
 	{
 		if(id >= this.autonomousCommands.size() || id < 0)
@@ -119,6 +161,10 @@ public class AutonomousManager
 		return this.autonomousCommands.get(id);
 	}
 
+	/**
+	 * Creates a custom autonomous based on several parameters, like whether or not to shoot, and
+	 * where to cross a defense.
+	 */
 	public void setup()
 	{
 		Command waitTimeCommand;
@@ -292,6 +338,10 @@ public class AutonomousManager
 		crossDefense.build();
 		this.registerAutonomousCommand("Custom_Defense_Cross", new BadCommandGroup(waitTimeCommand, crossDefense, moveToTurnSpot, moveShooter, turnToGoal, findTargetCommand, shootBall));
 	}
+
+	/*
+	 * Getters and setters for the various parameters.
+	 */
 
 	public boolean isShooting()
 	{

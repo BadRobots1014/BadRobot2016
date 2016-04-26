@@ -28,6 +28,7 @@ public class ControllerLayout
 
 	public static final int CONTROL_NONE = -1;
 
+	// the actual controller object
 	public XboxController controller;
 
 	public ControllerLayout(int controllerPort)
@@ -85,6 +86,7 @@ public class ControllerLayout
 		int axisID = this.stickAssignments[functionID];
 		if(axisID == ControllerLayout.CONTROL_NONE)
 			return 0;
+
 		int sign = axisID / Math.abs(axisID);
 		if(controller.onPrimaryLayout && layout == 1)
 			return sign * XboxController.deadzone(controller.getRawAxis(Math.abs(axisID)));

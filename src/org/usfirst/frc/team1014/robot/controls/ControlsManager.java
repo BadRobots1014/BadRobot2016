@@ -29,15 +29,6 @@ public class ControlsManager
 	public static final int PUSHER = 8;
 
 	// DIO
-	// public static final int FRONT_RIGHT_ENCODER_A = 10;
-	// public static final int FRONT_RIGHT_ENCODER_B = 11;
-	// public static final int FRONT_LEFT_ENCODER_A = 4;
-	// public static final int FRONT_LEFT_ENCODER_B = 5;
-	// public static final int BACK_RIGHT_ENCODER_A = 2;
-	// public static final int BACK_RIGHT_ENCODER_B = 3;
-	// public static final int BACK_LEFT_ENCODER_A = 0;
-	// public static final int BACK_LEFT_ENCODER_B = 1;
-
 	public static final int OPTICAL_SENSOR_PING = 8;
 
 	public static final int LED_BIT1 = 4;
@@ -58,11 +49,17 @@ public class ControlsManager
 	// Relay
 	public static final int RING_LIGHT = 0;
 
+	// Layouts
 	private static List<CustomEntry<String, ControllerLayout>> driverLayouts = new ArrayList<CustomEntry<String, ControllerLayout>>();
 	private static List<CustomEntry<String, ControllerLayout>> shooterLayouts = new ArrayList<CustomEntry<String, ControllerLayout>>();
+	
 	public static DriverStation driverStation;
+	
+	// sets the default layouts for controllers
 	public static final ControllerLayout DEFAULT0 = new ControllerLayout(0);
 	public static final ControllerLayout DEFAULT1 = new ControllerLayout(1);
+	
+	// Controllers (driver = primary, shooter = secondary)
 	public static ControllerLayout driver;
 	public static ControllerLayout shooter;
 
@@ -81,6 +78,9 @@ public class ControlsManager
 		ControlsManager.updateControllers();
 	}
 
+	/**
+	 * Sets the controller layout based on the values inputted from the Driver Station.
+	 */
 	public static void updateControllers()
 	{
 		String driverController = SmartDashboard.table.getString("Driver Controller", "Default");

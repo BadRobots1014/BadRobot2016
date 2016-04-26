@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
+ * This class is to replace {@code CommandGroup}. Ask Turk more about it.
  * 
  * @author Ryan T.
  *

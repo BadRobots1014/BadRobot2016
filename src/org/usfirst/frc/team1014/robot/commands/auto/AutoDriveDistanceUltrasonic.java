@@ -5,6 +5,7 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
+ * Drives forward until a certain distance away from a stationary point.
  * 
  * @author Tze Hei T.
  * 

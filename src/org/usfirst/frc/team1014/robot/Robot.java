@@ -26,11 +26,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot
 {
-	public static Command autonomousCommand;
-	public static SmartDashboard dashboard;
-	public static BadScheduler badScheduler;
+	public static Command autonomousCommand; // the autonomous command the robot should run
+	public static SmartDashboard dashboard; // the dashboard the robot should use
+	public static BadScheduler badScheduler; // the scheduler the robot should use
 
-	public static boolean lowVoltage = false;
+	public static boolean lowVoltage = false; // is the robot under 12 V resting
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -38,17 +38,16 @@ public class Robot extends IterativeRobot
 	 */
 	public void robotInit()
 	{
+		// initializes the subsystems, autonomous commands, dashboard, controllers, and acheduler
 		CommandBase.init();
-		// AutonomousManager.getInstance().loadAutonoumsCommands();
+		AutonomousManager.getInstance().loadAutonoumsCommands();
 		dashboard = SmartDashboard.getInstance();
 		ControlsManager.init();
 		badScheduler = new BadScheduler(TeleopGroup.class);
 
-		// set lights to alliance color (probably)
+		// set lights to initial state
 		if(CommandBase.lights != null)
 		{
-			// CommandBase.lights.SetLights(DriverStation.getInstance().getAlliance() ==
-			// DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 			CommandBase.lights.setLights(LEDState.kGATHER);
 		}
 	}
@@ -59,9 +58,11 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
+		
+		// sets LED lights based on battery level on disabled
 		if(PowerJNI.getVinVoltage() < 12f)
 		{
-			LEDLights.getInstance().setLights(LEDState.kBATTERY);
+			LEDLights.getInstance().setLights(LEDState.kLOW_BATTERY);
 			Logger.log(Level.Warning, "Battery", "Battery voltage under 12 while disabled!");
 		}
 	}
@@ -73,9 +74,6 @@ public class Robot extends IterativeRobot
 	{
 		// schedule the autonomous command (example)
 		autonomousCommand = dashboard.poll();
-
-		// build the autonomous to run
-		// autonomousCommand.build();
 
 		// System.out.println(AutonomousManager.pollSwitches());
 		Scheduler.getInstance().add(autonomousCommand);
@@ -99,17 +97,20 @@ public class Robot extends IterativeRobot
 	 */
 	public void teleopInit()
 	{
+		// assigns controller layouts to the controllers
 		ControlsManager.updateControllers();
+		
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
+		
+		// initializes teleop today
 		badScheduler.initTeleop();
 
-		// set lights to alliance color (definitely?)
+		// set lights to alliance color
 		if(CommandBase.lights != null)
 			CommandBase.lights.setLights(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue ? LEDState.kBLUE : LEDState.kRED);
 	}
@@ -128,13 +129,17 @@ public class Robot extends IterativeRobot
 	 */
 	public void teleopPeriodic()
 	{
+		// allows the drivers to change using BadScheduler
 		badScheduler.changeCommand();
+		
+		// runs the programs in the scheduler
 		Scheduler.getInstance().run();
-		// TODO: Chance volatge lower bound
+		
+		// sets the lights to low battery if that is the case
 		if(PowerJNI.getVinVoltage() < 7f)
 		{
 			lowVoltage = true;
-			LEDLights.getInstance().setLights(LEDState.kBATTERY);
+			LEDLights.getInstance().setLights(LEDState.kLOW_BATTERY);
 		}
 	}
 

@@ -8,35 +8,31 @@ import org.usfirst.frc.team1014.robot.subsystems.ShooterAndGrabber;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-//github.com/BadRobots1014/BadRobot2016.git
-
 /**
- * 
  * This class defines how the robot shooter will work in teleop.
+ * 
+ * @author Manu S.
  * 
  */
 public class UseShooter extends CommandBase
 {
 	// Value to multiply rotation value by to decrease sensitivity
 	private static final double ROTATION_SPEED_MULTIPLIER = .7;
+
 	// private static final double SHOOTER_SPEED_ADJUST_INTERVAL = .1;
 	// private static final double MAX_SHOOTER_SPEED = 1.0;
 	// private static final double MIN_SHOOTER_SPEED = .5;
 
 	private boolean isServoOut = false;
+
 	private boolean ringLightOn = false;
 	private boolean ringLightButtonPressed = false;
+
 	private boolean isAutoShooting = false;
 	private double startShootTime = 0;
+
 	private boolean shooterUp = false;
 	private boolean shooterDown = false;
-
-	// private boolean shooterUpRunning = false;
-	// private double startShooterUpTime = 0;
-	// private double shooterUpRunLength = 0.4 * 1000000;
-	// private boolean shooterDownRunning = false;
-	// private double startShooterDownTime = 0;
-	// private double shooterDownRunLength = 1.6 * 1000000;
 
 	public UseShooter()
 	{
@@ -56,11 +52,6 @@ public class UseShooter extends CommandBase
 		return "Use_Shooter";
 	}
 
-	/**
-	 * when X is pressed, decreases speed. when B is pressed, increases speed. when RB is pressed,
-	 * grabs ball else sets speed with right stick's y axis servo's position is moved to shoot ball
-	 * when A is pressed else in original position LB turns light on, LT turns light off
-	 */
 	@Override
 	protected void execute()
 	{
@@ -117,11 +108,13 @@ public class UseShooter extends CommandBase
 				shooter.shoot(0);
 		}
 
+		// move the shooter to the appropriate spot
 		if(shooterUp)
 			shooterUp = !shooter.moveToHigherRetroTape();
 		else if(shooterDown)
 			shooterDown = !shooter.moveToLowerRetroTape();
 
+		// autonomous shooting for 3 seconds and release within 1
 		if(isAutoShooting)
 		{
 			shooter.shoot(0.85);
@@ -151,6 +144,7 @@ public class UseShooter extends CommandBase
 				shooter.ringLightOn();
 			else
 				shooter.ringLightOff();
+
 			this.ringLightOn = !this.ringLightOn;
 			this.ringLightButtonPressed = true;
 		}
@@ -159,6 +153,7 @@ public class UseShooter extends CommandBase
 			this.ringLightButtonPressed = false;
 		}
 
+		// updates the retroreflective boolean
 		shooter.detectedTape = shooter.pingOpticalSensor();
 
 		if(ControlsManager.shooter.getButtonValue(1, ControllerLayout.underVoltClear) || ControlsManager.shooter.getButtonValue(2, ControllerLayout.underVoltClear))

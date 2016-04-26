@@ -17,12 +17,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public abstract class CommandBase extends Command
 {
+	// The subsystems on the final robot go here
 	public static DriveTrain driveTrain;
 	public static ShooterAndGrabber shooter;
 	public static SallyPortArm arm;
 	public static LEDLights lights;
-
-	// The subsystems on the final robot go here
 
 	/**
 	 * Initializes all commands that the robot will needed. This function should only be called
@@ -30,8 +29,6 @@ public abstract class CommandBase extends Command
 	 */
 	public static void init()
 	{
-		// Final Subsystems
-
 		driveTrain = DriveTrain.getInstance();
 		shooter = ShooterAndGrabber.getInstance();
 		arm = SallyPortArm.getInstance();

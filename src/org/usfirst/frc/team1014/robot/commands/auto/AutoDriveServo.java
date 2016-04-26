@@ -5,6 +5,7 @@ import org.usfirst.frc.team1014.robot.commands.CommandBase;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
+ * Moves the servo pusher in or out in autonomous.
  * 
  * @author Manu S.
  *
