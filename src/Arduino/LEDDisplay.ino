@@ -27,7 +27,7 @@ Adafruit_DotStar strip = Adafruit_DotStar(
 // (Arduino Uno = pin 11 for data, 13 for clock, other boards are different).
 //Adafruit_DotStar strip = Adafruit_DotStar(NUMPIXELS, DOTSTAR_BRG);
 
-int pin = 3;
+short pin = 3;
 unsigned long duration;
 
 void setup()
@@ -38,70 +38,91 @@ void setup()
   pinMode(pin, INPUT);
 }
 
-// Runs 10 LEDs at a time along strip, cycling through red, green and blue.
-// This requires about 200 mA for all the 'on' pixels + 1 mA per 'off' pixel.
-
-short displayID = 0;  // Stores the last displayedID to increase some effeciency
+short displayID = 100;  // Stores the last displayedID to increase some effeciency
 byte teamID = 0; // Saves the last inputted team color
-short scrollState = 0; // Values 0-9 representing which led's to turn on to simulate motion
-uint32_t color = 0xFF0000;      // 'On' color (starts red)
+short scrollState = 0; //Used by various funtions for animation
+int delayTick = 0; //Used as a tick for delays.... don't touch this
+int delayLength = 0; // Used to control speeds of animations. You can touch this
+
+uint32_t scrollColors[6] = {0x00FF00, 0x0000FF, 0xFF0000, 0x00FFFF, 0xFFFF00, 0xFF00FF};
 
 void loop()
 {
-  duration = pulseIn(pin, HIGH);
+  duration = pulseIn(pin, HIGH, 1000);
 
-  boolean newID =  displayID == round(duration/20.0);
+  // Checks if the display id is differen't from that of before
+  boolean newID =  displayID != round(duration/20.0);
+  // Sets the current display ID to what is being recieved
   displayID = round(duration/20.0);
   
-  if(displayID == 0 && newID)
+  if(displayID == 0)
   {
-    teamID = 0;
-    color = 0xA5FF00;
-    for(int i = 0; i < NUMPIXELS; i++)
-      strip.setPixelColor(i, color);
+    // Sets the whole strip to the BadRobot Yellow
+    //setStripColor(0x77C700);
+    delayLength = 1;
+    fullScrollStrip(newID,scrollColors, 6, 49);
   }
-  else if(displayID == 1 && newID)
+  else if(displayID == 1)
   {
+    // Stores the teamID for use later
     teamID = 0;
-    color = 0x00FF00;
-    for(int i = 0; i < NUMPIXELS; i++)
-      strip.setPixelColor(i, color);
+    // Sets the whole strip to the red team color
+    setStripColor(0x00FF00);
   }
-  else if(displayID == 2 && newID)
+  else if(displayID == 2)
   {
+    // Stores the teamID for use later
     teamID = 1;
-    color = 0x0000FF;
-    for(int i = 0; i < NUMPIXELS; i++)
-      strip.setPixelColor(i, color);
+    // Sets the whole strip to the blue team color
+    setStripColor(0x0000FF);
   }
   else if(displayID == 3)
   {
-    color = 0xFF0000;
-    short nextState = scrollState + 1;
-    if(nextState > 9)
-      nextState = 0;
-    for(int i = 0; i < NUMPIXELS; i++)
-    {
-      strip.setPixelColor(i, 0);
-      if(i < 20 && i % 10 == 9 - nextState)
-          strip.setPixelColor(i, color);
-      else if(i > 31 && i % 10 == nextState)
-          strip.setPixelColor(i, color);
-      else if(i >= 20 && i <= 31)
-         strip.setPixelColor(i, color);
-    }
-    scrollState = scrollState + 1;
-    if(scrollState > 9)
-      scrollState = 0;
+    // Scrolls the LED's along the side of the robot to simulate an outward motion
+    sideScrollStripColor(0xFF0000, true);
   }
   else if(displayID == 4)
   {
-    color = 0x25FF00;
-    short nextState = scrollState - 1;
-    if(nextState < 0)
+    // Scrolls the LED's along the side of the robot to simulate an inward motion
+    sideScrollStripColor(0x25FF00, false);
+  }
+  else if(displayID == 5)
+  {
+    // Blinks the LED's rapidly
+    blinkColor(0x00FF00);
+  }
+  // Displays the new changes
+  strip.show();
+  // Small delay to make the display flow more smoothly
+  delay(20);
+}
+
+//Sets the whole strip to one, given, color
+void setStripColor(uint32_t color)
+{
+ if((delayTick = delayTick + 1) < delayLength)
+    return;
+  delayTick = 0;
+  for(short i = 0; i < NUMPIXELS; i++)
+      strip.setPixelColor(i, color);
+}
+
+//Scrolls the side LED's to simulate motion
+void sideScrollStripColor(uint32_t color, boolean forward)
+{
+  delayTick = delayTick + 1;
+  if(delayTick < delayLength)
+    return;
+  delayTick = 0;
+  short nextState = scrollState + (forward ? 1 : -1);
+  if(forward && nextState > 9)
+      nextState = 0;
+  else if(!
+  forward && nextState < 0)
       nextState = 9;
-    for(int i = 0; i < NUMPIXELS; i++)
-    {
+      
+  for(short i = 0; i < NUMPIXELS; i++)
+  {
       strip.setPixelColor(i, 0);
       if(i < 20 && i % 10 == 9 - nextState)
           strip.setPixelColor(i, color);
@@ -110,25 +131,85 @@ void loop()
       else if(i >= 20 && i <= 31)
           strip.setPixelColor(i, color);
     }
-    
-    scrollState = scrollState - 1;
-    if(scrollState < 0)
-      scrollState = 9;
-  }
-  else if(displayID == 5)
-  {
-    color = 0x00FF00;
-    scrollState = scrollState + 1;
-    if(scrollState > 1)
+
+    scrollState = scrollState + (forward ? 1 : -1);
+    if(forward && scrollState > 9)
       scrollState = 0;
-    for(int i = 0; i < NUMPIXELS; i++)
+    else if(!forward && scrollState < 0)
+      scrollState = 9;
+}
+
+//Scrolls the LED's along the strip
+//ARGS:
+//booolean - Is this the first sequential run of this method
+//uint32_t array - List of colors to be displayed
+//int - number of colors in list becuse sizeof doesn't seem to work
+//int - block size for the colors to be displayed in
+void fullScrollStrip(boolean firstRun, uint32_t colors[], int arrayLength, int groupLength)
+{
+  if((delayTick = delayTick + 1) < delayLength)
+    return;
+  delayTick = 0;
+  boolean flag = false;
+  for(int i = 0; i < arrayLength; i++)
+  {
+    if(strip.getPixelColor(0) == colors[i])
     {
-       if(i % 2 == 1 - scrollState)
-          strip.setPixelColor(i, color);
-       else
-          strip.setPixelColor(i, 0);
+      scrollState = i;
+      flag = true;
     }
   }
-  strip.show();
-  delay(20);
+
+  if(!flag)
+    scrollState = 0;
+
+  int runningLength = 1;
+  if(firstRun)
+  {
+    for(short i = 0; i < NUMPIXELS; i++)
+    {
+      if(runningLength > groupLength)
+      {
+        runningLength = 1;
+        if((scrollState = scrollState + 1) >= arrayLength)
+          scrollState = 0;
+      }
+      runningLength = runningLength + 1;
+      strip.setPixelColor(i, colors[scrollState]);
+    }
+  }
+  else
+  {
+    if((scrollState = scrollState - 1) < 0)
+      scrollState = arrayLength - 1;
+    for(short i = NUMPIXELS; i > 0; i--)
+      strip.setPixelColor(i, strip.getPixelColor(i-1));
+
+    flag = true;
+    for(int i = 2; i <= groupLength; i++)
+      if(strip.getPixelColor(1) != strip.getPixelColor(i))
+        flag = false;
+        
+    if(flag)
+      strip.setPixelColor(0, colors[scrollState]);
+    else
+      strip.setPixelColor(0, strip.getPixelColor(1));
+  }
+}
+
+// Blinks the LED's rapidly
+void blinkColor(uint32_t color)
+{
+  if((delayTick = delayTick + 1) < delayLength)
+    return;
+  delayTick = 0;
+   if((scrollState = scrollState + 1) > 1)
+     scrollState = 0;
+   for(short i = 0; i < NUMPIXELS; i++)
+   {
+      if(i % 2 == 1 - scrollState)
+        strip.setPixelColor(i, color);
+      else
+        strip.setPixelColor(i, 0);
+    }
 }
