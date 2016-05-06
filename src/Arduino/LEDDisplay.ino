@@ -45,10 +45,11 @@ int delayTick = 0; //Used as a tick for delays.... don't touch this
 int delayLength = 0; // Used to control speeds of animations. You can touch this
 
 uint32_t scrollColors[6] = {0x00FF00, 0x0000FF, 0xFF0000, 0x00FFFF, 0xFFFF00, 0xFF00FF};
+uint32_t rwbColors[4] = {0x00FF00, 0xFFFFFF, 0x0000FF,0x000000};
 
 void loop()
 {
-  duration = pulseIn(pin, HIGH, 1000);
+  duration = pulseIn(pin, HIGH, 100000);
 
   // Checks if the display id is differen't from that of before
   boolean newID =  displayID != round(duration/20.0);
@@ -59,13 +60,16 @@ void loop()
   {
     // Sets the whole strip to the BadRobot Yellow
     //setStripColor(0x77C700);
-    delayLength = 1;
-    fullScrollStrip(newID,scrollColors, 6, 49);
+    delayLength = 0;
+    fullScrollStrip(newID,scrollColors, 6,45);
+
+    //sideScrollStripColor(0xFF0000, false);
   }
   else if(displayID == 1)
   {
     // Stores the teamID for use later
     teamID = 0;
+    delayLength = 0;
     // Sets the whole strip to the red team color
     setStripColor(0x00FF00);
   }
@@ -73,21 +77,25 @@ void loop()
   {
     // Stores the teamID for use later
     teamID = 1;
+    delayLength = 0;
     // Sets the whole strip to the blue team color
     setStripColor(0x0000FF);
   }
   else if(displayID == 3)
   {
+    delayLength = 0;
     // Scrolls the LED's along the side of the robot to simulate an outward motion
     sideScrollStripColor(0xFF0000, true);
   }
   else if(displayID == 4)
   {
+    delayLength = 0;
     // Scrolls the LED's along the side of the robot to simulate an inward motion
     sideScrollStripColor(0x25FF00, false);
   }
   else if(displayID == 5)
   {
+    delayLength = 5;
     // Blinks the LED's rapidly
     blinkColor(0x00FF00);
   }
@@ -117,8 +125,7 @@ void sideScrollStripColor(uint32_t color, boolean forward)
   short nextState = scrollState + (forward ? 1 : -1);
   if(forward && nextState > 9)
       nextState = 0;
-  else if(!
-  forward && nextState < 0)
+  else if(!forward && nextState < 0)
       nextState = 9;
       
   for(short i = 0; i < NUMPIXELS; i++)

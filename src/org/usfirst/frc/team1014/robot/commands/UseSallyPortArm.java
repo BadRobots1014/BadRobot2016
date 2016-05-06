@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.controls.ControllerLayout;
 import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -27,7 +28,7 @@ public class UseSallyPortArm extends CommandBase
 	protected void execute()
 	{
 		// moves the Sally Port Arm
-		arm.setPower(-ControlsManager.shooter.getRightDrive_Articulator(2));
+		arm.setPower(-ControlsManager.shooter.getStickValue(2, ControllerLayout.articulator));
 	}
 
 	@Override
