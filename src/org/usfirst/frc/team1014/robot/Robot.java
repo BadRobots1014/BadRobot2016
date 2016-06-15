@@ -31,6 +31,7 @@ public class Robot extends IterativeRobot
 	public static BadScheduler badScheduler; // the scheduler the robot should use
 
 	public static boolean lowVoltage = false; // is the robot under 12 V resting
+	private int delay = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -58,7 +59,7 @@ public class Robot extends IterativeRobot
 	public void disabledPeriodic()
 	{
 		Scheduler.getInstance().run();
-		
+
 		// sets LED lights based on battery level on disabled
 		if(PowerJNI.getVinVoltage() < 12f)
 		{
@@ -99,14 +100,14 @@ public class Robot extends IterativeRobot
 	{
 		// assigns controller layouts to the controllers
 		ControlsManager.updateControllers();
-		
+
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if(autonomousCommand != null)
 			autonomousCommand.cancel();
-		
+
 		// initializes teleop today
 		badScheduler.initTeleop();
 
@@ -131,15 +132,24 @@ public class Robot extends IterativeRobot
 	{
 		// allows the drivers to change using BadScheduler
 		badScheduler.changeCommand();
-		
+
 		// runs the programs in the scheduler
 		Scheduler.getInstance().run();
-		
+
 		// sets the lights to low battery if that is the case
 		if(PowerJNI.getVinVoltage() < 7f)
 		{
-			lowVoltage = true;
-			LEDLights.getInstance().setLights(LEDState.kLOW_BATTERY);
+			delay++;
+			if(delay >= 10)
+			{
+				delay = 10;
+				lowVoltage = true;
+				LEDLights.getInstance().setLights(LEDState.kLOW_BATTERY);
+			}
+		}
+		else
+		{
+			delay = 0;
 		}
 	}
 
